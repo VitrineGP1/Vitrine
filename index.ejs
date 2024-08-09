@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/Felipe/app/classes/css/formulario.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+ 
+
+    <title>Pagina Inicial</title>
+    <body>
+            </div>
+            <div class="banner01">
+                <img src="https://www.bing.com/images/blob?bcid=spZEel8BZVoH7CFfEbRNR-4ZV3oI.....4E" width="100px" height="100px">
+            </div>
+            <div class="wrapper">
+                <h1>Login</h1>
+                <form action= "" id="form"  method="POST">
+
+            <div class="input-box">
+            <input name="nome" id="nome" type="text" placeholder="SEU NOME">
+</div>
+<div class="input-box">
+    <input name="turma" id="turma" type="text" placeholder="TURMA" required>
+</div>
+
+<div class="input-box">
+    <input name="matricula" id="matricula" type="number" placeholder="MATRICULA" required>
+
+</div>
+<button type="submit" class="btn" onclick="on_submit()">Enviar</button>
+
+<script>
+    const form = document.getElementById('form')
+    {
+        form.addEventListener('submit', function(event)
+        {
+            event.preventDefault();
+            console.log(this);
+
+            const formData = new FormData(this)
+
+            for (const item of formData.values())
+            {
+                console.log(item);
+            }
+
+    })
+    function formData(jsonObj) {
+    document.createElement("form");
+    }
+}
+</script>
+</div>
+</form> 
+
+</body>
+</html>
