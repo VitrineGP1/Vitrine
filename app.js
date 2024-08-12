@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 var rotas = require("./app/public/routes/router");
-app.use("/", rotas);
+app.use("/home", rotas);
 
 
 app.listen(port, () => {
