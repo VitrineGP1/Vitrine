@@ -14,4 +14,4 @@ var rotas = require("./app/public/routes/router");
 app.use("/", rotas);
 
 
-app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`))
+app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
