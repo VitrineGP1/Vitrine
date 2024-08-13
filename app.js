@@ -10,7 +10,7 @@ app.set("views", "./app/views");
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-var rotas = require("./app/public/routes/router");
+var rotas = require("./app/routes/router");
 app.use("/", rotas);
 
 
