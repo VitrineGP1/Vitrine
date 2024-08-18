@@ -60,7 +60,6 @@ body {
     font-size: 15px;
     height: 30px;
     margin-left: 50px;
-    text-decoration: none;
 }
 
 .btn {
@@ -88,6 +87,7 @@ body {
 
 .h1, .h3, .h4, .h5, .h6, .h8, .h9, .h10, .h11 {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
 }
 
 .h1 {
