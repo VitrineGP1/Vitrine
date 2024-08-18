@@ -169,6 +169,15 @@ body {
     text-transform: uppercase;
 }
 
+.carrinho {
+    margin-left: -50px;
+
+}
+.lupa{
+    margin-left: 50px;
+
+}
+
 .perfil {
     position: fixed;
     right: 400px;
