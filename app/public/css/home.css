@@ -173,7 +173,8 @@ body {
     margin-left: -50px;
 
 }
-.lupa{
+
+.lupa {
     margin-left: 50px;
 
 }
@@ -276,7 +277,7 @@ body {
     }
     
     .icones {
-        margin-left: 1000px;
+        margin-left: 800px;
     }
 }
 
@@ -292,18 +293,18 @@ body {
     }
     
     .icones {
-        margin-left: 800px;
+        margin-left: 600px;
     }
     
     .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-left: 20px;
-        margin-top: 20px;
+        margin-left: 10px;
+        margin-top: 10px;
         width: 120px;
         height: 180px;
     }
 
     .produtos2, .produtos3, .produtos4, .produtos5 {
-        margin-left: 20px;
+        margin-left: 10px;
         width: 250px;
         height: 400px;
     }
@@ -315,5 +316,38 @@ body {
         width: 100%;
         flex-direction: column;
         align-items: center;
+    }
+
+    .navbar ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .perfil {
+        right: 0;
+        top: 100px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .icones {
+        margin-left: 0;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .toper2, .toper4, .toper5, .toper6, .toper8 {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100px;
+        height: 160px;
+    }
+
+    .produtos2, .produtos3, .produtos4, .produtos5 {
+        margin-left: 0;
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
     }
 }
