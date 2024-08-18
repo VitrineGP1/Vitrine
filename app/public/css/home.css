@@ -148,7 +148,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -250px;
-    margin-left: 200px;
+    margin-left: 300px;
 
     border-radius: 10px;
 }
@@ -163,7 +163,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 400px;
+    margin-left: 500px;
     border-radius: 10px;
 }
 .toper4:hover {
@@ -178,7 +178,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 600px;
+    margin-left: 700px;
 
     border-radius: 10px;
 }
@@ -193,7 +193,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 800px;
+    margin-left: 900px;
     border-radius: 10px;
 }
 .toper6:hover {
@@ -208,7 +208,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 1000px;
+    margin-left: 1100px;
 
     border-radius: 10px;
 }
