@@ -155,21 +155,6 @@ position: static;
 .toper2:hover {
     background-color: rgb(187, 187, 187);
 }
-.toper3 {
-    position: static;
-
-    background-color: rgb(240, 235, 235);
-    width: 150px;
-    height: 200px;
-    margin-top: -215px;
-    margin-left: 250px;
-
-    border-radius:10px;
-}
-.toper3:hover {
-    background-color: rgb(187, 187, 187);
-    
-}
 
 .toper4 {
     position: static;
@@ -178,13 +163,14 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 425px;
+    margin-left: 400px;
     border-radius: 10px;
 }
 .toper4:hover {
     background-color: rgb(187, 187, 187);
     
 }
+
 .toper5 {
     position: static;
 
@@ -200,34 +186,21 @@ position: static;
     background-color: rgb(187, 187, 187);
     
 }
+
 .toper6 {
     position: static;
     background-color: rgb(240, 235, 235);
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 775px;
+    margin-left: 800px;
     border-radius: 10px;
 }
 .toper6:hover {
     background-color: rgb(187, 187, 187);
     
 }
-.toper7 {
-    position: static;
 
-    background-color: rgb(240, 235, 235);
-    width: 150px;
-    height: 200px;
-    margin-top: -200px;
-    margin-left: 950px;
-
-    border-radius: 10px;
-}
-.toper7:hover {
-    background-color: rgb(187, 187, 187);
-    
-}
 .toper8 {
     position: static;
 
@@ -235,7 +208,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 1125px;
+    margin-left: 1000px;
 
     border-radius: 10px;
 }
