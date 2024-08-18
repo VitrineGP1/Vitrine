@@ -192,7 +192,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 650px;
+    margin-left: 600px;
 
     border-radius: 10px;
 }
@@ -206,7 +206,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 850px;
+    margin-left: 775px;
     border-radius: 10px;
 }
 .toper6:hover {
@@ -220,7 +220,7 @@ position: static;
     width: 150px;
     height: 200px;
     margin-top: -200px;
-    margin-left: 1050px;
+    margin-left: 950px;
 
     border-radius: 10px;
 }
