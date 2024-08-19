@@ -279,6 +279,23 @@ body {
     margin-top: 50px;
 }
 
-@media (max-width: 1200px) {
+.banner-2{
+    width: 1200px;
+    margin: 50px auto 0;
+    overflow: hidden;
+}
 
+.banner-2 ul{
+    display: flex;
+    padding: 0;
+    width: 400%;
+}
+
+.banner-2 li{
+    list-style: none;
+    width: 100%;
+}
+
+.banner-2 img{
+    width: 100%;
 }
