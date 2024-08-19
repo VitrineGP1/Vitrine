@@ -276,6 +276,10 @@ body {
     margin-top: 50px;
 }
 
+.Vitrine{
+    text-align: center;
+}
+
 
 @media (min-width: 1025px) {
     .navbar {
@@ -406,78 +410,6 @@ body {
 
     .perfil ul li {
         margin-left: 10px;
-    }
-}
-
-@media (max-width: 1024px) and (min-width: 769px) {
-    .navbar {
-        width: 85%;
-        right: -50px;
-    }
-    
-    .navbar ul li {
-        margin-left: 15px;
-    }
-
-    .p1 {
-        margin-left: 150px;
-        font-size: 35px;
-    }
-
-    .p2 {
-        margin-left: 150px;
-        font-size: 18px;
-    }
-
-    .btn, .btn3, .btn4, .btn5 {
-        font-size: 14px;
-        width: 180px;
-        margin-left: 30px;
-    }
-
-    .toper {
-        height: 120px;
-    }
-
-    .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-top: -200px;
-        margin-left: 200px;
-    }
-
-    .grade {
-        margin-left: 30px;
-    }
-
-    .produtos2, .produtos3, .produtos4, .produtos5 {
-        width: 280px;
-        height: 420px;
-        margin-left: 25px;
-        margin-top: -420px;
-    }
-
-    .preco2, .preco3, .preco4, .preco5 {
-        margin-left: 90px;
-        font-size: 17px;
-    }
-
-    .icones {
-        margin-top: -80px;
-        margin-left: 1000px;
-    }
-
-    .telefone {
-        top: 20px;
-        width: 60%;
-    }
-
-    .perfil ul li {
-        margin-left: 15px;
-    }
-
-    .banner-2 {
-        height: 450px;
-        margin-top: 75px;
-        padding: 30px;
     }
 }
 
