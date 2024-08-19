@@ -180,10 +180,6 @@ body {
 
 }
 
-.carrinho a:hover {
-    color: rgb(167, 138, 91);
-}
-
 .lupa {
     margin-left: 50px;
 
@@ -193,7 +189,7 @@ body {
     color: rgb(167, 138, 91);
 }
 
-.telefone {
+.perfil {
     position: fixed;
     right: 400px;
     top: 40px;
@@ -223,6 +219,14 @@ body {
 .banner01 {
     margin-top: 15px;
     margin-left: 15px;
+}
+
+.banner-2 {
+    position: static;
+    background-image: url(https://s2.glbimg.com/R1RrY23PTC4Dfourv0NMH1Ns_5Q=/e.glbimg.com/og/ed/f/original/2021/09/16/composicao_de_parede_caating_-_retrobel.jpg);
+    height: 500px;
+    margin-top: 100px;
+    margin-left: 0px;
 }
 
 .grade {
@@ -271,41 +275,6 @@ body {
     margin-top: 50px;
 }
 
-.imagens{
-    width: 1200px;
-    margin: 50px auto 0;
-    overflow: hidden;
-    animation: slide 20s infinite alternate ease-in-out;
-    height: 500px;
-    margin-top: 100px;
-    margin-left: 0px;
-}
+@media (max-width: 1200px) {
 
-.imagens ul{
-    display: flex;
-    padding: 0;
-    width: 400%;
-}
-
-.imagens2 li{
-    list-style: none;
-    width: 100%;
-}
-
-.imagens img{
-    width: 100%;
-}
-
-@keyframes slide {
-    0% {margin-left: 0%;}
-    20% {margin-left: 0%;}
-
-    25% {margin-left: -100%;}
-    45% {margin-left: -100%;}
-
-    50% {margin-left: -200%;}
-    70% {margin-left: -200%;}
-
-    75% {margin-left: -300%;}
-    95% {margin-left: -300%;}
 }
