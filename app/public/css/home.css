@@ -180,9 +180,17 @@ body {
 
 }
 
+.carrinho a:hover {
+    color: rgb(167, 138, 91);
+}
+
 .lupa {
     margin-left: 50px;
 
+}
+
+.lupa a:hover {
+    color: rgb(167, 138, 91);
 }
 
 .perfil {
