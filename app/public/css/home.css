@@ -189,7 +189,7 @@ body {
     color: rgb(167, 138, 91);
 }
 
-.perfil {
+.telefone {
     position: fixed;
     right: 400px;
     top: 40px;
@@ -228,7 +228,6 @@ body {
     margin-top: 100px;
     margin-left: 50px;
     margin-right: 50px;
-    margin: auto;
     padding: 50px;
 }
 
