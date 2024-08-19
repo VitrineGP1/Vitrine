@@ -137,7 +137,7 @@ body{
   width: 70%;
   z-index: 1000;
   text-decoration: none;
-  
+
 }
     
 .perfil a:hover{
@@ -220,6 +220,7 @@ body{
   width: 70%;
   z-index: 1000;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-align: auto;
   
 }
 
