@@ -110,7 +110,7 @@ body{
     }
     .voltar ul li{
         position: fixed;
-        right: 220px;
+        right: 320px;
         top: 57px;
         display: flex;
         justify-content: space-between;

@@ -129,9 +129,8 @@ body{
 }
     
 .voltar ul li{
-  font-size: larger;
   position: fixed;
-  right: 280px;
+  right: 320px;
   top: 57px;
   display: flex;
   justify-content: space-between;
