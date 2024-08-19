@@ -218,12 +218,31 @@ body {
     margin-left: 15px;
 }
 
-.banner-2 {
-    position: static;
-    background-image: url(https://s2.glbimg.com/R1RrY23PTC4Dfourv0NMH1Ns_5Q=/e.glbimg.com/og/ed/f/original/2021/09/16/composicao_de_parede_caating_-_retrobel.jpg);
-    height: 500px;
+
+.slider {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; 
     margin-top: 100px;
-    padding: 10px;
+    height: 500px;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 100%;
+    display: block;
+    border-radius: 10px; 
 }
 
 .grade {
