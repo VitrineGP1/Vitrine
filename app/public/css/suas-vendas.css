@@ -131,7 +131,7 @@ body{
 .voltar ul li{
   font-size: larger;
   position: fixed;
-  right: 220px;
+  right: 280px;
   top: 57px;
   display: flex;
   justify-content: space-between;
@@ -221,7 +221,6 @@ body{
   width: 70%;
   z-index: 1000;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  text-align: auto;
   
 }
 
