@@ -271,7 +271,7 @@ body {
     margin-top: 50px;
 }
 
-.banner-2{
+.imagens{
     width: 1200px;
     margin: 50px auto 0;
     overflow: hidden;
@@ -281,18 +281,18 @@ body {
     margin-left: 0px;
 }
 
-.banner-2 ul{
+.imagens ul{
     display: flex;
     padding: 0;
     width: 400%;
 }
 
-.banner-2 li{
+.imagens2 li{
     list-style: none;
     width: 100%;
 }
 
-.banner-2 img{
+.imagens img{
     width: 100%;
 }
 
