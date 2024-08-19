@@ -225,14 +225,6 @@ body {
     margin-left: 15px;
 }
 
-.banner-2 {
-    position: static;
-    background-image: url(https://s2.glbimg.com/R1RrY23PTC4Dfourv0NMH1Ns_5Q=/e.glbimg.com/og/ed/f/original/2021/09/16/composicao_de_parede_caating_-_retrobel.jpg);
-    height: 500px;
-    margin-top: 100px;
-    margin-left: 0px;
-}
-
 .grade {
     margin-top: 100px;
     margin-left: 50px;
@@ -284,6 +276,9 @@ body {
     margin: 50px auto 0;
     overflow: hidden;
     animation: slide 20s infinite alternate ease-in-out;
+    height: 500px;
+    margin-top: 100px;
+    margin-left: 0px;
 }
 
 .banner-2 ul{
