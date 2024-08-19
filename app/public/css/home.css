@@ -276,6 +276,40 @@ body {
     margin-top: 50px;
 }
 
-@media (max-width: 1200px) {
-    
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .header, .footer {
+        padding: 0.5rem;
+    }
+
+    .container {
+        padding: 0.5rem;
+    }
+
+    .card {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .container {
+        padding: 2rem;
+    }
+
+    .content {
+        gap: 2rem;
+    }
+
+    .card {
+        padding: 2rem;
+        min-width: 300px;
+    }
 }
