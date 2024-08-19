@@ -113,7 +113,7 @@ body{
         right: 400px;
         top: 40px;
         display: flex;
-    
+        text-decoration: none;
         justify-content: space-between;
         width: 70%;
         z-index: 1000;
