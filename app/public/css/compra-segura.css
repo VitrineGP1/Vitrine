@@ -116,7 +116,8 @@ body{
         width: 70%;
         z-index: 1000;
         text-decoration: none;
-    }
+      
+      }
     .perfil a:hover{
         color: rgb(167, 138, 91);
     }
@@ -191,4 +192,9 @@ body{
         margin-top: 160px;
 
     }
+
+    .text2{
+        text-decoration: none;
+        color: black;
+      }
     
