@@ -9,7 +9,6 @@ body {
     right: -150px;
     top: 40px;
     display: flex;
-    text-align: center;
     justify-content: space-between;
     width: 70%;
     z-index: 1000;
@@ -26,6 +25,7 @@ body {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 30px;
+    text-align: center;
 }
 
 .navbar a:hover {
