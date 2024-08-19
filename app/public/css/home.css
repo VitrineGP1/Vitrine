@@ -267,6 +267,9 @@ body {
 }
 
 @media (max-width: 1200px) {
+    body{
+        width: 1000px;
+    }
     .navbar {
         right: -100px;
         width: 80%;
@@ -282,7 +285,10 @@ body {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
+    body{
+        width: 700px;
+    }
     .navbar {
         right: -50px;
         width: 90%;
@@ -312,6 +318,9 @@ body {
 }
 
 @media (max-width: 768px) {
+    body{
+        width: 400px;
+    }
     .navbar {
         right: 0;
         width: 100%;
