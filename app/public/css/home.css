@@ -16,6 +16,7 @@ body {
 
 .decoration{
     text-decoration: none;
+    text-decoration-color: black;
 }
 
 .navbar ul li {
