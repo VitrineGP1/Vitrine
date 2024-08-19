@@ -69,6 +69,7 @@ body {
 .btn {
     border: 0;
     width: 200px;
+    font-size: medium;
 }
 
 .btn3, .btn4, .btn5 {
@@ -268,4 +269,8 @@ body {
     width: 100%;
     height: 200px;
     margin-top: 50px;
+}
+
+@media (max-width: 1200px) {
+
 }
