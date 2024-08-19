@@ -109,7 +109,6 @@ body{
         font-size: 20px; 
     }
     .voltar ul li{
-        position: fixed;
         right: 400px;
         top: 40px;
         display: flex;
@@ -118,6 +117,7 @@ body{
         width: 70%;
         z-index: 1000;
     }
+
     .perfil a:hover{
         color: rgb(167, 138, 91);
     }
