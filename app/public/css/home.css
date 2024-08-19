@@ -407,79 +407,103 @@ body {
 }
 
 
-@media (max-width: 768px) {
+
+@media (max-width: 1000px) {
+    .navbar {
+        width: 100%;
+        right: 0;
+        top: 0;
+        padding: 10px;
+        background-color: rgba(211, 207, 207, 0.896);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+        transition: top 0.3s ease-in-out; 
+    }
+
+    .navbar ul li {
+        display: block; 
+        margin-left: 0;
+        margin-bottom: 10px;
+        text-align: center; 
+    }
 
     .navbar-hidden {
         top: -100px; 
     }
-    .navbar {
-        width: 100%;
-        right: 0;
-        flex-direction: column;
-        align-items: flex-start;
-        display: none; 
-    }
-    
+
     .p1, .p2 {
-        margin-left: 10px;
-        font-size: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    .p1 {
+        font-size: 30px;
+        margin-top: 150px;
+    }
+
+    .p2 {
+        font-size: 16px;
+        margin-top: -10px;
     }
 
     .btn, .btn3, .btn4, .btn5 {
-        font-size: 12px;
-        width: 150px;
-        margin-left: 20px;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        font-size: 14px;
+        height: 40px;
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
 
     .toper {
         flex-direction: column;
         height: auto;
-        align-items: flex-start;
+        padding: 20px;
     }
 
     .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-top: 15px;
-        margin-left: 10px;
+        margin-top: 20px;
+        margin-left: 0;
+        width: 90%;
+        max-width: 300px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .icones {
+        margin-top: 10px;
+        margin-left: 0;
+        text-align: center;
     }
 
     .grade {
-        margin-left: 10px;
+        margin-left: 0;
+        padding: 20px;
     }
 
     .produtos2, .produtos3, .produtos4, .produtos5 {
         width: 100%;
-        margin-left: 0;
-        margin-top: 10px;
+        max-width: 350px;
+        margin: 20px auto;
+        height: auto;
     }
 
     .preco2, .preco3, .preco4, .preco5 {
         margin-left: 0;
         text-align: center;
-    }
-
-    .icones {
-        margin-left: 0;
-        text-align: center;
-    }
-
-    .telefone {
-        width: 100%;
-        top: 5px;
-    }
-
-    .perfil ul li {
-        display: block;
-        margin-left: 5px;
+        font-size: 18px;
     }
 
     .banner-2 {
-        background-size: cover;
-        height: 300px;
-        margin-top: 50px;
+        height: auto;
+        margin-top: 20px;
         padding: 20px;
+        background-size: cover; 
     }
 
-    .Vitrine{
-        text-align: center;
+    .rodape {
+        height: auto;
+        padding: 20px;
     }
 }
