@@ -280,6 +280,15 @@ body {
     text-align: center;
 }
 
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: top 0.3s; 
+}
+
+
 
 @media (min-width: 1025px) {
 
@@ -407,6 +416,10 @@ body {
 
 
 @media (max-width: 768px) {
+
+    .navbar-hidden {
+        top: -100px; 
+    }
     .navbar {
         width: 100%;
         right: 0;
