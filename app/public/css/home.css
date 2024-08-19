@@ -25,11 +25,14 @@ body {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 30px;
-    text-align: center;
 }
 
 .navbar a:hover {
     color: rgb(167, 138, 91);
+}
+
+.h7{
+    text-align: center;
 }
 
 .p1, .p2 {
