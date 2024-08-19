@@ -18,9 +18,8 @@ body{
     .navbar{
         position: fixed;
         right: -150px;
-        top: 40px;
+        top: 35px;
         display: flex;
-    
         justify-content: space-between;
         width: 70%;
         z-index: 1000;
