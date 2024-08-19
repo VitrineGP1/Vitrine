@@ -112,11 +112,11 @@ body{
         right: 400px;
         top: 40px;
         display: flex;
-        text-decoration: none;
         justify-content: space-around;
         width: 70%;
         z-index: 1000;
         margin-top: -100px;
+        color: black;
     }
     
     .perfil a:hover{
