@@ -109,7 +109,6 @@ body{
         font-size: 20px; 
     }
     .voltar ul li{
-        position: fixed;
         right: 400px;
         top: 40px;
         display: flex;
