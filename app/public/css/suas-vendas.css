@@ -210,6 +210,7 @@ body{
 }
 
 .textt{
+  margin-left: 500px;
   position: fixed;
   right: -150px;
   top: 200px;
@@ -217,5 +218,10 @@ body{
   justify-content: space-between;
   width: 70%;
   z-index: 1000;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   
+}
+
+.input-text{
+  border-radius: 5px;
 }
