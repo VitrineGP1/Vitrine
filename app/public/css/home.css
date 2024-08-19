@@ -282,15 +282,7 @@ body {
 
 
 @media (min-width: 1025px) {
-    .navbar {
-        width: 85%;
-        right: -100px;  
-    }
     
-    .navbar ul li {
-        margin-left: 25px;  
-    }
-
     .p1 {
         margin-left: 300px;
         font-size: 42px;  
