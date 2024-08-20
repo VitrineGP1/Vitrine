@@ -15,10 +15,28 @@ body {
     text-align: auto;
 }
 
-.decoration{
+.Vitrine{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-decoration: none;
-    color: black;
+    text-transform: uppercase;  
+    font-size: 30px;
 }
+
+.Vitrine ul li{
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.Vitrine ul li a{
+    color: rgb(0, 0, 0);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;  
+    font-size: 30px;
+}
+
 
 .navbar ul li {
     display: inline-block;
@@ -36,6 +54,12 @@ body {
 .navbar a:hover {
     color: rgb(167, 138, 91);
 }
+
+.decoration{
+    text-decoration: none;
+    color: black;
+}
+
 
 .p1, .p2 {
     color: rgb(0, 0, 0);
@@ -299,9 +323,7 @@ body {
     margin-top: 50px;
 }
 
-.Vitrine{
-    text-align: center;
-}
+
 
 @media only screen and (max-width: 1366px) {
 
