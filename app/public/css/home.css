@@ -227,6 +227,7 @@ body {
     overflow: hidden;
     display: flex;
     justify-content: center;
+    z-index: 1;
 }
 
 .slides {
