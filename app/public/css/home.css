@@ -346,6 +346,22 @@ body {
     .rodape{
         width: 1581px;
     }
+
+    .preco2{
+        margin-left:0px ;
+    }
+
+    .preco3{
+        margin-left: 0px;
+    }
+
+    .preco4{
+        margin-left: 0px;
+    }
+
+    .preco5{
+        margin-left: 0px;
+    }
 }
 
 @media only screen and (max-width: 768px) {
