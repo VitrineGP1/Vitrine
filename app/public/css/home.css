@@ -329,6 +329,10 @@ body {
     .icones {
         margin-left: 1350px;
     }
+
+    .rodape{
+        width: 1440px;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -427,7 +431,7 @@ body {
 
     .slider {
         margin-top: 100px;
-        margin-left: 0;
+        margin-left: 420px;
         width: 100%;
     }
 
