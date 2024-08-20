@@ -299,109 +299,93 @@ body {
     text-align: center;
 }
 
-
-
-@media (min-width: 1025px) {
-
-    .p1 {
-        margin-left: 300px;
-        font-size: 42px;  
+@media only screen and (max-width: 1366px) {
+    .navbar {
+        width: 90%;
+        right: 0;
     }
 
-    .p2 {
-        margin-left: 300px;
-        font-size: 22px;  
-    }
-
-    .btn, .btn3, .btn4, .btn5 {
-        font-size: 15px;
-        width: 210px;
-        margin-left: 55px;  
-
-    .toper {
-        height: 150px; 
-    }
-
-    .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-top: -230px;
-        margin-left: 280px;  
-    }
-
-    .grade {
-        margin-left: 60px;  
+    .slider {
+        width: 80%;
+        margin-left: 10%;
     }
 
     .produtos2, .produtos3, .produtos4, .produtos5 {
-        width: 310px;
-        height: 460px;
-        margin-left: 40px;
-        margin-top: -460px;  
+        width: 250px;
+        height: 400px;
     }
-
+    
     .preco2, .preco3, .preco4, .preco5 {
-        margin-left: 115px;
-        font-size: 19px; 
+        margin-left: 90px;
     }
 
     .icones {
-        margin-top: -90px;
-        margin-left: 1250px;  
-    }
-
-    .telefone {
-        top: 45px;
-        width: 75%;  
-    }
-
-    .perfil ul li {
-        margin-left: 25px;  
-    }
-
-    .banner-2 {
-        height: 550px;
-        margin-top: 110px;
-        padding: 45px;  
-    }
-
-    .rodape {
-        height: 220px;  
+        margin-left: 1000px;
     }
 }
-}
 
-@media (max-width: 1024px) {
+@media only screen and (min-width: 1440px) {
     .navbar {
-        width: 90%;
-        right: -100px;
+        width: 80%;
+        right: 0;
+    }
+
+    .slider {
+        width: 70%;
+        margin-left: 15%;
+    }
+
+    .produtos2, .produtos3, .produtos4, .produtos5 {
+        width: 320px;
+        height: 470px;
+    }
+    
+    .preco2, .preco3, .preco4, .preco5 {
+        margin-left: 130px;
+    }
+
+    .icones {
+        margin-left: 1350px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        right: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .navbar ul li {
+        margin-left: 0;
+        margin-top: 10px;
     }
     
     .p1, .p2 {
         margin-left: 20px;
-        font-size: 30px;
     }
-
+    
     .btn, .btn3, .btn4, .btn5 {
-        font-size: 14px;
-        width: 180px;
-    }
-
-    .toper {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-top: 20px;
         margin-left: 20px;
     }
-
-    .grade {
-        margin-left: 20px;
-    }
-
-    .produtos2, .produtos3, .produtos4, .produtos5 {
+    
+    .slider {
         width: 90%;
+        margin-left: 5%;
+    }
+    
+    .grade {
         margin-left: 0;
+    }
+    
+    .produtos2, .produtos3, .produtos4, .produtos5 {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .produtos3, .produtos4, .produtos5 {
         margin-top: 20px;
     }
 
@@ -409,119 +393,73 @@ body {
         margin-left: 0;
         text-align: center;
     }
-
+    
     .icones {
         margin-left: 0;
         text-align: center;
     }
-
+    
     .telefone {
+        position: static;
         width: 100%;
-        top: 10px;
+        justify-content: center;
+        margin-top: 20px;
     }
-
+    
     .perfil ul li {
         margin-left: 10px;
+    }
+
+    .toper {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .toper2, .toper4, .toper5, .toper6, .toper8 {
+        margin: 10px auto;
+        width: 80%;
     }
 }
 
 
-
-@media (max-width: 1000px) {
-    .navbar {
-        width: 100%;
-        right: 0;
-        top: 0;
-        background-color: rgba(211, 207, 207, 0.896);
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-        transition: top 0.3s ease-in-out; 
-    }
-
-    .navbar ul li {
-        display: block; 
-        margin-left: 0;
-        margin-bottom: 10px;
-        text-align: center; 
-    }
-
-    .navbar-hidden {
-        top: -100px; 
-    }
-
-    .p1, .p2 {
-        margin-left: 20px;
-        margin-right: 20px;
-        text-align: center;
+@media only screen and (max-width: 480px) {
+    .navbar ul li a {
+        font-size: 20px;
     }
 
     .p1 {
         font-size: 30px;
-        margin-top: 150px;
     }
 
     .p2 {
-        font-size: 16px;
-        margin-top: -10px;
+        font-size: 15px;
     }
 
     .btn, .btn3, .btn4, .btn5 {
         width: 100%;
         margin-left: 0;
-        margin-right: 0;
-        font-size: 14px;
-        height: 40px;
-        border-radius: 5px;
-        margin-bottom: 10px;
+        font-size: 12px;
+    }
+
+    .slider {
+        margin-top: 100px;
+        margin-left: 0;
+        width: 100%;
     }
 
     .toper {
-        flex-direction: column;
         height: auto;
-        padding: 20px;
-    }
-
-    .toper2, .toper4, .toper5, .toper6, .toper8 {
-        margin-top: 20px;
-        margin-left: 0;
-        width: 90%;
-        max-width: 300px;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .icones {
-        margin-top: 10px;
-        margin-left: 0;
-        text-align: center;
-    }
-
-    .grade {
-        margin-left: 0;
         padding: 20px;
     }
 
     .produtos2, .produtos3, .produtos4, .produtos5 {
         width: 100%;
-        max-width: 350px;
-        margin: 20px auto;
         height: auto;
-    }
-
-    .preco2, .preco3, .preco4, .preco5 {
-        margin-left: 0;
-        text-align: center;
-        font-size: 18px;
-    }
-
-    .banner-2 {
-        height: auto;
-        margin-top: 20px;
-        padding: 20px;
-        background-size: cover; 
     }
 
     .rodape {
-        height: auto;
-        padding: 20px;
+        text-align: center;
     }
 }
