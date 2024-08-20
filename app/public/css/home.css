@@ -320,6 +320,10 @@ body {
     .icones {
         right: 20px; 
     }
+
+    .rodape{
+        width: 1500px;
+    }
 }
 
 @media only screen and (min-width: 1400px) {
@@ -332,14 +336,6 @@ body {
     
     .preco2, .preco3, .preco4, .preco5 {
         margin-left: 130px;
-    }
-
-    .icones {
-        margin-left: 1350px;
-    }
-
-    .icones {
-        right: 50px;
     }
 
     .rodape{
