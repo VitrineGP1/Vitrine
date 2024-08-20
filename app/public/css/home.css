@@ -459,4 +459,8 @@ body {
     .rodape {
         text-align: center;
     }
+
+    .slider{
+        margin-left: 400px;
+    }
 }
