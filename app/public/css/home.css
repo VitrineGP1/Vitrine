@@ -220,9 +220,10 @@ body {
 
 .slider {
     position: relative;
-    width: 100%;
+    width: 70%;
     max-width: 1000px;
-    margin: auto;
+    margin-top: 150px;
+    margin-left: 345px;
     overflow: hidden;
     display: flex;
     justify-content: center;
