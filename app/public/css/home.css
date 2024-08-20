@@ -15,6 +15,14 @@ body {
     text-align: auto;
 }
 
+.Vitrine{
+    margin-top: 15px;
+    display: flex;
+    z-index: 1000;
+    position: fixed;
+    top: 20px; 
+}
+
 .Vitrine ul li{
     margin-top: 10px;
     margin-left: 20px;
