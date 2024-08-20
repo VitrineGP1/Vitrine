@@ -251,7 +251,7 @@ body {
 
 .grade {
     margin-top: 100px;
-    margin-left: 50px;
+    margin-left: 30px;
 }
 
 .produtos2, .produtos3, .produtos4, .produtos5 {
@@ -290,7 +290,7 @@ body {
 
 .rodape {
     background-color: rgb(255, 255, 255);
-    width: 100%;
+    width: 1350px;
     height: 200px;
     margin-top: 50px;
 }
@@ -300,19 +300,9 @@ body {
 }
 
 @media only screen and (max-width: 1366px) {
-    .navbar {
-        width: 90%;
-        right: 0;
-    }
-
-    .slider {
-        width: 80%;
-        margin-left: 10%;
-    }
 
     .produtos2, .produtos3, .produtos4, .produtos5 {
-        width: 250px;
-        height: 400px;
+        width: 300px;
     }
     
     .preco2, .preco3, .preco4, .preco5 {
@@ -325,20 +315,12 @@ body {
 }
 
 @media only screen and (min-width: 1440px) {
-    .navbar {
-        width: 80%;
-        right: 0;
-    }
 
     .slider {
         width: 70%;
         margin-left: 15%;
     }
 
-    .produtos2, .produtos3, .produtos4, .produtos5 {
-        width: 320px;
-        height: 470px;
-    }
     
     .preco2, .preco3, .preco4, .preco5 {
         margin-left: 130px;
