@@ -41,6 +41,7 @@ body {
 }
 
 .Vitrine li{
+
     display: flex;
     align-items: center;
 }
@@ -214,20 +215,11 @@ body {
 .carrinho {
     margin-left: -50px;
     top: 40px;
-    width: 30px;
-    height: 30px
 }
 
 .lupa {
     margin-left: 30px;
     top: 40px;
-    width: 30px;
-    height: 30px;
-}
-
-.perfil{
-    width: 30px; 
-    height:30px;
 }
 
 .lupa a:hover {
@@ -242,7 +234,6 @@ body {
     justify-content: space-between;
     width: 70%;
     z-index: 1000;
-    width:30px;
 }
 
 .perfil ul li {
@@ -579,22 +570,6 @@ body {
 
     .telefone{
         margin-left: 25px;
-        width: 50px;
-    }
-
-    .carrinho {
-        width: 50px;
-        height: 50px
-    }
-
-    .lupa {
-        width: 50px;
-        height: 50px
-    }
-
-    .perfil {
-        width: 50px;
-        height: 50px
     }
 
 }
