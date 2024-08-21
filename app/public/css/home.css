@@ -22,18 +22,20 @@ body {
     position: fixed;
     top: 20px; 
     margin-left: 620px;
+    list-style: none;
 }
 
 .Vitrine ul li{
     display: inline-block;
     margin-top: 2px;
-    list-style-type: none;
+    list-style: none;
     
 }
 
 .Vitrine ul li a{
     text-decoration: none;
     text-transform: uppercase;  
+    list-style: none;
 }
 
 
