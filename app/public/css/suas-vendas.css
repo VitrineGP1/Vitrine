@@ -11,8 +11,7 @@ body{
   height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: brown;
-  background-image: url(imagem-fundo.png);
+  background-color: #faebd7;
   background-size: cover;
   background-position: 50%;
   padding: 20px;
@@ -33,7 +32,7 @@ h1 {
 }
 
 .barra-horizontal {
-  background-color: #f87842;
+  background-color: #b08e6b;
   height: 5px;
   width: 210px;
 }
