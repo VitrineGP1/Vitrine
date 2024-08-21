@@ -29,7 +29,6 @@ body {
 .Vitrine ul li{
     text-transform: uppercase;
     display: inline-block;
-    margin-top: 2px;
     list-style: none;
     text-decoration: none;
 }
