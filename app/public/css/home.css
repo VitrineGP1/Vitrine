@@ -21,7 +21,7 @@ body {
     z-index: 1000;
     position: fixed;
     top: 20px; 
-    margin-left: 600px;
+    margin-left: 827px;
     list-style: none;
     text-decoration: none;
 }
@@ -565,11 +565,11 @@ body {
     }
 
     .lupa{
-        margin-left: 1200px;
+        margin-left: auto;
     }
 
     .carrinho{
-        margin-left: 1500px;
+        margin-left: 1700px;
     }
 
 
