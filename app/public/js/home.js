@@ -37,4 +37,4 @@ function nextSlide() {
     showSlide(currentSlide + 1);
 }
 
-setInterval(nextSlide, 7000);
+setInterval(nextSlide, 12000);
