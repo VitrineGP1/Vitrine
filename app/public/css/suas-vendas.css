@@ -247,7 +247,7 @@ body{
 }
 
 .container{
-  margin-left: 500px;
+  margin-left: 710px;
   width: 500px;
   border-radius: 50px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -255,9 +255,9 @@ body{
 }
 
 .textt{
-  margin-left: 500px;
+  margin-left: 455px;
   position: fixed;
-  right: -150px;
+  right: -140px;
   top: 200px;
   display: flex;
   justify-content: space-between;
