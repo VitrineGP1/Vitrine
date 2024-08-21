@@ -27,6 +27,7 @@ body {
 }
 
 .Vitrine ul li{
+    text-transform: uppercase;
     display: inline-block;
     margin-top: 2px;
     list-style: none;
@@ -34,9 +35,10 @@ body {
 }
 
 .Vitrine ul li a{
+    list-style: none;
+    display: inline-block;
     text-decoration: none;
     text-transform: uppercase;  
-    list-style: none;
 }
 
 .Vitrine li{
