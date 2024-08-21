@@ -23,13 +23,14 @@ body {
     top: 20px; 
     margin-left: 620px;
     list-style: none;
+    text-decoration: none;
 }
 
 .Vitrine ul li{
     display: inline-block;
     margin-top: 2px;
     list-style: none;
-    
+    text-decoration: none;
 }
 
 .Vitrine ul li a{
