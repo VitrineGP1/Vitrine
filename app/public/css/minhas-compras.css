@@ -154,11 +154,9 @@ body{
     
     }
     .icones {
-        margin-top: 15px;
-        display: flex;
-        z-index: 1000;
-        position: fixed;
-        top: 20px; 
+        margin-top: -100px;
+        margin-left: 1200px;
+
     }
     .carrinho {
         margin-left: -50px;
