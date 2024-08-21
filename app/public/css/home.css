@@ -226,6 +226,7 @@ body {
 .telefone {
     position: fixed;
     top: 40px;
+    right: 600px;
     display: flex;
     justify-content: space-between;
     width: 70%;
