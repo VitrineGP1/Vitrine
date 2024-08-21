@@ -107,27 +107,29 @@ body{
         margin-top: -10px;
     }
     
-    .icones ul li{
-        position: fixed;
-    
-            display: inline-block;
-            text-decoration: none;
-            text-transform: uppercase; 
-    
-    }
     .icones {
-      margin-top: -100px;
-      margin-left: 1200px;
-
+      margin-top: 15px;
+      display: flex;
+      z-index: 1000;
+      position: fixed;
+      top: 20px; 
   }
-    .carrinho {
-        margin-left: -50px;
-    
-    }
-    .lupa{
-        margin-left: 50px;
-    
-    }
+  
+  .icones ul li {
+      display: inline-block;
+      text-decoration: none;
+      text-transform: uppercase;
+  }
+  
+  .carrinho {
+      margin-left: -50px;
+      top: 40px;
+  }
+  
+  .lupa {
+      margin-left: 30px;
+      top: 40px;
+  }
     .seta {
         margin-left: -1200px;
 
