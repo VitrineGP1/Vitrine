@@ -255,10 +255,11 @@ body{
 }
 
 .textt{
-  margin-left: 455px;
+  font-size: larger;
+  margin-left: 450px;
   position: fixed;
   right: -140px;
-  top: 200px;
+  top: 280px;
   display: flex;
   justify-content: space-between;
   width: 70%;
