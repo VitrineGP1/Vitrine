@@ -147,7 +147,13 @@ body{
 }
     
 .seta {
-  margin-left: -1200px;
+  position: fixed;
+        top: 40px;
+        right: 550px;
+        display: flex;
+        justify-content: space-between;
+        width: 70%;
+        z-index: 1000;
 
 }
     
