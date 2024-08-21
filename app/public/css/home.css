@@ -502,3 +502,48 @@ body {
         margin-left: 400px;
     }
 }
+
+@media only screen and (min-width: 1920px) {
+
+    .rodape{
+        width: 1915px;
+    }
+
+    .produtos2 { 
+        margin-left: 110px; 
+    }
+    
+    .produtos3 { 
+        margin-left: 460px; 
+        margin-top: -450px; 
+    }
+    
+    .produtos4 { 
+        margin-left: 810px; 
+        margin-top: -450px; 
+    }
+    
+    .produtos5 { 
+        margin-left: 1160px; 
+        margin-top: -450px; 
+    }
+
+    .slider {
+        width: 70%;
+        margin-left: 275px;
+    }
+
+    
+    .preco2, .preco3, .preco4, .preco5 {
+        margin-left: 110px;
+    }
+
+    .icones {
+        margin-left: 1200px;
+    }
+
+    .icones {
+        right: 50px;
+    }
+
+}
