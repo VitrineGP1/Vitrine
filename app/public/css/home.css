@@ -21,7 +21,7 @@ body {
     z-index: 1000;
     position: fixed;
     top: 20px; 
-    margin-left: 620px;
+    margin-left: 600px;
     list-style: none;
     text-decoration: none;
 }
@@ -259,7 +259,7 @@ body {
     position: relative;
     width: 70%;
     margin-top: 50px;
-    margin-left: 300px;
+    margin-left: 280px;
     overflow: hidden;
     display: flex;
     justify-content: center;
