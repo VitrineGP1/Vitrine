@@ -546,7 +546,7 @@ body {
     }
 
     .Vitrine{
-        margin-left: 835px;
+        margin-left: 810px;
     }
 
     .toper4 { 
@@ -563,6 +563,10 @@ body {
     
     .toper8 { 
         margin-top: -200px; margin-left: 1155px; 
+    }
+
+    .telefone{
+        margin-left: 25px;
     }
 
 }
