@@ -252,3 +252,171 @@ body{
   text-decoration: none;
   color: black;
 }
+
+@media only screen and (max-width: 1366px) {
+
+  .produtos2, .produtos3, .produtos4, .produtos5 {
+      width: 300px;
+  }
+  
+  .preco2, .preco3, .preco4, .preco5 {
+      margin-left: 90px;
+  }
+
+  .icones {
+      margin-left: 1000px;
+  }
+
+  .icones {
+      right: 20px; 
+  }
+
+  .rodape{
+      width: 1366px;
+  } 
+
+}
+
+@media only screen and (min-width: 1400px) {
+
+  .slider {
+      width: 70%;
+      margin-left: 275px;
+  }
+
+  
+  .preco2, .preco3, .preco4, .preco5 {
+      margin-left: 110px;
+  }
+
+  .icones {
+      margin-left: 1200px;
+  }
+
+  .icones {
+      right: 50px;
+  }
+
+  .rodape{
+      width: 1440px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar {
+      width: 100%;
+      right: 0;
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .navbar ul li {
+      margin-left: 0;
+      margin-top: 10px;
+  }
+  
+  .p1, .p2 {
+      margin-left: 20px;
+  }
+  
+  .btn, .btn3, .btn4, .btn5 {
+      margin-left: 20px;
+  }
+  
+  .slider {
+      width: 90%;
+      margin-left: 5%;
+  }
+  
+  .grade {
+      margin-left: 0;
+  }
+  
+  .produtos2, .produtos3, .produtos4, .produtos5 {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 20px;
+  }
+
+  .produtos3, .produtos4, .produtos5 {
+      margin-top: 20px;
+  }
+
+  .preco2, .preco3, .preco4, .preco5 {
+      margin-left: 0;
+      text-align: center;
+  }
+  
+  .icones {
+      margin-left: 0;
+      text-align: center;
+  }
+  
+  .telefone {
+      position: static;
+      width: 100%;
+      justify-content: center;
+      margin-top: 20px;
+  }
+  
+  .perfil ul li {
+      margin-left: 10px;
+  }
+
+  .toper {
+      height: auto;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+
+  .toper2, .toper4, .toper5, .toper6, .toper8 {
+      margin: 10px auto;
+      width: 80%;
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  .navbar ul li a {
+      font-size: 20px;
+  }
+
+  .p1 {
+      font-size: 30px;
+  }
+
+  .p2 {
+      font-size: 15px;
+  }
+
+  .btn, .btn3, .btn4, .btn5 {
+      width: 100%;
+      margin-left: 0;
+      font-size: 12px;
+  }
+
+  .slider {
+      margin-top: 100px;
+      margin-left: 420px;
+      width: 100%;
+  }
+
+  .toper {
+      height: auto;
+      padding: 20px;
+  }
+
+  .produtos2, .produtos3, .produtos4, .produtos5 {
+      width: 100%;
+      height: auto;
+  }
+
+  .rodape {
+      text-align: center;
+  }
+
+  .slider{
+      margin-left: 400px;
+  }
+}
