@@ -43,6 +43,10 @@ body {
     list-style-type: none;
 }
 
+.Vitrine ul{
+    list-style-type: none;
+}
+
 
 .navbar ul li {
     display: inline-block;
