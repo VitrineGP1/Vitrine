@@ -36,6 +36,27 @@ body{
   color: rgb(167, 138, 91);
     
 }
+
+.Vitrine{
+  margin-top: 10px;
+  display: flex;
+  z-index: 1000;
+  position: fixed;
+  top: 20px; 
+  margin-left: 620px;
+}
+
+.Vitrine ul li{
+  display: inline-block;
+  margin-top: 2px;
+  list-style-type: none;
+  
+}
+
+.Vitrine ul li a{
+  text-decoration: none;
+  text-transform: uppercase;  
+}
     
 .p1{
   color: rgb(0, 0, 0);
