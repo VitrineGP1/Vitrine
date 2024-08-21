@@ -359,7 +359,7 @@ body {
   
 }
 
-@media only screen and (ma-width: 1400px) {
+@media only screen and (max-width: 1400px) {
 
     .slider {
         width: 70%;
@@ -533,7 +533,6 @@ body {
         margin-left: 275px;
     }
 
-    
     .preco2, .preco3, .preco4, .preco5 {
         margin-left: 110px;
     }
