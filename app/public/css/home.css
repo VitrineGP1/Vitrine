@@ -202,12 +202,12 @@ body {
 
 .carrinho {
     margin-left: -50px;
-
+    top: 40px;
 }
 
 .lupa {
     margin-left: 30px;
-
+    top: 40px;
 }
 
 .lupa a:hover {
