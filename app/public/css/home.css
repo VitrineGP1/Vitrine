@@ -359,7 +359,7 @@ body {
   
 }
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (ma-width: 1400px) {
 
     .slider {
         width: 70%;
@@ -510,21 +510,21 @@ body {
     }
 
     .produtos2 { 
-        margin-left: 200px; 
+        margin-left: 600px; 
     }
     
     .produtos3 { 
-        margin-left: 550px; 
+        margin-left: 950px; 
         margin-top: -450px; 
     }
     
     .produtos4 { 
-        margin-left: 910px; 
+        margin-left: 1310px; 
         margin-top: -450px; 
     }
     
     .produtos5 { 
-        margin-left: 1260px; 
+        margin-left: 1660px; 
         margin-top: -450px; 
     }
 
