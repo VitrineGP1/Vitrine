@@ -541,15 +541,7 @@ body {
     }
 
     .icones {
-        margin-left: 1200px;
-    }
-
-    .icones {
-        right: 50px;
-    }
-
-    .Vitrine{
-        margin-left: 820px;
+        right: 790px;
     }
 
     .toper4 { 
@@ -571,5 +563,14 @@ body {
     .telefone{
         margin-left: 25px;
     }
+
+    .lupa{
+        margin-left: 1200px;
+    }
+
+    .carrinho{
+        margin-left: 1500px;
+    }
+
 
 }
