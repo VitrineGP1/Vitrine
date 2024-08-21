@@ -21,12 +21,12 @@ body {
     z-index: 1000;
     position: fixed;
     top: 20px; 
-    margin-left: 640px;
+    margin-left: 620px;
 }
 
 .Vitrine ul li{
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 5px;
     list-style-type: none;
     
 }
