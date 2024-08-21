@@ -605,6 +605,46 @@ body{
                     margin-left: 1285px; 
                     margin-top: -450px; 
                 }
+
+                .produtos8 { 
+                    margin-left: 225px; 
+                    margin-top: 100px;
+                }
+                
+                .produtos9 { 
+                    margin-left: 575px; 
+                    margin-top: -450px;
+                }
+                
+                .produtos10 { 
+                    margin-left: 935px; 
+                    margin-top: -450px;
+                }
+                
+                .produtos11 { 
+                    margin-left: 1285px; 
+                    margin-top: -450px;
+                }
+
+                .produtos12 { 
+                    margin-left: 225px; 
+                    margin-top: 50px;
+                }
+                
+                .produtos6 { 
+                    margin-left: 575px; 
+                    margin-top: 100px;
+                }
+                
+                .produtos7 { 
+                    margin-left: 935px; 
+                    margin-top: 0px; 
+                }
+                
+                .produtos0 { 
+                    margin-left: 1285px; 
+                    margin-top: -450px;
+                }
             
                 .slider {
                     width: 700px;
@@ -633,6 +673,7 @@ body{
             
                 .seta{
                     margin-left: 25px;
+                    margin-top: 15px;
                 }
             
                 .lupa{
