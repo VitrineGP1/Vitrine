@@ -250,7 +250,6 @@ body {
 .slider {
     position: relative;
     width: 70%;
-    max-width: 1000px;
     margin-top: 50px;
     margin-left: 300px;
     overflow: hidden;
