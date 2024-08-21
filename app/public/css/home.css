@@ -243,7 +243,6 @@ body {
     width: 70%;
     z-index: 1000;
     width:30px;
-    height: 30px;
 }
 
 .perfil ul li {
@@ -580,6 +579,7 @@ body {
 
     .telefone{
         margin-left: 25px;
+        width: 50px;
     }
 
     .carrinho {
