@@ -18,8 +18,8 @@ router.get("/nossas-ofertas", function (req, res) {
     res.render("pages/nossas-ofertas", )
 });
 
-router.get("/suas-vendas", function (req, res) {
-    res.render("pages/suas-vendas", )
+router.get("/login", function (req, res) {
+    res.render("pages/login", )
 });
 
 router.get("/pagamentos", function (req, res) {
