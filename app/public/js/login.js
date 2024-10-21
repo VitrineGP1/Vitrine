@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // Se não houver erros, redirecione para o link desejado
       if (!hasError) {        
         // Redireciona após a validação
-        window.location.href = 'C:\\Users\\mathe\\Documents\\Sites\\views\\pages\\perfil.html'; // Insira o link que deseja redirecionar
+        window.location.href = '/perfil'; // Insira o link que deseja redirecionar
         
         // Limpa o formulário após o envio (opcional, se o formulário estiver sendo enviado para outra página)
         loginForm.reset();
