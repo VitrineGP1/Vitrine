@@ -108,7 +108,7 @@ nav{
 }
 
 .edit-profile button {
-  width: auto; /* Ajuste para caber o botão */
+  width: auto;
 }
 
 .editProfileForm{
@@ -132,12 +132,6 @@ nav{
     background-color: #544E4B;
     border: 1px solid #544E4B;
     transition: background-color .10s;
-}
-
-.btn btn-primary:hover {
-  background-color: #fff;
-  border: 1px solid #544E4B;
-  color: #544E4B;
 }
 
 .btn {
