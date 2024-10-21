@@ -19,7 +19,7 @@ router.get("/nossas-ofertas", function (req, res) {
 });
 
 router.get("/login", function (req, res) {
-    res.render("pages/login", )
+    res.render("pages/login1", )
 });
 
 router.get("/pagamentos", function (req, res) {
@@ -34,4 +34,7 @@ router.get("/mais-vendidos", function (req, res) {
     res.render("pages/mais-vendidos", )
 });
 
+router.get("/cadastro", function (req, res) {
+    res.render("pages/cadastro", )
+});
 module.exports = router;
