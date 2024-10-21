@@ -235,7 +235,7 @@ transition: background-color .10s;
   width: 60%;
   input[type=text] {outline: none};
   input[type=password] {outline: none};
-  input[type=email] {outline: none};
+  input[type=text] {outline: none};
 }
 
 .loginForm input{
