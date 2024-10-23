@@ -129,9 +129,8 @@ nav{
 }
 
 .btn btn-primary{
-    background-color: #544E4B;
-    border: 1px solid #544E4B;
-    transition: background-color .10s;
+  background-color: #544E4B;
+  border: 1px solid #544E4B;
 }
 
 .btn {
