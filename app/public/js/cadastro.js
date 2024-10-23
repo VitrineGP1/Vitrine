@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Se o formulário estiver válido, permite o envio
         if (isValid) {
-            window.location.href = 'C:/Users/mathe/Documents/Sites/views/pages/perfil.html';
+            window.location.href = '/perfil';
         }
     });
 });
