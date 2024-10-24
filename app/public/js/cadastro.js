@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Validação do Celular
         const number = document.getElementById("number").value;
-        const numberPattern = /^\(\d{2}\) \d{5}-\d{4}$/;
+        const numberPattern = /^\\d{2}\ \d{9}$/;
         if (!number || !numberPattern.test(number)) {
             document.getElementById("number-error").textContent = "Por favor, insira um número de celular válido.";
             isValid = false;
