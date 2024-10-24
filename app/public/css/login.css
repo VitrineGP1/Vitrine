@@ -332,6 +332,32 @@ transition: background-color .10s;
   animation: mover infinite ease-in-out;
 }
 
+/* Estilos para tela grande (desktop) */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.header-nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav ul li {
+  margin-left: 20px;
+}
+
+.header-nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
 .hamburger {
   display: none;
   cursor: pointer;
@@ -345,7 +371,7 @@ transition: background-color .10s;
 /* Estilos para telas menores (celular) */
 @media (max-width: 768px) {
   .header-nav {
-      display: none;
+      display: none;  /* Esconde o menu principal no celular */
   }
 
   .hamburger {
@@ -353,7 +379,7 @@ transition: background-color .10s;
   }
 
   .mobile-menu {
-      display: none;
+      display: none; /* O menu só aparece ao clicar */
       background-color: #333;
       padding: 10px;
       position: absolute;
@@ -365,6 +391,7 @@ transition: background-color .10s;
   .mobile-menu ul {
       list-style: none;
       padding: 0;
+      text-align: center;  /* Centraliza os itens do menu */
   }
 
   .mobile-menu ul li {
@@ -427,78 +454,3 @@ transition: background-color .10s;
     width: 60%;
   }
 }
-
-
-    /* Estilos para telas grandes (computadores/desktops) */
-    @media (min-width: 1024px) {
-      header {
-        height: 10vh;
-      }
-
-      .nav-list {
-        padding: 10px;
-      }
-
-      .nav-list li {
-        margin-left: 40px;
-        font-size: 18px;
-      }
-
-      .logo {
-        font-size: 26px;
-      }
-
-      /* Ajuste de largura para o conteúdo */
-      .container {
-        max-width: 1400px;
-      }
-    }
-
-    /* Responsividade para telas médias (tablets ou laptops pequenos) */
-    @media (max-width: 1024px) {
-      header {
-        height: 8vh;
-      }
-
-      .nav-list li {
-        margin-left: 30px;
-        font-size: 16px;
-      }
-    }
-
-    /* Responsividade para telas pequenas (celulares) */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        align-items: center;
-        height: auto;
-      }
-
-      a.logo {
-        margin: 0;
-      }
-
-      .nav-list {
-        flex-direction: column;
-        margin-left: 0;
-      }
-
-      .nav-list li {
-        margin: 10px 0;
-        letter-spacing: normal;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .logo {
-        font-size: 20px;
-      }
-
-      .nav-list {
-        padding: 0;
-      }
-
-      .nav-list li {
-        font-size: 14px;
-      }
-    }
