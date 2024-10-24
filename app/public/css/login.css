@@ -54,7 +54,8 @@ nav{
 
 .nav-list li{
   letter-spacing: 3px;
-  margin-left: 275px;
+  margin-left: 100px;
+  padding-right: 100px;
 }
 
 .nav-list li:hover{
