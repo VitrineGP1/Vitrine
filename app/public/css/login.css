@@ -332,15 +332,6 @@ transition: background-color .10s;
   animation: mover infinite ease-in-out;
 }
 
-/* Estilos para tela grande (desktop) */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
-}
 
 .header-nav ul {
   display: flex;
@@ -380,7 +371,7 @@ header {
 
   .mobile-menu {
       display: none; /* O menu só aparece ao clicar */
-      background-color: #333;
+      background-color: #fafafa;
       padding: 10px;
       position: absolute;
       top: 50px;
@@ -399,7 +390,7 @@ header {
   }
 
   .mobile-menu ul li a {
-      color: #fff;
+      color: #544E4B;
       text-decoration: none;
   }
 }
