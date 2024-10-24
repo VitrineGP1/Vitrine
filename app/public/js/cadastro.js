@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Validação da Senha
         const password = document.getElementById("password").value;
-        if (password.length < 6) {
-            document.getElementById("password-error").textContent = "A senha deve ter pelo menos 6 caracteres.";
+        if (password.length < 8) {
+            document.getElementById("password-error").textContent = "A senha deve ter pelo menos 8 caracteres.";
             isValid = false;
         }
 
