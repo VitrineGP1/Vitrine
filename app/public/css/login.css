@@ -371,18 +371,18 @@ transition: background-color .10s;
 
   .mobile-menu {
       display: none; /* O menu só aparece ao clicar */
-      background-color: #fafafa;
+      background-color: #fff;
       padding: 10px;
       position: absolute;
-      top: 50px;
-      right: 0;
-      width: 100%;
+      top: 50px;      /* Posição logo abaixo do ícone do hamburguer */
+      right: 20px;    /* Alinhado com o ícone do hamburguer */
+      width: auto;    /* O menu vai ter um tamanho ajustado ao conteúdo */
   }
 
   .mobile-menu ul {
       list-style: none;
       padding: 0;
-      text-align: center;  /* Centraliza os itens do menu */
+      text-align: right;  /* Itens alinhados à direita */
   }
 
   .mobile-menu ul li {

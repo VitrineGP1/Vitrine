@@ -56,10 +56,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.getElementById("hamburger").addEventListener("click", function() {
-  const menu = document.getElementById("mobile-menu");
-  if (menu.style.display === "block") {
-      menu.style.display = "none";
+  const mobileMenu = document.getElementById("mobile-menu");
+  const headerNav = document.querySelector(".header-nav");
+
+  // Verifica se o menu mobile está visível
+  if (mobileMenu.style.display === "block") {
+      mobileMenu.style.display = "none"; // Esconde o menu mobile
+      headerNav.style.display = "flex";  // Volta a exibir o header-nav quando fechar o mobile menu
   } else {
-      menu.style.display = "block";
+      mobileMenu.style.display = "block"; // Exibe o menu mobile
+      headerNav.style.display = "none";   // Esconde o header-nav ao abrir o mobile menu
   }
 });
