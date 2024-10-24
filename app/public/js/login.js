@@ -59,12 +59,19 @@ document.getElementById("hamburger").addEventListener("click", function() {
   const mobileMenu = document.getElementById("mobile-menu");
   const headerNav = document.querySelector(".header-nav");
 
-  // Verifica se o menu mobile está visível
-  if (mobileMenu.style.display === "block") {
-      mobileMenu.style.display = "none"; // Esconde o menu mobile
-      headerNav.style.display = "flex";  // Volta a exibir o header-nav quando fechar o mobile menu
+  // Verifica o tamanho da tela para saber se o headerNav está disponível
+  if (window.innerWidth <= 768) {
+      if (mobileMenu.style.display === "block") {
+          mobileMenu.style.display = "none"; // Esconde o menu mobile
+      } else {
+          mobileMenu.style.display = "block"; // Exibe o menu mobile
+      }
   } else {
-      mobileMenu.style.display = "block"; // Exibe o menu mobile
-      headerNav.style.display = "none";   // Esconde o header-nav ao abrir o mobile menu
+      // Em telas grandes (maiores que 768px), o header-nav será manipulado
+      if (headerNav.style.display === "flex") {
+          headerNav.style.display = "none"; // Esconde o header-nav
+      } else {
+          headerNav.style.display = "flex"; // Exibe o header-nav
+      }
   }
 });
