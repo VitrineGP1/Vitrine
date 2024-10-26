@@ -22,54 +22,55 @@ header{
     z-index: 1000;
     width: 100%;
     background-color: #fff;
-  }
+
+}
   
-  a {
+a {
     color: #000000;
     text-decoration: none;
     transition: 0.3s;
-  }
+}
   
-  a:hover{
+a:hover{
     opacity: 0.7;
-  }
+}
   
-  .logo{
+.logo{
     font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 4px;
-  }
+}
   
-  a.logo{
+a.logo{
     display: flex;
     margin-left: 30px;
-  }
+}
   
-  nav{
+nav{
     display: flex;
     justify-content: space-around;
     align-items: center;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height: 8vh;
-  }
+}
   
-  .nav-list{
+.nav-list{
     list-style: none;
     display: flex;
     margin-top: 30px;
     padding: 7px;
-  }
+}
   
-  .nav-list li{
+.nav-list li{
     letter-spacing: 3px;
     margin-left: 100px;
     padding-right: 100px;
-  }
+}
   
-  .nav-list li:hover{
+.nav-list li:hover{
     opacity: 0.5;
     color: #5c5c5c;
-  }
+}
   
 .container {
     width: 75%;
@@ -307,7 +308,8 @@ header{
   
   .mobile-menu.active .line3 {
     transform: rotate(45deg) translate(-5px, -7px);
-  } 
+  }
+  
 
 @media screen and (max-width: 1330px) {
     .form-image {
