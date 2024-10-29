@@ -323,6 +323,8 @@ nav{
     justify-content: center;
     z-index: 0;
     width: 570px;
+    margin-top: 8vh;
+    object-position: center;
 }
 
 .slides {
