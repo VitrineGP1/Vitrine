@@ -315,14 +315,11 @@ nav{
 
 .slider {
     position: relative;
-    width: 70%;
-    margin-top: 50px;
-    margin-left: 260px;
     overflow: hidden;
     display: flex;
     justify-content: center;
     z-index: 0;
-    width: 570px;
+    width: 50%;
     margin-top: 10vh;
     margin-left: 25%;
 }
