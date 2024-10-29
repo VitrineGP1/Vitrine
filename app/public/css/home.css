@@ -313,6 +313,10 @@ nav{
     margin-left: 15px;
 }
 
+.position{
+    margin-left: 25%;
+}
+
 .slider {
     position: relative;
     width: 70%;
@@ -324,7 +328,7 @@ nav{
     z-index: 0;
     width: 570px;
     margin-top: 8vh;
-    object-position: center;
+    margin-left: 25%;
 }
 
 .slides {
