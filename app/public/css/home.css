@@ -393,7 +393,7 @@ nav{
 @media only screen and (min-width: 1920px) {
 
     .rodape{
-        width: 1915px;
+        width: 100%;
     }
 
     .produtos2 { 
@@ -416,8 +416,8 @@ nav{
     }
 
     .slider {
-        width: 700px;
-        margin-left: 575px;
+        width: 50%;
+        margin-left: 25%;
     }
 
     .preco2, .preco3, .preco4, .preco5 {
