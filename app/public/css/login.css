@@ -356,7 +356,6 @@ transition: background-color .10s;
   position: absolute;
   top: 60%;
   right: 0;
-  width: 45vw;
   height: 50vh;
   background: #544E4B;
   flex-direction: column;
@@ -366,7 +365,6 @@ transition: background-color .10s;
   transition: transform 0.3s ease-in;
   }
   .nav-list li {
-    margin-left: 0;
     opacity: 0;
   }
   .mobile-menu {
