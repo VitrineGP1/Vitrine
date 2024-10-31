@@ -15,7 +15,6 @@ header{
   width: 100%;
   background-color: #544E4B;
   top: 0;
-  height: 6%;
 }
 
 a {
@@ -355,7 +354,7 @@ transition: background-color .10s;
   }
   .nav-list {
   position: absolute;
-  top: 70px;
+  top: 60%;
   right: 0;
   width: 45vw;
   height: 50vh;
