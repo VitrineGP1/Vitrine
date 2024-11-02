@@ -508,7 +508,7 @@ nav{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.event-filtros-p{
+.event-filtros-p ::after{
     content: '';
     display: block;
     background-color: #544E4B;
