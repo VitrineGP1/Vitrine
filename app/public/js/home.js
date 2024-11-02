@@ -42,3 +42,32 @@ const mobileNavbar = new MobileNavbar(
     ".nav-list li",
 );
 mobileNavbar.init();
+
+document.addEventListener('DOMContentLoaded', function() {
+  let currentIndex = 0;
+  const slides = document.querySelectorAll('.slide');
+  const totalSlides = slides.length;
+  const intervalTime = 3000;
+
+  function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+  }
+
+  function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      showSlide(currentIndex);
+  }
+
+  let sliderInterval = setInterval(nextSlide, intervalTime);
+
+  document.querySelector('.slider').addEventListener('mouseenter', function() {
+      clearInterval(sliderInterval);
+  });
+
+  document.querySelector('.slider').addEventListener('mouseleave', function() {
+      sliderInterval = setInterval(nextSlide, intervalTime);
+  });
+
+  showSlide(currentIndex);
+});
