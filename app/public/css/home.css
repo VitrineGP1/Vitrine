@@ -9,12 +9,12 @@ header{
     display: flex;
     z-index: 1000;
     width: 100%;
-    background-color: #fff;
+    background-color: #544E4B;
     top: 0;
 }
   
 a {
-    color: #000000;
+    color: #fff;
     text-decoration: none;
     transition: 0.3s;
 }
@@ -59,7 +59,7 @@ nav{
     opacity: 0.5;
     color: #5c5c5c;
 }
-  
+
 .navbar {
     position: fixed;
     right: -150px;
