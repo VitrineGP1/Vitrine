@@ -515,6 +515,8 @@ nav{
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
+    width: 5rem;
+    height: 0.3rem;
 }
 
 /* Responsiveness */
