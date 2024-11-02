@@ -459,6 +459,7 @@ nav{
     border-radius: 10px;
     width: 5rem;
     height: 0.3rem;
+    padding-right: 65px;
 }
 
 p.event-filtros {
