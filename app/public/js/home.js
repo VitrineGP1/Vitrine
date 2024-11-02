@@ -1,15 +1,15 @@
-$(function() {
-    $('#mobile_btn').on('click', function () {
-        $('#mobile_menu').toggleClass('active');
-        $('#mobile_btn').find('i').toggleClass('fa-x');
+jQuery(function() {
+    jQuery('#mobile_btn').on('click', function () {
+        jQuery('#mobile_menu').toggleClass('active');
+        jQuery('#mobile_btn').find('i').toggleClass('fa-x');
     });
 
-    const sections = $('section');
-    const navItems = $('.nav-item');
+    const sections = jQuery('section');
+    const navItems = jQuery('.nav-item');
 
-    $(window).on('scroll', function () {
-        const header = $('header');
-        const scrollPosition = $(window).scrollTop() - header.outerHeight();
+    jQuery(window).on('scroll', function () {
+        const header = jQuery('header');
+        const scrollPosition = jQuery(window).scrollTop() - header.outerHeight();
 
         let activeSectionIndex = 0;
 
@@ -20,7 +20,7 @@ $(function() {
         }
 
         sections.each(function(i) {
-            const section = $(this);
+            const section = jQuery(this);
             const sectionTop = section.offset().top - 96;
             const sectionBottom = sectionTop + section.outerHeight();
 
@@ -31,7 +31,7 @@ $(function() {
         });
 
         navItems.removeClass('active');
-        $(navItems[activeSectionIndex]).addClass('active');
+        jQuery(navItems[activeSectionIndex]).addClass('active');
     });
 
     ScrollReveal().reveal('#cta', {
