@@ -508,6 +508,15 @@ nav{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.event-filtros-p{
+    content: '';
+    display: block;
+    background-color: #544E4B;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
+
 /* Responsiveness */
 
 @media (max-width: 900px) {
