@@ -461,6 +461,13 @@ nav{
     height: 0.3rem;
 }
 
+p.event-filtros {
+    padding: 20px;
+    position: relative;
+    font-size: 30px;
+    font-family: 'Inter', sans-serif;
+}
+
 /* Responsiveness */
 
 @media (max-width: 900px) {
