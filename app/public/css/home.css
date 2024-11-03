@@ -263,7 +263,7 @@ nav{
     justify-content: center;
     z-index: 0;
     width: 50%;
-    margin-top: 7%;
+    margin-top: 10%;
     margin-left: 25%;
 }
 
@@ -274,7 +274,6 @@ nav{
 
 .slide {
     min-width: 100%;
-    box-sizing: border-box;
 }
 
 .slide img {
@@ -282,11 +281,6 @@ nav{
     display: block;
     margin: auto; 
     border-radius: 10px; 
-}
-
-.grade {
-    margin-top: 100px;
-    margin-left: 30px;
 }
 
 .produtos2, .produtos3, .produtos4, .produtos5 {
@@ -339,7 +333,6 @@ nav{
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    padding: 20px;
 }
 
 .produto {
@@ -431,17 +424,15 @@ nav{
 }
 
 .carousel-item img {
-    width: 35%;
+    width: 50%;
     height: 150px;
     object-fit: cover;
-    border-radius: 50%; 
-    height: auto;
+    border-radius: 50%;
     transition: transform 0.3s, border 0.5s ease;
 }
 
 .carousel-item:hover img {
     border: 3px solid #544E4B; /* Borda ao passar o mouse */
-    height: auto;
     transform: scale(1.1); /* Aumenta o tamanho da imagem */
 }
 
@@ -518,7 +509,7 @@ nav{
 }
 
 p.event-filtros {
-    padding: 20px;
+    padding: 80px;
     position: relative;
     font-size: 30px;
     font-family: 'Inter', sans-serif;
@@ -538,17 +529,66 @@ p.event-filtros {
     }
 
     .carousel-item {
-        flex: 0 0 40%; /* Exibir 2 itens em telas menores */
+        flex: 0 0 40%; 
     }
 
     .carousel-arrow {
-        display: none; /* Esconder setas em dispositivos móveis */
+        display: none;
+    }
+
+    p.event-filtros {
+        padding: 80px;
+    }
+
+    .carousel-item img {
+        width: 52%;
+        height: 150px;
     }
 }
 
 @media (max-width: 480px) {
     .carousel-item {
-        flex: 0 0 60%; /* Exibir 1 item em telas muito pequenas */
+        flex: 0 0 60%;
+    }
+
+    .slider{
+        margin-top: 20%;
+    }
+
+    .slider img{
+        width: 210px;
+    }
+    
+    p.event-filtros {
+        padding: 40px;
+    }
+
+    .carousel-item img {
+        width: 50%;
+        height: 120px;
+    }
+}
+
+@media (max-width: 430px) {
+    .carousel-item {
+        flex: 0 0 60%;
+    }
+    
+    .slider{
+        margin-top: 20%;
+    }
+    
+    .slider img{
+        width: 210px;
+    }
+        
+    p.event-filtros {
+        padding: 40px;
+    }
+
+    .carousel-item img {
+        width: 60%;
+        height: 120px;
     }
 }
 
@@ -649,6 +689,6 @@ p.event-filtros {
     
     .toper8 { 
         margin-top: -200px; margin-left: 1155px; 
-    }    
+    }
 
 }
