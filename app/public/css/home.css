@@ -263,7 +263,7 @@ nav{
     justify-content: center;
     z-index: 0;
     width: 50%;
-    margin-top: 10%;
+    margin-top: 7%;
     margin-left: 25%;
 }
 
@@ -277,7 +277,7 @@ nav{
 }
 
 .slide img {
-    width: 100%;
+    width: 80%;
     display: block;
     margin: auto; 
     border-radius: 10px; 
@@ -357,7 +357,12 @@ nav{
     margin-bottom: 10px;
 }
 
-/* Configurações do Grid para diferentes tamanhos de tela */
+@media (max-width: 1080px) {
+    .slider {
+        margin-top: 10%;
+    }
+}
+
 @media (min-width: 1024px) {
     .grade {
         grid-template-columns: repeat(4, 1fr);
@@ -367,6 +372,9 @@ nav{
 @media (min-width: 768px) and (max-width: 1023px) {
     .grade {
         grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        padding-left: 20%;
+        padding-right: 20%;
     }
 }
 
@@ -378,7 +386,7 @@ nav{
 
 @media (max-width: 479px) {
     .grade {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(1fr);
     }
 }
 
@@ -505,7 +513,6 @@ nav{
     border-radius: 10px;
     width: 5rem;
     height: 0.3rem;
-    padding-right: 65px;
 }
 
 p.event-filtros {
@@ -605,7 +612,7 @@ p.event-filtros {
     transition: 0.3s;
 }
   
-@media (max-width: 999px) {
+@media (min-width: 940px) and (max-width: 1000px) {
     body {
       overflow-x: hidden;
     }
@@ -630,6 +637,11 @@ p.event-filtros {
       right: 0;
       top: 0;
       padding: 25px;
+    }
+
+    .carousel-item img {
+        width: 60%;
+        height: 100px;
     }
 }
   
