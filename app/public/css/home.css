@@ -357,38 +357,6 @@ nav{
     margin-bottom: 10px;
 }
 
-@media (max-width: 1080px) {
-    .slider {
-        margin-top: 10%;
-    }
-}
-
-@media (min-width: 1024px) {
-    .grade {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    .grade {
-        grid-template-columns: repeat(2, 1fr);
-        display: grid;
-        padding-left: 20%;
-        padding-right: 20%;
-    }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-    .grade {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 479px) {
-    .grade {
-        grid-template-columns: repeat(1fr);
-    }
-}
 
 /* CARROSEL */
 
@@ -612,7 +580,7 @@ p.event-filtros {
     transition: 0.3s;
 }
   
-@media (min-width: 940px) and (max-width: 1000px) {
+@media(max-width: 1000px) {
     body {
       overflow-x: hidden;
     }
@@ -639,14 +607,32 @@ p.event-filtros {
       padding: 25px;
     }
 
-    .carousel-item img {
-        width: 60%;
-        height: 100px;
-    }
+    
 }
   
 .nav-list.active {
     transform: translateX(0);
+}
+
+@media (min-width: 940px) and (max-width: 1000px) {
+
+    .carousel-item img {
+        width: 80%;
+        height: 100px;
+    }
+
+    .carousel-container{
+        width: 60%;
+        margin-left: 20%;
+    }
+
+    .p.event-filtros {
+        position: relative;
+        font-size: 30px;
+        font-family: 'Inter', sans-serif;
+    }
+    
+
 }
   
 @keyframes navLinkFade {
@@ -703,4 +689,37 @@ p.event-filtros {
         margin-top: -200px; margin-left: 1155px; 
     }
 
+}
+
+@media (max-width: 1080px) {
+    .slider {
+        margin-top: 10%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .grade {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .grade {
+        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+    .grade {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 479px) {
+    .grade {
+        grid-template-columns: repeat(1fr);
+    }
 }
