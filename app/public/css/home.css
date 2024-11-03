@@ -358,6 +358,7 @@ nav{
 }
 
 
+
 /* CARROSEL */
 
 .carousel-title {
@@ -631,7 +632,16 @@ p.event-filtros {
         font-size: 30px;
         font-family: 'Inter', sans-serif;
     }
-    
+
+    header{
+        height: 100px;
+    }
+
+    a.logo img{
+        margin-left: 50px;
+        width: 100%;
+        height: 90px;
+    }
 
 }
   
