@@ -277,7 +277,8 @@ nav{
 }
 
 .slide img {
-    width: 80%;
+    width: 100%;
+    height: 100%;
     display: block;
     margin: auto; 
     border-radius: 10px; 
@@ -615,19 +616,28 @@ p.event-filtros {
     transform: translateX(0);
 }
 
-@media (min-width: 940px) and (max-width: 1000px) {
+@media (min-width: 1000) and (max-width: 1300px){
 
     .carousel-item img {
         width: 80%;
         height: 100px;
     }
+}
 
-    .carousel-container{
+@media (min-width: 940px) and (max-width: 1000px) {
+
+    .carousel-item img {
         width: 60%;
-        margin-left: 20%;
+        height: 100px;
     }
 
-    .p.event-filtros {
+    .carousel-container{
+        width: 90%;
+        margin-left: 5%;
+    }
+    
+    p.event-filtros {
+        padding: 30px;
         position: relative;
         font-size: 30px;
         font-family: 'Inter', sans-serif;
@@ -647,10 +657,19 @@ p.event-filtros {
         padding-top: 10%;
     }
 
+    .slider img{
+        width: 100%;
+        height: 100%;
+    }
+
     .mobile-menu div {
         width: 100px;
         height: 5px;
         margin-top: 13%;
+    }
+
+    .nav-list{
+        font-size: larger;
     }
 
     .mobile-menu.active .line1 {
@@ -736,11 +755,13 @@ p.event-filtros {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+
     .grade {
         grid-template-columns: repeat(2, 1fr);
         display: grid;
         padding-left: 20%;
         padding-right: 20%;
+        gap: 100px;
     }
 }
 
