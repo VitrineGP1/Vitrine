@@ -635,7 +635,7 @@ p.event-filtros {
         width: 90%;
         margin-left: 5%;
     }
-    
+
     p.event-filtros {
         padding: 30px;
         position: relative;
@@ -682,6 +682,10 @@ p.event-filtros {
       
     .mobile-menu.active .line3 {
         transform: rotate(45deg) translate(-15px, -15px);
+    }
+
+    .produtos2, .produtos3, .produtos4, .produtos5{
+        font-size: larger;
     }
 
 }
