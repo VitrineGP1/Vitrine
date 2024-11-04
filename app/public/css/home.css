@@ -262,9 +262,10 @@ nav{
     display: flex;
     justify-content: center;
     z-index: 0;
-    width: 50%;
+    width: 55%;
+    height: 75%;
     margin-top: 7%;
-    margin-left: 25%;
+    margin-left: 22%;
 }
 
 .slides {
@@ -279,8 +280,6 @@ nav{
 .slide img {
     width: 100%;
     height: 100%;
-    display: block;
-    margin: auto; 
     border-radius: 10px; 
 }
 
@@ -486,7 +485,7 @@ nav{
 }
 
 p.event-filtros {
-    padding: 80px;
+    padding-left: 30px;
     position: relative;
     font-size: 30px;
     font-family: 'Inter', sans-serif;
@@ -778,5 +777,12 @@ p.event-filtros {
 @media (max-width: 479px) {
     .grade {
         grid-template-columns: repeat(1fr);
+    }
+}
+
+@media (min-width: 1000px) and (max-width: 1440px) {
+    .carousel-item img {
+        width: 70%;
+        height: 100px;
     }
 }
