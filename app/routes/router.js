@@ -6,6 +6,10 @@ router.get("/", function (req, res) {
     res.render("pages/home", )
 });
 
+router.get("/home-perfil", function (req, res) {
+    res.render("pages/home-perfil", )
+});
+
 router.get("/categorias", function (req, res) {
     res.render("pages/categorias", )
 });

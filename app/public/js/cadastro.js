@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Se o formulário estiver válido, permite o envio
         if (isValid) {
-            window.location.href = '/perfil';
+            window.location.href = '/home-perfil';
         }
     });
 });
