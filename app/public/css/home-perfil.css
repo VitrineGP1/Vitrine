@@ -62,6 +62,10 @@ nav{
     margin-left: 80px;
     padding-right: 100px;
 }
+
+.nav-list img {
+    margin-top: -10px;
+}
   
 .nav-list li:hover{
     opacity: 0.5;
