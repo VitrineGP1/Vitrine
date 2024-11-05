@@ -65,6 +65,9 @@ nav{
 
 .nav-list img {
     margin-top: -10px;
+    width: 45px;
+    height: 45px;
+    margin-left: -50px;
 }
   
 .nav-list li:hover{
@@ -829,6 +832,12 @@ footer {
 
     .produtos2, .produtos3, .produtos4, .produtos5{
         font-size: larger;
+    }
+
+    .nav-list img {
+        width: 75px;
+        height: 75px;
+        margin-left: 10px;
     }
 
 }
