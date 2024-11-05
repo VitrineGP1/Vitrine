@@ -146,3 +146,21 @@ carousel.addEventListener('touchmove', (e) => {
     const walk = (x - startX) * 2; // Ajuste de sensibilidade
     carousel.scrollLeft = scrollLeft - walk;
 });
+
+function validateEmail() {
+    const emailInput = document.getElementById("email");
+    const message = document.getElementById("message");
+    const email = emailInput.value;
+
+    // Expressão regular para validar o formato de e-mail
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailPattern.test(email)) {
+        message.innerText = "Inscrição realizada com sucesso.";
+        message.style.color = "green";
+        emailInput.value = ""; // Limpa o campo de e-mail
+    } else {
+        message.innerText = "Por favor, insira um e-mail válido.";
+        message.style.color = "red";
+    }
+}
