@@ -1,0 +1,115 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/carrinho.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+          <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+          
+        <div class="mobile-menu">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+        </div>
+        <ul class="nav-list">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="#">Sobre</a></li>
+          <li><a href="#">Produtos</a></li>
+          <li><a href="/login">Entrar</a></li>
+          <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho-de-compras.png" width="30px" height="30px"></a></li>
+        </ul>
+    </header>
+    
+    <main>
+      <div class="page-title">Seu Carrinho</div>
+      <div class="content">
+        <section>
+          <table>
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+                <th>-</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="product">
+                    <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="" />
+                    <div class="info">
+                      <div class="name">Cesto organizador</div>
+                      <div class="category">Casa e Decoração</div>
+                    </div>
+                  </div>
+                </td>
+                <td>R$ 265</td>
+                <td>
+                  <div class="qty">
+                    <button><i class="bx bx-minus"></i></button>
+                    <span>1</span>
+                    <button><i class="bx bx-plus"></i></button>
+                  </div>
+                </td>
+                <td>R$ 265</td>
+                <td>
+                  <input type="checkbox" class="remove"><i class="bx bx-x"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="product">
+                    <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" alt="" />
+                    <div class="info">
+                      <div class="name">Banquinho de Crochê</div>
+                      <div class="category">Casa e Decoração</div>
+                    </div>
+                  </div>
+                </td>
+                <td>R$ 315</td>
+                <td>
+                  <div class="qty">
+                    <button><i class="bx bx-minus"></i></button>
+                    <span>2</span>
+                    <button><i class="bx bx-plus"></i></button>
+                  </div>
+                </td>
+                <td>R$ 630</td>
+                <td>
+                  <input type="checkbox" class="remove"><i class="bx bx-x"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <aside>
+          <div class="box">
+            <div class="info">
+              <div><span>Sub-total</span><span>R$ 895</span></div>
+              <div><span>Frete</span><span>Gratuito</span></div>
+              <div>
+                <button>
+                  Adicionar cupom de desconto
+                  <i class="bx bx-right-arrow-alt"></i>
+                </button>
+              </div>
+            </div>
+            <footer>
+              <span>Total</span>
+              <span>R$ 895</span>
+            </footer>
+          </div>
+          <button>Finalizar Compra</button>
+        </aside>
+      </div>
+    </main>
+</body>
+</html>
