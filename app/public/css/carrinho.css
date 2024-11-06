@@ -527,26 +527,7 @@ button {
     transform: translateX(0);
 }
 
-@media (min-width: 1000) and (max-width: 1300px){
-
-    .carousel-item img {
-        width: 80%;
-        height: 100px;
-    }
-}
-
 @media (min-width: 940px) and (max-width: 1000px) {
-
-    .carousel-item img {
-        width: 60%;
-        height: 100px;
-    }
-
-    .carousel-container{
-        width: 90%;
-        margin-left: 5%;
-    }
-
     p.event-filtros {
         padding: 30px;
         position: relative;
@@ -562,15 +543,6 @@ button {
         margin-left: 50px;
         width: 100%;
         height: 130px;
-    }
-
-    .slider{
-        padding-top: 10%;
-    }
-
-    .slider img{
-        width: 100%;
-        height: 100%;
     }
 
     .mobile-menu div {
@@ -595,9 +567,6 @@ button {
         transform: rotate(45deg) translate(-15px, -15px);
     }
 
-    .produtos2, .produtos3, .produtos4, .produtos5{
-        font-size: larger;
-    }
 
 }
   
@@ -623,6 +592,7 @@ button {
 .mobile-menu.active .line3 {
     transform: rotate(45deg) translate(-15px, -15px);
 }
+
 
 @media (max-width: 768px) {
     header {
