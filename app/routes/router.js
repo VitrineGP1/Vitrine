@@ -14,6 +14,10 @@ router.get("/carrinho", function (req, res) {
     res.render("pages/carrinho", )
 });
 
+router.get("/carrinho-vazio", function (req, res) {
+    res.render("pages/carrinho-vazio", )
+});
+
 router.get("/login", function (req, res) {
     res.render("pages/login", )
 });
