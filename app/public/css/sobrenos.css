@@ -255,7 +255,18 @@ footer {
     }
 }
 
-  
+@media(max-width: 700px) {
+    p.event-filtros{
+        padding-top: 20%;
+    }
+}
+
+@media(max-width: 380px) {
+    p.event-filtros{
+        padding-top: 25%;
+    }
+}
+ 
 @media(max-width: 1000px) {
     body {
       overflow-x: hidden;
