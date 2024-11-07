@@ -679,6 +679,7 @@ footer {
 
     .slider img{
         width: 100%;
+        height: auto;
     }
     
     p.event-filtros {
@@ -689,6 +690,7 @@ footer {
         width: 50%;
         height: 120px;
     }
+
 }
 
 @media (max-width: 430px) {
