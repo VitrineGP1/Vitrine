@@ -500,10 +500,11 @@ transition: background-color .10s;
   }
   
   .carrinho img {
-    position: absolute;
-    margin-left: 10%;
-    right: inherit;
-}
+        position: absolute;
+        margin-left: -30%;
+        right: inherit;
+  }
+
   
 }
 
