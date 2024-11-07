@@ -2,8 +2,35 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/home-perfil.css">
         <script async src="js/home.js"></script>
+        <title>Home</title>
+        <style>
+
+            .slides {
+                display: flex;
+                transition: transform 0.5s ease-in-out;
+            }
+            
+            .slide {
+                transition: opacity 0.5s ease-in-out;
+            }
+            
+            .slide img {
+                border-radius: 10px;
+            }
+            
+            @keyframes slideAnimation {
+                0%, 20% { transform: translateX(0); }         
+                33%, 53% { transform: translateX(-100%); }
+                66%, 86% { transform: translateX(-200%); }
+                100% { transform: translateX(0); }
+            }
+            
+            .slides {
+                animation: slideAnimation 15s infinite;
+            }
+            </style>
     </head>
-    <title>Home</title>
+    
     <body>                   
         <header class="header">
             <a class="logo" href="/">
@@ -33,10 +60,10 @@
             <img src="imagens/banner-2.jpg" alt="Slide1">
         </div>
         <div class="slide">
-            <img src="imagens/banner-3.jpg" alt="Slide 2">
+            <img src="imagens/artesaanato.png" alt="Slide 2">
         </div>
         <div class="slide">
-            <img src="imagens/banner.jpg" alt="Slide 3">
+            <img src="imagens/artesanato.png" alt="Slide 3">
         </div>
         
     </div>
