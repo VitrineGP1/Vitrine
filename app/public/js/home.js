@@ -56,6 +56,13 @@ document.addEventListener("DOMContentLoaded", function() {
     setInterval(nextSlide, 3000); // Troca de slide a cada 3 segundos
 });
 
+const slider = document.getElementById('mySlider');
+  const valueDisplay = document.getElementById('valueDisplay');
+
+  slider.addEventListener('input', function() {
+    valueDisplay.textContent = slider.value;
+});
+
 
 const carousel = document.querySelector('.carousel');
 const leftArrow = document.querySelector('.left-arrow');

@@ -930,3 +930,18 @@ footer {
         height: 100px;
     }
 }
+
+@keyframes slide {
+	0% {margin-left: 0;}
+	20% {margin-left: 0;}
+	
+	25% {margin-left: -100%;}
+	45% {margin-left: -100%;}
+	
+	50% {margin-left: -200%;}
+	70% {margin-left: -200%;}
+}
+
+.slider {
+	animation: slide 20s infinite alternate ease-in-out;
+}
