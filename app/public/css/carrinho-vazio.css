@@ -70,17 +70,6 @@ nav{
     margin-top: -20px;
 }
 
-.event-filtros::after{
-    content: '';
-    display: block;
-    background-color: #544E4B;
-    margin: 0 auto;
-    position: absolute;
-    border-radius: 10px;
-    width: 5rem;
-    height: 0.3rem;
-}
-
 .nav-list img {
     margin-top: -20px;
 }
