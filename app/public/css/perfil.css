@@ -200,6 +200,11 @@ nav{
     top: 0;
     padding: 25px;
   }
+
+  .carrinho img {
+    position: absolute;
+    margin-left: 10%;
+}
 }
 
 .nav-list.active {

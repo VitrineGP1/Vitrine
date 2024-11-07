@@ -798,6 +798,11 @@ footer {
       padding: 25px;
     }
 
+    .carrinho img {
+        position: absolute;
+        margin-left: 10%;
+    }
+
     
 }
 
