@@ -43,26 +43,6 @@ const mobileNavbar = new MobileNavbar(
 );
 mobileNavbar.init();
 
-document.addEventListener("DOMContentLoaded", function() {
-    const slides = document.getElementById("slides");
-    const totalSlides = document.querySelectorAll(".slide").length;
-    let currentSlide = 0;
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides; 
-        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-
-    setInterval(nextSlide, 3000); // Troca de slide a cada 3 segundos
-});
-
-const slider = document.getElementById('mySlider');
-  const valueDisplay = document.getElementById('valueDisplay');
-
-  slider.addEventListener('input', function() {
-    valueDisplay.textContent = slider.value;
-});
-
 
 const carousel = document.querySelector('.carousel');
 const leftArrow = document.querySelector('.left-arrow');
