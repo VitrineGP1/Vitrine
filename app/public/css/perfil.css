@@ -66,8 +66,13 @@ nav{
   color: #5c5c5c;
 }
 
+.carrinho img {
+  margin-right: 5%;
+  position: absolute;
+}
 .nav-list img {
   margin-top: -20px;
+  right: 0;
 }
 
 

@@ -63,17 +63,15 @@ nav{
     padding-right: 100px;
 }
 
-.nav-list img {
-    margin-top: -10px;
-    width: 45px;
-    height: 45px;
-    margin-left: -50px;
-}
-
+.carrinho img {
+    margin-right: 5%;
+    position: absolute;
+  }
 .nav-list img {
     margin-top: -20px;
+    right: 0;
 }
-  
+
 .nav-list li:hover{
     opacity: 0.5;
     color: #5c5c5c;
@@ -304,7 +302,6 @@ nav{
     justify-content: center;
     z-index: 0;
     width: 55%;
-    height: auto;
     margin-top: 7%;
     margin-left: 22%;
 }

@@ -68,15 +68,14 @@ nav{
     color: #5c5c5c;
 }
 
+.carrinho img {
+  margin-right: 5%;
+  position: absolute;
+}
 .nav-list img {
   margin-top: -20px;
+  right: 0;
 }
-
-.carrinho img {
-    margin-top: -5px;
-    margin-left: -10px;
-}
-
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 * {
   margin: 0;
