@@ -68,6 +68,10 @@ nav{
     color: #5c5c5c;
 }
 
+.nav-list img {
+  margin-top: -20px;
+}
+
 .carrinho img {
     margin-top: -5px;
     margin-left: -10px;

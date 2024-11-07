@@ -69,6 +69,10 @@ nav{
     height: 45px;
     margin-left: -50px;
 }
+
+.nav-list img {
+    margin-top: -20px;
+}
   
 .nav-list li:hover{
     opacity: 0.5;
@@ -627,7 +631,7 @@ footer {
     }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 450px) {
     #footer_content {
         grid-template-columns: repeat(1, 1fr);
         padding: 3rem 2rem;

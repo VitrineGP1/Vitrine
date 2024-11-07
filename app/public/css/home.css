@@ -68,6 +68,10 @@ nav{
     color: #5c5c5c;
 }
 
+.nav-list img {
+    margin-top: -20px;
+}
+
 .decoration{
     text-decoration: none;
     color: black;
@@ -621,7 +625,7 @@ footer {
     }
 }
 
-@media screen and (max-width: 426px) {
+@media screen and (max-width: 450px) {
     #footer_content {
         grid-template-columns: repeat(1, 1fr);
         padding: 3rem 2rem;

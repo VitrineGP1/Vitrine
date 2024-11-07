@@ -66,6 +66,10 @@ nav{
   color: #5c5c5c;
 }
 
+.nav-list img {
+  margin-top: -20px;
+}
+
 
 .title{
   padding-top: 95px;
