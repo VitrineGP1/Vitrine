@@ -42,4 +42,20 @@ router.get("/sobrenos", function (req, res) {
     res.render("pages/sobrenos", )
 });
 
+router.get("/prod1", function (req, res) {
+    res.render("pages/produto1", )
+});
+
+router.get("/prod2", function (req, res) {
+    res.render("pages/produto2", )
+});
+
+router.get("/prod3", function (req, res) {
+    res.render("pages/produto3", )
+});
+
+router.get("/prod4", function (req, res) {
+    res.render("pages/produto4", )
+});
+
 module.exports = router;

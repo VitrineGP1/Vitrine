@@ -1,0 +1,419 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Especificações do Produto</title>
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      color: #000;
+      background-color: #fafafa;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 10%;
+    }
+    .product-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .product-header img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5%;
+      flex: 1 1 300px;
+      width: 50%;
+    }
+    .product-details {
+      flex: 2 1 400px;
+    }
+    .product-title {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .product-price {
+      font-size: 1.5rem;
+      color: #000;
+      margin-bottom: 20px;
+    }
+    .product-description {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .specifications {
+      margin-top: 20px;
+    }
+    .specifications h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #000;
+    }
+    .specifications ul {
+      list-style: none;
+      padding: 0;
+    }
+    .specifications li {
+      padding: 10px 0;
+      border-bottom: 1px solid #000;
+    }
+    .specifications li:last-child {
+      border-bottom: none;
+    }
+
+    /* Informações do Vendedor */
+    .seller-info {
+      margin-top: 40px;
+      padding: 15px;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+    }
+    .seller-info h3 {
+      font-size: 1.5rem;
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .seller-details {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .seller-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #000;
+    }
+    .seller-rating {
+      color: #f1c40f;
+    }
+    .contact-info {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #000;
+    }
+    header{
+    position:fixed;
+    display: flex;
+    z-index: 1000;
+    width: 100%;
+    background-color: #544E4B;
+    top: 0;
+    right: 0;
+}
+  
+a {
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+  
+a:hover{
+    opacity: 0.7;
+}
+  
+.logo{
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+  
+a.logo{
+    display: flex;
+    margin-left: 30px;
+}
+  
+nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 8vh;
+}
+  
+.nav-list{
+    list-style: none;
+    display: flex;
+    margin-top: 30px;
+    padding: 7px;
+}
+  
+.nav-list li{
+    letter-spacing: 3px;
+    margin-left: 80px;
+    padding-right: 100px;
+}
+  
+.nav-list li:hover{
+    opacity: 0.5;
+    color: #5c5c5c;
+}
+
+.mobile-menu {
+    display: none;
+    cursor: pointer;
+}
+  
+.mobile-menu div {
+    width: 50px;
+    height: 3px;
+    background: #fff;
+    margin: 10px;
+    transition: 0.3s;
+}
+  
+@media(max-width: 1000px) {
+    body {
+      overflow-x: hidden;
+    }
+    .nav-list {
+    position: absolute;
+    top: 60%;
+    right: 0;
+    height: 50vh;
+    background: #544E4B;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in;
+    }
+    .nav-list li {
+      opacity: 0;
+    }
+    .mobile-menu {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 25px;
+    }
+
+    
+}
+  
+.nav-list.active {
+    transform: translateX(0);
+}
+
+@media (min-width: 1000) and (max-width: 1300px){
+
+    .carousel-item img {
+        width: 80%;
+        height: 100px;
+    }
+}
+
+@media (min-width: 940px) and (max-width: 1000px) {
+
+    .carousel-item img {
+        width: 60%;
+        height: 100px;
+    }
+
+    .carousel-container{
+        width: 90%;
+        margin-left: 5%;
+    }
+
+    p.event-filtros {
+        padding: 30px;
+        position: relative;
+        font-size: 30px;
+        font-family: 'Inter', sans-serif;
+    }
+
+    header{
+        height: 135px;
+    }
+
+    a.logo img{
+        margin-left: 50px;
+        width: 100%;
+        height: 130px;
+    }
+
+    .slider{
+        padding-top: 10%;
+    }
+
+    .slider img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .mobile-menu div {
+        width: 100px;
+        height: 5px;
+        margin-top: 13%;
+    }
+
+    .nav-list{
+        font-size: larger;
+    }
+
+    .mobile-menu.active .line1 {
+        transform: rotate(-45deg) translate(-10px, 10px);
+    }
+      
+    .mobile-menu.active .line2 {
+        opacity: 0;
+    }
+      
+    .mobile-menu.active .line3 {
+        transform: rotate(45deg) translate(-15px, -15px);
+    }
+
+    .produtos2, .produtos3, .produtos4, .produtos5{
+        font-size: larger;
+    }
+
+}
+  
+@keyframes navLinkFade {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+  
+.mobile-menu.active .line1 {
+    transform: rotate(-45deg) translate(-10px, 10px);
+}
+  
+.mobile-menu.active .line2 {
+    opacity: 0;
+}
+  
+.mobile-menu.active .line3 {
+    transform: rotate(45deg) translate(-15px, -15px);
+}
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .product-header {
+        flex-direction: column;
+      }
+      .product-title {
+        font-size: 1.8rem;
+      }
+      .product-price {
+        font-size: 1.4rem;
+      }
+
+      .product-details{
+        flex: 0 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    v
+
+<div class="container">
+  <div class="product-header">
+    <img src=""C:\Users\mathe\Documents\Sites\app\public\imagens\bolsa.png" alt="Imagem do Produto" />
+    <div class="product-details">
+      <h1 class="product-title">Cesto organizador</h1>
+      <p class="product-price">R$265,00</p>
+      <p class="product-description">
+        Um cesto versátil que encaixa em qualquer cômodo da sua casa, aliando funcionalidade e beleza!!
+      </p>
+    </div>
+  </div>
+
+  <div class="specifications">
+    <h3>Especificações Técnicas</h3>
+    <ul>
+      <li><strong>Marca:</strong> Exemplo</li>
+      <li><strong>Modelo:</strong> ABC123</li>
+      <li><strong>Dimensões:</strong> 28 x 30 x 30 cm</li>
+      <li><strong>Peso:</strong> 900g</li>
+      <li><strong>Material:</strong> Corda Náutica</li>
+      <li><strong>Cor:</strong>Variado</li>
+    </ul>
+  </div>
+
+  <!-- Informações do Vendedor -->
+  <div class="seller-info">
+    <h3>Informações do Vendedor</h3>
+    <div class="seller-details">
+      <div>
+        <p class="seller-name">Nome do Vendedor: Loja Exemplo</p>
+        <p class="seller-rating">Avaliação: ★★★★☆ (4.5)</p>
+      </div>
+    </div>
+    <div class="contact-info">
+      <p><strong>Telefone:</strong> (11) 98765-4321</p>
+      <p><strong>Email:</strong> contato@lojaexemplo.com</p>
+    </div>
+  </div>
+</div>
+<script>
+    class MobileNavbar {
+    constructor(mobileMenu, navList, navLinks) {
+      this.mobileMenu = document.querySelector(mobileMenu);
+      this.navList = document.querySelector(navList);
+      this.navLinks = document.querySelectorAll(navLinks);
+      this.activeClass = "active";
+  
+      this.handleClick = this.handleClick.bind(this);
+    }
+  
+    animateLinks() {
+      this.navLinks.forEach((link, index) => {
+        link.style.animation
+          ? (link.style.animation = "")
+          : (link.style.animation = `navLinkFade 0.5s ease forwards ${
+              index / 7 + 0.3
+            }s`);
+      });
+    }
+  
+    handleClick() {
+      this.navList.classList.toggle(this.activeClass);
+      this.mobileMenu.classList.toggle(this.activeClass);
+      this.animateLinks();
+    }
+  
+    addClickEvent() {
+      this.mobileMenu.addEventListener("click", this.handleClick);
+    }
+  
+    init() {
+      if (this.mobileMenu) {
+        this.addClickEvent();
+      }
+      return this;
+    }
+}
+  
+const mobileNavbar = new MobileNavbar(
+    ".mobile-menu",
+    ".nav-list",
+    ".nav-list li",
+);
+mobileNavbar.init();
+
+</script>
+</body>
+</html>
