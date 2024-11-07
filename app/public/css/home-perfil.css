@@ -66,12 +66,18 @@ nav{
 .carrinho img {
     margin-right: 5%;
     position: absolute;
-  }
+}
 .nav-list img {
     margin-top: -20px;
     right: 0;
+    position: absolute;
 }
 
+.perfil{
+    right: 0;
+    position: absolute;
+}
+  
 .nav-list li:hover{
     opacity: 0.5;
     color: #5c5c5c;

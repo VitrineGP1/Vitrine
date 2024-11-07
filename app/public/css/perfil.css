@@ -75,6 +75,10 @@ nav{
   right: 0;
 }
 
+.perfil{
+  right: 0;
+  position: absolute;
+}
 
 .title{
   padding-top: 95px;
