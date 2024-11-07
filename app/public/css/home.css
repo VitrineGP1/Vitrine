@@ -637,7 +637,7 @@ footer {
     }
 }
 
-/* Responsiveness */
+
 
 @media (max-width: 900px) {
     .carousel {
@@ -666,6 +666,12 @@ footer {
         width: 52%;
         height: 150px;
     }
+
+    .slider{
+        width: 75%;
+        height: 30%;
+        margin-left: 13%;
+    }
 }
 
 @media (max-width: 481px) {
@@ -679,7 +685,7 @@ footer {
 
     .slider img{
         width: 100%;
-        height: auto;
+        height: 100%;
     }
     
     p.event-filtros {
@@ -759,6 +765,17 @@ footer {
     
 }
   
+@media(max-width: 1100px) {
+
+    .slider{
+        width: 75%;
+        height: 30%;
+        margin-left: 13%;
+    }
+
+    
+}
+
 .nav-list.active {
     transform: translateX(0);
 }
