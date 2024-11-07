@@ -302,6 +302,7 @@ footer {
     .carrinho img {
         position: absolute;
         margin-left: 10%;
+        right: inherit;
     }
 
     
