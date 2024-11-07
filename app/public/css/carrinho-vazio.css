@@ -81,6 +81,10 @@ nav{
     height: 0.3rem;
 }
 
+.nav-list img {
+    margin-top: -20px;
+}
+
 p.event-filtros {
     position: relative;
     font-family: 'Inter', sans-serif;
