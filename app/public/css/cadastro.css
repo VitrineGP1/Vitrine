@@ -398,9 +398,9 @@ nav{
 
     .carrinho img {
         position: absolute;
-        margin-left: 10%;
+        margin-left: -30%;
         right: inherit;
-    }
+  }
   
     
   }

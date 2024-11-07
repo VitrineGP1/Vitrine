@@ -66,6 +66,8 @@ nav{
 .carrinho img {
     margin-right: 5%;
     position: absolute;
+    right: 0;
+    margin-top: -20px;
 }
 .nav-list img {
     margin-top: -20px;
@@ -73,9 +75,11 @@ nav{
     position: absolute;
 }
 
-.perfil{
+.perfil {
     right: 0;
     position: absolute;
+    margin-right: 15%;
+    margin-top: 10px;
 }
   
 .nav-list li:hover{
@@ -806,9 +810,13 @@ footer {
 
     .carrinho img {
         position: absolute;
-        margin-left: 10%;
+        margin-left: 15%;
         right: inherit;
     }
+
+    .perfil {
+        margin-right: 80px;
+}
 
     
 }
