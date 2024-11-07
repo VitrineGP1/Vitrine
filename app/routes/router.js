@@ -37,4 +37,9 @@ router.get("/cadastro", function (req, res) {
 router.get("/perfil", function (req, res) {
     res.render("pages/perfil", )
 });
+
+router.get("/sobrenos", function (req, res) {
+    res.render("pages/sobrenos", )
+});
+
 module.exports = router;
