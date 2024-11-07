@@ -43,34 +43,17 @@ const mobileNavbar = new MobileNavbar(
 );
 mobileNavbar.init();
 
-document.addEventListener('DOMContentLoaded', function() {
-  let currentIndex = 0;
-  const slides = document.querySelectorAll('.slide');
-  const totalSlides = slides.length;
-  const intervalTime = 3000;
+const slides = document.getElementById("slides");
+const totalSlides = document.querySelectorAll(".slide").length;
+let currentSlide = 0;
 
-  function showSlide(index) {
-      slides.forEach(slide => slide.classList.remove('active'));
-      slides[index].classList.add('active');
-  }
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides; 
+    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
 
-  function nextSlide() {
-      currentIndex = (currentIndex + 1) % totalSlides;
-      showSlide(currentIndex);
-  }
+setInterval(nextSlide, 3000); // Troca de slide a cada 3 segundos
 
-  let sliderInterval = setInterval(nextSlide, intervalTime);
-
-  document.querySelector('.slider').addEventListener('mouseenter', function() {
-      clearInterval(sliderInterval);
-  });
-
-  document.querySelector('.slider').addEventListener('mouseleave', function() {
-      sliderInterval = setInterval(nextSlide, intervalTime);
-  });
-
-  showSlide(currentIndex);
-});
 
 const carousel = document.querySelector('.carousel');
 const leftArrow = document.querySelector('.left-arrow');
