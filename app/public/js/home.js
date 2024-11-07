@@ -43,16 +43,18 @@ const mobileNavbar = new MobileNavbar(
 );
 mobileNavbar.init();
 
-const slides = document.getElementById("slides");
-const totalSlides = document.querySelectorAll(".slide").length;
-let currentSlide = 0;
+document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.getElementById("slides");
+    const totalSlides = document.querySelectorAll(".slide").length;
+    let currentSlide = 0;
 
-function nextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides; 
-    slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-}
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides; 
+        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
 
-setInterval(nextSlide, 3000); // Troca de slide a cada 3 segundos
+    setInterval(nextSlide, 3000); // Troca de slide a cada 3 segundos
+});
 
 
 const carousel = document.querySelector('.carousel');
