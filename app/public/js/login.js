@@ -99,3 +99,88 @@ const mobileNavbar = new MobileNavbar(
   ".nav-list li",
 );
 mobileNavbar.init();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
+    // Adicione um elemento para exibir a mensagem geral de sucesso/erro do login
+    const loginMessage = document.createElement('p');
+    loginMessage.id = 'apiLoginMessage'; // ID para o elemento de mensagem
+    loginForm.appendChild(loginMessage); // Adiciona o elemento abaixo do formulário
+
+
+    const PHP_LOGIN_API_URL = 'http://localhost/vitrine_copia/api/login_usuario.php';
+
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Impede o envio padrão do formulário (recarregar a página)
+
+        // Limpa mensagens anteriores
+        loginMessage.textContent = '';
+        document.getElementById('emailError').textContent = '';
+        document.getElementById('passwordError').textContent = '';
+
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        const email = emailInput.value.trim(); // .trim() remove espaços em branco extras
+        const password = passwordInput.value.trim();
+
+        // Validação simples no lado do cliente
+        let isValid = true;
+        if (email === '') {
+            document.getElementById('emailError').textContent = 'O e-mail é obrigatório.';
+            isValid = false;
+        }
+        if (password === '') {
+            document.getElementById('passwordError').textContent = 'A senha é obrigatória.';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return; // Para a execução se a validação falhar
+        }
+
+        // Preparar os dados para enviar para o PHP
+        // ATENÇÃO: Os nomes das chaves aqui (email_usuario, senha_usuario)
+        // DEVEM CORRESPONDER aos nomes que seu PHP (login_usuario.php) espera
+        const loginData = {
+            email_usuario: email,
+            senha_usuario: password
+        };
+
+        console.log('Dados de login a serem enviados para a API PHP:', loginData);
+
+        try {
+            // Faz a requisição HTTP para a API PHP de login
+            const response = await fetch(PHP_LOGIN_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Indica que o corpo é JSON
+                },
+                body: JSON.stringify(loginData) // Converte o objeto JS para string JSON
+            });
+
+            const result = await response.json(); // Analisa a resposta como JSON
+
+            if (result.success) {
+             loginMessage.textContent = result.message + " Bem-vindo(a), " + result.user.nome + "!";
+            loginMessage.style.color = 'green';
+            loginForm.reset();
+
+            console.log('Login bem-sucedido. Dados do usuário:', result.user);
+
+            localStorage.setItem('loggedInUser', JSON.stringify(result.user));
+
+            window.location.href = 'C:/xampp/htdocs/vitrine_copia/app/views/pages/perfil.html';
+
+            } else {
+                loginMessage.textContent = "Erro no login: ${result.message}";
+                loginMessage.style.color = 'red';
+            }
+
+        } catch (error) {
+            console.error('Erro na requisição de login:', error);
+            loginMessage.textContent = 'Erro ao conectar com o servidor. Tente novamente.';
+            loginMessage.style.color = 'red';
+        }
+    });
+});

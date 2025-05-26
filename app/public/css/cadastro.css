@@ -19,7 +19,7 @@ header{
     display: flex;
     z-index: 1000;
     width: 100%;
-    background-color: #544E4B;
+    background-color: #e47a1b;
     top: 0;
 }
   
@@ -68,7 +68,7 @@ nav{
   
 .nav-list li:hover{
     opacity: 0.5;
-    color: #5c5c5c;
+    color: #e47a1b;
 }
 
 .carrinho img {
@@ -126,7 +126,7 @@ nav{
 }
 
 .login-button button {
-    background-color: #544E4B;
+    background-color: #e47a1b;
     padding: 0.4rem 1rem;
     border-radius: 10px;
     cursor: pointer;
@@ -135,8 +135,8 @@ nav{
 
 .login-button button:hover {
     background-color: #fafafa;
-    border-color: #544E4B;
-    color: #544E4B;
+    border-color: #e47a1b;
+    color: #e47a1b;
 }
 
 .login-button button {
@@ -150,7 +150,7 @@ nav{
     display: block;
     width: 5rem;
     height: 0.3rem;
-    background-color: #544E4B;
+    background-color: #e47a1b;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
@@ -183,7 +183,7 @@ nav{
 }
 
 .input-box input:focus-visible {
-    outline: 1px solid #544E4B;
+    outline: 1px solid #e47a1b;
 }
 
 .input-box label,
@@ -222,7 +222,7 @@ nav{
 .continue-button button {
     width: 100%;
     margin-top: 2.5rem;
-    background-color: #544E4B;
+    background-color: #e47a1b;
     padding: 0.62rem;
     border-radius: 10px;
     cursor: pointer;
@@ -231,14 +231,14 @@ nav{
 
 .continue-button button :hover {
     background-color: #fafafa;
-    border-color: #544E4B;
-    color: #544E4B;
+    border-color: #e47a1b;
+    color: #e47a1b;
 }
 
 .continue-button button :hover {
     background-color: #fafafa;
-    border-color: #544E4B;
-    color: #544E4B;
+    border-color: #e47a1b;
+    color: #e47a1b;
 }
 
 .continue-button button{
@@ -271,7 +271,7 @@ nav{
     top: 60%;
     right: 0;
     height: 50vh;
-    background: #544E4B;
+    background: #e47a1b;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -378,7 +378,7 @@ nav{
     top: 60%;
     right: 0;
     height: 50vh;
-    background: #544E4B;
+    background: #e47a1b;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;

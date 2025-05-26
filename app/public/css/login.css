@@ -13,7 +13,7 @@ header{
   display: flex;
   z-index: 1000;
   width: 100%;
-  background-color: #544E4B;
+  background-color: #e47a1b;
   top: 0;
   right: 0;
 }
@@ -79,7 +79,7 @@ nav{
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fafafa;
+  background-color: #f0efef;
   padding-top: 100px;
 }
 
@@ -96,7 +96,7 @@ nav{
 .content::before {
   content: "";
   position: absolute;
-  background-color: #544E4B;
+  background-color: #e47a1b;
   width: 40%;
   height: 100%;
   border-top-left-radius: 15px;
@@ -115,7 +115,7 @@ nav{
 }
 
 .title-second{
-  color: #544E4B
+  color: #e47a1b
 }
 
 .description{
@@ -154,18 +154,18 @@ transition: background-color .10s;
 
 .btn-primary:hover {
   background-color: #fff;
-  color: #544E4B;
+  color: #e47a1b;
 }
 
 .btn-second {
-  background-color: #544E4B;
-  border: 1px solid #544E4B;
+  background-color: #e47a1b;
+  border: 1px solid #e47a1b;
   transition: background-color .10s;
 }
 .btn-second:hover {
   background-color: #fff;
-  border: 1px solid #544E4B;
-  color: #544E4B;
+  border: 1px solid #e47a1b;
+  color: #e47a1b;
 }
 
 .first-content{
