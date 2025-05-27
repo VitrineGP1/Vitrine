@@ -29,14 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
             isValid = false;
         }
 
-        // Validação do Celular
-        const number = document.getElementById("number").value;
-        const numberPattern = /^\(\d{2}\) \d{5}-\d{4}$/;
-        if (!number || !numberPattern.test(number)) {
-            document.getElementById("number-error").textContent = "Por favor, insira um número de celular válido.";
-            isValid = false;
-        }
-
         // Validação da Senha
         const password = document.getElementById("password").value;
         if (password.length < 8) {
