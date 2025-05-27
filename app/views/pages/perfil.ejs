@@ -1,86 +1,294 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Perfil do Usuário</title>
-  <link rel="stylesheet" href="css\perfil.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
+  <title>Meu Perfil | Vitrine</title>
   
-  .btn btn-primary{
-    background-color: #544E4B;
-    border: 1px solid #544E4B;
-  }
+  <link rel="stylesheet" href="./css/perfil.css"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    /* Estilos básicos para o layout semântico, que podem ser movidos para perfil.css */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        background-color: #f8f8f8;
+        color: #333;
+    }
 
-  </style>
+    /* Estilos do cabeçalho - adapte do seu código original */
+    .header {
+        background-color: #fff; /* ou a cor do seu cabeçalho */
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .header .logo img {
+        display: block; /* Remove espaço extra abaixo da imagem */
+    }
+    .nav-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 20px; /* Espaçamento entre os itens do menu */
+    }
+    .nav-list a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+    }
+    .nav-list img {
+        vertical-align: middle; /* Alinha ícones com texto */
+    }
+
+    /* Estilos para o conteúdo principal do perfil */
+    main.profile-page {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1.page-title {
+        text-align: center;
+        color: #007bff; /* Ou a cor primária da sua marca */
+        margin-bottom: 30px;
+        font-size: 2.2em;
+    }
+
+    section.profile-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 6px;
+    }
+
+    section.profile-section h2 {
+        color: #555;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 1.6em;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .user-picture {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .user-picture img {
+        border-radius: 50%;
+        border: 3px solid #ddd;
+        object-fit: cover; /* Garante que a imagem preencha o espaço */
+    }
+
+    dl.profile-details dt {
+        font-weight: bold;
+        color: #666;
+        margin-top: 10px;
+    }
+    dl.profile-details dd {
+        margin-left: 0;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 3px solid #007bff; /* Ou sua cor primária */
+    }
+
+    form.profile-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    form.profile-form input[type="text"],
+    form.profile-form input[type="email"],
+    form.profile-form input[type="tel"],
+    form.profile-form input[type="date"] {
+        width: calc(100% - 22px); /* Menos padding e borda */
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+
+    form.profile-form input[readonly] {
+        background-color: #f0f0f0;
+        cursor: not-allowed;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff; /* Cor primária */
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d; /* Cor secundária, para logout */
+        color: white;
+    }
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+    
+    /* Mensagens de feedback */
+    .message {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+    .message.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    .message.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    </style>
 </head>
 
 <body>
 
   <header class="header">
-    <a class="logo" href="/">
-      <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+    <a class="logo" href="/home.html">
+      <img src="./imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
     </a>
       
-    <div class="mobile-menu">
-      <div class="line1"></div>
-      <div class="line2"></div>
-      <div class="line3"></div>
-    </div>
-    <ul class="nav-list">
-        <li><a href="/home-perfil">Inicio</a></li>
-        <li><a href="/sobrenos">Sobre</a></li>
-        <li><a href="/perfil" class="perfil"><img src="imagens\do-utilizador.png" width="35" height="35"></a></li>
-        <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-      </ul>
+    <nav class="main-nav">
+        <div class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/home.html">Início</a></li>
+            <li><a href="/sobrenos.html">Sobre</a></li>
+            <li><a href="/perfil.html" class="perfil"><img src="./imagens/do-utilizador.png" width="35" height="35" alt="Ícone de Perfil"></a></li>
+            <li><a href="/carrinho-vazio.html" class="carrinho"><img src="./imagens/carrinho.png" width="75px" height="50px" alt="Ícone de Carrinho"></a></li>
+        </ul>
+    </nav>
 </header>
 
- 
-  <div class="container">
-    <div class="content">
-      <h2 class="title">Perfil do Usuário</h2>
+<main class="profile-page">
+    <h1 class="page-title">Meu Perfil</h1>
 
-      <div class="profile-info">
-        <div class="profile-picture">
-          <img src="imagens\do-utilizador.png" alt="Foto do Usuário" width="75" height="75">
-        </div>
-        <div class="user-details">
-          <p><strong>Nome:</strong> Matheus Silva</p>
-          <p><strong>Email:</strong> matheus.silva@email.com</p>
-          <p><strong>Telefone:</strong> (11) 91234-5678</p>
-          <p><strong>Data de Nascimento:</strong> 01/01/1990</p>
-          <p><strong>Senha:</strong>********</p>
-        </div>
-      </div>
+    <p id="loadingMessage" class="message">Carregando informações do perfil...</p>
+    <p id="errorMessage" class="message error" style="display: none;"></p>
+    <p id="successMessage" class="message success" style="display: none;"></p>
 
-      <div class="edit-profile">
-        <h3>Editar Perfil</h3>
-        <form id="editProfileForm">
-          <label for="name">Nome:</label>
-          <input type="text" id="name" name="name" value="Matheus Silva" required>
+    <section class="profile-section" id="profileDisplaySection" style="display: none;">
+        <h2>Informações Cadastrais</h2>
+        <figure class="user-picture">
+            <img src="./imagens/do-utilizador.png" alt="Foto do Usuário" width="100" height="100">
+            <figcaption>Foto do Perfil</figcaption>
+        </figure>
+        
+        <dl class="profile-details">
+            <dt>Nome:</dt>
+            <dd id="displayUserName"></dd>
 
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" value="matheus.silva@email.com" required>
+            <dt>Email:</dt>
+            <dd id="displayUserEmail"></dd>
 
-          <label for="phone">Telefone:</label>
-          <input type="tel" id="phone" name="phone" value="(11) 91234-5678">
+            <dt>Celular:</dt>
+            <dd id="displayUserCelular"></dd>
 
-          <label for="dob">Data de Nascimento:</label>
-          <input type="date" id="dob" name="dob" value="1990-01-01">
+            <dt>Logradouro:</dt>
+            <dd id="displayUserLogradouro"></dd>
 
-          <label for="password">Senha:</label>
-          <input type="text" id="password" name="password" value="********">
+            <dt>Bairro:</dt>
+            <dd id="displayUserBairro"></dd>
 
-          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <dt>Cidade:</dt>
+            <dd id="displayUserCidade"></dd>
+
+            <dt>UF:</dt>
+            <dd id="displayUserUf"></dd>
+
+            <dt>CEP:</dt>
+            <dd id="displayUserCep"></dd>
+
+            <dt>Data de Nascimento:</dt>
+            <dd id="displayUserDtNasc"></dd>
+
+            <dt>Tipo de Usuário:</dt>
+            <dd id="displayUserTipo"></dd>
+        </dl>
+    </section>
+
+    <section class="profile-section" id="profileEditSection" style="display: none;">
+        <h2>Editar Perfil</h2>
+        <form id="editProfileForm" class="profile-form">
+            <label for="name_input">Nome:</label>
+            <input type="text" id="name_input" name="NOME_USUARIO" required>
+
+            <label for="email_input">Email:</label>
+            <input type="email" id="email_input" name="EMAIL_USUARIO" required>
+
+            <label for="celular_input">Celular:</label>
+            <input type="tel" id="celular_input" name="CELULAR_USUARIO">
+
+            <label for="logradouro_input">Logradouro:</label>
+            <input type="text" id="logradouro_input" name="LOGRADOURO_USUARIO">
+
+            <label for="bairro_input">Bairro:</label>
+            <input type="text" id="bairro_input" name="BAIRRO_USUARIO">
+
+            <label for="cidade_input">Cidade:</label>
+            <input type="text" id="cidade_input" name="CIDADE_USUARIO">
+
+            <label for="uf_input">UF:</label>
+            <input type="text" id="uf_input" name="UF_USUARIO" maxlength="2">
+
+            <label for="cep_input">CEP:</label>
+            <input type="text" id="cep_input" name="CEP_USUARIO" maxlength="8">
+
+            <label for="dt_nasc_input">Data de Nascimento:</label>
+            <input type="date" id="dt_nasc_input" name="DT_NASC_USUARIO">
+
+            <label for="tipo_usuario_input">Tipo de Usuário:</label>
+            <input type="text" id="tipo_usuario_input" name="TIPO_USUARIO" maxlength="1" readonly>
+            
+            <label for="new_password_input">Nova Senha (opcional):</label>
+            <input type="password" id="new_password_input" name="NOVA_SENHA_USUARIO" placeholder="Deixe em branco para manter a senha atual">
+
+            <label for="confirm_password_input">Confirme a Nova Senha:</label>
+            <input type="password" id="confirm_password_input" name="CONFIRM_SENHA_USUARIO">
+
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         </form>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <script src="js\perfil.js"></script>
+    <button id="logoutButton" class="btn btn-secondary" style="margin-top: 30px; display: block; width: fit-content; margin-left: auto; margin-right: auto;">Sair (Logout)</button>
+
+</main>
+
+  <script src="C:\xampp\htdocs\vitrine_copia\app\public\js\perfil.js"></script>
 </body>
 
 </html>

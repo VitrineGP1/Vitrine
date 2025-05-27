@@ -1,6 +1,6 @@
 <?php
 // Incluir o arquivo de conexão
-require_once '../config/conexao.php';
+require_once 'C:\Users\mathe\Documents\Escola\PRIT\vitrine_copia\config\conexao.php';
 
 // Configurar cabeçalhos para JSON e CORS
 header('Content-Type: application/json');

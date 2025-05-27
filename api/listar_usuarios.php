@@ -1,6 +1,6 @@
 <?php
 // Incluir o arquivo de conexão
-require_once '../config/conexao.php'; // Ajuste o caminho se necessário!
+require_once 'C:\Users\mathe\Documents\Escola\PRIT\vitrine_copia\config\conexao.php'; // Ajuste o caminho se necessário!
 
 // Remover a linha mysqli_close($conn); e o echo "Conexão realizada com sucesso!"; do conexao.php
 // A conexão será fechada ao final deste script ou você pode fechar aqui
