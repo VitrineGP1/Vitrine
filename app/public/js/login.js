@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.appendChild(loginMessage); // Adiciona o elemento abaixo do formulário
 
 
-    const PHP_LOGIN_API_URL = 'http://localhost/vitrine_copia/api/login_usuario.php';
+    const PHP_LOGIN_API_URL = 'https://vitrine-lljl.onrender.com/api/login_usuario.php';
 
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault(); // Impede o envio padrão do formulário (recarregar a página)
@@ -170,10 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             localStorage.setItem('loggedInUser', JSON.stringify(result.user));
 
-            window.location.href = 'C:/xampp/htdocs/vitrine_copia/app/views/pages/perfil.html';
+            window.location.href = '/perfil';
 
             } else {
-                loginMessage.textContent = "Erro no login: ${result.message}";
+                loginMessage.textContent = `Erro no login: ${result.message}`;
                 loginMessage.style.color = 'red';
             }
 
