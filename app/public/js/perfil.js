@@ -1,255 +1,261 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    // URLs das suas APIs PHP
-    const PHP_PROFILE_API_URL = 'http://localhost/vitrine_copia/api/buscar_usuario_por_id.php';
-    // const PHP_UPDATE_API_URL = 'http://localhost/vitrine_copia/api/atualizar_usuario.php'; // Para um futuro passo
+// Classe para a navegação móvel (se você ainda usa em outras páginas)
+class MobileNavbar {
+    constructor(mobileMenu, navList, navLinks) {
+        this.mobileMenu = document.querySelector(mobileMenu);
+        this.navList = document.querySelector(navList);
+        this.navLinks = document.querySelectorAll(navLinks);
+        this.activeClass = "active";
+        this.handleClick = this.handleClick.bind(this);
+    }
 
-    // Elementos de feedback (mensagens)
-    const loadingMessage = document.getElementById('loadingMessage');
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
-
-    // Seções principais para mostrar/esconder
-    const profileDisplaySection = document.getElementById('profileDisplaySection');
-    const profileEditSection = document.getElementById('profileEditSection');
-
-    // Spans/DDs para visualização dos dados (na seção de exibição)
-    const displayUserName = document.getElementById('displayUserName');
-    const displayUserEmail = document.getElementById('displayUserEmail');
-    const displayUserCelular = document.getElementById('displayUserCelular');
-    const displayUserLogradouro = document.getElementById('displayUserLogradouro');
-    const displayUserBairro = document.getElementById('displayUserBairro');
-    const displayUserCidade = document.getElementById('displayUserCidade');
-    const displayUserUf = document.getElementById('displayUserUf');
-    const displayUserCep = document.getElementById('displayUserCep');
-    const displayUserDtNasc = document.getElementById('displayUserDtNasc');
-    const displayUserTipo = document.getElementById('displayUserTipo');
-
-    // Inputs do formulário de edição
-    const editProfileForm = document.getElementById('editProfileForm');
-    const nameInput = document.getElementById('name_input');
-    const emailInput = document.getElementById('email_input');
-    const celularInput = document.getElementById('celular_input');
-    const logradouroInput = document.getElementById('logradouro_input');
-    const bairroInput = document.getElementById('bairro_input');
-    const cidadeInput = document.getElementById('cidade_input');
-    const ufInput = document.getElementById('uf_input');
-    const cepInput = document.getElementById('cep_input');
-    const dtNascInput = document.getElementById('dt_nasc_input');
-    const tipoUsuarioInput = document.getElementById('tipo_usuario_input'); // Este deve ser readonly
-    const newPasswordInput = document.getElementById('new_password_input');
-    const confirmPasswordInput = document.getElementById('confirm_password_input');
-
-
-    // Botão de Logout
-    const logoutButton = document.getElementById('logoutButton');
-
-    // --- Funções Auxiliares ---
-    const showMessage = (element, msg, type = 'error') => {
-        element.textContent = msg;
-        // CORREÇÃO: Usar backticks para template literals
-        element.className = message ${type}; 
-        element.style.display = 'block';
-        setTimeout(() => {
-            element.style.display = 'none'; // Esconde a mensagem após alguns segundos
-        }, 5000);
-    };
-
-    const hideAllMessages = () => {
-        loadingMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        successMessage.style.display = 'none';
-    };
-
-    const redirectToLogin = (msg = 'Sessão expirada ou não logado. Redirecionando para login...') => {
-        showMessage(errorMessage, msg, 'error');
-        localStorage.removeItem('loggedInUser'); // Garante que a sessão é limpa
-        setTimeout(() => {
-            window.location.href = '/login.html'; // Ajuste o caminho se necessário
-        }, 2000);
-    };
-
-    // --- Lógica de Carregamento do Perfil ---
-    const loadUserProfile = async () => {
-        hideAllMessages();
-        loadingMessage.style.display = 'block'; // Mostra a mensagem de carregamento
-
-        const loggedInUserString = localStorage.getItem('loggedInUser');
-
-        if (!loggedInUserString) {
-            redirectToLogin();
-            return;
-        }
-
-        const loggedInUser = JSON.parse(loggedInUserString);
-        // Seu login.js salva o ID do usuário como result.user.ID_USUARIO, mas o localStorage pode ter 'id'
-        // Vamos tentar pegar de 'ID_USUARIO' primeiro, e depois de 'id' para compatibilidade
-        const userId = loggedInUser.ID_USUARIO || loggedInUser.id; 
-
-        if (!userId) {
-            redirectToLogin('ID do usuário não encontrado na sessão. Faça login novamente.');
-            return;
-        }
-
-        console.log('Buscando perfil para o ID:', userId);
-
-        try {
-            // CORREÇÃO: Usar backticks para template literals
-            const response = await fetch(${PHP_PROFILE_API_URL}?id=${userId}); 
-            const result = await response.json();
-
-            loadingMessage.style.display = 'none'; // Esconde a mensagem de carregamento
-
-            if (result.success && result.user) {
-                const user = result.user;
-                console.log('Dados do usuário carregados:', user);
-
-                // Preencher a seção de visualização (profileDisplaySection)
-                displayUserName.textContent = user.NOME_USUARIO;
-                displayUserEmail.textContent = user.EMAIL_USUARIO;
-                displayUserCelular.textContent = user.CELULAR_USUARIO;
-                displayUserLogradouro.textContent = user.LOGRADOURO_USUARIO;
-                displayUserBairro.textContent = user.BAIRRO_USUARIO;
-                displayUserCidade.textContent = user.CIDADE_USUARIO;
-                displayUserUf.textContent = user.UF_USUARIO;
-                displayUserCep.textContent = user.CEP_USUARIO;
-                displayUserDtNasc.textContent = user.DT_NASC_USUARIO;
-                displayUserTipo.textContent = user.TIPO_USUARIO;
-
-                // Preencher o formulário de edição (profileEditSection)
-                nameInput.value = user.NOME_USUARIO;
-                emailInput.value = user.EMAIL_USUARIO;
-                celularInput.value = user.CELULAR_USUARIO;
-                logradouroInput.value = user.LOGRADOURO_USUARIO;
-                bairroInput.value = user.BAIRRO_USUARIO;
-                cidadeInput.value = user.CIDADE_USUARIO;
-                ufInput.value = user.UF_USUARIO;
-                cepInput.value = user.CEP_USUARIO;
-                dtNascInput.value = user.DT_NASC_USUARIO;
-                tipoUsuarioInput.value = user.TIPO_USUARIO;
-
-                // Mostrar as seções agora que os dados foram carregados
-                profileDisplaySection.style.display = 'block';
-                profileEditSection.style.display = 'block';
-
-            } else {
-                // CORREÇÃO: Usar backticks para template literals
-                redirectToLogin(Erro ao carregar perfil: ${result.message || 'Dados inválidos.'}); 
-            }
-        } catch (error) {
-            console.error('Erro ao buscar dados do perfil:', error);
-            redirectToLogin('Erro de conexão ao carregar o perfil. Verifique sua rede.');
-        }
-    };
-
-    // --- Lógica do Botão de Logout ---
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            localStorage.removeItem('loggedInUser'); // Remove os dados da sessão
-            showMessage(successMessage, 'Você foi desconectado.', 'success');
-            setTimeout(() => {
-                window.location.href = '/login.html'; // Redireciona para a página de login
-            }, 1000);
+    animateLinks() {
+        this.navLinks.forEach((link, index) => {
+            link.style.animation
+            ? (link.style.animation = "")
+            : (link.style.animation = `navLinkFade 0.5s ease forwards ${
+            index / 7 + 0.3
+            }s`);
         });
     }
 
-    // --- Lógica para o Formulário de Edição (Próximo Passo: Criar API de Atualização) ---
-    editProfileForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        
-        // Aqui você implementará o envio dos dados atualizados para uma API PHP de atualização
-        // Por enquanto, apenas um alerta para indicar que a função ainda não está completa
-        alert('Funcionalidade de salvar alterações ainda não implementada. Salvei os dados no console.');
-        
-        // Exemplo de como coletar os dados do formulário:
-        const formData = new FormData(editProfileForm);
-        const updatedUserData = {};
-        for (let [key, value] of formData.entries()) {
-            updatedUserData[key] = value;
-        }
-
-        // Lidar com a nova senha
-        const newPassword = newPasswordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-
-        if (newPassword !== '') { // Se o usuário digitou uma nova senha
-            if (newPassword !== confirmPassword) {
-                showMessage(errorMessage, 'A nova senha e a confirmação não coincidem.');
-                return;
-            }
-            updatedUserData.NOVA_SENHA_USUARIO = newPassword; // Envia a nova senha
-        }
-        delete updatedUserData.CONFIRM_SENHA_USUARIO; // Não precisamos enviar a confirmação
-
-        console.log("Dados do formulário de edição para enviar:", updatedUserData);
-
-        // ** FUTURA IMPLEMENTAÇÃO: Enviar para PHP_UPDATE_API_URL **
-        // try {
-        //     const response = await fetch(PHP_UPDATE_API_URL, {
-        //         method: 'POST', // Ou PUT, dependendo de como você configurar
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify(updatedUserData)
-        //     });
-        //     const result = await response.json();
-        //     if (result.success) {
-        //         showMessage(successMessage, 'Perfil atualizado com sucesso!', 'success');
-        //         // Atualizar localStorage e recarregar perfil se necessário
-        //         // localStorage.setItem('loggedInUser', JSON.stringify(result.user));
-        //         // loadUserProfile();
-        //     } else {
-        //         // CORREÇÃO: Usar backticks para template literals
-        //         showMessage(errorMessage, Erro ao atualizar perfil: ${result.message}, 'error'); 
-        //     }
-        // } catch (error) {
-        //     console.error('Erro na requisição de atualização:', error);
-        //     showMessage(errorMessage, 'Erro de conexão ao atualizar o perfil.', 'error');
-        // }
-    });
-
-    // Carregar o perfil quando a página for totalmente carregada
-    loadUserProfile();
-});
-
-class MobileNavbar {
-  constructor(mobileMenu, navList, navLinks) {
-    this.mobileMenu = document.querySelector(mobileMenu);
-    this.navList = document.querySelector(navList);
-    this.navLinks = document.querySelectorAll(navLinks);
-    this.activeClass = "active";
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  animateLinks() {
-    this.navLinks.forEach((link, index) => {
-      link.style.animation
-        ? (link.style.animation = "")
-        : (link.style.animation = `navLinkFade 0.5s ease forwards ${
-            index / 7 + 0.3
-          }s`);
-    });
-  }
-
-  handleClick() {
-    this.navList.classList.toggle(this.activeClass);
-    this.mobileMenu.classList.toggle(this.activeClass);
-    this.animateLinks();
-  }
-
-  addClickEvent() {
-    this.mobileMenu.addEventListener("click", this.handleClick);
-  }
-
-  init() {
-    if (this.mobileMenu) {
-      this.addClickEvent();
+    handleClick() {
+        this.navList.classList.toggle(this.activeClass);
+        this.mobileMenu.classList.toggle(this.activeClass);
+        this.animateLinks();
     }
-    return this;
-  }
+
+    addClickEvent() {
+        this.mobileMenu.addEventListener("click", this.handleClick);
+    }
+
+    init() {
+        if (this.mobileMenu) {
+            this.addClickEvent();
+        }
+        return this;
+    }
 }
 
 const mobileNavbar = new MobileNavbar(
-  ".mobile-menu",
-  ".nav-list",
-  ".nav-list li",
+    ".mobile-menu",
+    ".nav-list",
+    ".nav-list li"
 );
 mobileNavbar.init();
+
+// --- Lógica de Carregamento e Edição do Perfil ---
+
+const API_PERFIL_URL = 'https://vitrine-lljl.onrender.com/api/buscar_usuario.php'; // Sua nova API para buscar perfil
+const API_ATUALIZAR_PERFIL_URL = 'https://vitrine-lljl.onrender.com/api/atualizar_usuario.php';
+
+const loadingMessage = document.getElementById('loadingMessage');
+const errorMessage = document.getElementById('errorMessage');
+const successMessage = document.getElementById('successMessage');
+const profileDisplaySection = document.getElementById('profileDisplaySection');
+const profileEditSection = document.getElementById('profileEditSection');
+const editProfileForm = document.getElementById('editProfileForm');
+const logoutButton = document.getElementById('logoutButton');
+
+// Funções para exibir/esconder mensagens
+function showMessage(element, text, type) {
+    element.textContent = text;
+    element.className = `message ${type}`;
+    element.style.display = 'block';
+}
+
+function hideMessage(element) {
+    element.style.display = 'none';
+    element.textContent = '';
+}
+
+// Função para preencher os dados de exibição do perfil
+function populateProfileDisplay(userData) {
+    document.getElementById('displayUserName').textContent = userData.NOME_USUARIO || 'N/A';
+    document.getElementById('displayUserEmail').textContent = userData.EMAIL_USUARIO || 'N/A';
+    document.getElementById('displayUserCelular').textContent = formatCelular(userData.CELULAR_USUARIO) || 'N/A';
+    document.getElementById('displayUserLogradouro').textContent = userData.LOGRADOURO_USUARIO || 'N/A';
+    document.getElementById('displayUserBairro').textContent = userData.BAIRRO_USUARIO || 'N/A';
+    document.getElementById('displayUserCidade').textContent = userData.CIDADE_USUARIO || 'N/A';
+    document.getElementById('displayUserUf').textContent = userData.UF_USUARIO || 'N/A';
+    document.getElementById('displayUserCep').textContent = formatCEP(userData.CEP_USUARIO) || 'N/A';
+    document.getElementById('displayUserDtNasc').textContent = formatDate(userData.DT_NASC_USUARIO) || 'N/A';
+    document.getElementById('displayUserTipo').textContent = userData.TIPO_USUARIO === 'C' ? 'Cliente' : (userData.TIPO_USUARIO === 'V' ? 'Vendedor' : 'Outro');
+}
+
+// Função para preencher os dados do formulário de edição
+function populateProfileEditForm(userData) {
+    document.getElementById('name_input').value = userData.NOME_USUARIO || '';
+    document.getElementById('email_input').value = userData.EMAIL_USUARIO || '';
+    document.getElementById('celular_input').value = formatCelular(userData.CELULAR_USUARIO) || '';
+    document.getElementById('logradouro_input').value = userData.LOGRADOURO_USUARIO || '';
+    document.getElementById('bairro_input').value = userData.BAIRRO_USUARIO || '';
+    document.getElementById('cidade_input').value = userData.CIDADE_USUARIO || '';
+    document.getElementById('uf_input').value = userData.UF_USUARIO || '';
+    document.getElementById('cep_input').value = userData.CEP_USUARIO || '';
+    document.getElementById('dt_nasc_input').value = userData.DT_NASC_USUARIO ? userData.DT_NASC_USUARIO.split('T')[0] : ''; // Pega apenas a data
+    document.getElementById('tipo_usuario_input').value = userData.TIPO_USUARIO || '';
+    // Senha e confirmação de senha ficam vazias para serem preenchidas apenas se o usuário quiser alterar
+    document.getElementById('new_password_input').value = '';
+    document.getElementById('confirm_password_input').value = '';
+}
+
+// Funções de formatação (você pode precisar adaptá-las)
+function formatCelular(celular) {
+    if (!celular) return '';
+    celular = celular.replace(/\D/g, ''); // Remove tudo que não é dígito
+    if (celular.length === 11) {
+        return `(${celular.substring(0, 2)}) <span class="math-inline">\{celular\.substring\(2, 7\)\}\-</span>{celular.substring(7, 11)}`;
+    } else if (celular.length === 10) {
+        return `(${celular.substring(0, 2)}) <span class="math-inline">\{celular\.substring\(2, 6\)\}\-</span>{celular.substring(6, 10)}`;
+    }
+    return celular;
+}
+
+function formatCEP(cep) {
+    if (!cep) return '';
+    cep = cep.replace(/\D/g, '');
+    if (cep.length === 8) {
+        return `<span class="math-inline">\{cep\.substring\(0, 5\)\}\-</span>{cep.substring(5, 8)}`;
+    }
+    return cep;
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR'); // Formato dd/mm/aaaa
+}
+
+
+// Função principal para buscar e exibir o perfil
+async function fetchUserProfile() {
+    hideMessage(errorMessage);
+    hideMessage(successMessage);
+    showMessage(loadingMessage, 'Carregando informações do perfil...', 'info'); // 'info' pode ser uma classe CSS que você define
+
+    // ATENÇÃO: AQUI VOCÊ PRECISA DE UM ID DE USUÁRIO REALMENTE LOGADO.
+    // Para testes, vamos usar um ID fixo ou simular um login.
+    // Em um sistema real, você obteria isso de uma sessão ou token JWT.
+    const userId = 1; // SUBSTITUA POR LÓGICA DE USUÁRIO LOGADO REAL
+
+    if (!userId) {
+        hideMessage(loadingMessage);
+        showMessage(errorMessage, 'Nenhum usuário logado. Por favor, faça login.', 'error');
+        profileDisplaySection.style.display = 'none';
+        profileEditSection.style.display = 'none';
+        return;
+    }
+
+    try {
+        const response = await fetch(`<span class="math-inline">\{API\_PERFIL\_URL\}?id\_usuario\=</span>{userId}`); // Enviando o ID na URL para teste
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            hideMessage(loadingMessage);
+            populateProfileDisplay(result.user);
+            populateProfileEditForm(result.user); // Preenche o formulário de edição também
+            profileDisplaySection.style.display = 'block';
+            // profileEditSection.style.display = 'block'; // Mostra a seção de edição se quiser
+        } else {
+            hideMessage(loadingMessage);
+            showMessage(errorMessage, result.message || 'Erro ao carregar o perfil do usuário.', 'error');
+            profileDisplaySection.style.display = 'none';
+            profileEditSection.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Erro na requisição de perfil:', error);
+        hideMessage(loadingMessage);
+        showMessage(errorMessage, 'Erro na conexão com o servidor. Tente novamente mais tarde.', 'error');
+        profileDisplaySection.style.display = 'none';
+        profileEditSection.style.display = 'none';
+    }
+}
+
+// Event Listener para quando a página carregar
+document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+// --- Lógica de Atualização do Perfil (Exemplo) ---
+editProfileForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    hideMessage(errorMessage);
+    hideMessage(successMessage);
+
+    const userId = 1; // Novamente, substituir por lógica de usuário logado
+    if (!userId) {
+        showMessage(errorMessage, 'Nenhum usuário logado para atualizar.', 'error');
+        return;
+    }
+
+    const formData = new FormData(editProfileForm);
+    const data = Object.fromEntries(formData.entries());
+
+    // Adaptação dos nomes dos campos para o seu banco de dados
+    const updateData = {
+        id_usuario: userId,
+        nome_usuario: data.NOME_USUARIO,
+        email_usuario: data.EMAIL_USUARIO,
+        celular_usuario: data.CELULAR_USUARIO.replace(/\D/g, ''), // Remove máscara
+        logradouro_usuario: data.LOGRADOURO_USUARIO,
+        bairro_usuario: data.BAIRRO_USUARIO,
+        cidade_usuario: data.CIDADE_USUARIO,
+        uf_usuario: data.UF_USUARIO,
+        cep_usuario: data.CEP_USUARIO.replace(/\D/g, ''), // Remove máscara
+        dt_nasc_usuario: data.DT_NASC_USUARIO,
+        tipo_usuario: data.TIPO_USUARIO,
+        nova_senha_usuario: data.NOVA_SENHA_USUARIO,
+        confirmar_senha_usuario: data.CONFIRM_SENHA_USUARIO
+    };
+
+    if (updateData.nova_senha_usuario && updateData.nova_senha_usuario !== updateData.confirmar_senha_usuario) {
+        showMessage(errorMessage, 'As novas senhas não coincidem.', 'error');
+        return;
+    }
+
+    // Remover campos de senha se não forem alterados
+    if (!updateData.nova_senha_usuario) {
+        delete updateData.nova_senha_usuario;
+        delete updateData.confirmar_senha_usuario;
+    }
+
+    try {
+        const response = await fetch(API_ATUALIZAR_PERFIL_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // Adicione aqui Authorization Bearer Token se estiver usando JWT
+            },
+            body: JSON.stringify(updateData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            showMessage(successMessage, result.message, 'success');
+            // Recarrega o perfil para mostrar os dados atualizados
+            await fetchUserProfile();
+        } else {
+            showMessage(errorMessage, result.message || 'Erro ao atualizar o perfil.', 'error');
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar perfil:', error);
+        showMessage(errorMessage, 'Erro na conexão para atualizar o perfil.', 'error');
+    }
+});
+
+// Lógica para o botão de Logout (exemplo)
+logoutButton.addEventListener('click', () => {
+    // Implemente sua lógica de logout aqui:
+    // 1. Remover token/cookie de autenticação do localStorage/cookies.
+    // 2. Redirecionar para a página de login.
+    alert('Funcionalidade de Logout ainda não implementada completamente.');
+    window.location.href = '/login'; // Exemplo de redirecionamento
+});
+
+
+// Você pode adicionar botões para alternar entre as seções de exibição e edição
+// Exemplo:
+// const toggleEditButton = document.getElementById('toggleEditButton');
+// toggleEditButton.addEventListener('click', () => {
+//     profileDisplaySection.style.display = 'none';
+//     profileEditSection.style.display = 'block';
+// });
