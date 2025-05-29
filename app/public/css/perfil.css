@@ -1,4 +1,255 @@
-*{
+/* --- Base Styles --- */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: #f8f8f8; /* Fundo mais claro */
+    color: #333; /* Cor de texto padrão */
+    line-height: 1.6; /* Melhor legibilidade */
+}
+
+/* --- Header --- */
+.header {
+    background-color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.header .logo img {
+    display: block; /* Remove espaço extra abaixo da imagem */
+    width: 75px; /* Manter tamanho consistente */
+    height: 75px;
+}
+
+.main-nav .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espaçamento entre os itens do menu */
+}
+
+.main-nav .nav-list a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease; /* Transição suave ao hover */
+}
+
+.main-nav .nav-list a:hover {
+    color: #007bff; /* Exemplo de cor ao passar o mouse */
+}
+
+.main-nav .nav-list img {
+    vertical-align: middle; /* Alinha ícones com texto */
+    /* Ajuste de tamanho para os ícones, se necessário */
+}
+
+.main-nav .nav-list .perfil img {
+    width: 35px;
+    height: 35px;
+}
+
+.main-nav .nav-list .carrinho img {
+    width: 75px;
+    height: 50px;
+}
+
+/* Mobile Menu (se houver JS para ele) */
+.mobile-menu {
+    display: none; /* Escondido por padrão em desktop */
+    cursor: pointer;
+}
+.mobile-menu div {
+    width: 32px;
+    height: 2px;
+    background: #333;
+    margin: 8px;
+    transition: 0.3s;
+}
+
+/* --- Main Profile Page Layout --- */
+main.profile-page {
+    max-width: 800px;
+    margin: 40px auto; /* Centraliza a página e adiciona margem superior/inferior */
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1.page-title {
+    text-align: center;
+    color: #007bff; /* Cor primária */
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee; /* Linha sutil para separar o título */
+}
+
+/* --- Section Styling (Display and Edit) --- */
+section.profile-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #fafafa; /* Levemente diferente do fundo da página */
+}
+
+section.profile-section h2 {
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* --- User Picture --- */
+.user-picture {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.user-picture img {
+    border-radius: 50%;
+    border: 3px solid #007bff; /* Borda da cor primária */
+    object-fit: cover;
+    width: 120px; /* Tamanho um pouco maior para a imagem */
+    height: 120px;
+}
+.user-picture figcaption {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* --- Profile Details (Display Section) --- */
+dl.profile-details dt {
+    font-weight: bold;
+    color: #666;
+    margin-top: 15px; /* Mais espaçamento entre os termos */
+}
+dl.profile-details dd {
+    margin-left: 0;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 3px solid #007bff;
+}
+
+/* --- Profile Form (Edit Section) --- */
+form.profile-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+form.profile-form input[type="text"],
+form.profile-form input[type="email"],
+form.profile-form input[type="tel"],
+form.profile-form input[type="date"],
+form.profile-form input[type="password"] {
+    width: calc(100% - 22px); /* Ajuste para padding e borda */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+}
+
+form.profile-form input[readonly] {
+    background-color: #e9ecef; /* Cor mais neutra para campos readonly */
+    cursor: not-allowed;
+    border-color: #ced4da;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adiciona transform para um pequeno efeito */
+    display: inline-block; /* Para que margin-left/right auto funcionem */
+    text-align: center;
+    text-decoration: none; /* Se usado em links */
+}
+
+.btn:hover {
+    transform: translateY(-2px); /* Pequeno levantamento ao passar o mouse */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* --- Messages (Loading, Error, Success) --- */
+.message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para mensagens */
+}
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* --- Responsive Design (Mobile Menu - Adicione media queries se necessário) --- */
+/* Exemplo de media query para telas menores (desktop) */
+@media (max-width: 768px) {
+    .main-nav .nav-list {
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 80px; /* Ajuste conforme a altura do seu header */
+        right: 0;
+        width: 100%;
+        background-color: #fff;
+        border-top: 1px solid #eee;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in;
+    }
+
+    .main-nav .nav-list.active {
+        transform: translateX(0%);
+    }
+
+    .main-nav .nav-list li {
+        margin: 15px 0;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+}
+
+/*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
