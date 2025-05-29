@@ -1,79 +1,78 @@
 <?php
-// Incluir o arquivo de conexão
-require_once 'config/conexao.php';
+// Define os cabeçalhos CORS
+header("Access-Control-Allow-Origin: *"); // Altere para a URL do seu frontend em produção
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-// Configurar cabeçalhos para JSON e CORS
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Cuidado em produção!
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-
-// Se for uma requisição OPTIONS (pré-voo do CORS), apenas retorne 200 OK
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Verifica se a requisição é POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Pega os dados JSON do corpo da requisição
-    $data = json_decode(file_get_contents('php://input'), true);
+header('Content-Type: application/json'); // Resposta JSON
 
-    // Validação básica dos dados
-    $email = $data['email_usuario'] ?? ''; // Nome do campo de e-mail no formulário/JSON do Node.js
-    $senha_digitada = $data['senha_usuario'] ?? ''; // Senha digitada no formulário
+require_once 'conexao.php'; // Inclui sua conexão com o Clever Cloud
 
-    // Validação mínima para campos obrigatórios
-    if (empty($email) || empty($senha_digitada)) {
-        echo json_encode(["success" => false, "message" => "E-mail e senha são obrigatórios."]);
-        $conn->close();
-        exit();
-    }
+$data = json_decode(file_get_contents('php://input'), true);
 
-    // Preparar a instrução SQL para buscar o usuário pelo e-mail
-    // Usando Prepared Statements para segurança contra SQL Injection
-    $sql = "SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, TIPO_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?";
-
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $email); // 's' para string (email)
-        $stmt->execute();
-        $result = $stmt->get_result(); // Pega o resultado da consulta
-
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-            $senha_hash_armazenada = $user['SENHA_USUARIO'];
-
-            // Verificar se a senha digitada corresponde ao hash armazenado
-            if (password_verify($senha_digitada, $senha_hash_armazenada)) {
-                // Senha correta! Login bem-sucedido.
-                // Não retorne a senha ou o hash da senha!
-                echo json_encode([
-                    "success" => true,
-                    "message" => "Login realizado com sucesso!",
-                    "user" => [
-                        "id" => $user['ID_USUARIO'],
-                        "nome" => $user['NOME_USUARIO'],
-                        "email" => $user['EMAIL_USUARIO'],
-                        "tipo_usuario" => $user['TIPO_USUARIO']
-                    ]
-                ]);
-            } else {
-                // Senha incorreta
-                echo json_encode(["success" => false, "message" => "Credenciais inválidas (senha incorreta)."]);
-            }
-        } else {
-            // Usuário não encontrado
-            echo json_encode(["success" => false, "message" => "Credenciais inválidas (usuário não encontrado)."]);
-        }
-
-        $stmt->close(); // Fechar o statement
-    } else {
-        echo json_encode(["success" => false, "message" => "Erro na preparação da query: " . $conn->error]);
-    }
-
-    $conn->close(); // Fechar a conexão
-} else {
-    // Se não for POST, informa que a requisição não é permitida
-    echo json_encode(["success" => false, "message" => "Método de requisição não permitido. Use POST."]);
+if (json_last_error() !== JSON_ERROR_NONE || empty($data)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Dados inválidos."]);
+    exit();
 }
+
+$email = $data['email'] ?? '';
+$senha = $data['password'] ?? '';
+
+if (empty($email) || empty($senha)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Email e senha são obrigatórios."]);
+    exit();
+}
+
+try {
+    // Busca o usuário pelo email
+    $stmt = $conn->prepare("SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, TIPO_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        // Verifica a senha hashada
+        if (password_verify($senha, $user['SENHA_USUARIO'])) {
+            // Login bem-sucedido
+            http_response_code(200);
+            echo json_encode([
+                "success" => true,
+                "message" => "Login bem-sucedido!",
+                "user" => [
+                    "id" => $user['ID_USUARIO'],
+                    "name" => $user['NOME_USUARIO'],
+                    "email" => $user['EMAIL_USUARIO'],
+                    "type" => $user['TIPO_USUARIO']
+                    // Não envie a senha hashada ou qualquer dado sensível!
+                ]
+            ]);
+            // Aqui você pode gerar um token JWT e enviá-lo de volta ao frontend
+            // para gerenciar a sessão do usuário.
+        } else {
+            // Senha incorreta
+            http_response_code(401); // Unauthorized
+            echo json_encode(["success" => false, "message" => "Credenciais inválidas."]);
+        }
+    } else {
+        // Usuário não encontrado
+        http_response_code(401); // Unauthorized
+        echo json_encode(["success" => false, "message" => "Credenciais inválidas."]);
+    }
+
+    $stmt->close();
+} catch (Exception $e) {
+    error_log("Erro no login: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Erro interno do servidor."]);
+}
+
+$conn->close();
 ?>
