@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/cadastro.css">
-        <title>Cadastro</title>
-        <style>
-        .continue-button :hover{
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <title>Cadastro</title>
+    <style>
+        /* Estilos para o hover dos botões (você pode mover para cadastro.css se preferir) */
+        .continue-button button:hover {
             background-color: #fafafa;
             color: #e47a1b;
             border-color: #e47a1b;
         }
 
-        .form login-button :hover{
-            background-color: #fafafa;color: #e47a1b;
+        .form .login-button button:hover { /* Corrigido seletor para pegar o botão dentro da div */
+            background-color: #fafafa;
+            color: #e47a1b;
             border-color: #e47a1b;
         }
 
+        /* Estilos para mensagens de erro dos campos */
         .error {
             color: red;
             font-size: 12px;
@@ -42,348 +45,113 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-        </style>
-    </head>
-    <body>
-        <header class="header">
-            <a class="logo" href="/">
-              <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-            </a>
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
 
-            <div class="mobile-menu">
-              <div class="line1"></div>
-              <div class="line2"></div>
-              <div class="line3"></div>
-            </div>
-            <ul class="nav-list">
-              <li><a href="/">Inicio</a></li>
-              <li><a href="/sobrenos">Sobre</a></li>
-              <li><a href="/login">Entrar</a></li>
-              <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-            </ul>
-        </header>
-
-        <div class="container">
-            <div class="form-image">
-                <img src="imagens/artesanato.png">
-            </div>
-
-            <div class="form">
-                <form id="signup-form">
-                    <div class="form-header">
-                        <div class="title">
-                            <h1>Cadastre-se</h1>
-                        </div>
-                        <div class="login-button">
-                            <button type="button" onclick="window.location.href='/login';">Entrar</button>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-box">
-                            <label for="firstname">Primeiro Nome</label>
-                            <input id="firstname" type="text" name="firstname" placeholder="Digite seu primeiro nome" required>
-                            <span id="firstname-error" class="error"></span>
-                        </div>
-                        <div class="input-box">
-                            <label for="lastname">Sobrenome</label>
-                            <input id="lastname" type="text" name="lastname" placeholder="Digite seu sobrenome" required>
-                            <span id="lastname-error" class="error"></span>
-                        </div>
-                        <div class="input-box">
-                            <label for="email">E-mail</label>
-                            <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
-                            <span id="email-error" class="error"></span>
-                        </div>
-
-                        <div class="input-box">
-                            <label for="number">Celular</label>
-                            <input id="number" type="tel" name="number" placeholder="(xx) xxxxx-xxxx" maxlength="15" required>
-                            <span id="number-error" class="error"></span>
-                        </div>
-
-                        <div class="input-box">
-                            <label for="password">Senha</label>
-                            <input id="password" type="password" name="password" placeholder="Digite sua senha" required>
-                            <span id="password-error" class="error"></span>
-                        </div>
-
-                        <div class="input-box">
-                            <label for="confirmPassword">Confirme sua Senha</label>
-                            <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirme sua Senha" required>
-                            <span id="confirmPassword-error" class="error"></span>
-                        </div>
-                    </div>
-
-                    <div class="gender-inputs">
-                        <div class="gender-title">
-                            <h6>Gênero</h6>
-                        </div>
-
-                        <div class="gender-group">
-                            <div class="gender-input">
-                                <input id="female" type="radio" name="gender" value="F">
-                                <label for="female">Feminino</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input id="male" type="radio" name="gender" value="M">
-                                <label for="male">Masculino</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input id="others" type="radio" name="gender" value="O">
-                                <label for="others">Outros</label>
-                            </div>
-
-                            <div class="gender-input">
-                                <input id="none" type="radio" name="gender" value="N">
-                                <label for="none">Prefiro não dizer</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="continue-button">
-                        <button type="submit" id="submit-btn">Criar conta</button>
-                    </div>
-
-                    <div id="feedback-message"></div>
-
-                </form>
-            </div>
+        <div class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
         </div>
+        <nav> <ul class="nav-list">
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px" alt="Carrinho de Compras"></a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <script>
-            // --- CÓDIGO DA NAVBAR MÓVEL ---
-            class MobileNavbar {
-                constructor(mobileMenu, navList, navLinks) {
-                    this.mobileMenu = document.querySelector(mobileMenu);
-                    this.navList = document.querySelector(navList);
-                    this.navLinks = document.querySelectorAll(navLinks);
-                    this.activeClass = "active";
-                    this.handleClick = this.handleClick.bind(this);
-                }
+    <main class="container"> <section class="form-image"> <img src="imagens/artesanato.png" alt="Artesanato">
+        </section>
 
-                animateLinks() {
-                    this.navLinks.forEach((link, index) => {
-                        link.style.animation
-                        ? (link.style.animation = "")
-                        : (link.style.animation = `navLinkFade 0.5s ease forwards ${
-                        index / 7 + 0.3
-                        }s`);
-                    });
-                }
+        <section class="form"> <form id="signup-form">
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Cadastre-se</h1>
+                    </div>
+                    <div class="login-button">
+                        <button type="button" onclick="window.location.href='/login';">Entrar</button>
+                    </div>
+                </div>
 
-                handleClick() {
-                    this.navList.classList.toggle(this.activeClass);
-                    this.mobileMenu.classList.toggle(this.activeClass);
-                    this.animateLinks();
-                }
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="firstname">Primeiro Nome</label>
+                        <input id="firstname" type="text" name="firstname" placeholder="Digite seu primeiro nome" required>
+                        <span id="firstname-error" class="error"></span>
+                    </div>
+                    <div class="input-box">
+                        <label for="lastname">Sobrenome</label>
+                        <input id="lastname" type="text" name="lastname" placeholder="Digite seu sobrenome" required>
+                        <span id="lastname-error" class="error"></span>
+                    </div>
+                    <div class="input-box">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
+                        <span id="email-error" class="error"></span>
+                    </div>
 
-                addClickEvent() {
-                    this.mobileMenu.addEventListener("click", this.handleClick);
-                }
+                    <div class="input-box">
+                        <label for="number">Celular</label>
+                        <input id="number" type="tel" name="number" placeholder="(xx) xxxxx-xxxx" maxlength="15" required>
+                        <span id="number-error" class="error"></span>
+                    </div>
 
-                init() {
-                    if (this.mobileMenu) {
-                        this.addClickEvent();
-                    }
-                    return this;
-                }
-            }
+                    <div class="input-box">
+                        <label for="password">Senha</label>
+                        <input id="password" type="password" name="password" placeholder="Digite sua senha" required>
+                        <span id="password-error" class="error"></span>
+                    </div>
 
-            const mobileNavbar = new MobileNavbar(
-                ".mobile-menu",
-                ".nav-list",
-                ".nav-list li"
-            );
-            mobileNavbar.init();
+                    <div class="input-box">
+                        <label for="confirmPassword">Confirme sua Senha</label>
+                        <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirme sua Senha" required>
+                        <span id="confirmPassword-error" class="error"></span>
+                    </div>
+                </div>
 
-            // --- FIM DO CÓDIGO DA NAVBAR MÓVEL ---
+                <div class="gender-inputs">
+                    <div class="gender-title">
+                        <h6>Gênero</h6>
+                    </div>
 
+                    <div class="gender-group" role="radiogroup" aria-labelledby="gender-title">
+                        <div class="gender-input">
+                            <input id="female" type="radio" name="gender" value="F">
+                            <label for="female">Feminino</label>
+                        </div>
 
-            // --- CÓDIGO PARA VALIDAÇÃO E ENVIO DO FORMULÁRIO DE CADASTRO ---
+                        <div class="gender-input">
+                            <input id="male" type="radio" name="gender" value="M">
+                            <label for="male">Masculino</label>
+                        </div>
 
-            // Referências aos elementos do formulário
-            const signupForm = document.getElementById('signup-form');
-            const submitBtn = document.getElementById('submit-btn');
-            const feedbackMessage = document.getElementById('feedback-message');
-            const celularInput = document.getElementById('number'); // Pegar o input de celular
+                        <div class="gender-input">
+                            <input id="others" type="radio" name="gender" value="O">
+                            <label for="others">Outros</label>
+                        </div>
 
-            // URL da sua API de cadastro no XAMPP local
-            const API_CADASTRO_URL = 'http://localhost/vitrine_copia/api/cadastrar_usuario.php';
+                        <div class="gender-input">
+                            <input id="none" type="radio" name="gender" value="N">
+                            <label for="none">Prefiro não dizer</label>
+                        </div>
+                    </div>
+                </div>
 
-            // --- Funções da Máscara e Restrição de Caracteres do Celular ---
+                <div class="continue-button">
+                    <button type="submit" id="submit-btn">Criar conta</button>
+                </div>
 
-            // Função para aplicar a máscara no celular
-            function applyPhoneMask(value) {
-                value = value.replace(/\D/g, ''); // Remove tudo que não é dígito
-                value = value.replace(/^(\d{2})(\d)/g, '($1) $2'); // Coloca parênteses e espaço nos dois primeiros dígitos (DDD)
-                value = value.replace(/(\d)(\d{4})$/, '$1-$2'); // Coloca hífen antes dos últimos 4 dígitos
-                return value;
-            }
+                <div id="feedback-message" class="message"></div> </form>
+        </section>
+    </main>
 
-            // Event Listener para formatar o celular enquanto o usuário digita
-            celularInput.addEventListener('input', (e) => {
-                e.target.value = applyPhoneMask(e.target.value);
-            });
-
-            // Event Listener para impedir caracteres não numéricos ao colar
-            celularInput.addEventListener('paste', (e) => {
-                const pastedData = e.clipboardData.getData('text');
-                if (/\D/.test(pastedData)) { // Se houver algo que não seja dígito
-                    e.preventDefault(); // Impede a colagem
-                    document.getElementById('number-error').textContent = 'Apenas números são permitidos no campo celular.';
-                }
-            });
-
-            // Event Listener para impedir caracteres não numéricos ao digitar (captura a tecla)
-            celularInput.addEventListener('keypress', (e) => {
-                // Permite apenas números (0-9), backspace (8), delete (46), tab (9), enter (13)
-                const charCode = (e.which) ? e.which : e.keyCode;
-                if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 8 && charCode !== 46 && charCode !== 9 && charCode !== 13) {
-                    e.preventDefault(); // Impede a digitação
-                    document.getElementById('number-error').textContent = 'Apenas números são permitidos no campo celular.';
-                } else {
-                     document.getElementById('number-error').textContent = ''; // Limpa o erro se digitar corretamente
-                }
-            });
-            // --- Fim das Funções da Máscara e Restrição de Caracteres ---
-
-
-            // Função para exibir mensagens de feedback
-            function showFeedback(message, type) {
-                feedbackMessage.textContent = message;
-                feedbackMessage.className = ''; // Limpa classes anteriores
-                feedbackMessage.classList.add('feedback-message', `${type}-message`);
-            }
-
-            // Função para limpar mensagens de erro dos campos
-            function clearErrors() {
-                const errorSpans = document.querySelectorAll('.error');
-                errorSpans.forEach(span => span.textContent = '');
-            }
-
-            // Adiciona um ouvinte de evento para o envio do formulário
-            signupForm.addEventListener('submit', async (event) => {
-                event.preventDefault(); // Impede o envio padrão do formulário (que recarregaria a página)
-
-                clearErrors(); // Limpa mensagens de erro anteriores
-                feedbackMessage.textContent = ''; // Limpa mensagens de feedback anteriores
-                feedbackMessage.className = '';
-
-                // Validação básica dos campos antes de enviar
-                const firstname = document.getElementById('firstname').value.trim();
-                const lastname = document.getElementById('lastname').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const number = celularInput.value.trim(); // Pega o valor formatado
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-
-                let isValid = true;
-
-                if (firstname === '') {
-                    document.getElementById('firstname-error').textContent = 'O primeiro nome é obrigatório.';
-                    isValid = false;
-                }
-                if (lastname === '') {
-                    document.getElementById('lastname-error').textContent = 'O sobrenome é obrigatório.';
-                    isValid = false;
-                }
-                if (email === '') {
-                    document.getElementById('email-error').textContent = 'O e-mail é obrigatório.';
-                    isValid = false;
-                } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    document.getElementById('email-error').textContent = 'E-mail inválido.';
-                    isValid = false;
-                }
-                // Validação do celular com base no número de dígitos após remover a máscara
-                const cleanNumber = number.replace(/\D/g, ''); // Remove a máscara para validação
-                if (cleanNumber === '') {
-                    document.getElementById('number-error').textContent = 'O celular é obrigatório.';
-                    isValid = false;
-                } else if (cleanNumber.length < 10 || cleanNumber.length > 11) { // 10 ou 11 dígitos para DDD + número
-                    document.getElementById('number-error').textContent = 'O número de celular deve ter 10 ou 11 dígitos (incluindo DDD).';
-                    isValid = false;
-                }
-                if (password === '') {
-                    document.getElementById('password-error').textContent = 'A senha é obrigatória.';
-                    isValid = false;
-                } else if (password.length < 6) {
-                    document.getElementById('password-error').textContent = 'A senha deve ter no mínimo 6 caracteres.';
-                    isValid = false;
-                }
-                if (confirmPassword === '') {
-                    document.getElementById('confirmPassword-error').textContent = 'A confirmação de senha é obrigatória.';
-                    isValid = false;
-                }
-                if (password !== confirmPassword) {
-                    document.getElementById('confirmPassword-error').textContent = 'As senhas não coincidem.';
-                    isValid = false;
-                }
-
-                if (!isValid) {
-                    showFeedback('Por favor, corrija os erros no formulário.', 'error');
-                    return; // Interrompe o envio se houver erros de validação
-                }
-
-                // Coleta os dados do formulário
-                const formData = {
-                    nome_usuario: `${firstname} ${lastname}`, // Concatena nome e sobrenome
-                    email_usuario: email,
-                    senha_usuario: password,
-                    celular_usuario: cleanNumber, // Envia o celular sem a máscara para o banco de dados
-                    logradouro_usuario: "Rua Exemplo",
-                    bairro_usuario: "Bairro Teste",
-                    cidade_usuario: "Cidade Teste",
-                    uf_usuario: "SP",
-                    cep_usuario: "00000000",
-                    dt_nasc_usuario: "2000-01-01", // Data de nascimento fictícia
-                    tipo_usuario: "C" // Tipo de usuário (Cliente)
-                };
-
-                const selectedGender = document.querySelector('input[name="gender"]:checked');
-                if (selectedGender) {
-                    // Adicione aqui se precisar enviar o gênero para o banco de dados
-                }
-
-                // Desabilita o botão enquanto envia para evitar múltiplos cliques
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Enviando...';
-
-
-                // Envia os dados para a API usando fetch
-                try {
-                    const response = await fetch(API_CADASTRO_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok && result.success) {
-                        showFeedback(result.message, 'success');
-                        signupForm.reset(); // Limpa o formulário após o sucesso
-                    } else {
-                        showFeedback(result.message || 'Erro ao cadastrar usuário. Tente novamente.', 'error');
-                        if (result.error_details) {
-                            console.error('Detalhes do erro da API:', result.error_details);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Erro na requisição:', error);
-                    showFeedback('Erro na conexão com o servidor. Verifique sua internet ou tente mais tarde.', 'error');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Criar conta';
-                }
-            });
-
-            // --- FIM DO CÓDIGO DO FORMULÁRIO DE CADASTRO ---
-
-        </script>
-    </body>
+    <script src="js/cadastro.js"></script>
+</body>
 </html>

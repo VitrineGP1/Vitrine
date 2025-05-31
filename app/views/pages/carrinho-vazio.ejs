@@ -1,30 +1,41 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/carrinho-vazio.css">
-    <title>Carrinho</title>
+    <title>Carrinho de Compras</title>
 </head>
 <body>
     <header class="header">
-        <a class="logo" href="/">
-          <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logo da Vitrine: Um desenho estilizado de um manequim.">
         </a>
           
-        <div class="mobile-menu">
-          <div class="line1"></div>
-          <div class="line2"></div>
-          <div class="line3"></div>
+        <div class="mobile-menu" aria-label="Menu de navegação mobile">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
         </div>
-        <ul class="nav-list">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/sobrenos">Sobre</a></li>
-          <li><a href="/login">Entrar</a></li>
-          <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-        </ul>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/sobrenos">Sobre Nós</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li>
+                    <a href="/carrinho-vazio" class="carrinho" aria-label="Ver seu carrinho de compras">
+                        <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de um carrinho de compras vazio.">
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </header>
     
-      <p class="event-filtros">Nenhum produto adicionado ao carrinho</p>
+    <main>
+        <section class="cart-status">
+            <p>Nenhum produto adicionado ao carrinho.</p>
+        </section>
+    </main>
 
     <script src="js/carrinho-vazio.js"></script>
 </body>

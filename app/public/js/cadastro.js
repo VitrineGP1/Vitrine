@@ -1,245 +1,241 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("signup-form").addEventListener("submit", function(event) {
-        event.preventDefault(); // Impede o envio do formulário se houver erros
-        
-        // Limpar mensagens de erro
-        document.querySelectorAll('.error').forEach(el => el.textContent = "");
+// app/public/js/cadastro.js
 
-        let isValid = true;
-
-        // Validação do Primeiro Nome
-        const firstName = document.getElementById("firstname").value;
-        if (!firstName) {
-            document.getElementById("firstname-error").textContent = "Por favor, preencha o primeiro nome.";
-            isValid = false;
-        }
-
-        // Validação do Sobrenome
-        const lastName = document.getElementById("lastname").value;
-        if (!lastName) {
-            document.getElementById("lastname-error").textContent = "Por favor, preencha o sobrenome.";
-            isValid = false;
-        }
-
-        // Validação do E-mail
-        const email = document.getElementById("email").value;
-        const emailPattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
-        if (!email || !emailPattern.test(email)) {
-            document.getElementById("email-error").textContent = "Por favor, insira um e-mail válido.";
-            isValid = false;
-        }
-
-        // Validação da Senha
-        const password = document.getElementById("password").value;
-        if (password.length < 8) {
-            document.getElementById("password-error").textContent = "A senha deve ter pelo menos 8 caracteres.";
-            isValid = false;
-        }
-
-        // Validação de confirmação da senha
-        const confirmPassword = document.getElementById("confirmPassword").value;
-        if (confirmPassword !== password) {
-            document.getElementById("confirmPassword-error").textContent = "As senhas não coincidem.";
-            isValid = false;
-        }
-
-        // Se o formulário estiver válido, permite o envio
-        if (isValid) {
-            window.location.href = '/home-perfil';
-        }
-    });
-});
-
+// Lógica para a navegação móvel
 class MobileNavbar {
-  constructor(mobileMenu, navList, navLinks) {
-    this.mobileMenu = document.querySelector(mobileMenu);
-    this.navList = document.querySelector(navList);
-    this.navLinks = document.querySelectorAll(navLinks);
-    this.activeClass = "active";
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  animateLinks() {
-    this.navLinks.forEach((link, index) => {
-      link.style.animation
-        ? (link.style.animation = "")
-        : (link.style.animation = `navLinkFade 0.5s ease forwards ${
-            index / 7 + 0.3
-          }s`);
-    });
-  }
-
-  handleClick() {
-    this.navList.classList.toggle(this.activeClass);
-    this.mobileMenu.classList.toggle(this.activeClass);
-    this.animateLinks();
-  }
-
-  addClickEvent() {
-    this.mobileMenu.addEventListener("click", this.handleClick);
-  }
-
-  init() {
-    if (this.mobileMenu) {
-      this.addClickEvent();
+    constructor(mobileMenu, navList, navLinks) {
+        this.mobileMenu = document.querySelector(mobileMenu);
+        this.navList = document.querySelector(navList);
+        this.navLinks = document.querySelectorAll(navLinks);
+        this.activeClass = "active";
+        this.handleClick = this.handleClick.bind(this);
     }
-    return this;
-  }
+
+    animateLinks() {
+        this.navLinks.forEach((link, index) => {
+            link.style.animation
+                ? (link.style.animation = "")
+                : (link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`);
+        });
+    }
+
+    handleClick() {
+        this.navList.classList.toggle(this.activeClass);
+        this.mobileMenu.classList.toggle(this.activeClass);
+        this.animateLinks();
+    }
+
+    addClickEvent() {
+        this.mobileMenu.addEventListener("click", this.handleClick);
+    }
+
+    init() {
+        if (this.mobileMenu) {
+            this.addClickEvent();
+        }
+        return this;
+    }
 }
 
+// Inicializa o menu mobile
 const mobileNavbar = new MobileNavbar(
-  ".mobile-menu",
-  ".nav-list",
-  ".nav-list li",
+    ".mobile-menu",
+    ".nav-list",
+    ".nav-list li"
 );
 mobileNavbar.init();
 
+// --- Lógica de Cadastro Principal e Validação ---
 
-const signupForm = document.getElementById('signup-form');
-const submitBtn = document.getElementById('submit-btn');
-const feedbackMessage = document.getElementById('feedback-message');
+document.addEventListener('DOMContentLoaded', () => {
+    const signupForm = document.getElementById('signup-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const feedbackMessage = document.getElementById('feedback-message'); // Div para mensagens de sucesso/erro da API
 
-// URL da API para cadastro de usuário 
-const API_CADASTRO_URL = 'https://vitrine-lljl.onrender.com/api/cadastrar_usuario.php';
-function showFeedback(message, type) {
-  feedbackMessage.textContent = message;
-  feedbackMessage.className = ''; // Limpa classes anteriores
-  feedbackMessage.classList.add('feedback-message', type + '-message');
-}
+    // Referências aos inputs e spans de erro
+    const firstnameInput = document.getElementById('firstname');
+    const lastnameInput = document.getElementById('lastname');
+    const emailInput = document.getElementById('email');
+    const celularInput = document.getElementById('number'); // Input do celular
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
 
-// Função para limpar mensagens de erro dos campos
-function clearErrors() {
-  const errorSpans = document.querySelectorAll('.error');
-  errorSpans.forEach(span => span.textContent = '');
-}
+    const firstnameErrorSpan = document.getElementById('firstname-error');
+    const lastnameErrorSpan = document.getElementById('lastname-error');
+    const emailErrorSpan = document.getElementById('email-error');
+    const numberErrorSpan = document.getElementById('number-error');
+    const passwordErrorSpan = document.getElementById('password-error');
+    const confirmPasswordErrorSpan = document.getElementById('confirmPassword-error');
 
-// Adiciona um ouvinte de evento para o envio do formulário
-signupForm.addEventListener('submit', async (event) => {
-  event.preventDefault(); // Impede o envio padrão do formulário (que recarregaria a página)
+    // URL da API de cadastro no seu próprio servidor Node.js (CORRIGIDO PARA O ENDPOINT DO NODE.JS)
+    const API_CADASTRO_URL = '/api/cadastrar_usuario';
 
-  clearErrors(); // Limpa mensagens de erro anteriores
-  feedbackMessage.textContent = ''; // Limpa mensagens de feedback anteriores
-  feedbackMessage.className = '';
+    // --- Funções da Máscara e Restrição de Caracteres do Celular ---
 
-  // Validação básica dos campos antes de enviar
-  const firstname = document.getElementById('firstname').value.trim();
-  const lastname = document.getElementById('lastname').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const number = document.getElementById('number').value.trim();
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirmPassword').value;
+    // Função para aplicar a máscara no celular
+    function applyPhoneMask(value) {
+        value = value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2'); // Coloca parênteses e espaço nos dois primeiros dígitos (DDD)
+        value = value.replace(/(\d)(\d{4})$/, '$1-$2'); // Coloca hífen antes dos últimos 4 dígitos
+        return value;
+    }
 
-  let isValid = true;
+    // Event Listener para formatar o celular enquanto o usuário digita
+    celularInput.addEventListener('input', (e) => {
+        e.target.value = applyPhoneMask(e.target.value);
+    });
 
-  if (firstname === '') {
-                    document.getElementById('firstname-error').textContent = 'O primeiro nome é obrigatório.';
-                    isValid = false;
-                }
-                if (lastname === '') {
-                    document.getElementById('lastname-error').textContent = 'O sobrenome é obrigatório.';
-                    isValid = false;
-                }
-                if (email === '') {
-                    document.getElementById('email-error').textContent = 'O e-mail é obrigatório.';
-                    isValid = false;
-                } else if (!/\S+@\S+\.\S+/.test(email)) {
-                    document.getElementById('email-error').textContent = 'E-mail inválido.';
-                    isValid = false;
-                }
-                // Ajustando validação de celular para permitir espaços e hífens, mas remover para envio
-                if (number === '') {
-                    document.getElementById('number-error').textContent = 'O celular é obrigatório.';
-                    isValid = false;
-                } else if (!/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(number)) { // Regex mais robusta para celular (xx) xxxxx-xxxx ou xxxx-xxxx
-                    document.getElementById('number-error').textContent = 'Formato de celular inválido (Ex: (11) 98765-4321 ou 98765-4321).';
-                    isValid = false;
-                }
-                if (password === '') {
-                    document.getElementById('password-error').textContent = 'A senha é obrigatória.';
-                    isValid = false;
-                } else if (password.length < 6) {
-                    document.getElementById('password-error').textContent = 'A senha deve ter no mínimo 6 caracteres.';
-                    isValid = false;
-                }
-                if (confirmPassword === '') {
-                    document.getElementById('confirmPassword-error').textContent = 'A confirmação de senha é obrigatória.';
-                    isValid = false;
-                }
-                if (password !== confirmPassword) {
-                    document.getElementById('confirmPassword-error').textContent = 'As senhas não coincidem.';
-                    isValid = false;
-                }
+    // Event Listener para impedir caracteres não numéricos ao colar
+    celularInput.addEventListener('paste', (e) => {
+        const pastedData = e.clipboardData.getData('text');
+        if (/\D/.test(pastedData)) { // Se houver algo que não seja dígito
+            e.preventDefault(); // Impede a colagem
+            numberErrorSpan.textContent = 'Apenas números são permitidos no campo celular.';
+        }
+    });
 
-                if (!isValid) {
-                    showFeedback('Por favor, corrija os erros no formulário.', 'error');
-                    return; // Interrompe o envio se houver erros de validação
-                }
+    // Event Listener para impedir caracteres não numéricos ao digitar (captura a tecla)
+    celularInput.addEventListener('keypress', (e) => {
+        // Permite apenas números (0-9), backspace (8), delete (46), tab (9), enter (13)
+        const charCode = (e.which) ? e.which : e.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 8 && charCode !== 46 && charCode !== 9 && charCode !== 13) {
+            e.preventDefault(); // Impede a digitação
+            numberErrorSpan.textContent = 'Apenas números são permitidos no campo celular.';
+        } else {
+             numberErrorSpan.textContent = ''; // Limpa o erro se digitar corretamente
+        }
+    });
+    // --- Fim das Funções da Máscara e Restrição de Caracteres ---
 
-                // Coleta os dados do formulário
-                const formData = {
-                    nome_usuario: firstname + ' ' + lastname, // Corrigido para concatenação de strings
-                    email_usuario: email,
-                    senha_usuario: password,
-                    celular_usuario: number.replace(/\D/g, ''), // Remove caracteres não numéricos do celular para enviar limpo ao BD
-                    logradouro_usuario: "Rua Exemplo", // Valor padrão para teste
-                    bairro_usuario: "Bairro Teste",   // Valor padrão para teste
-                    cidade_usuario: "Cidade Teste",   // Valor padrão para teste
-                    uf_usuario: "SP",                 // Valor padrão para teste
-                    cep_usuario: "00000000",          // Valor padrão para teste
-                    dt_nasc_usuario: "2000-01-01",    // Data de nascimento fictícia para teste
-                    tipo_usuario: "C"                 // Tipo de usuário (Cliente)
-                };
+    // Função para exibir mensagens de feedback
+    function showFeedback(message, type) {
+        feedbackMessage.textContent = message;
+        feedbackMessage.className = `message ${type}-message`; // Adiciona classes para estilização
+        feedbackMessage.style.display = 'block'; // Garante que a div esteja visível
+    }
 
+    // Função para limpar mensagens de erro dos campos
+    function clearErrors() {
+        firstnameErrorSpan.textContent = '';
+        lastnameErrorSpan.textContent = '';
+        emailErrorSpan.textContent = '';
+        numberErrorSpan.textContent = '';
+        passwordErrorSpan.textContent = '';
+        confirmPasswordErrorSpan.textContent = '';
+    }
 
-                // Pega o valor do gênero selecionado
-                const selectedGender = document.querySelector('input[name="gender"]:checked');
-                if (selectedGender) {
-                    // Se você precisar mapear F/M/O/N para outros valores no seu banco de dados, faça aqui
-                    // Por exemplo: formData.genero_usuario = selectedGender.value;
-                    // Por enquanto, o banco de dados que vimos não tem campo de gênero, mas se tiver, você pode adicionar.
-                }
+    if (signupForm) {
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Impede o envio padrão do formulário
 
-                // Desabilita o botão enquanto envia para evitar múltiplos cliques
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Enviando...';
+            clearErrors(); // Limpa mensagens de erro anteriores
+            feedbackMessage.textContent = ''; // Limpa mensagens de feedback anteriores
+            feedbackMessage.className = 'message'; // Reseta as classes de estilo
 
+            // Validação dos campos
+            const firstname = firstnameInput.value.trim();
+            const lastname = lastnameInput.value.trim();
+            const email = emailInput.value.trim();
+            const number = celularInput.value.trim(); // Pega o valor formatado
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
 
-                // Envia os dados para a API usando fetch
-                try {
-                    const response = await fetch(API_CADASTRO_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
+            let isValid = true;
 
-                    const result = await response.json();
+            if (firstname === '') {
+                firstnameErrorSpan.textContent = 'Por favor, preencha o primeiro nome.';
+                isValid = false;
+            }
+            if (lastname === '') {
+                lastnameErrorSpan.textContent = 'Por favor, preencha o sobrenome.';
+                isValid = false;
+            }
+            const emailPattern = /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+            if (!email || !emailPattern.test(email)) {
+                emailErrorSpan.textContent = 'Por favor, insira um e-mail válido.';
+                isValid = false;
+            }
+            // Validação do celular com base no número de dígitos após remover a máscara
+            const cleanNumber = number.replace(/\D/g, ''); // Remove a máscara para validação
+            if (cleanNumber === '') {
+                numberErrorSpan.textContent = 'O celular é obrigatório.';
+                isValid = false;
+            } else if (cleanNumber.length < 10 || cleanNumber.length > 11) { // 10 ou 11 dígitos para DDD + número
+                numberErrorSpan.textContent = 'O número de celular deve ter 10 ou 11 dígitos (incluindo DDD).';
+                isValid = false;
+            }
+            if (password.length < 8) { // Senha deve ter pelo menos 8 caracteres (ajustado para seu HTML)
+                passwordErrorSpan.textContent = 'A senha deve ter pelo menos 8 caracteres.';
+                isValid = false;
+            }
+            if (confirmPassword !== password) {
+                confirmPasswordErrorSpan.textContent = 'As senhas não coincidem.';
+                isValid = false;
+            }
 
-                    if (response.ok && result.success) {
-                        showFeedback(result.message, 'success');
-                        signupForm.reset(); // Limpa o formulário após o sucesso
-                        // Opcional: Redirecionar o usuário para a página de login ou de sucesso
-                        // setTimeout(() => {
-                        //     window.location.href = '/login';
-                        // }, 2000);
-                    } else {
-                        // Se a API retornar erro ou sucesso:false
-                        showFeedback(result.message || 'Erro ao cadastrar usuário. Tente novamente.', 'error');
-                        // Exibir erros específicos da API se houver (ex: email já cadastrado)
-                        if (result.error_details) {
-                            console.error('Detalhes do erro da API:', result.error_details);
-                            // Você pode tentar mapear error_details para os spans de erro dos campos específicos
-                        }
+            if (!isValid) {
+                showFeedback('Por favor, corrija os erros no formulário.', 'error');
+                return; // Interrompe o envio se houver erros de validação
+            }
+
+            // Coleta os dados do formulário para enviar à API
+            const formData = {
+                NOME_USUARIO: `${firstname} ${lastname}`, // Concatena nome e sobrenome
+                EMAIL_USUARIO: email,
+                SENHA_USUARIO: password,
+                CELULAR_USUARIO: cleanNumber, // Envia o celular sem a máscara para o banco de dados
+                // Valores padrão para campos que não estão no formulário
+                LOGRADOURO_USUARIO: "Rua Exemplo",
+                BAIRRO_USUARIO: "Bairro Teste",
+                CIDADE_USUARIO: "Cidade Teste",
+                UF_USUARIO: "SP",
+                CEP_USUARIO: "00000000",
+                DT_NASC_USUARIO: "2000-01-01",
+                TIPO_USUARIO: "C"
+            };
+
+            // Pega o valor do gênero selecionado (se precisar enviar para o BD)
+            const selectedGender = document.querySelector('input[name="gender"]:checked');
+            if (selectedGender) {
+                // formData.GENERO_USUARIO = selectedGender.value; // Exemplo: se tiver um campo de gênero no BD
+            }
+
+            // Desabilita o botão enquanto envia para evitar múltiplos cliques
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+
+            // Envia os dados para a API usando fetch
+            try {
+                const response = await fetch(API_CADASTRO_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json(); // Pega a resposta JSON da API
+
+                if (response.ok && result.success) { // Se o status HTTP for 2xx e a API retornar sucesso
+                    showFeedback(result.message, 'success');
+                    signupForm.reset(); // Limpa o formulário após o sucesso
+                    // Opcional: Redirecionar o usuário para a página de login
+                    // setTimeout(() => {
+                    //     window.location.href = '/login';
+                    // }, 2000);
+                } else { // Se o status HTTP não for 2xx ou a API retornar falha
+                    showFeedback(result.message || 'Erro ao cadastrar usuário. Tente novamente.', 'error');
+                    if (result.error_details) {
+                        console.error('Detalhes do erro da API:', result.error_details);
                     }
-                } catch (error) {
-                    console.error('Erro na requisição:', error);
-                    showFeedback('Erro na conexão com o servidor. Verifique sua internet ou tente mais tarde.', 'error');
-                } finally {
-                    // Reabilita o botão ao final da requisição (sucesso ou falha)
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Criar conta';
                 }
+            } catch (error) {
+                console.error('Erro na requisição de cadastro:', error);
+                showFeedback('Erro de conexão com o servidor. Verifique sua internet ou tente novamente mais tarde.', 'error');
+            } finally {
+                // Reabilita o botão ao final da requisição (sucesso ou falha)
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Criar conta';
+            }
+        });
+    }
 });
-

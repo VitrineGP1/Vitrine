@@ -1,247 +1,248 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="css/home-perfil.css">
-        <script async src="js/home.js"></script>
-        <title>Home</title>
-        <style>
-
-            .slides {
-                display: flex;
-                transition: transform 0.5s ease-in-out;
-            }
-            
-            .slide {
-                transition: opacity 0.5s ease-in-out;
-            }
-            
-            .slide img {
-                border-radius: 10px;
-            }
-            
-            @keyframes slideAnimation {
-                0%, 20% { transform: translateX(0); }         
-                33%, 53% { transform: translateX(-100%); }
-                66%, 86% { transform: translateX(-200%); }
-                100% { transform: translateX(0); }
-            }
-            
-            .slides {
-                animation: slideAnimation 15s infinite;
-            }
-            </style>
-    </head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/home-perfil.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <body>                   
-        <header class="header">
-            <a class="logo" href="/">
-              <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-            </a>
-              
-            <div class="mobile-menu">
-              <div class="line1"></div>
-              <div class="line2"></div>
-              <div class="line3"></div>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li><a href="/perfil" class="perfil"><img src="imagens\do-utilizador.png" width="35" height="35"></a></li>
-                <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-              </ul>
-        </header>
-
-    </div>
-</div>
-
-
-<div class="slider">
-    <div class="slides">
-        <div class="slide">
-            <img src="imagens/banner-2.jpg" alt="Slide1">
-        </div>
-        <div class="slide">
-            <img src="imagens/artesaanato.png" alt="Slide 2">
-        </div>
-        <div class="slide">
-            <img src="imagens/artesanato.png" alt="Slide 3">
-        </div>
+    <title>Vitrine - Página Inicial</title>
+    <style>
+        /* These styles should ideally be in your home-perfil.css file for better organization */
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
         
-    </div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<br><br>
-<p class="event-filtros">Categorias</p><br><br>
-
-<!-- Carrosel -->
-<article class="carousel-container">
-    <aside class="carousel">
-        <aside class="carousel-item">
-            <a href="#">
-            <img src="imagens/artesanato.png" alt="Casa e Decoração" width="70px" height="70px">
-            <p>Casa e Decoração</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/bolsa.png" alt="Moda" width="70px" height="70px">
-                <p>Moda</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/moveis.png" alt="Moveis" width="70px" height="70px">
-                <p>Moveis</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/croche.png" alt="Croche" width="70px" height="70px">
-                <p>Crochê</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Natação</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Futebol</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Volei</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Trilha</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Ping pong</p>
-            </a>
-        </aside>
-        <aside class="carousel-item">
-            <a href="#">
-                <img src="imagens/casa (2).png" alt="Casa e Decoração" width="70px" height="70px">
-                <p>Skate</p>
-            </a>
-        </aside>
-    </aside>
-    <aside class="left-arrow carousel-arrow">&lt;</aside>
-    <aside class="right-arrow carousel-arrow">&gt;</aside>
-</article>
-<br><br><br><br>
-<p class="event-filtros">Mais Vendidos</p><br><br>
-<div class="grade">
-<tr class="cart-product">
-<td>
-<div class="produtos2"><br><br><div class="h8">Cesto organizador</div><br><a href="/prod1"><img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador" class="imagem2" width="250px" height="250px"></a>
-<br><br>
-<div class="preco2">R$265,00</div><br>
-</td>
-</tr>
-<a href="/home-perfil-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-<br><br><br>
-</div>
-    
-    
-    
-<div class="produtos3"><br><br><div class="h9">Banquinho de Crochê </div><br><a href="/prod2"><img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" class="imagem3" width="250px" height="250px"></a>
-<br><br>
-<div class="preco3">R$315,00</div><br>
-<a href="/home-perfil-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-</div>
-    
-<div class="produtos4"><br><br><div class="h10">Bolsa de Fio Náutico</div><br><a href="/prod3"><img src="imagens/bolsa.png" class="imagem4" width="250px" height="250px"></a>
-<br><br>
-<div class="preco4">R$235,00</div><br>
-<a href="/home-perfil-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-</div>
-    
-<div class="produtos5"><br><br><div class="h11">Bolsa de Crochê</div><br><a href="/prod4"><img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" class="imagem5" width="250px" height="250px"></a>
-<br><br>
-<div class="preco5">R$145,00</div><br>
-<a href="/home-perfil-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-</div>
-    
-</div>
-</div><br><br><br><br>
-<footer>
-<div id="footer_content">
-<div id="footer_contacts">
-
-    <div id="footer_social_media">
-        <a href="#" class="footer-link" id="instagram">
-            <i class="fa-brands fa-instagram"></i>
+        .slide {
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .slide img {
+            border-radius: 10px;
+        }
+        
+        @keyframes slideAnimation {
+            0%, 20% { transform: translateX(0); }         
+            33%, 53% { transform: translateX(-100%); }
+            66%, 86% { transform: translateX(-200%); }
+            100% { transform: translateX(0); }
+        }
+        
+        .slides {
+            animation: slideAnimation 15s infinite;
+        }
+    </style>
+</head>
+<body> 
+    <header class="header">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
         </a>
+          
+        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+        <nav id="main-navigation">
+            <ul class="nav-list">
+                <li><a href="/" aria-current="page">Início</a></li>
+                <li><a href="/sobrenos">Sobre Nós</a></li>
+                <li><a href="/perfil" class="perfil" aria-label="Ver seu perfil de usuário">
+                    <img src="imagens/do-utilizador.png" width="35" height="35" alt="Ícone de perfil do usuário">
+                </a></li>
+                <li><a href="/carrinho-vazio" class="carrinho" aria-label="Ver seu carrinho de compras, atualmente vazio">
+                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras vazio">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <a href="#" class="footer-link" id="facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-        </a>
+    <main>
+        <section class="hero-slider" aria-label="Destaques do site">
+            <h1 class="visually-hidden">Destaques e Novidades</h1>
+            <div class="slider">
+                <div class="slides">
+                    <div class="slide">
+                        <img src="imagens/banner-2.jpg" alt="Banner promocional: Descontos especiais em produtos selecionados.">
+                    </div>
+                    <div class="slide">
+                        <img src="imagens/artesaanato.png" alt="Slide: Coleção de artesanato com diversos itens decorativos.">
+                    </div>
+                    <div class="slide">
+                        <img src="imagens/artesanato.png" alt="Slide: Produtos artesanais em destaque, como cestos e decorações.">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="product-categories" aria-labelledby="categories-heading">
+            <h2 id="categories-heading" class="event-filtros">Categorias</h2>
+            <div class="carousel-container">
+                <div class="carousel" role="list">
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/artesanato.png" alt="Ícone de Casa e Decoração" width="70" height="70">
+                            <p>Casa e Decoração</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/bolsa.png" alt="Ícone de Moda" width="70" height="70">
+                            <p>Moda</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/moveis.png" alt="Ícone de Móveis" width="70" height="70">
+                            <p>Móveis</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/croche.png" alt="Ícone de Crochê" width="70" height="70">
+                            <p>Crochê</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Natação" width="70" height="70">
+                            <p>Natação</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Futebol" width="70" height="70">
+                            <p>Futebol</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Vôlei" width="70" height="70">
+                            <p>Vôlei</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Trilha" width="70" height="70">
+                            <p>Trilha</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Ping Pong" width="70" height="70">
+                            <p>Ping Pong</p>
+                        </a>
+                    </div>
+                    <div class="carousel-item" role="listitem">
+                        <a href="#">
+                            <img src="imagens/casa (2).png" alt="Ícone de Skate" width="70" height="70">
+                            <p>Skate</p>
+                        </a>
+                    </div>
+                </div>
+                <button class="left-arrow carousel-arrow" aria-label="Rolar categorias para a esquerda">&lt;</button>
+                <button class="right-arrow carousel-arrow" aria-label="Rolar categorias para a direita">&gt;</button>
+            </div>
+        </section>
 
-        <a href="#" class="footer-link" id="whatsapp">
-            <i class="fa-brands fa-whatsapp"></i>
-        </a>
-    </div>
-</div>
+        <section class="best-sellers" aria-labelledby="best-sellers-heading">
+            <h2 id="best-sellers-heading" class="event-filtros">Mais Vendidos</h2>
+            <div class="product-grid">
+                <article class="product-card">
+                    <a href="/prod1">
+                        <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador de corda náutica" class="product-image" width="250" height="250">
+                        <h3 class="product-name">Cesto organizador</h3>
+                        <p class="product-price">R$265,00</p>
+                    </a>
+                    <button class="btn add-to-cart-btn" type="button" data-product-id="prod1">ADICIONAR AO CARRINHO</button>
+                </article>
+                
+                <article class="product-card">
+                    <a href="/prod2">
+                        <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" alt="Banquinho de Crochê Tiradentes" class="product-image" width="250" height="250">
+                        <h3 class="product-name">Banquinho de Crochê</h3>
+                        <p class="product-price">R$315,00</p>
+                    </a>
+                    <button class="btn add-to-cart-btn" type="button" data-product-id="prod2">ADICIONAR AO CARRINHO</button>
+                </article>
+                
+                <article class="product-card">
+                    <a href="/prod3">
+                        <img src="imagens/bolsa.png" alt="Bolsa de Fio Náutico" class="product-image" width="250" height="250">
+                        <h3 class="product-name">Bolsa de Fio Náutico</h3>
+                        <p class="product-price">R$235,00</p>
+                    </a>
+                    <button class="btn add-to-cart-btn" type="button" data-product-id="prod3">ADICIONAR AO CARRINHO</button>
+                </article>
+                
+                <article class="product-card">
+                    <a href="/prod4">
+                        <img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" alt="Bolsa de Crochê com fundo de couro legítimo" class="product-image" width="250" height="250">
+                        <h3 class="product-name">Bolsa de Crochê</h3>
+                        <p class="product-price">R$145,00</p>
+                    </a>
+                    <button class="btn add-to-cart-btn" type="button" data-product-id="prod4">ADICIONAR AO CARRINHO</button>
+                </article>
+            </div>
+        </section>
+    </main>
 
-<ul class="footer-list">
-    <li>
-        <h3>Paginas</h3>
-    </li>
-    <li>
-        <a href="#" class="footer-link">Sobre Nós</a>
-    </li>
-    <li>
-        <a href="#" class="footer-link">Produtos</a>
-    </li>
-    <li>
-        <a href="/login" class="footer-link">Entrar</a>
-    </li>
-</ul>
+    <footer id="main-footer">
+        <div id="footer_content">
+            <div id="footer_contacts">
+                <p>Conecte-se conosco:</p>
+                <div id="footer_social_media">
+                    <a href="#" class="footer-link" id="instagram" aria-label="Visite nosso Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="footer-link" id="facebook" aria-label="Visite nosso Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="footer-link" id="whatsapp" aria-label="Fale conosco via WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <nav class="footer-nav" aria-label="Navegação do Rodapé">
+                <h3>Páginas</h3>
+                <ul class="footer-list">
+                    <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
+                    <li><a href="#" class="footer-link">Produtos</a></li>
+                    <li><a href="/login" class="footer-link">Entrar</a></li>
+                </ul>
+            </nav>
 
-<ul class="footer-list">
-    <li>
-        <h3>Products</h3>
-    </li>
-    <li>
-        <a href="#" class="footer-link">App</a>
-    </li>
-    <li>
-        <a href="#" class="footer-link">Desktop</a>
-    </li>
-</ul>
+            <nav class="footer-nav" aria-label="Produtos por plataforma">
+                <h3>Produtos</h3>
+                <ul class="footer-list">
+                    <li><a href="#" class="footer-link">App</a></li>
+                    <li><a href="#" class="footer-link">Desktop</a></li>
+                </ul>
+            </nav>
 
-<div id="footer_subscribe">
-    <h3>Inscreva-se</h3>
-
-    <p>
-        Digite seu e-mail para receber notificações sobre novos produtos
-    </p>
-
-    <div id="input_group">
-        <input class="email" type="email" id="email">
-        <button>
-            <i class="fa-regular fa-envelope"></i>
-        </button>
-    </div>
-</div>
-</div>
-</footer>
-<script src="js/home.js"></script>
+            <div id="footer_subscribe">
+                <h3>Inscreva-se</h3>
+                <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
+                <form onsubmit="event.preventDefault(); validateEmail();">
+                    <div id="input_group">
+                        <label for="email" class="visually-hidden">Digite seu e-mail</label>
+                        <input class="email" type="email" id="email" placeholder="Digite seu e-mail" required aria-describedby="email-message">
+                        <button type="submit" aria-label="Inscrever-se">
+                            <i class="fa-regular fa-envelope"></i>
+                        </button>
+                    </div>
+                    <p id="email-message" aria-live="polite"></p>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Vitrine. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <script src="js/home.js" async></script>
 </body>
 </html>

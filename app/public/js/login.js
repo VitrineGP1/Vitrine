@@ -1,227 +1,150 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const loginForm = document.getElementById('loginForm');
-  
-    // Verifique se o loginForm foi encontrado
-    if (!loginForm) {
-      console.error('Formulário de login não encontrado!');
-      return; // Saia da função se o formulário não existir
-    }
-  
-    loginForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Impede o envio do formulário até a validação
-  
-      // Obtendo os valores dos campos
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-  
-      // Limpando mensagens de erro
-      document.getElementById('emailError').textContent = '';
-      document.getElementById('passwordError').textContent = '';
-  
-      let hasError = false;
-  
-      // Validação de email
-      if (!email) {
-        document.getElementById('emailError').textContent = 'Por favor, insira seu email.';
-        hasError = true;
-      } else if (!validateEmail(email)) {
-        document.getElementById('emailError').textContent = 'Email inválido.';
-        hasError = true;
-      }
-  
-      // Validação de senha
-      if (!password) {
-        document.getElementById('passwordError').textContent = 'Por favor, insira sua senha.';
-        hasError = true;
-      } else if (password.length < 8) {
-        document.getElementById('passwordError').textContent = 'A senha deve ter pelo menos 8 caracteres.';
-        hasError = true;
-      }
-  
-      // Se não houver erros, redirecione para o link desejado
-      if (!hasError) {        
-        // Redireciona após a validação
-        window.location.href = '/home-perfil'; // Insira o link que deseja redirecionar
-        
-        // Limpa o formulário após o envio (opcional, se o formulário estiver sendo enviado para outra página)
-        loginForm.reset();
-      }
-    });
-  
-    // Função para validar o formato do email
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex para validar o email
-      return re.test(String(email).toLowerCase());
-    }
-});
+// app/public/js/login.js
 
+// Lógica para a navegação móvel (mantida do seu código)
 class MobileNavbar {
-  constructor(mobileMenu, navList, navLinks) {
-    this.mobileMenu = document.querySelector(mobileMenu);
-    this.navList = document.querySelector(navList);
-    this.navLinks = document.querySelectorAll(navLinks);
-    this.activeClass = "active";
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  animateLinks() {
-    this.navLinks.forEach((link, index) => {
-      link.style.animation
-        ? (link.style.animation = "")
-        : (link.style.animation = `navLinkFade 0.5s ease forwards ${
-            index / 7 + 0.3
-          }s`);
-    });
-  }
-
-  handleClick() {
-    this.navList.classList.toggle(this.activeClass);
-    this.mobileMenu.classList.toggle(this.activeClass);
-    this.animateLinks();
-  }
-
-  addClickEvent() {
-    this.mobileMenu.addEventListener("click", this.handleClick);
-  }
-
-  init() {
-    if (this.mobileMenu) {
-      this.addClickEvent();
+    constructor(mobileMenu, navList, navLinks) {
+        this.mobileMenu = document.querySelector(mobileMenu);
+        this.navList = document.querySelector(navList);
+        this.navLinks = document.querySelectorAll(navLinks);
+        this.activeClass = "active";
+        this.handleClick = this.handleClick.bind(this);
     }
-    return this;
-  }
+
+    animateLinks() {
+        this.navLinks.forEach((link, index) => {
+            link.style.animation
+                ? (link.style.animation = "")
+                : (link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`);
+        });
+    }
+
+    handleClick() {
+        this.navList.classList.toggle(this.activeClass);
+        this.mobileMenu.classList.toggle(this.activeClass);
+        this.animateLinks();
+    }
+
+    addClickEvent() {
+        this.mobileMenu.addEventListener("click", this.handleClick);
+    }
+
+    init() {
+        if (this.mobileMenu) {
+            this.addClickEvent();
+        }
+        return this;
+    }
 }
 
+// Inicializa o menu mobile
 const mobileNavbar = new MobileNavbar(
-  ".mobile-menu",
-  ".nav-list",
-  ".nav-list li",
+    ".mobile-menu",
+    ".nav-list",
+    ".nav-list li"
 );
 mobileNavbar.init();
 
+// --- Lógica de Login Principal e Validação ---
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
-    // Adicione um elemento para exibir a mensagem geral de sucesso/erro do login
-    const loginMessage = document.createElement('p');
-    loginMessage.id = 'apiLoginMessage'; // ID para o elemento de mensagem
-    loginForm.appendChild(loginMessage); // Adiciona o elemento abaixo do formulário
+    const messageDiv = document.getElementById('message'); // Div para mensagens de sucesso/erro da API
 
+    // Referências aos inputs e spans de erro, conforme seu HTML
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailErrorSpan = document.getElementById('emailError');
+    const passwordErrorSpan = document.getElementById('passwordError');
 
-    const PHP_LOGIN_API_URL = 'https://vitrine-lljl.onrender.com/api/login_usuario.php';
+    // URL da API de login no seu próprio servidor Node.js
+    const API_LOGIN_URL = '/api/login_usuario';
 
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Impede o envio padrão do formulário (recarregar a página)
+    // Função para validar o formato do email
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
 
-        // Limpa mensagens anteriores
-        loginMessage.textContent = '';
-        document.getElementById('emailError').textContent = '';
-        document.getElementById('passwordError').textContent = '';
+    // Função para exibir mensagens de feedback (sucesso/erro)
+    function showMessage(element, text, type) {
+        element.textContent = text;
+        element.className = `message ${type}`; // Adiciona classes para estilização
+        element.style.display = 'block'; // Garante que a div esteja visível
+    }
 
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
+    // Função para limpar mensagens de erro dos campos
+    function clearInputErrors() {
+        emailErrorSpan.textContent = '';
+        passwordErrorSpan.textContent = '';
+    }
 
-        const email = emailInput.value.trim(); // .trim() remove espaços em branco extras
-        const password = passwordInput.value.trim();
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Impede o envio padrão do formulário
 
-        // Validação simples no lado do cliente
-        let isValid = true;
-        if (email === '') {
-            document.getElementById('emailError').textContent = 'O e-mail é obrigatório.';
-            isValid = false;
-        }
-        if (password === '') {
-            document.getElementById('passwordError').textContent = 'A senha é obrigatória.';
-            isValid = false;
-        }
+            clearInputErrors(); // Limpa erros de input anteriores
+            messageDiv.textContent = ''; // Limpa mensagens gerais anteriores
+            messageDiv.className = 'message'; // Reseta as classes de estilo
 
-        if (!isValid) {
-            return; // Para a execução se a validação falhar
-        }
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
-        // Preparar os dados para enviar para o PHP
-        // ATENÇÃO: Os nomes das chaves aqui (email_usuario, senha_usuario)
-        // DEVEM CORRESPONDER aos nomes que seu PHP (login_usuario.php) espera
-        const loginData = {
-            email_usuario: email,
-            senha_usuario: password
-        };
+            let hasError = false;
 
-        console.log('Dados de login a serem enviados para a API PHP:', loginData);
-
-        try {
-            // Faz a requisição HTTP para a API PHP de login
-            const response = await fetch(PHP_LOGIN_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json' // Indica que o corpo é JSON
-                },
-                body: JSON.stringify(loginData) // Converte o objeto JS para string JSON
-            });
-
-            const result = await response.json(); // Analisa a resposta como JSON
-
-            if (result.success) {
-             loginMessage.textContent = result.message + " Bem-vindo(a), " + result.user.nome + "!";
-            loginMessage.style.color = 'green';
-            loginForm.reset();
-
-            console.log('Login bem-sucedido. Dados do usuário:', result.user);
-
-            localStorage.setItem('loggedInUser', JSON.stringify(result.user));
-
-            window.location.href = '/perfil';
-
-            } else {
-                loginMessage.textContent = `Erro no login: ${result.message}`;
-                loginMessage.style.color = 'red';
+            // --- Validação Cliente-Side ---
+            if (!email) {
+                emailErrorSpan.textContent = 'Por favor, insira seu email.';
+                hasError = true;
+            } else if (!validateEmail(email)) {
+                emailErrorSpan.textContent = 'Email inválido.';
+                hasError = true;
             }
 
-        } catch (error) {
-            console.error('Erro na requisição de login:', error);
-            loginMessage.textContent = 'Erro ao conectar com o servidor. Tente novamente.';
-            loginMessage.style.color = 'red';
-        }
-    });
-});
+            if (!password) {
+                passwordErrorSpan.textContent = 'Por favor, insira sua senha.';
+                hasError = true;
+            } else if (password.length < 8) {
+                passwordErrorSpan.textContent = 'A senha deve ter pelo menos 8 caracteres.';
+                hasError = true;
+            }
 
-loginForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Impede o envio do formulário até a validação
-  
-      // Obtendo os valores dos campos
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-  
-      // Limpando mensagens de erro
-      document.getElementById('emailError').textContent = '';
-      document.getElementById('passwordError').textContent = '';
-  
-      let hasError = false;
-  
-      // Validação de email
-      if (!email) {
-        document.getElementById('emailError').textContent = 'Por favor, insira seu email.';
-        hasError = true;
-      } else if (!validateEmail(email)) {
-        document.getElementById('emailError').textContent = 'Email inválido.';
-        hasError = true;
-      }
-  
-      // Validação de senha
-      if (!password) {
-        document.getElementById('passwordError').textContent = 'Por favor, insira sua senha.';
-        hasError = true;
-      } else if (password.length < 8) {
-        document.getElementById('passwordError').textContent = 'A senha deve ter pelo menos 8 caracteres.';
-        hasError = true;
-      }
-  
-      // Se não houver erros, redirecione para o link desejado
-      if (!hasError) {        
-        // Redireciona após a validação
-        window.location.href = '/home-perfil'; // Insira o link que deseja redirecionar
-        
-        // Limpa o formulário após o envio (opcional, se o formulário estiver sendo enviado para outra página)
-        loginForm.reset();
-      }
-    });
+            if (hasError) {
+                // Se houver erros de validação no frontend, exiba uma mensagem geral e pare
+                showMessage(messageDiv, 'Por favor, corrija os erros no formulário.', 'error');
+                return;
+            }
+
+            // --- Envio para a API (se a validação cliente-side passar) ---
+            try {
+                const response = await fetch(API_LOGIN_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ EMAIL_USUARIO: email, SENHA_USUARIO: password })
+                });
+
+                const result = await response.json(); // Pega a resposta JSON da API
+
+                if (response.ok && result.success) { // Se o status HTTP for 2xx e a API retornar sucesso
+                    showMessage(messageDiv, result.message, 'success');
+
+                    // Armazena informações do usuário no localStorage
+                    localStorage.setItem('userId', result.user.id);
+                    localStorage.setItem('userType', result.user.type);
+                    localStorage.setItem('userName', result.user.name);
+
+                    // Redireciona para a página de perfil após um breve atraso
+                    setTimeout(() => {
+                        window.location.href = '/perfil'; // Redireciona para a rota /perfil
+                    }, 1000);
+                } else { // Se o status HTTP não for 2xx ou a API retornar falha
+                    showMessage(messageDiv, result.message || 'Erro ao fazer login.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro na requisição de login:', error);
+                showMessage(messageDiv, 'Erro de conexão com o servidor. Verifique sua internet ou tente novamente mais tarde.', 'error');
+            }
+        });
+    }
+});

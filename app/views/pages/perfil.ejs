@@ -36,7 +36,7 @@
     <main class="profile-page">
         <h1 class="page-title">Meu Perfil</h1>
 
-        <p id="loadingMessage" class="message">Carregando informações do perfil...</p>
+        <p id="loadingMessage" class="message" style="display: none;">Carregando informações do perfil...</p>
         <p id="errorMessage" class="message error" style="display: none;"></p>
         <p id="successMessage" class="message success" style="display: none;"></p>
 
@@ -50,34 +50,26 @@
             <dl class="profile-details">
                 <dt>Nome:</dt>
                 <dd id="displayUserName"></dd>
-
                 <dt>Email:</dt>
                 <dd id="displayUserEmail"></dd>
-
                 <dt>Celular:</dt>
                 <dd id="displayUserCelular"></dd>
-
                 <dt>Logradouro:</dt>
                 <dd id="displayUserLogradouro"></dd>
-
                 <dt>Bairro:</dt>
                 <dd id="displayUserBairro"></dd>
-
                 <dt>Cidade:</dt>
                 <dd id="displayUserCidade"></dd>
-
                 <dt>UF:</dt>
                 <dd id="displayUserUf"></dd>
-
                 <dt>CEP:</dt>
                 <dd id="displayUserCep"></dd>
-
                 <dt>Data de Nascimento:</dt>
                 <dd id="displayUserDtNasc"></dd>
-
                 <dt>Tipo de Usuário:</dt>
                 <dd id="displayUserTipo"></dd>
             </dl>
+            <button id="toggleEditButton" class="btn btn-primary">Editar Perfil</button>
         </section>
 
         <section class="profile-section" id="profileEditSection" style="display: none;">
@@ -120,6 +112,7 @@
                 <input type="password" id="confirm_password_input" name="CONFIRM_SENHA_USUARIO">
 
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <button type="button" id="cancelEditButton" class="btn btn-secondary" style="margin-left: 10px;">Cancelar</button>
             </form>
         </section>
 

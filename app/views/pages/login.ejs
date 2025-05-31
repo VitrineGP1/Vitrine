@@ -1,89 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>Login | Vitrine</title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-    .error {
-      color: red;
-      font-size: 12px;
-      display: block;
-      margin-top: 5px;
-    }
-    </style>
-  </head>
-    
-  <body>
-    <header class="header">
-      <a class="logo" href="/">
-        <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-      </a>
-        
-      <div class="mobile-menu">
-        <div class="line1"></div>
-        <div class="line2"></div>
-        <div class="line3"></div>
-      </div>
-      <ul class="nav-list">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/sobrenos">Sobre</a></li>
-          <li><a href="/login">Entrar</a></li>
-          <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-        </ul>
-  </header>
 
-      
-    <div class="container">
-      <div class="content first-content">
-        <div class="first-column">
-          <h2 class="title title-primary">Se cadastre na Vitrine!</h2>
-          <p class="description description-primary">Pra quem está chegando agora</p>
-          <p class="description description-primary"> e quer começar a comprar</p>
-          <button name="cadastro" class="btn btn-primary" onclick="window.location.href='/cadastro';">Cadastro</button>
-        </div>
-          
-        <div class="second-column">
-          <h2 class="title title-second">Entrar</h2>
-          <div class="social-media">
-            <ul class="list-social-media">
-              <a class="link-social-media" href="">
-                <li class="item-social-media">
-                  <img src="imagens/pesquisa.png" alt="Google login" height="35" width="35">
-                </li>
-              </a>
-              <a class="link-social-media" href="https://pt-br.facebook.com/">
-                <li class="item-social-media">
-                  <img src="imagens/facebook (1).png" alt="Facebook login" height="35" width="35">
-                </li>
-              </a>
-            </ul>
-          </div>
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .message.error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .error-input-message { 
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        
+        <nav class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </nav>
+        <ul class="nav-list">
+            <li><a href="/">Início</a></li>
+            <li><a href="/sobrenos">Sobre</a></li>
+            <li><a href="/login">Entrar</a></li>
+            <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px" alt="Carrinho de compras"></a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <section class="content first-content">
+            <aside class="first-column">
+                <h2 class="title title-primary">Se cadastre na Vitrine!</h2>
+                <p class="description description-primary">Para quem está chegando agora</p>
+                <p class="description description-primary">e quer começar a comprar</p>
+                <button name="cadastro" class="btn btn-primary" onclick="window.location.href='/cadastro';">Cadastro</button>
+            </aside>
             
-          <p class="description description-second">ou use seus dados:</p>
-          <form id="loginForm" class="loginForm">
-            <label class="label-input">
-              <i class="far fa-envelope icon-modify"></i>
-              <input type="text" id="email" name="email_usuario" placeholder="Email">
-              <span id="emailError" class="error"></span>
-            </label>
-              
-            <label class="label-input">
-              <i class="fas fa-lock icon-modify"></i>
-              <input type="password" id="password" name="senha_usuario" placeholder="Senha">
-              <span id="passwordError" class="error"></span>
-            </label>
-              
-            <a class="password" href="#">Esqueceu a senha?</a>
-            <button class="btn btn-second">Sign in</button>
-            
-          </form>
-        </div>
-      </div>
-    </div>
+            <section class="second-column">
+                <h2 class="title title-second">Entrar</h2>
+                <div class="social-media">
+                    <ul class="list-social-media">
+                        <li>
+                            <a class="link-social-media" href="#" aria-label="Login com Google">
+                                <img src="imagens/pesquisa.png" alt="Google login" height="35" width="35">
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link-social-media" href="https://pt-br.facebook.com/" aria-label="Login com Facebook">
+                                <img src="imagens/facebook (1).png" alt="Facebook login" height="35" width="35">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="description description-second">ou use seus dados:</p>
+                
+                <div id="message" class="message" style="display: none;"></div>
+
+                <form id="loginForm" class="login-form">
+                    <label for="email_login" class="label-input">
+                        <i class="far fa-envelope icon-modify"></i>
+                        <input type="email" id="email_login" name="EMAIL_USUARIO" placeholder="Email" required>
+                        <span id="emailError" class="error-input-message"></span>
+                    </label>
+                    
+                    <label for="password_login" class="label-input">
+                        <i class="fas fa-lock icon-modify"></i>
+                        <input type="password" id="password_login" name="SENHA_USUARIO" placeholder="Senha" required>
+                        <span id="passwordError" class="error-input-message"></span>
+                    </label>
+                    
+                    <a class="password" href="#">Esqueceu a senha?</a>
+                    <button type="submit" class="btn btn-second">Entrar</button>
+                </form>
+            </section>
+        </section>
+    </main>
+    
     <script src="js/login.js"></script>
-  </body>
+</body>
 </html>
