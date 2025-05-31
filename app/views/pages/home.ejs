@@ -9,7 +9,6 @@
     
     <title>Vitrine - Artesanato e Produtos Feitos à Mão</title>
     <style>
-        /* These styles should ideally be in your home.css file for better organization */
         .slides {
             display: flex;
             transition: transform 0.5s ease-in-out;
@@ -29,12 +28,79 @@
             66%, 86% { transform: translateX(-200%); }
             100% { transform: translateX(0); }
         }
-        
+    
         .slides {
             animation: slideAnimation 15s infinite;
         }
-
-        /* Basic visually hidden class for accessibility, add to your CSS */
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }   
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 100px;
+            margin: 0 10px;
+            text-align: center;
+            scroll-snap-align: center;
+        }   
+        .carousel-item img {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+        }   
+        .carousel-item p {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #333;
+        }   
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .carousel-arrow.left-arrow {
+            left: 10px;
+        }
+        .carousel-arrow.right-arrow {
+            right: 10px;
+        }
+        .carousel-arrow:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .carousel-arrow:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #e47a1b;
+        }
+        .carousel-arrow:active {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+        .carousel-arrow:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .carousel-arrow i {
+            font-size: 20px;
+            color: #e47a1b;
+        }
+        .carousel-arrow:focus i {
+            color: #333;
+        }
+        .carousel-arrow:active i {
+            color: #e47a1b;
+        }
+        .carousel-arrow:disabled i {
+            color: #ccc;
+        }
         .visually-hidden {
             position: absolute;
             width: 1px;

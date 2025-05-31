@@ -12,11 +12,11 @@ body {
 }
 
 header{
-    position:fixed;
+    position:sticky;
     display: flex;
     z-index: 1000;
     width: 100%;
-    background-color: #544E4B;
+    background-color: #e47a1b;
     top: 0;
     right: 0;
 }
@@ -29,12 +29,6 @@ a {
   
 a:hover{
     opacity: 0.7;
-}
-  
-.logo{
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 4px;
 }
   
 a.logo{
@@ -59,28 +53,30 @@ nav{
   
 .nav-list li{
     letter-spacing: 3px;
-    margin-left: 80px;
+    margin-left: 30%;
     padding-right: 100px;
+
 }
   
 .nav-list li:hover{
     opacity: 0.5;
-    color: #5c5c5c;
+    color: #f3b560;
 }
 
 .carrinho img {
     margin-right: 5%;
-    position: absolute;
+    position: center;
 }
 .nav-list img {
     margin-top: -20px;
     right: 0;
 }
 
+
 .event-filtros::after {
     content: '';
     display: block;
-    background-color: #544E4B;
+    background-color: #e47a1b;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
@@ -123,7 +119,7 @@ p.event-filtros {
 footer {
     width: 100%;
     color:#fff;
-    background-color: #544E4B;
+    background-color: #f3b560;
 }
 
 .footer-link {
@@ -281,7 +277,7 @@ footer {
     top: 60%;
     right: 0;
     height: 50vh;
-    background: #544E4B;
+    background: #e47a1b;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
