@@ -8,32 +8,6 @@
         <link rel="stylesheet" href="css/home.css">
 
         <title>Vitrine - Artesanato e Produtos Feitos à Mão</title>
-        <style>
-            /* Seus estilos CSS */
-            .slides {
-                display: flex;
-                transition: transform 0.5s ease-in-out;
-            }
-
-            .slide {
-                transition: opacity 0.5s ease-in-out;
-            }
-
-            .slide img {
-                border-radius: 10px;
-            }
-
-            @keyframes slideAnimation {
-                0%, 20% { transform: translateX(0); }
-                33%, 53% { transform: translateX(-100%); }
-                66%, 86% { transform: translateX(-200%); }
-                100% { transform: translateX(0); }
-            }
-
-            .slides {
-                animation: slideAnimation 15s infinite;
-            }
-        </style>
     </head>
     <body>
         <header class="header">
@@ -206,7 +180,8 @@
                 </section>
 
                 <nav class="footer-list"> <h3>Paginas</h3>
-                    <ul> <li><a href="#" class="footer-link">Sobre Nós</a></li>
+                    <ul> 
+                        <li><a href="#" class="footer-link">Sobre Nós</a></li>
                         <li><a href="#" class="footer-link">Produtos</a></li>
                         <li><a href="/login" class="footer-link">Entrar</a></li>
                     </ul>
