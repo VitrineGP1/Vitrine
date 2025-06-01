@@ -606,6 +606,7 @@ footer {
 
 .footer-list li{
     list-style: none;
+    padding-top: 5px;
 }
 
 .footer-list .footer-link {
