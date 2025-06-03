@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #fafafa;
+    background-color: #f5f5dc;
 }
 
 header{
@@ -16,7 +16,7 @@ header{
     display: flex;
     z-index: 1000;
     width: 100%;
-    background-color: #e47a1b;
+    background-color: #c4cbb3;
     top: 0;
     right: 0;
 }
@@ -350,7 +350,7 @@ nav{
 }
 
 .rodape {
-    background-color: #e47a1b;
+    background-color: #c4cbb3;
     width: 100%;
     height: 100px;
     margin-top: 50px;
@@ -457,7 +457,7 @@ nav{
 }
 
 .carousel-item:hover img {
-    border: 3px solid #f3b560; /* Borda ao passar o mouse */
+    border: 3px solid #c4cbb3; /* Borda ao passar o mouse */
     transform: scale(1.1); /* Aumenta o tamanho da imagem */
 }
 
@@ -486,7 +486,7 @@ nav{
     top: 50%;
     width: 50px;
     height: 60px;
-    background-color: #f3b560;
+    background-color: #c4cbb3;
     color: white;
     font-size: 24px;
     border-radius: 50%;
@@ -500,7 +500,7 @@ nav{
 }
 
 .carousel-arrow:hover {
-    background-color: #f3b560; 
+    background-color: #c4cbb3; 
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -514,7 +514,7 @@ nav{
 
 .carousel-arrow:hover {
     transform: translateY(-50%) scale(1.2);
-    background-color: #fae7be; 
+    background-color: #c4cbb3; 
 }
 
 .carousel-arrow {
@@ -524,7 +524,7 @@ nav{
 .event-filtros::after{
     content: '';
     display: block;
-    background-color: #fae7be;
+    background-color: #c4cbb3;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
@@ -542,7 +542,7 @@ p.event-filtros {
 footer {
     width: 100%;
     color:#000;
-    background-color: #fae7be;
+    background-color: #a4ad8f;
 }
 
 .footer-link {

@@ -1,55 +1,7 @@
-// app/public/js/cadastro.js
-
-// Lógica para a navegação móvel
-class MobileNavbar {
-    constructor(mobileMenu, navList, navLinks) {
-        this.mobileMenu = document.querySelector(mobileMenu);
-        this.navList = document.querySelector(navList);
-        this.navLinks = document.querySelectorAll(navLinks);
-        this.activeClass = "active";
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    animateLinks() {
-        this.navLinks.forEach((link, index) => {
-            link.style.animation
-                ? (link.style.animation = "")
-                : (link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`);
-        });
-    }
-
-    handleClick() {
-        this.navList.classList.toggle(this.activeClass);
-        this.mobileMenu.classList.toggle(this.activeClass);
-        this.animateLinks();
-    }
-
-    addClickEvent() {
-        this.mobileMenu.addEventListener("click", this.handleClick);
-    }
-
-    init() {
-        if (this.mobileMenu) {
-            this.addClickEvent();
-        }
-        return this;
-    }
-}
-
-// Inicializa o menu mobile
-const mobileNavbar = new MobileNavbar(
-    ".mobile-menu",
-    ".nav-list",
-    ".nav-list li"
-);
-mobileNavbar.init();
-
-// --- Lógica de Cadastro Principal e Validação ---
-
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.getElementById('signup-form');
     const submitBtn = document.getElementById('submit-btn');
-    const feedbackMessage = document.getElementById('feedback-message'); // Div para mensagens de sucesso/erro da API
+    const feedbackMessage = document.getElementById('feedback-message');
 
     // Referências aos inputs e spans de erro
     const firstnameInput = document.getElementById('firstname');
@@ -110,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showFeedback(message, type) {
         feedbackMessage.textContent = message;
         feedbackMessage.className = `message ${type}-message`; // Adiciona classes para estilização
-        feedbackMessage.style.display = 'block'; // Garante que a div esteja visível
+        feedbackMessage.style.display = 'block';
     }
 
     // Função para limpar mensagens de erro dos campos

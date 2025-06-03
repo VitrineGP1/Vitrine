@@ -3,66 +3,57 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const path = require('path');
-const mysql = require('mysql2/promise'); 
-const bcrypt = require('bcryptjs'); 
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcryptjs');
 
 const port = process.env.PORT || 3030;
 
-
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://vitrine-lljl.onrender.com'); 
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    if (req.method === 'OPTIONS') { 
+    if (req.method === 'OPTIONS') {
         return res.sendStatus(200);
     }
     next();
 });
-
 
 const dbConfig = {
     host: process.env.MYSQL_ADDON_HOST,
     user: process.env.MYSQL_ADDON_USER,
     password: process.env.MYSQL_ADDON_PASSWORD,
     database: process.env.MYSQL_ADDON_BDD,
-    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306 
+    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306
 };
-
 
 let pool;
 try {
     pool = mysql.createPool(dbConfig);
     console.log('Pool de conexões MySQL criado com sucesso.');
 
-    
     pool.getConnection()
         .then(connection => {
             console.log('Conectado ao banco de dados MySQL via Node.js!');
-            connection.release(); // Libera a conexão de volta para o pool
+            connection.release();
         })
         .catch(err => {
             console.error('ERRO: Não foi possível conectar ao banco de dados MySQL:', err.message);
-            process.exit(1); 
-
+            process.exit(1);
         });
 } catch (err) {
     console.error('ERRO: Falha ao criar o pool de conexões MySQL:', err.message);
-    process.exit(1); 
+    process.exit(1);
 }
-
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'app', 'views'));
 
-
 var rotas = require("./app/routes/router");
 app.use("/", rotas);
-
 
 app.post('/api/cadastrar_usuario', async (req, res) => {
     const {
@@ -79,8 +70,8 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 10); 
-        const connection = await pool.getConnection(); 
+        const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 10);
+        const connection = await pool.getConnection();
 
         const [rows] = await connection.execute(
             `INSERT INTO USUARIOS (
@@ -111,7 +102,6 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     }
 });
 
-
 app.post('/api/login_usuario', async (req, res) => {
     const { EMAIL_USUARIO, SENHA_USUARIO } = req.body;
 
@@ -136,7 +126,6 @@ app.post('/api/login_usuario', async (req, res) => {
         const passwordMatch = await bcrypt.compare(SENHA_USUARIO, user.SENHA_USUARIO);
 
         if (passwordMatch) {
-            
             res.status(200).json({
                 success: true,
                 message: "Login bem-sucedido!",
@@ -158,7 +147,7 @@ app.post('/api/login_usuario', async (req, res) => {
 });
 
 app.get('/api/buscar_usuario', async (req, res) => {
-    const userId = req.query.id_usuario; 
+    const userId = req.query.id_usuario;
 
     if (!userId) {
         return res.status(400).json({ success: false, message: "ID do usuário não fornecido." });
@@ -187,10 +176,9 @@ app.get('/api/buscar_usuario', async (req, res) => {
     }
 });
 
-
 app.put('/api/atualizar_usuario', async (req, res) => {
     const {
-        id_usuario, 
+        id_usuario,
         NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
         BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
         DT_NASC_USUARIO, TIPO_USUARIO, NOVA_SENHA_USUARIO, CONFIRM_SENHA_USUARIO
@@ -245,7 +233,6 @@ app.put('/api/atualizar_usuario', async (req, res) => {
     }
 });
 
-
 app.get('/produtos', async (req, res) => {
     try {
         const connection = await pool.getConnection();
@@ -258,8 +245,6 @@ app.get('/produtos', async (req, res) => {
         res.status(500).send('Erro ao carregar a página de produtos.');
     }
 });
-
-
 
 app.listen(port, () => {
     console.log(`Servidor Node.js ouvindo na porta ${port}\nhttp://localhost:${port}`);
