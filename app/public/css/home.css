@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #fcfcec;
+    background-color: #f4f4f4;
 }
 
 header{
@@ -16,7 +16,7 @@ header{
     display: flex;
     z-index: 1000;
     width: 100%;
-    background-color: #c4cbb3;
+    background-color: #e47a1b;
     top: 0;
     right: 0;
 }
@@ -350,7 +350,7 @@ nav{
 }
 
 .rodape {
-    background-color: #c4cbb3;
+    background-color: #e47a1b;
     width: 100%;
     height: 100px;
     margin-top: 50px;
@@ -542,7 +542,7 @@ p.event-filtros {
 footer {
     width: 100%;
     color:#000;
-    background-color: #a4ad8f;
+    background-color: #e47a1b;
 }
 
 .footer-link {
