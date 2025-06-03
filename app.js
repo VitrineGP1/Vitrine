@@ -27,7 +27,7 @@ const dbConfig = {
     password: process.env.MYSQL_ADDON_PASSWORD,
     database: process.env.MYSQL_ADDON_BDD,
     port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306,
-    connectionLimit: 3
+    connectionLimit: 3 // Mantido em 3
 };
 
 let pool;
@@ -35,18 +35,21 @@ try {
     pool = mysql.createPool(dbConfig);
     console.log('Pool de conexões MySQL criado com sucesso.');
 
+    // MODIFICAÇÃO AQUI: Não encerra o processo se a conexão inicial falhar.
+    // Apenas loga o erro e permite que o servidor tente iniciar.
+    // As requisições individuais ainda podem falhar se não houver conexões disponíveis.
     pool.getConnection()
         .then(connection => {
             console.log('Conectado ao banco de dados MySQL via Node.js!');
             connection.release();
         })
         .catch(err => {
-            console.error('ERRO: Não foi possível conectar ao banco de dados MySQL:', err.message);
-            process.exit(1);
+            console.error('AVISO: Falha na conexão inicial com o banco de dados:', err.message);
+            // Removido process.exit(1) para permitir que o servidor tente iniciar mesmo com problemas de DB
         });
 } catch (err) {
-    console.error('ERRO: Falha ao criar o pool de conexões MySQL:', err.message);
-    process.exit(1);
+    console.error('ERRO CRÍTICO: Falha ao criar o pool de conexões MySQL:', err.message);
+    process.exit(1); // Este exit é mantido se o pool não puder nem ser criado (erro de config grave)
 }
 
 app.use(express.static(path.join(__dirname, 'app', 'public')));
@@ -70,9 +73,10 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         return res.status(400).json({ success: false, message: "Formato de email inválido." });
     }
 
+    let connection; // Declare connection outside try to ensure it's accessible in finally
     try {
         const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 10);
-        const connection = await pool.getConnection();
+        connection = await pool.getConnection(); // Get connection here
 
         const [rows] = await connection.execute(
             `INSERT INTO USUARIOS (
@@ -86,20 +90,16 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
                 CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO
             ]
         );
-        connection.release();
-
-        if (rows.affectedRows > 0) {
-            res.status(201).json({ success: true, message: "Usuário cadastrado com sucesso!" });
-        } else {
-            res.status(500).json({ success: false, message: "Falha ao cadastrar o usuário." });
-        }
+        res.status(201).json({ success: true, message: "Usuário cadastrado com sucesso!" });
 
     } catch (error) {
         console.error('Erro no cadastro de usuário (Node.js API):', error);
         if (error.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ success: false, message: "Email ou Celular já cadastrado." });
+            return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
         }
         res.status(500).json({ success: false, message: "Erro interno do servidor." });
+    } finally {
+        if (connection) connection.release(); // Ensure connection is released
     }
 });
 
@@ -110,14 +110,14 @@ app.post('/api/login_usuario', async (req, res) => {
         return res.status(400).json({ success: false, message: "Email e senha são obrigatórios." });
     }
 
+    let connection; // Declare connection outside try to ensure it's accessible in finally
     try {
-        const connection = await pool.getConnection();
+        connection = await pool.getConnection(); // Get connection here
         const [rows] = await connection.execute(
             `SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, TIPO_USUARIO
              FROM USUARIOS WHERE EMAIL_USUARIO = ?`,
             [EMAIL_USUARIO]
         );
-        connection.release();
 
         if (rows.length === 0) {
             return res.status(401).json({ success: false, message: "Credenciais inválidas." });
@@ -144,6 +144,8 @@ app.post('/api/login_usuario', async (req, res) => {
     } catch (error) {
         console.error('Erro no login de usuário (Node.js API):', error);
         res.status(500).json({ success: false, message: "Erro interno do servidor." });
+    } finally {
+        if (connection) connection.release(); // Ensure connection is released
     }
 });
 
@@ -154,8 +156,9 @@ app.get('/api/buscar_usuario', async (req, res) => {
         return res.status(400).json({ success: false, message: "ID do usuário não fornecido." });
     }
 
+    let connection; // Declare connection outside try to ensure it's accessible in finally
     try {
-        const connection = await pool.getConnection();
+        connection = await pool.getConnection(); // Get connection here
         const [rows] = await connection.execute(
             `SELECT NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
                     BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
@@ -163,7 +166,6 @@ app.get('/api/buscar_usuario', async (req, res) => {
              FROM USUARIOS WHERE ID_USUARIO = ?`,
             [userId]
         );
-        connection.release();
 
         if (rows.length > 0) {
             res.status(200).json({ success: true, message: "Dados do usuário encontrados.", user: rows[0] });
@@ -174,6 +176,8 @@ app.get('/api/buscar_usuario', async (req, res) => {
     } catch (error) {
         console.error('Erro ao buscar usuário (Node.js API):', error);
         res.status(500).json({ success: false, message: "Erro interno do servidor." });
+    } finally {
+        if (connection) connection.release(); // Ensure connection is released
     }
 });
 
@@ -220,10 +224,10 @@ app.put('/api/atualizar_usuario', async (req, res) => {
     updateSql += ` WHERE ID_USUARIO = ?`;
     updateValues.push(id_usuario);
 
+    let connection; // Declare connection outside try to ensure it's accessible in finally
     try {
-        const connection = await pool.getConnection();
+        connection = await pool.getConnection(); // Get connection here
         const [result] = await connection.execute(updateSql, updateValues);
-        connection.release();
 
         if (result.affectedRows > 0) {
             res.status(200).json({ success: true, message: "Perfil atualizado com sucesso!" });
@@ -237,19 +241,22 @@ app.put('/api/atualizar_usuario', async (req, res) => {
             return res.status(409).json({ success: false, message: "Este email já está cadastrado para outro usuário." });
         }
         res.status(500).json({ success: false, message: "Erro interno do servidor." });
+    } finally {
+        if (connection) connection.release(); // Ensure connection is released
     }
 });
 
 app.get('/produtos', async (req, res) => {
+    let connection; // Declare connection outside try to ensure it's accessible in finally
     try {
-        const connection = await pool.getConnection();
+        connection = await pool.getConnection(); // Get connection here
         const [produtos] = await connection.execute('SELECT id, nome, preco, imagem_url FROM produtos');
-        connection.release();
-
         res.render('produtos', { produtos: produtos });
     } catch (error) {
         console.error('Erro ao buscar produtos para EJS:', error);
         res.status(500).send('Erro ao carregar a página de produtos.');
+    } finally {
+        if (connection) connection.release(); // Ensure connection is released
     }
 });
 
