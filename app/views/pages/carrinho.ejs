@@ -3,15 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/carrinho.css">
     <title>Seu Carrinho - Vitrine</title>
+    <style>
+        /* Estilos para a mensagem de carrinho vazio */
+        .empty-cart-message {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.2em;
+            color: #555;
+        }
+        /* Estilos para ocultar elementos visualmente para acessibilidade */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        /* Estilos para os botões de quantidade e remover (se não estiverem no seu CSS) */
+        .qty button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .qty button:hover {
+            background-color: #e0e0e0;
+        }
+        .qty span {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        .remove {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .remove:hover {
+            background-color: #cc0000;
+        }
+        /* Estilos para a tabela de carrinho */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        thead th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        .product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+        }
+        .product .info .name {
+            font-weight: bold;
+        }
+        .product .info .category {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
         <a class="logo" href="/" aria-label="Página inicial da Vitrine">
             <img src="imagens/logo(2).png" width="75" height="75" alt="Logo da Vitrine: Um desenho estilizado de um manequim.">
         </a>
-          
+            
         <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
             <div class="line1"></div>
             <div class="line2"></div>
@@ -19,7 +101,7 @@
         </div>
         <nav id="main-navigation">
             <ul class="nav-list">
-                <li><a href="/home-carrinho">Início</a></li>
+                <li><a href="/">Início</a></li>
                 <li><a href="/sobrenos">Sobre Nós</a></li>
                 <li><a href="/login">Entrar</a></li>
                 <li>
@@ -46,61 +128,11 @@
                             <th scope="col">Remover</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="product">
-                                    <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador de corda náutica, 30cm x 28cm." />
-                                    <div class="info">
-                                        <div class="name">Cesto organizador</div>
-                                        <div class="category">Casa e Decoração</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>R$ 265</td>
-                            <td>
-                                <div class="qty">
-                                    <button aria-label="Diminuir quantidade de Cesto organizador"><i class="bx bx-minus"></i></button>
-                                    <span>1</span>
-                                    <button aria-label="Aumentar quantidade de Cesto organizador"><i class="bx bx-plus"></i></button>
-                                </div>
-                            </td>
-                            <td>R$ 265</td>
-                            <td>
-                                <button class="remove" aria-label="Remover Cesto organizador do carrinho">
-                                    <input type="checkbox" class="visually-hidden">
-                                    <i class="bx bx-x"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="product">
-                                    <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" alt="Banquinho Tiradentes de crochê em algodão e juta." />
-                                    <div class="info">
-                                        <div class="name">Banquinho de Crochê</div>
-                                        <div class="category">Casa e Decoração</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>R$ 315</td>
-                            <td>
-                                <div class="qty">
-                                    <button aria-label="Diminuir quantidade de Banquinho de Crochê"><i class="bx bx-minus"></i></button>
-                                    <span>2</span>
-                                    <button aria-label="Aumentar quantidade de Banquinho de Crochê"><i class="bx bx-plus"></i></button>
-                                </div>
-                            </td>
-                            <td>R$ 630</td>
-                            <td>
-                                <button class="remove" aria-label="Remover Banquinho de Crochê do carrinho">
-                                    <input type="checkbox" class="visually-hidden">
-                                    <i class="bx bx-x"></i>
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="cart-items-container">
+                        <!-- Itens do carrinho serão inseridos aqui pelo JavaScript -->
                     </tbody>
                 </table>
+                <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Seu carrinho está vazio.</p>
             </section>
             <aside aria-labelledby="order-summary-heading">
                 <h2 id="order-summary-heading" class="visually-hidden">Resumo do Pedido</h2>
@@ -108,11 +140,11 @@
                     <div class="info">
                         <div>
                             <span>Sub-total</span>
-                            <span class="price">R$ 895</span>
+                            <span id="subtotal-price" class="price">R$ 0,00</span>
                         </div>
                         <div>
                             <span>Frete</span>
-                            <span class="shipping-cost">Gratuito</span>
+                            <span class="shipping-cost">Grátis</span> <!-- Mantido estático por enquanto -->
                         </div>
                         <div>
                             <button type="button">
@@ -123,7 +155,7 @@
                     </div>
                     <footer>
                         <span>Total</span>
-                        <span class="total-price">R$ 895</span>
+                        <span id="total-price" class="total-price">R$ 0,00</span>
                     </footer>
                 </div>
                 <button type="submit">Finalizar Compra</button>
@@ -131,5 +163,6 @@
         </div>
     </main>
     <script src="js/navbar.js"></script>
+    <script src="js/carrinho.js"></script>
 </body>
 </html>

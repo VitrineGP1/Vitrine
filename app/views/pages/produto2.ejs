@@ -6,38 +6,87 @@
     <title>Especificações do Produto - Banquinho de Crochê</title>
     <link rel="stylesheet" href="css/prod.css">
     <link rel="stylesheet" href="css/home.css">
+    <!-- Adicionado para ícones se você estiver usando Font Awesome ou Boxicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" xintegrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        /* Estilos para a mensagem de feedback do carrinho (se não estiverem no seu CSS) */
+        #cart-feedback-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+        .cart-success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .cart-error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        /* Estilo para o botão de adicionar ao carrinho (se não estiver no seu CSS) */
+        .add-to-cart-btn {
+            background-color: #e47a1b; /* Cor primária da sua marca */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #c06517; /* Um tom mais escuro ao passar o mouse */
+        }
+    </style>
 </head>
 <body>
 
     <header class="header">
-        <a class="logo" href="/">
-            <img src="imagens/logo(2).png" width="75" height="75" alt="Logo da Vitrine">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
         </a>
-
-        <nav>
-            <div class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
+            
+        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <span class="line1"></span>
+            <span class="line2"></span>
+            <span class="line3"></span>
+        </div>
+        <nav id="main-navigation" aria-label="Menu principal de navegação">
             <ul class="nav-list">
-                <li><a href="/">Início</a></li>
+                <li><a href="/" aria-current="page">Início</a></li>
                 <li><a href="/sobrenos">Sobre</a></li>
                 <li><a href="/login">Entrar</a></li>
-                <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75" height="50" alt="Carrinho de compras"></a></li>
+                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
+                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
+                </a></li>
             </ul>
         </nav>
     </header>
 
     <main class="container">
         <section class="product-header">
-            <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" alt="Banquinho de Crochê" />
+            <!-- Adicionado id para o JS poder pegar a imagem -->
+            <img id="product-image" src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" alt="Banquinho de Crochê" />
             <div class="product-details">
-                <h1 class="product-title">Banquinho de Crochê</h1>
-                <p class="product-price">R$ 315,00</p>
+                <!-- Adicionado id para o JS poder pegar o título -->
+                <h1 id="product-main-heading" class="product-title">Banquinho de Crochê</h1>
+                <!-- Adicionado id para o JS poder pegar o preço -->
+                <p id="product-price" class="product-price">R$ 315,00</p>
                 <p class="product-description">
                     Um banquinho de crochê versátil que encaixa em qualquer cômodo da sua casa, aliando funcionalidade e beleza!
                 </p>
+                <!-- Botão de adicionar ao carrinho com ID para o JS -->
+                <button id="addToCartBtn" class="btn add-to-cart-btn" type="button" aria-label="Adicionar Banquinho de Crochê ao carrinho">ADICIONAR AO CARRINHO</button>
+                <!-- Div para mensagens de feedback do carrinho -->
+                <div id="cart-feedback-message" class="message"></div>
             </div>
         </section>
 
@@ -69,5 +118,7 @@
     </main>
 
     <script src="js/navbar.js"></script>
+    <!-- Inclua o script prod.js para a lógica de adicionar ao carrinho -->
+    <script src="js/prod.js"></script>
 </body>
 </html>
