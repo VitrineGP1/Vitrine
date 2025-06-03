@@ -26,7 +26,8 @@ const dbConfig = {
     user: process.env.MYSQL_ADDON_USER,
     password: process.env.MYSQL_ADDON_PASSWORD,
     database: process.env.MYSQL_ADDON_BDD,
-    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306
+    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306,
+    connectionLimit: 3
 };
 
 let pool;
@@ -96,7 +97,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     } catch (error) {
         console.error('Erro no cadastro de usuário (Node.js API):', error);
         if (error.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
+            return res.status(409).json({ success: false, message: "Email ou Celular já cadastrado." });
         }
         res.status(500).json({ success: false, message: "Erro interno do servidor." });
     }
@@ -158,7 +159,7 @@ app.get('/api/buscar_usuario', async (req, res) => {
         const [rows] = await connection.execute(
             `SELECT NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
                     BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
-                    DT_NASC_USUARIO, TIPO_USUARIO
+                    DT_NASC_USUARIO, TIPO_USUARIO, IMAGEM_PERFIL_BASE64
              FROM USUARIOS WHERE ID_USUARIO = ?`,
             [userId]
         );
@@ -181,7 +182,8 @@ app.put('/api/atualizar_usuario', async (req, res) => {
         id_usuario,
         NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
         BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
-        DT_NASC_USUARIO, TIPO_USUARIO, NOVA_SENHA_USUARIO, CONFIRM_SENHA_USUARIO
+        DT_NASC_USUARIO, TIPO_USUARIO, NOVA_SENHA_USUARIO, CONFIRM_SENHA_USUARIO,
+        IMAGEM_PERFIL_BASE64
     } = req.body;
 
     if (!id_usuario) {
@@ -208,6 +210,11 @@ app.put('/api/atualizar_usuario', async (req, res) => {
         const hashedNewPassword = await bcrypt.hash(NOVA_SENHA_USUARIO, 10);
         updateSql += `, SENHA_USUARIO = ?`;
         updateValues.push(hashedNewPassword);
+    }
+
+    if (IMAGEM_PERFIL_BASE64 !== undefined) {
+        updateSql += `, IMAGEM_PERFIL_BASE64 = ?`;
+        updateValues.push(IMAGEM_PERFIL_BASE64);
     }
 
     updateSql += ` WHERE ID_USUARIO = ?`;
