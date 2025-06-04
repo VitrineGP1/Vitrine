@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Vendedor | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/vendedor.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" xintegrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
+        </a>
+        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <span class="line1"></span>
+            <span class="line2"></span>
+            <span class="line3"></span>
+        </div>
+        <nav id="main-navigation" aria-label="Menu principal de navegação">
+            <ul class="nav-list">
+                <li><a href="/" aria-current="page">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
+                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Área do Vendedor</h1>
+
+        
+        <section class="form-section" aria-labelledby="store-profile-image-heading">
+            <h2 id="store-profile-image-heading" class="section-title">Foto de Perfil da Loja</h2>
+            <div class="form-group" style="text-align: center;">
+                <label for="storeProfileImageUpload">Upload da Foto da Loja:</label>
+                <figure class="image-preview-container">
+                    <img id="storeProfileImageDisplay" class="image-preview" src="https://placehold.co/150x150/cccccc/333333?text=Foto+da+Loja" alt="Foto de Perfil da Loja">
+                    <figcaption class="visually-hidden">Pré-visualização da foto de perfil da loja.</figcaption>
+                </figure>
+                <input type="file" id="storeProfileImageUpload" accept="image/*">
+                <button type="button" class="btn-primary" id="saveStoreProfileBtn" style="margin-top: 15px;">Salvar Foto da Loja</button>
+                <div id="storeProfileFeedbackMessage" class="feedback-message" role="status" aria-live="polite"></div>
+            </div>
+        </section>
+
+
+
+        <section class="form-section" aria-labelledby="product-form-heading">
+            <h2 id="product-form-heading" class="section-title">Adicionar/Editar Produto</h2>
+            <form id="product-form" aria-label="Formulário de Produto">
+                <input type="hidden" id="product-id"> 
+                <div class="form-group">
+                    <label for="product-name">Nome do Produto:</label>
+                    <input type="text" id="product-name" name="product-name" required aria-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="product-description">Descrição:</label>
+                    <textarea id="product-description" name="product-description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="product-price">Preço (R$):</label>
+                    <input type="number" id="product-price" name="product-price" step="0.01" required aria-required="true">
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image-file">Upload de Imagem (do PC):</label>
+                    <input type="file" id="product-image-file" name="product-image-file" accept="image/*">
+                    <figure class="image-preview-container">
+                        <img id="product-image-preview" class="image-preview" src="https://placehold.co/150x150/cccccc/333333?text=Pré-visualização" alt="Pré-visualização da imagem do produto">
+                        <figcaption class="visually-hidden">Pré-visualização da imagem do produto a ser carregada.</figcaption>
+                    </figure>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-image-url">URL da Imagem (ou deixe em branco se usar upload):</label>
+                    <input type="url" id="product-image-url" name="product-image-url" placeholder="Ex: https://exemplo.com/imagem.jpg">
+                </div>
+
+                <button type="submit" class="btn-primary" id="save-product-btn">Adicionar Produto</button>
+                <button type="button" class="btn-secondary" id="cancel-edit-btn" style="display: none;">Cancelar Edição</button>
+                <div id="form-feedback-message" class="feedback-message" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <section class="products-section" aria-labelledby="my-products-heading">
+            <h2 id="my-products-heading" class="section-title">Meus Produtos</h2>
+            <p id="no-products-message" class="empty-products-message" role="status" aria-live="polite" style="display: none;">
+                Você ainda não tem produtos cadastrados.
+            </p>
+            <table class="product-table" role="grid" aria-labelledby="my-products-heading">
+                <thead>
+                    <tr>
+                        <th scope="col">Imagem</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="products-list">
+
+                </tbody>
+            </table>
+        </section>
+        
+        <section style="text-align: center; margin-top: 30px;" aria-label="Opções da Área do Vendedor">
+            <button type="button" id="seller-logout-btn" class="btn-secondary">Sair da Área do Vendedor</button>
+        </section>
+    </main>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/vendedor.js"></script>
+</body>
+</html>

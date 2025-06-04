@@ -58,4 +58,8 @@ router.get("/prod4", function (req, res) {
     res.render("pages/produto4", )
 });
 
+router.get("/vendedor", function (req, res) {
+    res.render("pages/vendedor", )
+});
+
 module.exports = router;
