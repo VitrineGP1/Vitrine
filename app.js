@@ -27,7 +27,7 @@ const dbConfig = {
     password: process.env.MYSQL_ADDON_PASSWORD,
     database: process.env.MYSQL_ADDON_BDD,
     port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306,
-    connectionLimit: 3
+    connectionLimit: 2
 };
 
 let pool;
