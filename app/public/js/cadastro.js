@@ -65,20 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleSellerFields() {
         if (typeSellerRadio.checked) {
             sellerFieldsDiv.style.display = 'block';
-            // Adicione 'required' aos campos de vendedor se for necessário
             tipoPessoaSelect.setAttribute('required', 'required');
             digitoPessoaInput.setAttribute('required', 'required');
             nomeLojaInput.setAttribute('required', 'required');
         } else {
             sellerFieldsDiv.style.display = 'none';
-            // Remova 'required' e limpe os campos de vendedor
             tipoPessoaSelect.removeAttribute('required');
             digitoPessoaInput.removeAttribute('required');
             nomeLojaInput.removeAttribute('required');
             tipoPessoaSelect.value = '';
             digitoPessoaInput.value = '';
             nomeLojaInput.value = '';
-            clearErrors(); // Limpa erros específicos do vendedor
+            clearErrors();
         }
     }
 
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adiciona máscaras de input (opcional, mas recomendado)
     celularInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        let value = e.target.value.replace(/\D/g, '');
         if (value.length > 10) {
             value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
         } else if (value.length > 5) {
@@ -103,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     cepInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        let value = e.target.value.replace(/\D/g, '');
         if (value.length > 5) {
             value = value.replace(/^(\d{5})(\d{0,3}).*/, '$1-$2');
         }
@@ -111,8 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     digitoPessoaInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
-        if (tipoPessoaSelect.value === 'PF') { // CPF
+        let value = e.target.value.replace(/\D/g, '');
+        if (tipoPessoaSelect.value === 'PF') {
             if (value.length > 9) {
                 value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2}).*/, '$1.$2.$3-$4');
             } else if (value.length > 6) {
@@ -120,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (value.length > 3) {
                 value = value.replace(/^(\d{3})(\d{0,3})/, '$1.$2');
             }
-        } else if (tipoPessoaSelect.value === 'PJ') { // CNPJ
+        } else if (tipoPessoaSelect.value === 'PJ') {
             if (value.length > 12) {
                 value = value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2}).*/, '$1.$2.$3/$4-$5');
             } else if (value.length > 8) {
@@ -170,6 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (SENHA_USUARIO !== CONFIRM_SENHA_USUARIO) {
             confirmPasswordError.textContent = 'As senhas não coincidem.';
+            isValid = false;
+        }
+        if (CELULAR_USUARIO && CELULAR_USUARIO.length < 14) { // Ex: (DD) XXXXX-XXXX
+            celularError.textContent = 'Formato de celular inválido (mínimo 14 caracteres com máscara).';
             isValid = false;
         }
         if (CEP_USUARIO && !/^\d{5}-\d{3}$/.test(CEP_USUARIO)) {
@@ -226,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
             LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
             CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO,
-            TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA // Inclui campos de vendedor, que serão null para compradores
+            TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA
         };
 
         try {
@@ -242,10 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && result.success) {
                 showFeedback(result.message, 'success');
-                cadastroForm.reset(); // Limpa o formulário
-                toggleSellerFields(); // Reseta a visibilidade dos campos de vendedor
+                cadastroForm.reset();
+                toggleSellerFields();
                 setTimeout(() => {
-                    window.location.href = '/login'; // Redireciona para o login
+                    // Redireciona para a página de perfil após o cadastro bem-sucedido
+                    window.location.href = '/perfil';
                 }, 2000);
             } else {
                 showFeedback(result.message || 'Erro ao cadastrar usuário.', 'error');
