@@ -458,7 +458,7 @@ nav{
 }
 
 .carousel-item:hover img {
-    border: 3px solid #c4cbb3; /* Borda ao passar o mouse */
+    border: 3px solid #e47a1b; /* Borda ao passar o mouse */
     transform: scale(1.1); /* Aumenta o tamanho da imagem */
 }
 
@@ -501,7 +501,7 @@ nav{
 }
 
 .carousel-arrow:hover {
-    background-color: #c4cbb3; 
+    background-color: #e47a1b; 
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -515,7 +515,7 @@ nav{
 
 .carousel-arrow:hover {
     transform: translateY(-50%) scale(1.2);
-    background-color: #c4cbb3; 
+    background-color: #e47a1b; 
 }
 
 .carousel-arrow {
@@ -525,7 +525,7 @@ nav{
 .event-filtros::after{
     content: '';
     display: block;
-    background-color: #c4cbb3;
+    background-color: #e47a1b;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
