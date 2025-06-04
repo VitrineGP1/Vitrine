@@ -27,3 +27,8 @@ p.event-filtros {
     padding-right: 10%;
     line-height: 45px;
 }
+
+h1.event-filtros {
+    padding-left: 5%;
+    padding-top: 5%;
+}
