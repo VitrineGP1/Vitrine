@@ -62,4 +62,8 @@ router.get("/vendedor", function (req, res) {
     res.render("pages/vendedor", )
 });
 
+router.get("/prod", function (req, res) {
+    res.render("pages/produtos", )
+});
+
 module.exports = router;
