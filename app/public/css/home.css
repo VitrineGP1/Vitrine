@@ -68,7 +68,8 @@ nav{
     margin-right: 5%;
     position: center;
 }
-.nav-list img {
+.carrinho {
+    margin-top: -20px;
     right: 0;
 }
 
