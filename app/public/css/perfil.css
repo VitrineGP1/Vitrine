@@ -2,49 +2,34 @@
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
-    background-color: #f8f8f8; /* Fundo mais claro */
-    color: #333; /* Cor de texto padrão */
-    line-height: 1.6; /* Melhor legibilidade */
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
 }
 
-/* --- Header --- */
-.header {
-    background-color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
-}
-
-.header .logo img {
-    display: block; /* Remove espaço extra abaixo da imagem */
-    width: 75px; /* Manter tamanho consistente */
-    height: 75px;
-}
 
 .main-nav .nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 20px; /* Espaçamento entre os itens do menu */
+    gap: 20px; 
 }
 
 .main-nav .nav-list a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
-    transition: color 0.3s ease; /* Transição suave ao hover */
+    transition: color 0.3s ease; 
 }
 
 .main-nav .nav-list a:hover {
-    color: #007bff; /* Exemplo de cor ao passar o mouse */
+    color: #007bff; 
 }
 
 .main-nav .nav-list img {
-    vertical-align: middle; /* Alinha ícones com texto */
-    /* Ajuste de tamanho para os ícones, se necessário */
+    vertical-align: middle; 
+
 }
 
 .main-nav .nav-list .perfil img {
@@ -57,9 +42,9 @@ body {
     height: 50px;
 }
 
-/* Mobile Menu (se houver JS para ele) */
+
 .mobile-menu {
-    display: none; /* Escondido por padrão em desktop */
+    display: none; 
     cursor: pointer;
 }
 .mobile-menu div {
@@ -70,10 +55,10 @@ body {
     transition: 0.3s;
 }
 
-/* --- Main Profile Page Layout --- */
+
 main.profile-page {
     max-width: 800px;
-    margin: 40px auto; /* Centraliza a página e adiciona margem superior/inferior */
+    margin: 40px auto; 
     padding: 30px;
     background-color: #fff;
     border-radius: 8px;
@@ -82,20 +67,20 @@ main.profile-page {
 
 h1.page-title {
     text-align: center;
-    color: #007bff; /* Cor primária */
+    color: #007bff; 
     margin-bottom: 30px;
     font-size: 2.2em;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee; /* Linha sutil para separar o título */
+    border-bottom: 1px solid #eee; 
 }
 
-/* --- Section Styling (Display and Edit) --- */
+
 section.profile-section {
     margin-bottom: 30px;
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 6px;
-    background-color: #fafafa; /* Levemente diferente do fundo da página */
+    background-color: #fafafa;
 }
 
 section.profile-section h2 {
@@ -107,16 +92,16 @@ section.profile-section h2 {
     padding-bottom: 10px;
 }
 
-/* --- User Picture --- */
+
 .user-picture {
     text-align: center;
     margin-bottom: 20px;
 }
 .user-picture img {
     border-radius: 50%;
-    border: 3px solid #007bff; /* Borda da cor primária */
+    border: 3px solid #007bff; 
     object-fit: cover;
-    width: 120px; /* Tamanho um pouco maior para a imagem */
+    width: 120px; 
     height: 120px;
 }
 .user-picture figcaption {
@@ -125,11 +110,11 @@ section.profile-section h2 {
     color: #777;
 }
 
-/* --- Profile Details (Display Section) --- */
+
 dl.profile-details dt {
     font-weight: bold;
     color: #666;
-    margin-top: 15px; /* Mais espaçamento entre os termos */
+    margin-top: 15px; 
 }
 dl.profile-details dd {
     margin-left: 0;
@@ -138,7 +123,7 @@ dl.profile-details dd {
     border-left: 3px solid #007bff;
 }
 
-/* --- Profile Form (Edit Section) --- */
+
 form.profile-form label {
     display: block;
     margin-bottom: 8px;
@@ -151,22 +136,22 @@ form.profile-form input[type="email"],
 form.profile-form input[type="tel"],
 form.profile-form input[type="date"],
 form.profile-form input[type="password"] {
-    width: calc(100% - 22px); /* Ajuste para padding e borda */
+    width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
-    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura total */
+    box-sizing: border-box;
 }
 
 form.profile-form input[readonly] {
-    background-color: #e9ecef; /* Cor mais neutra para campos readonly */
+    background-color: #e9ecef; 
     cursor: not-allowed;
     border-color: #ced4da;
 }
 
-/* --- Buttons --- */
+
 .btn {
     padding: 10px 20px;
     border: none;
@@ -174,14 +159,14 @@ form.profile-form input[readonly] {
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Adiciona transform para um pequeno efeito */
-    display: inline-block; /* Para que margin-left/right auto funcionem */
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+    display: inline-block; 
     text-align: center;
-    text-decoration: none; /* Se usado em links */
+    text-decoration: none;
 }
 
 .btn:hover {
-    transform: translateY(-2px); /* Pequeno levantamento ao passar o mouse */
+    transform: translateY(-2px); 
 }
 
 .btn-primary {
@@ -200,14 +185,14 @@ form.profile-form input[readonly] {
     background-color: #5a6268;
 }
 
-/* --- Messages (Loading, Error, Success) --- */
+
 .message {
     text-align: center;
     margin-top: 20px;
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para mensagens */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 .message.success {
     background-color: #d4edda;
@@ -220,14 +205,12 @@ form.profile-form input[readonly] {
     border: 1px solid #f5c6cb;
 }
 
-/* --- Responsive Design (Mobile Menu - Adicione media queries se necessário) --- */
-/* Exemplo de media query para telas menores (desktop) */
 @media (max-width: 768px) {
     .main-nav .nav-list {
         flex-direction: column;
         align-items: center;
         position: absolute;
-        top: 80px; /* Ajuste conforme a altura do seu header */
+        top: 80px; 
         right: 0;
         width: 100%;
         background-color: #fff;
@@ -247,285 +230,4 @@ form.profile-form input[readonly] {
     .mobile-menu {
         display: block;
     }
-}
-
-/*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-  
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color: #fafafa;
-}
-  
-header{
-  position:fixed;
-  display: flex;
-  z-index: 1000;
-  width: 100%;
-  background-color: #544E4B;
-  top: 0;
-  right: 0;
-}
-
-a {
-  color: #fff;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-a:hover{
-  opacity: 0.7;
-}
-
-.logo{
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-}
-
-a.logo{
-  display: flex;
-  margin-left: 30px;
-}
-
-nav{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  height: 8vh;
-}
-
-.nav-list{
-  list-style: none;
-  display: flex;
-  margin-top: 30px;
-  padding: 7px;
-}
-
-.nav-list li{
-  letter-spacing: 3px;
-  margin-left: 80px;
-  padding-right: 100px;
-}
-
-.nav-list li:hover{
-  opacity: 0.5;
-  color: #5c5c5c;
-}
-
-.carrinho img {
-  margin-right: 5%;
-  position: absolute;
-}
-.nav-list img {
-  margin-top: -20px;
-  right: 0;
-}
-
-.perfil{
-  right: 0;
-  position: absolute;
-}
-
-.title{
-  padding-top: 95px;
-  padding-left: 35px;
-}
-
-.profile-info {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-  padding-left: 35px;
-}
-
-.profile-picture {
-  margin-right: 20px;
-}
-
-.user-details {
-  font-size: 16px;
-  color: #34495e;
-}
-
-.edit-profile {
-  margin-top: 30px;
-  padding-left: 35px;
-  padding-right: 35px;
-}
-
-.edit-profile h3 {
-  margin-bottom: 10px;
-}
-
-.edit-profile label {
-  margin: 10px 0 5px;
-  display: block;
-}
-
-.edit-profile input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #b8babb;
-  background-color: #ecf0f1;
-  margin-bottom: 15px;
-}
-
-.edit-profile button {
-  width: auto;
-}
-
-.editProfileForm{
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  input[type=text] {outline: none};
-  input[type=password] {outline: none};
-  input[type=email] {outline: none};
-}
-
-.editProfileForm input{
-  height: 30px;
-  width: 80%;
-  border: none;
-  background-color: #ecf0f1;
-  margin: 5px;
-}
-
-.btn btn-primary{
-  background-color: #544E4B;
-  border: 1px solid #544E4B;
-}
-
-.btn {
-  border-radius: 15px;
-  text-transform: uppercase;
-  font-size: 10px;
-  padding: 10px 50px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 150px;
-  align-self: center;
-  border: none;
-  margin-top: 0.5rem;
-  margin-bottom: 35px;
-}
-
-.mobile-menu {
-  display: none;
-  cursor: pointer;
-}
-
-.mobile-menu div {
-  width: 50px;
-  height: 3px;
-  background: #fff;
-  margin: 10px;
-  transition: 0.3s;
-}
-
-@media (max-width: 999px) {
-  body {
-    overflow-x: hidden;
-  }
-  .nav-list {
-  position: absolute;
-  top: 60%;
-  right: 0;
-  height: 50vh;
-  background: #544E4B;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in;
-  }
-  .nav-list li {
-    opacity: 0;
-  }
-  .mobile-menu {
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 25px;
-  }
-
-  .carrinho img {
-    position: absolute;
-    margin-left: 10%;
-    right: inherit;
-}
-}
-
-@media(max-width: 1000px) {
-  body {
-    overflow-x: hidden;
-  }
-  .nav-list {
-  position: absolute;
-  top: 60%;
-  right: 0;
-  height: 50vh;
-  background: #544E4B;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  transform: translateX(100%);
-  transition: transform 0.3s ease-in;
-  }
-  .nav-list li {
-    opacity: 0;
-  }
-  .mobile-menu {
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 25px;
-  }
-
-  .carrinho img {
-      position: absolute;
-      margin-left: 15%;
-      right: inherit;
-  }
-
-  .perfil {
-      margin-right: 80px;
-}
-
-  
-}
-
-.nav-list.active {
-  transform: translateX(0);
-}
-
-@keyframes navLinkFade {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.mobile-menu.active .line1 {
-  transform: rotate(-45deg) translate(-8px, 8px);
-}
-
-.mobile-menu.active .line2 {
-  opacity: 0;
-}
-
-.mobile-menu.active .line3 {
-  transform: rotate(45deg) translate(-5px, -7px);
 }
