@@ -424,31 +424,34 @@ nav{
 
 .carousel-container {
     position: relative;
-    width: 80%;
     margin-left: 10%;
     height: auto;
     overflow: hidden;
     flex-direction: column;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    padding: 3rem 3.5rem 56px;
+    padding: 3rem 48px 3.5rem 56px;
+    object-fit: cover;
 }
+
 .carousel {
     display: flex;
-    height: auto;
-    margin: 1%;
-    transition: transform 0.5s ease-in-out; /* Suavidade na transição */
+    height: 50%;
+    transition: transform 0.5s ease-in-out;
 }
 
 .carousel-item {
-    min-width: 20%; /* Tamanho fixo para cada item */
+    min-width: 20%;
     text-align: center;
+    object-fit: cover;
+    height: 50%;
 }
 
 .carousel-item a {
     display: block;
     text-decoration: none;
-    color: inherit; 
+    color: inherit;
+    object-fit: cover;
 }
 
 .carousel-item img {
@@ -711,58 +714,17 @@ footer {
     p.event-filtros {
         padding: 80px;
     }
-
-    .carousel-item img {
-        width: 52%;
-        height: 150px;
-    }
-
-    .slider{
-        width: 75%;
-        height: 30%;
-        margin-left: 13%;
-    }
 }
 
-@media (max-width: 481px) {
-    .carousel-item {
-        flex: 0 0 60%;
-    }
-
-    .slide{
-        margin-top: 20%;
-        height: 70%;
-    }
-
-    .slider img{
-        width: 100%;
-        height: 100%;
-    }
-    
+@media (max-width: 481px) {    
     p.event-filtros {
         padding: 40px;
     }
 
-    .carousel-item img {
-        width: 50%;
-        height: 120px;
-    }
 
 }
 
 @media (max-width: 430px) {
-    .carousel-item {
-        flex: 0 0 60%;
-    }
-    
-    .slide{
-        margin-top: 30%;
-    }
-    
-    .slider img{
-        width: 100%;
-    }
-        
     p.event-filtros {
         padding: 40px;
     }
@@ -772,10 +734,7 @@ footer {
         height: 120px;
     }
 
-    .slider{
-        width: 75%;
-        height: 70%;
-    }
+    
 }
 
 .mobile-menu {
@@ -842,25 +801,8 @@ footer {
     transform: translateX(0);
 }
 
-@media (min-width: 1000) and (max-width: 1300px){
-
-    .carousel-item img {
-        width: 80%;
-        height: 100px;
-    }
-}
 
 @media (min-width: 940px) and (max-width: 1000px) {
-
-    .carousel-item img {
-        width: 60%;
-        height: 100px;
-    }
-
-    .carousel-container{
-        width: 90%;
-        margin-left: 5%;
-    }
 
     p.event-filtros {
         padding: 30px;
@@ -877,16 +819,6 @@ footer {
         margin-left: 50px;
         width: 100%;
         height: 130px;
-    }
-
-    .slider {
-        padding-top: 10%;
-        height: 50%;
-    }
-
-    .slider img{
-        width: 100%;
-
     }
 
     .mobile-menu div {
@@ -946,10 +878,6 @@ footer {
     .rodape{
         width: 100%;
     }
-    .slider {
-        width: 50%;
-        margin-left: 25%;
-    }
 
     .preco2, .preco3, .preco4, .preco5 {
         margin-left: 110px;
@@ -973,11 +901,6 @@ footer {
 
 }
 
-@media (max-width: 1080px) {
-    .slider {
-        margin-top: 10%;
-    }
-}
 
 @media (min-width: 1024px) {
     .grade {
@@ -1005,12 +928,5 @@ footer {
 @media (max-width: 479px) {
     .grade {
         grid-template-columns: repeat(1fr);
-    }
-}
-
-@media (min-width: 1000px) and (max-width: 1440px) {
-    .carousel-item img {
-        width: 70%;
-        height: 100px;
     }
 }
