@@ -138,7 +138,7 @@ app.post('/api/login_usuario', async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.status(401).json({ success: false, message: "Credenciais inválidas." });
+            return res.status(401).json({ success: false, message: "Email e/ou Senha incorretos." });
         }
 
         const user = rows[0];
@@ -173,7 +173,7 @@ app.post('/api/login_usuario', async (req, res) => {
                 }
             });
         } else {
-            res.status(401).json({ success: false, message: "Credenciais inválidas." });
+            res.status(401).json({ success: false, message: "Email e/ou Senha incorretos." });
         }
 
     } catch (error) {
