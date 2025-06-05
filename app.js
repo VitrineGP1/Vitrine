@@ -41,6 +41,7 @@ try {
         })
         .catch(err => {
             console.error('AVISO: Falha na conexão inicial com o banco de dados:', err.message);
+            process.exit(1);
         });
 } catch (err) {
     console.error('ERRO CRÍTICO: Falha ao criar o pool de conexões MySQL:', err.message);
@@ -58,8 +59,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     const {
         NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
         LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
-        CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO,
-        TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA
+        CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO
     } = req.body;
 
     if (!NOME_USUARIO || !EMAIL_USUARIO || !SENHA_USUARIO) {
@@ -91,6 +91,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         const newUserId = userResult.insertId;
 
         if (TIPO_USUARIO === 'seller') {
+            const { TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA } = req.body; // Desestrutura aqui para validação
             if (!TIPO_PESSOA || !DIGITO_PESSOA || !NOME_LOJA) {
                 await connection.rollback();
                 return res.status(400).json({ success: false, message: "Para vendedores, Tipo de Pessoa, Dígito de Pessoa e Nome da Loja são obrigatórios." });
@@ -189,17 +190,29 @@ app.get('/api/buscar_usuario', async (req, res) => {
     let connection;
     try {
         connection = await pool.getConnection();
+        // **ALTERAÇÃO AQUI:** Incluído IMAGEM_PERFIL_BASE64 e TIPO_USUARIO na seleção
         const [rows] = await connection.execute(
             `SELECT NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
                     BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
-                    DT_NASC_USUARIO, TIPO_USUARIO
+                    DT_NASC_USUARIO, TIPO_USUARIO, IMAGEM_PERFIL_BASE64
              FROM USUARIOS WHERE ID_USUARIO = ?`,
             [userId]
         );
         connection.release();
 
         if (rows.length > 0) {
-            res.status(200).json({ success: true, message: "Dados do usuário encontrados.", user: rows[0] });
+            let userData = rows[0];
+            // Se o usuário for um vendedor, busca também a IMAGEM_PERFIL_LOJA_BASE64 da tabela VENDEDORES
+            if (userData.TIPO_USUARIO === 'seller') {
+                const [sellerRows] = await connection.execute(
+                    `SELECT IMAGEM_PERFIL_LOJA_BASE64 FROM VENDEDORES WHERE ID_USUARIO = ?`,
+                    [userId]
+                );
+                if (sellerRows.length > 0) {
+                    userData.IMAGEM_PERFIL_LOJA_BASE64 = sellerRows[0].IMAGEM_PERFIL_LOJA_BASE64;
+                }
+            }
+            res.status(200).json({ success: true, message: "Dados do usuário encontrados.", user: userData });
         } else {
             res.status(404).json({ success: false, message: "Usuário não encontrado." });
         }
@@ -247,6 +260,7 @@ app.put('/api/atualizar_usuario', async (req, res) => {
         updateValues.push(hashedNewPassword);
     }
 
+    // **ALTERAÇÃO AQUI:** Incluído IMAGEM_PERFIL_BASE64 na atualização de usuário
     if (IMAGEM_PERFIL_BASE64 !== undefined) {
         updateSql += `, IMAGEM_PERFIL_BASE64 = ?`;
         updateValues.push(IMAGEM_PERFIL_BASE64);
@@ -302,7 +316,7 @@ app.post('/api/products', async (req, res) => {
 
     } catch (error) {
         console.error('Erro ao cadastrar produto (Node.js API):', error);
-        res.status(500).json({ success: false, message: "Erro interno do servidor ao cadastrar produto." });
+        res.status(500).json({ success: false, message: "Erro interno do servidor." });
     } finally {
         if (connection) connection.release();
     }
@@ -327,7 +341,7 @@ app.get('/api/products', async (req, res) => {
 
     } catch (error) {
         console.error('Erro ao buscar produtos (Node.js API):', error);
-        res.status(500).json({ success: false, message: "Erro interno do servidor ao buscar produtos." });
+        res.status(500).json({ success: false, message: "Erro interno do servidor." });
     } finally {
         if (connection) connection.release();
     }
