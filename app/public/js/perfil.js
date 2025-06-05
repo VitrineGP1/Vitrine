@@ -27,18 +27,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 5000);
     }
 
-
     async function loadUserProfile() {
         const loggedInUser = localStorage.getItem('loggedInUser');
         if (loggedInUser) {
             const user = JSON.parse(loggedInUser);
-            currentUserId = user.id;
+            currentUserId = user.id; 
+
+            if (!currentUserId) {
+                showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');
+                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                return;
+            }
 
             try {
                 const response = await fetch(`${API_USER_URL}?id_usuario=${currentUserId}`);
                 const result = await response.json();
 
-                if (result.success && result.user) {
+                if (response.ok && result.success && result.user) {
                     const userData = result.user;
                     profileNameSpan.textContent = userData.NOME_USUARIO;
                     profileEmailSpan.textContent = userData.EMAIL_USUARIO;
@@ -52,17 +57,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                         currentUserProfileImageBase64 = null;
                     }
 
-
                     if (userData.TIPO_USUARIO === 'seller') {
                         storeProfileSection.style.display = 'block';
                         goToSellerAreaBtn.style.display = 'block';
+
 
                         if (userData.IMAGEM_PERFIL_LOJA_BASE64) {
                             storeProfileImage.src = userData.IMAGEM_PERFIL_LOJA_BASE64;
                         } else {
                             storeProfileImage.src = 'https://placehold.co/120x120/cccccc/333333?text=Foto+Loja';
                         }
-                        storeNameSpan.textContent = user.storeName || 'Não definido'; 
+
+                        storeNameSpan.textContent = user.storeName || 'Não definido';
                     } else {
                         storeProfileSection.style.display = 'none';
                         goToSellerAreaBtn.style.display = 'none';
@@ -70,10 +76,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 } else {
                     showFeedback(profileImageFeedback, result.message || 'Erro ao carregar dados do usuário.', 'error');
+                    setTimeout(() => { window.location.href = '/login'; }, 2000);
                 }
             } catch (error) {
                 console.error('Erro ao buscar perfil:', error);
                 showFeedback(profileImageFeedback, 'Erro de conexão ao carregar perfil.', 'error');
+                setTimeout(() => { window.location.href = '/login'; }, 2000);
             }
         } else {
             showFeedback(profileImageFeedback, 'Você não está logado. Redirecionando para o login...', 'error');
@@ -81,11 +89,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-   
+
     profileImageFileInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
-            if (file.size > 1 * 1024 * 1024) {               
+            if (file.size > 1 * 1024 * 1024) { 
                 showFeedback(profileImageFeedback, 'A imagem de perfil deve ter no máximo 1MB.', 'error');
                 profileImageFileInput.value = '';
                 userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
@@ -141,7 +149,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({
                     id_usuario: currentUserId,
                     IMAGEM_PERFIL_BASE64: currentUserProfileImageBase64,
-
                     NOME_USUARIO: existingUserData.NOME_USUARIO,
                     EMAIL_USUARIO: existingUserData.EMAIL_USUARIO,
                     CELULAR_USUARIO: existingUserData.CELULAR_USUARIO,
@@ -159,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (response.ok && result.success) {
                 showFeedback(profileImageFeedback, 'Foto de perfil atualizada com sucesso!', 'success');
-                saveProfileImageBtn.style.display = 'none';
+                saveProfileImageBtn.style.display = 'none'; 
 
                 let user = JSON.parse(localStorage.getItem('loggedInUser'));
                 if (user) {
