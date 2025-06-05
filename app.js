@@ -26,8 +26,7 @@ const dbConfig = {
     user: process.env.MYSQL_ADDON_USER,
     password: process.env.MYSQL_ADDON_PASSWORD,
     database: process.env.MYSQL_ADDON_BDD,
-    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306,
-    connectionLimit: 2
+    port: process.env.MYSQL_ADDON_PORT ? parseInt(process.env.MYSQL_ADDON_PORT) : 3306
 };
 
 let pool;
@@ -59,8 +58,8 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     const {
         NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
         LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
-        CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO, // TIPO_USUARIO para determinar se é vendedor
-        TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA // Novos campos para VENDEDORES
+        CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO,
+        TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA
     } = req.body;
 
     if (!NOME_USUARIO || !EMAIL_USUARIO || !SENHA_USUARIO) {
@@ -75,7 +74,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 10);
         connection = await pool.getConnection();
 
-        await connection.beginTransaction(); // Inicia uma transação
+        await connection.beginTransaction();
 
         const [userResult] = await connection.execute(
             `INSERT INTO USUARIOS (
@@ -91,10 +90,9 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         );
         const newUserId = userResult.insertId;
 
-        // Se o tipo de usuário for 'seller', insere também na tabela VENDEDORES
         if (TIPO_USUARIO === 'seller') {
             if (!TIPO_PESSOA || !DIGITO_PESSOA || !NOME_LOJA) {
-                await connection.rollback(); // Desfaz a inserção de usuário
+                await connection.rollback();
                 return res.status(400).json({ success: false, message: "Para vendedores, Tipo de Pessoa, Dígito de Pessoa e Nome da Loja são obrigatórios." });
             }
             const [sellerResult] = await connection.execute(
@@ -102,15 +100,13 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
                  VALUES (?, ?, ?, ?)`,
                 [newUserId, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA]
             );
-            // O ID_VENDEDOR auto-incrementado é sellerResult.insertId, mas não precisamos dele aqui
-            // pois o link é via ID_USUARIO
         }
 
-        await connection.commit(); // Confirma a transação
+        await connection.commit();
         res.status(201).json({ success: true, message: "Usuário cadastrado com sucesso!" });
 
     } catch (error) {
-        if (connection) await connection.rollback(); // Desfaz a transação em caso de erro
+        if (connection) await connection.rollback();
         console.error('Erro no cadastro de usuário (Node.js API):', error);
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(409).json({ success: false, message: "Este email ou dígito de pessoa já está cadastrado." });
@@ -138,7 +134,7 @@ app.post('/api/login_usuario', async (req, res) => {
         );
 
         if (rows.length === 0) {
-            return res.status(401).json({ success: false, message: "Email e/ou Senha incorretos." });
+            return res.status(401).json({ success: false, message: "Credenciais inválidas." });
         }
 
         const user = rows[0];
@@ -147,7 +143,6 @@ app.post('/api/login_usuario', async (req, res) => {
         if (passwordMatch) {
             let sellerInfo = {};
             if (user.TIPO_USUARIO === 'seller') {
-                // Busca o ID_VENDEDOR e NOME_LOJA da tabela VENDEDORES
                 const [sellerRows] = await connection.execute(
                     `SELECT ID_VENDEDOR, NOME_LOJA, IMAGEM_PERFIL_LOJA_BASE64 FROM VENDEDORES WHERE ID_USUARIO = ?`,
                     [user.ID_USUARIO]
@@ -169,11 +164,11 @@ app.post('/api/login_usuario', async (req, res) => {
                     name: user.NOME_USUARIO,
                     email: user.EMAIL_USUARIO,
                     type: user.TIPO_USUARIO,
-                    ...sellerInfo // Adiciona informações do vendedor se aplicável
+                    ...sellerInfo
                 }
             });
         } else {
-            res.status(401).json({ success: false, message: "Email e/ou Senha incorretos." });
+            res.status(401).json({ success: false, message: "Credenciais inválidas." });
         }
 
     } catch (error) {
@@ -197,10 +192,11 @@ app.get('/api/buscar_usuario', async (req, res) => {
         const [rows] = await connection.execute(
             `SELECT NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
                     BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
-                    DT_NASC_USUARIO, TIPO_USUARIO, IMAGEM_PERFIL_BASE64
+                    DT_NASC_USUARIO, TIPO_USUARIO
              FROM USUARIOS WHERE ID_USUARIO = ?`,
             [userId]
         );
+        connection.release();
 
         if (rows.length > 0) {
             res.status(200).json({ success: true, message: "Dados do usuário encontrados.", user: rows[0] });
@@ -263,6 +259,7 @@ app.put('/api/atualizar_usuario', async (req, res) => {
     try {
         connection = await pool.getConnection();
         const [result] = await connection.execute(updateSql, updateValues);
+        connection.release();
 
         if (result.affectedRows > 0) {
             res.status(200).json({ success: true, message: "Perfil atualizado com sucesso!" });
@@ -425,7 +422,7 @@ app.get('/api/seller_profile', async (req, res) => {
     try {
         connection = await pool.getConnection();
         const [rows] = await connection.execute(
-            `SELECT ID_VENDEDOR, NOME_LOJA, IMAGEM_PERFIL_LOJA_BASE64 
+            `SELECT ID_VENDEDOR, NOME_LOJA, IMAGEM_PERFIL_LOJA_BASE64
              FROM VENDEDORES WHERE ID_VENDEDOR = ?`,
             [sellerId]
         );
