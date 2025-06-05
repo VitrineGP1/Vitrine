@@ -429,8 +429,11 @@ nav{
     margin-left: 10%;
     height: auto;
     overflow: hidden;
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 3rem 3.5rem 56px;
 }
-
 .carousel {
     display: flex;
     height: auto;
