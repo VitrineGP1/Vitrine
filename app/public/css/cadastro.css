@@ -264,6 +264,11 @@ nav{
     margin: 10px;
     transition: 0.3s;
 }
+
+.mesage{
+    padding-bottom: 5%;
+    padding-top: 5%;
+}
   
 @media (max-width: 1330px) {
     body {
