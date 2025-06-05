@@ -85,8 +85,11 @@ nav{
     width: 80%;
     height: 75vh;
     display: flex;
-    margin-top: 45%;
+    margin-top: 5%;
     border-radius: 10px;
+    align-items: center;
+    flex-direction: unset;
+    display: block;
 }
 
 .form-image {

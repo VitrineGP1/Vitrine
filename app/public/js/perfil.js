@@ -1,224 +1,184 @@
-const API_PERFIL_URL = '/api/buscar_usuario'; // Nova URL da API Node.js para buscar perfil
-const API_ATUALIZAR_PERFIL_URL = '/api/atualizar_usuario'; // Nova URL da API Node.js para atualizar perfil
+document.addEventListener('DOMContentLoaded', async () => {
+    const profileNameSpan = document.getElementById('profile-name');
+    const profileEmailSpan = document.getElementById('profile-email');
+    const profileTypeSpan = document.getElementById('profile-type');
+    const userProfileImage = document.getElementById('user-profile-image');
+    const profileImageFileInput = document.getElementById('profile-image-file-input');
+    const saveProfileImageBtn = document.getElementById('save-profile-image-btn');
+    const profileImageFeedback = document.getElementById('profile-image-feedback');
+    const storeProfileSection = document.getElementById('store-profile-section');
+    const storeProfileImage = document.getElementById('store-profile-image');
+    const storeNameSpan = document.getElementById('store-name');
+    const goToSellerAreaBtn = document.getElementById('go-to-seller-area-btn');
 
-const loadingMessage = document.getElementById('loadingMessage');
-const errorMessage = document.getElementById('errorMessage');
-const successMessage = document.getElementById('successMessage');
-const profileDisplaySection = document.getElementById('profileDisplaySection');
-const profileEditSection = document.getElementById('profileEditSection');
-const editProfileForm = document.getElementById('editProfileForm');
-const logoutButton = document.getElementById('logoutButton');
-const toggleEditButton = document.getElementById('toggleEditButton'); // Adicione este botão no seu HTML
-const cancelEditButton = document.getElementById('cancelEditButton'); // Adicione este botão no seu HTML
+    const API_USER_URL = '/api/buscar_usuario';
+    const API_UPDATE_USER_URL = '/api/atualizar_usuario';
 
-// Funções para exibir/esconder mensagens
-function showMessage(element, text, type) {
-    element.textContent = text;
-    element.className = `message ${type}`; // 'message success', 'message error', 'message info'
-    element.style.display = 'block';
-}
+    let currentUserId = null;
+    let currentUserProfileImageBase64 = null;
 
-function hideMessage(element) {
-    element.style.display = 'none';
-    element.textContent = '';
-}
 
-// Funções de formatação (ajuste se necessário)
-function formatCelular(celular) {
-    if (!celular) return '';
-    celular = String(celular).replace(/\D/g, '');
-    if (celular.length === 11) {
-        return `(${celular.substring(0, 2)}) ${celular.substring(2, 7)}-${celular.substring(7, 11)}`;
-    } else if (celular.length === 10) {
-        return `(${celular.substring(0, 2)}) ${celular.substring(2, 6)}-${celular.substring(6, 10)}`;
-    }
-    return celular;
-}
-
-function formatCEP(cep) {
-    if (!cep) return '';
-    cep = String(cep).replace(/\D/g, '');
-    if (cep.length === 8) {
-        return `${cep.substring(0, 5)}-${cep.substring(5, 8)}`;
-    }
-    return cep;
-}
-
-function formatDate(dateString) {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    // Adiciona 1 dia para corrigir o fuso horário se o seu BD estiver em UTC-0
-    date.setDate(date.getDate() + 1);
-    return date.toLocaleDateString('pt-BR'); // Formato dd/mm/aaaa
-}
-
-// Função para preencher os dados de exibição do perfil
-function populateProfileDisplay(userData) {
-    document.getElementById('displayUserName').textContent = userData.NOME_USUARIO || 'N/A';
-    document.getElementById('displayUserEmail').textContent = userData.EMAIL_USUARIO || 'N/A';
-    document.getElementById('displayUserCelular').textContent = formatCelular(userData.CELULAR_USUARIO) || 'N/A';
-    document.getElementById('displayUserLogradouro').textContent = userData.LOGRADOURO_USUARIO || 'N/A';
-    document.getElementById('displayUserBairro').textContent = userData.BAIRRO_USUARIO || 'N/A';
-    document.getElementById('displayUserCidade').textContent = userData.CIDADE_USUARIO || 'N/A';
-    document.getElementById('displayUserUf').textContent = userData.UF_USUARIO || 'N/A';
-    document.getElementById('displayUserCep').textContent = formatCEP(userData.CEP_USUARIO) || 'N/A';
-    document.getElementById('displayUserDtNasc').textContent = formatDate(userData.DT_NASC_USUARIO) || 'N/A';
-    document.getElementById('displayUserTipo').textContent = userData.TIPO_USUARIO === 'C' ? 'Cliente' : (userData.TIPO_USUARIO === 'V' ? 'Vendedor' : 'Outro');
-}
-
-// Função para preencher os dados do formulário de edição
-function populateProfileEditForm(userData) {
-    document.getElementById('name_input').value = userData.NOME_USUARIO || '';
-    document.getElementById('email_input').value = userData.EMAIL_USUARIO || '';
-    document.getElementById('celular_input').value = formatCelular(userData.CELULAR_USUARIO) || ''; // Formata para exibir no campo
-    document.getElementById('logradouro_input').value = userData.LOGRADOURO_USUARIO || '';
-    document.getElementById('bairro_input').value = userData.BAIRRO_USUARIO || '';
-    document.getElementById('cidade_input').value = userData.CIDADE_USUARIO || '';
-    document.getElementById('uf_input').value = userData.UF_USUARIO || '';
-    document.getElementById('cep_input').value = formatCEP(userData.CEP_USUARIO) || ''; // Formata para exibir no campo
-    // Para input type="date", o valor precisa ser "YYYY-MM-DD"
-    document.getElementById('dt_nasc_input').value = userData.DT_NASC_USUARIO ? userData.DT_NASC_USUARIO.split('T')[0] : '';
-    document.getElementById('tipo_usuario_input').value = userData.TIPO_USUARIO || '';
-    document.getElementById('new_password_input').value = ''; // Sempre vazio
-    document.getElementById('confirm_password_input').value = ''; // Sempre vazio
-}
-
-// Função principal para buscar e exibir o perfil
-async function fetchUserProfile() {
-    hideMessage(errorMessage);
-    hideMessage(successMessage);
-    showMessage(loadingMessage, 'Carregando informações do perfil...', 'info');
-
-    // Pega o ID do usuário do localStorage (armazenado no login)
-    const userId = localStorage.getItem('userId');
-
-    if (!userId) {
-        hideMessage(loadingMessage);
-        showMessage(errorMessage, 'Nenhum usuário logado. Por favor, faça login.', 'error');
-        profileDisplaySection.style.display = 'none';
-        profileEditSection.style.display = 'none';
-        // Redireciona para login se não houver ID de usuário
-        setTimeout(() => { window.location.href = '/login'; }, 2000);
-        return;
+    function showFeedback(element, message, type) {
+        element.textContent = message;
+        element.className = `feedback-message ${type}-message`;
+        element.style.display = 'block';
+        setTimeout(() => {
+            element.style.display = 'none';
+        }, 5000);
     }
 
-    try {
-        const response = await fetch(`${API_PERFIL_URL}?id_usuario=${userId}`); // Envia o ID na query string
-        const result = await response.json();
 
-        if (response.ok && result.success) {
-            hideMessage(loadingMessage);
-            populateProfileDisplay(result.user);
-            populateProfileEditForm(result.user); // Preenche o formulário de edição
-            profileDisplaySection.style.display = 'block'; // Mostra a seção de exibição
-            profileEditSection.style.display = 'none'; // Esconde a seção de edição por padrão
+    async function loadUserProfile() {
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (loggedInUser) {
+            const user = JSON.parse(loggedInUser);
+            currentUserId = user.id;
+
+            try {
+                const response = await fetch(`${API_USER_URL}?id_usuario=${currentUserId}`);
+                const result = await response.json();
+
+                if (result.success && result.user) {
+                    const userData = result.user;
+                    profileNameSpan.textContent = userData.NOME_USUARIO;
+                    profileEmailSpan.textContent = userData.EMAIL_USUARIO;
+                    profileTypeSpan.textContent = userData.TIPO_USUARIO === 'seller' ? 'Vendedor' : 'Comprador';
+
+                    if (userData.IMAGEM_PERFIL_BASE64) {
+                        userProfileImage.src = userData.IMAGEM_PERFIL_BASE64;
+                        currentUserProfileImageBase64 = userData.IMAGEM_PERFIL_BASE64;
+                    } else {
+                        userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                        currentUserProfileImageBase64 = null;
+                    }
+
+
+                    if (userData.TIPO_USUARIO === 'seller') {
+                        storeProfileSection.style.display = 'block';
+                        goToSellerAreaBtn.style.display = 'block';
+
+                        if (userData.IMAGEM_PERFIL_LOJA_BASE64) {
+                            storeProfileImage.src = userData.IMAGEM_PERFIL_LOJA_BASE64;
+                        } else {
+                            storeProfileImage.src = 'https://placehold.co/120x120/cccccc/333333?text=Foto+Loja';
+                        }
+                        storeNameSpan.textContent = user.storeName || 'Não definido'; 
+                    } else {
+                        storeProfileSection.style.display = 'none';
+                        goToSellerAreaBtn.style.display = 'none';
+                    }
+
+                } else {
+                    showFeedback(profileImageFeedback, result.message || 'Erro ao carregar dados do usuário.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao buscar perfil:', error);
+                showFeedback(profileImageFeedback, 'Erro de conexão ao carregar perfil.', 'error');
+            }
         } else {
-            hideMessage(loadingMessage);
-            showMessage(errorMessage, result.message || 'Erro ao carregar o perfil do usuário.', 'error');
-            profileDisplaySection.style.display = 'none';
-            profileEditSection.style.display = 'none';
+            showFeedback(profileImageFeedback, 'Você não está logado. Redirecionando para o login...', 'error');
+            setTimeout(() => { window.location.href = '/login'; }, 2000);
         }
-    } catch (error) {
-        console.error('Erro na requisição de perfil:', error);
-        hideMessage(loadingMessage);
-        showMessage(errorMessage, 'Erro na conexão com o servidor. Tente novamente mais tarde.', 'error');
-        profileDisplaySection.style.display = 'none';
-        profileEditSection.style.display = 'none';
     }
-}
 
-// Event Listener para quando a página carregar
-document.addEventListener('DOMContentLoaded', fetchUserProfile);
+   
+    profileImageFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            if (file.size > 1 * 1024 * 1024) {               
+                showFeedback(profileImageFeedback, 'A imagem de perfil deve ter no máximo 1MB.', 'error');
+                profileImageFileInput.value = '';
+                userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                currentUserProfileImageBase64 = null;
+                return;
+            }
+            if (!file.type.startsWith('image/')) {
+                showFeedback(profileImageFeedback, 'Por favor, selecione um arquivo de imagem válido.', 'error');
+                profileImageFileInput.value = '';
+                userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                currentUserProfileImageBase64 = null;
+                return;
+            }
 
-// --- Lógica de Atualização do Perfil ---
-if (editProfileForm) {
-    editProfileForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        hideMessage(errorMessage);
-        hideMessage(successMessage);
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                userProfileImage.src = e.target.result;
+                currentUserProfileImageBase64 = e.target.result;
+                saveProfileImageBtn.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+            currentUserProfileImageBase64 = null;
+            saveProfileImageBtn.style.display = 'none'; 
+        }
+    });
 
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-            showMessage(errorMessage, 'Nenhum usuário logado para atualizar.', 'error');
+
+    saveProfileImageBtn.addEventListener('click', async () => {
+        if (!currentUserId) {
+            showFeedback(profileImageFeedback, 'Erro: ID do usuário não encontrado.', 'error');
             return;
         }
-
-        const formData = new FormData(editProfileForm);
-        const data = Object.fromEntries(formData.entries());
-
-        // Limpa formatação de telefone e CEP antes de enviar para o backend
-        data.CELULAR_USUARIO = data.CELULAR_USUARIO ? String(data.CELULAR_USUARIO).replace(/\D/g, '') : '';
-        data.CEP_USUARIO = data.CEP_USUARIO ? String(data.CEP_USUARIO).replace(/\D/g, '') : '';
-
-        // Adiciona o ID do usuário ao objeto de dados
-        data.id_usuario = userId;
-
-        // Validação das senhas (frontend)
-        if (data.NOVA_SENHA_USUARIO && data.NOVA_SENHA_USUARIO !== data.CONFIRM_SENHA_USUARIO) {
-            showMessage(errorMessage, 'As novas senhas não coincidem.', 'error');
+        if (!currentUserProfileImageBase64) {
+            showFeedback(profileImageFeedback, 'Por favor, selecione uma imagem para salvar.', 'error');
             return;
-        }
-        // Se nova senha estiver vazia, remove os campos para não tentar atualizar a senha
-        if (!data.NOVA_SENHA_USUARIO) {
-            delete data.NOVA_SENHA_USUARIO;
-            delete data.CONFIRM_SENHA_USUARIO;
         }
 
         try {
-            const response = await fetch(API_ATUALIZAR_PERFIL_URL, {
-                method: 'PUT', // IMPORTANTE: Agora usando PUT!
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+
+            const userResponse = await fetch(`${API_USER_URL}?id_usuario=${currentUserId}`);
+            const userResult = await userResponse.json();
+            if (!userResult.success || !userResult.user) {
+                showFeedback(profileImageFeedback, 'Erro ao obter dados do usuário para atualização.', 'error');
+                return;
+            }
+            const existingUserData = userResult.user;
+
+            const response = await fetch(API_UPDATE_USER_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id_usuario: currentUserId,
+                    IMAGEM_PERFIL_BASE64: currentUserProfileImageBase64,
+
+                    NOME_USUARIO: existingUserData.NOME_USUARIO,
+                    EMAIL_USUARIO: existingUserData.EMAIL_USUARIO,
+                    CELULAR_USUARIO: existingUserData.CELULAR_USUARIO,
+                    LOGRADOURO_USUARIO: existingUserData.LOGRADOURO_USUARIO,
+                    BAIRRO_USUARIO: existingUserData.BAIRRO_USUARIO,
+                    CIDADE_USUARIO: existingUserData.CIDADE_USUARIO,
+                    UF_USUARIO: existingUserData.UF_USUARIO,
+                    CEP_USUARIO: existingUserData.CEP_USUARIO,
+                    DT_NASC_USUARIO: existingUserData.DT_NASC_USUARIO,
+                    TIPO_USUARIO: existingUserData.TIPO_USUARIO
+                })
             });
 
             const result = await response.json();
 
             if (response.ok && result.success) {
-                showMessage(successMessage, result.message, 'success');
-                // Recarrega o perfil para mostrar os dados atualizados
-                await fetchUserProfile();
-                // Opcional: Voltar para a visualização após salvar
-                profileDisplaySection.style.display = 'block';
-                profileEditSection.style.display = 'none';
+                showFeedback(profileImageFeedback, 'Foto de perfil atualizada com sucesso!', 'success');
+                saveProfileImageBtn.style.display = 'none';
+
+                let user = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (user) {
+                    user.IMAGEM_PERFIL_BASE64 = currentUserProfileImageBase64;
+                    localStorage.setItem('loggedInUser', JSON.stringify(user));
+                }
             } else {
-                showMessage(errorMessage, result.message || 'Erro ao atualizar o perfil.', 'error');
+                showFeedback(profileImageFeedback, result.message || 'Erro ao atualizar foto de perfil.', 'error');
             }
         } catch (error) {
-            console.error('Erro ao atualizar perfil:', error);
-            showMessage(errorMessage, 'Erro na conexão para atualizar o perfil.', 'error');
+            console.error('Erro na requisição de atualização de perfil:', error);
+            showFeedback('Erro de conexão com o servidor.', 'error');
         }
     });
-}
 
-// Lógica para o botão de Logout
-if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userType');
-        localStorage.removeItem('userName');
-        alert('Você foi desconectado.');
-        window.location.href = '/login'; // Redireciona para a página de login
-    });
-}
 
-// Lógica para alternar entre visualização e edição (Adicione botões no HTML)
-if (toggleEditButton) {
-    toggleEditButton.addEventListener('click', () => {
-        profileDisplaySection.style.display = 'none';
-        profileEditSection.style.display = 'block';
-        hideMessage(errorMessage); // Limpa mensagens ao alternar
-        hideMessage(successMessage);
+    goToSellerAreaBtn.addEventListener('click', () => {
+        window.location.href = '/vendedor';
     });
-}
 
-if (cancelEditButton) {
-    cancelEditButton.addEventListener('click', () => {
-        profileDisplaySection.style.display = 'block';
-        profileEditSection.style.display = 'none';
-        hideMessage(errorMessage); // Limpa mensagens ao alternar
-        hideMessage(successMessage);
-        fetchUserProfile(); // Recarrega os dados originais caso o usuário tenha alterado e cancelado
-    });
-}
+    loadUserProfile();
+});

@@ -3,129 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Meu Perfil | Vitrine</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/perfil.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
-    </head>
+    <link rel="stylesheet" href="css/home.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding-top: 80px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #e47a1b;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .profile-info {
+            text-align: center;
+        }
+        .profile-info p {
+            margin: 8px 0;
+            font-size: 1.1em;
+        }
+        .profile-info strong {
+            color: #555;
+        }
+        .profile-image-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #e47a1b;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-image-upload-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-image-upload-icon input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .save-image-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+        .save-image-btn:hover {
+            background-color: #0056b3;
+        }
 
+        .store-profile-section {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+            margin-top: 30px;
+            text-align: center;
+            display: none; 
+        }
+        .store-profile-image-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #6c757d;
+            margin: 15px auto;
+        }
+        .store-profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .feedback-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        .success-message { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
 <body>
-
     <header class="header">
-        <a class="logo" href="/">
-            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
         </a>
-            
-        <nav class="main-nav">
-            <div class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
+        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <span class="line1"></span>
+            <span class="line2"></span>
+            <span class="line3"></span>
+        </div>
+        <nav id="main-navigation" aria-label="Menu principal de navegação">
             <ul class="nav-list">
-                <li><a href="/home-perfil">Início</a></li>
+                <li><a href="/" aria-current="page">Início</a></li>
                 <li><a href="/sobrenos">Sobre</a></li>
-                <li><a href="/perfil" class="perfil"><img src="imagens/do-utilizador.png" width="35" height="35" alt="Ícone de Perfil"></a></li>
-                <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px" alt="Ícone de Carrinho"></a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
+                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
+                </a></li>
+                <li><a href="/perfil">Perfil</a></li> 
             </ul>
         </nav>
     </header>
 
-    <main class="profile-page">
-        <h1 class="page-title">Meu Perfil</h1>
+    <main class="container">
+        <h1>Meu Perfil</h1>
 
-        <p id="loadingMessage" class="message" style="display: none;">Carregando informações do perfil...</p>
-        <p id="errorMessage" class="message error" style="display: none;"></p>
-        <p id="successMessage" class="message success" style="display: none;"></p>
+        <section class="profile-section">
+            <div class="profile-image-container">
+                <img id="user-profile-image" src="https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil" alt="Foto de Perfil do Usuário">
+                <div class="profile-image-upload-icon">
+                    <i class="fas fa-camera"></i>
+                    <input type="file" id="profile-image-file-input" accept="image/*">
+                </div>
+            </div>
+            <button id="save-profile-image-btn" class="save-image-btn" style="display: none;">Salvar Foto de Perfil</button>
+            <div id="profile-image-feedback" class="feedback-message"></div>
 
-        <section class="profile-section" id="profileDisplaySection" style="display: none;">
-            <h2>Informações Cadastrais</h2>
-            <figure class="user-picture"> <!-- <figure> para a imagem de perfil e seu controle de upload -->
-                    <img id="profileImageDisplay" class="profile-image" src="https://placehold.co/150x150/cccccc/333333?text=Sem+Foto" alt="Foto de Perfil">
-                    <figcaption class="image-upload-box"> <!-- <figcaption> para a legenda/controles da figura -->
-                        <label for="profileImageUpload" class="btn btn-secondary">Alterar Foto</label>
-                        <input type="file" id="profileImageUpload" accept="image/*" style="display: none;">
-                        <span id="image-error" class="error"></span>
-                    </figcaption>
-            </figure>
-            
-            <dl class="profile-details">
-                <dt>Nome:</dt>
-                <dd id="displayUserName"></dd>
-                <dt>Email:</dt>
-                <dd id="displayUserEmail"></dd>
-                <dt>Celular:</dt>
-                <dd id="displayUserCelular"></dd>
-                <dt>Logradouro:</dt>
-                <dd id="displayUserLogradouro"></dd>
-                <dt>Bairro:</dt>
-                <dd id="displayUserBairro"></dd>
-                <dt>Cidade:</dt>
-                <dd id="displayUserCidade"></dd>
-                <dt>UF:</dt>
-                <dd id="displayUserUf"></dd>
-                <dt>CEP:</dt>
-                <dd id="displayUserCep"></dd>
-                <dt>Data de Nascimento:</dt>
-                <dd id="displayUserDtNasc"></dd>
-                <dt>Tipo de Usuário:</dt>
-                <dd id="displayUserTipo"></dd>
-            </dl>
-            <button id="toggleEditButton" class="btn btn-primary">Editar Perfil</button>
+            <div class="profile-info">
+                <p><strong>Nome:</strong> <span id="profile-name">Carregando...</span></p>
+                <p><strong>E-mail:</strong> <span id="profile-email">Carregando...</span></p>
+                <p><strong>Tipo de Usuário:</strong> <span id="profile-type">Carregando...</span></p>
+                <button onclick="window.location.href='/vendedor'" id="go-to-seller-area-btn" class="save-image-btn" style="display: none; margin-top: 20px;">Acessar Área do Vendedor</button>
+            </div>
         </section>
 
-        <section class="profile-section" id="profileEditSection" style="display: none;">
-            <h2>Editar Perfil</h2>
-            <form id="editProfileForm" class="profile-form">
-                <label for="name_input">Nome:</label>
-                <input type="text" id="name_input" name="NOME_USUARIO" required>
-
-                <label for="email_input">Email:</label>
-                <input type="email" id="email_input" name="EMAIL_USUARIO" required>
-
-                <label for="celular_input">Celular:</label>
-                <input type="tel" id="celular_input" name="CELULAR_USUARIO">
-
-                <label for="logradouro_input">Logradouro:</label>
-                <input type="text" id="logradouro_input" name="LOGRADOURO_USUARIO">
-
-                <label for="bairro_input">Bairro:</label>
-                <input type="text" id="bairro_input" name="BAIRRO_USUARIO">
-
-                <label for="cidade_input">Cidade:</label>
-                <input type="text" id="cidade_input" name="CIDADE_USUARIO">
-
-                <label for="uf_input">UF:</label>
-                <input type="text" id="uf_input" name="UF_USUARIO" maxlength="2">
-
-                <label for="cep_input">CEP:</label>
-                <input type="text" id="cep_input" name="CEP_USUARIO" maxlength="8">
-
-                <label for="dt_nasc_input">Data de Nascimento:</label>
-                <input type="date" id="dt_nasc_input" name="DT_NASC_USUARIO">
-
-                <label for="tipo_usuario_input">Tipo de Usuário:</label>
-                <input type="text" id="tipo_usuario_input" name="TIPO_USUARIO" maxlength="1" readonly>
-                
-                <label for="new_password_input">Nova Senha (opcional):</label>
-                <input type="password" id="new_password_input" name="NOVA_SENHA_USUARIO" placeholder="Deixe em branco para manter a senha atual">
-
-                <label for="confirm_password_input">Confirme a Nova Senha:</label>
-                <input type="password" id="confirm_password_input" name="CONFIRM_SENHA_USUARIO">
-
-                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                <button type="button" id="cancelEditButton" class="btn btn-secondary" style="margin-left: 10px;">Cancelar</button>
-            </form>
+        <section class="store-profile-section" id="store-profile-section">
+            <h2>Perfil da Loja (Vendedor)</h2>
+            <div class="store-profile-image-container">
+                <img id="store-profile-image" src="https://placehold.co/120x120/cccccc/333333?text=Foto+Loja" alt="Foto de Perfil da Loja">
+            </div>
+            <p><strong>Nome da Loja:</strong> <span id="store-name">Carregando...</span></p>
         </section>
-
-        <button id="logoutButton" class="btn btn-secondary" style="margin-top: 30px; display: block; width: fit-content; margin-left: auto; margin-right: auto;">Sair (Logout)</button>
 
     </main>
 
-    <script src="js/perfil.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/perfil.js"></script>
 </body>
-
 </html>
