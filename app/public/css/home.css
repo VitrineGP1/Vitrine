@@ -270,11 +270,10 @@ nav{
     justify-content: center;
     z-index: 0;
     width: 50%;
-    height: 55%;
     margin-top: 3%;
     margin-left: 25%;
+    margin-bottom: 0;
 }
-
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
@@ -295,7 +294,7 @@ nav{
 .slides {
     display: flex;
     transition: transform 0.5s ease-in-out;
-            
+    height: 350px;
 }
 
 
