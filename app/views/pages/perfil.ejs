@@ -172,25 +172,26 @@
 </head>
 <body>
     <header class="header">
-        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
-            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
-        </a>
-        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
-            <span class="line1"></span>
-            <span class="line2"></span>
-            <span class="line3"></span>
-        </div>
-        <nav id="main-navigation" aria-label="Menu principal de navegação">
-            <ul class="nav-list">
-                <li><a href="/" aria-current="page">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
-                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
-                </a></li>
-                <li><a href="/perfil">Perfil</a></li>
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
+
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="/">Início</a></li>
+                    <li><a href="/sobrenos">Sobre</a></li>
+                    <li><a href="/login" class="">Entrar</a></li>
+                    <li><a href="/carrinho-vazio" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
+                    <li><a href="/perfil">Perfil</a></li>
             </ul>
         </nav>
     </header>
+                
 
     <main class="container">
         <h1>Meu Perfil</h1>
