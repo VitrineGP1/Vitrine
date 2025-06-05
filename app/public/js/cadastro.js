@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cadastroForm = document.getElementById('cadastro-form');
     const feedbackMessage = document.getElementById('feedback-message');
 
-    // Campos de usuário
     const nomeInput = document.getElementById('nome');
     const emailInput = document.getElementById('email');
     const celularInput = document.getElementById('celular');
@@ -15,17 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const cepInput = document.getElementById('cep');
     const dataNascInput = document.getElementById('dataNasc');
 
-    // Campos de tipo de usuário
     const typeBuyerRadio = document.getElementById('type-buyer');
     const typeSellerRadio = document.getElementById('type-seller');
     const sellerFieldsDiv = document.getElementById('seller-fields');
 
-    // Campos específicos de vendedor
     const tipoPessoaSelect = document.getElementById('tipoPessoa');
     const digitoPessoaInput = document.getElementById('digitoPessoa');
     const nomeLojaInput = document.getElementById('nomeLoja');
 
-    // Spans de erro
     const nomeError = document.getElementById('nome-error');
     const emailError = document.getElementById('email-error');
     const celularError = document.getElementById('celular-error');
@@ -37,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const digitoPessoaError = document.getElementById('digitoPessoa-error');
     const nomeLojaError = document.getElementById('nomeLoja-error');
 
-    // Função para exibir mensagens de feedback
     function showFeedback(message, type) {
         feedbackMessage.textContent = message;
         feedbackMessage.className = `message ${type}-message`;
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
-    // Função para limpar mensagens de erro
     function clearErrors() {
         nomeError.textContent = '';
         emailError.textContent = '';
@@ -61,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         nomeLojaError.textContent = '';
     }
 
-    // Lógica para exibir/ocultar campos de vendedor
     function toggleSellerFields() {
         if (typeSellerRadio.checked) {
             sellerFieldsDiv.style.display = 'block';
@@ -80,14 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Adiciona event listeners para os rádios de tipo de usuário
     typeBuyerRadio.addEventListener('change', toggleSellerFields);
     typeSellerRadio.addEventListener('change', toggleSellerFields);
 
-    // Inicializa o estado dos campos de vendedor
     toggleSellerFields();
 
-    // Adiciona máscaras de input (opcional, mas recomendado)
     celularInput.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 10) {
@@ -132,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.value = value;
     });
 
-
     cadastroForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         clearErrors();
@@ -153,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const DT_NASC_USUARIO = dataNascInput.value;
         const TIPO_USUARIO = document.querySelector('input[name="TIPO_USUARIO"]:checked').value;
 
-        // Validações básicas
         if (NOME_USUARIO.length < 3) {
             nomeError.textContent = 'Nome deve ter no mínimo 3 caracteres.';
             isValid = false;
@@ -170,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             confirmPasswordError.textContent = 'As senhas não coincidem.';
             isValid = false;
         }
-        if (CELULAR_USUARIO && CELULAR_USUARIO.length < 14) { // Ex: (DD) XXXXX-XXXX
+        if (CELULAR_USUARIO && CELULAR_USUARIO.length < 14) {
             celularError.textContent = 'Formato de celular inválido (mínimo 14 caracteres com máscara).';
             isValid = false;
         }
@@ -191,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let DIGITO_PESSOA = null;
         let NOME_LOJA = null;
 
-        // Validações específicas para vendedor
         if (TIPO_USUARIO === 'seller') {
             TIPO_PESSOA = tipoPessoaSelect.value;
             DIGITO_PESSOA = digitoPessoaInput.value.trim();
@@ -247,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 cadastroForm.reset();
                 toggleSellerFields();
                 setTimeout(() => {
-                    // Redireciona para a página de perfil após o cadastro bem-sucedido
                     window.location.href = '/perfil';
                 }, 2000);
             } else {

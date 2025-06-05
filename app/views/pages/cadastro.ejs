@@ -34,9 +34,9 @@
 
         .main-content-wrapper {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: wrap; 
             justify-content: center;
-            gap: 20px;
+            gap: 20px; 
             padding: 20px;
             max-width: 1200px;
             margin: 20px auto;
@@ -51,9 +51,8 @@
             border-radius: 8px;
             border: 1px solid #eee;
             flex: 1; 
-            min-width: 300px; 
+            min-width: 300px;
         }
-
 
         .form-section-seller {
             display: none;
@@ -62,11 +61,11 @@
 
         @media (max-width: 768px) {
             .main-content-wrapper {
-                flex-direction: column; 
+                flex-direction: column;
                 align-items: center;
             }
             .form-section-main, .form-section-seller {
-                width: 100%;
+                width: 100%; 
             }
         }
     </style>
@@ -94,8 +93,6 @@
     </header>
 
     <main class="container">
-
-
         <div class="form">
             <form id="cadastro-form">
                 <div class="form-header">
@@ -133,7 +130,16 @@
                                 <input id="celular" type="tel" name="CELULAR_USUARIO" placeholder="(xx) xxxxx-xxxx" maxlength="15">
                                 <span id="celular-error" class="error"></span>
                             </div>
-                            
+                            <div class="input-box">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" name="SENHA_USUARIO" placeholder="Digite sua senha" required>
+                                <span id="password-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="confirmPassword">Confirme sua Senha</label>
+                                <input id="confirmPassword" type="password" name="CONFIRM_SENHA_USUARIO" placeholder="Confirme sua senha" required>
+                                <span id="confirm-password-error" class="error"></span>
+                            </div>
                             <div class="input-box">
                                 <label for="logradouro">Logradouro</label>
                                 <input id="logradouro" type="text" name="LOGRADOURO_USUARIO" placeholder="Rua, Avenida, etc.">
@@ -159,16 +165,6 @@
                                 <label for="dataNasc">Data de Nascimento</label>
                                 <input id="dataNasc" type="date" name="DT_NASC_USUARIO">
                                 <span id="dataNasc-error" class="error"></span>
-                            </div>
-                            <div class="input-box">
-                                <label for="password">Senha</label>
-                                <input id="password" type="password" name="SENHA_USUARIO" placeholder="Digite sua senha" required>
-                                <span id="password-error" class="error"></span>
-                            </div>
-                            <div class="input-box">
-                                <label for="confirmPassword">Confirme sua Senha</label>
-                                <input id="confirmPassword" type="password" name="CONFIRM_SENHA_USUARIO" placeholder="Confirme sua senha" required>
-                                <span id="confirm-password-error" class="error"></span>
                             </div>
                         </div>
                     </div>
