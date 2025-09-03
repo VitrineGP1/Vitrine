@@ -413,6 +413,7 @@ nav{
     padding-left: 10%;      /* Espaçamento à esquerda */
     scroll-behavior: smooth; /* Rolagem suave */
     padding-left: 10%;
+    padding-top: 10px;
     gap: 10%;
 }
 .carousel-item {
