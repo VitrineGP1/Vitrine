@@ -1,12 +1,9 @@
 .container {
     width: 80%;
-    height: 75vh;
     display: flex;
+    justify-content: center;
     margin-top: 5%;
     border-radius: 10px;
-    align-items: center;
-    flex-direction: unset;
-    display: block;
 }
 
 .form-image {
@@ -46,7 +43,7 @@
 }
 
 .login-button button {
-    background-color: #e47a1b;
+    background-color: #3D5A80;
     padding: 0.4rem 1rem;
     border-radius: 10px;
     cursor: pointer;
@@ -55,8 +52,8 @@
 
 .login-button button:hover {
     background-color: #fafafa;
-    border-color: #e47a1b;
-    color: #e47a1b;
+    border-color: #3D5A80;
+    color: #3D5A80;
 }
 
 .login-button button {
@@ -70,7 +67,7 @@
     display: block;
     width: 5rem;
     height: 0.3rem;
-    background-color: #e47a1b;
+    background-color: #3D5A80;
     margin: 0 auto;
     position: absolute;
     border-radius: 10px;
@@ -103,7 +100,7 @@
 }
 
 .input-box input:focus-visible {
-    outline: 1px solid #e47a1b;
+    outline: 1px solid #3D5A80;
 }
 
 .input-box label,
@@ -142,7 +139,7 @@
 .continue-button button {
     width: 100%;
     margin-top: 2.5rem;
-    background-color: #e47a1b;
+    background-color: #3D5A80;
     padding: 0.62rem;
     border-radius: 10px;
     cursor: pointer;
@@ -151,14 +148,14 @@
 
 .continue-button button :hover {
     background-color: #fafafa;
-    border-color: #e47a1b;
-    color: #e47a1b;
+    border-color: #3D5A80;
+    color: #3D5A80;
 }
 
 .continue-button button :hover {
     background-color: #fafafa;
-    border-color: #e47a1b;
-    color: #e47a1b;
+    border-color: #3D5A80;
+    color: #3D5A80;
 }
 
 .continue-button button{
@@ -196,7 +193,7 @@
     top: 60%;
     right: 0;
     height: 50vh;
-    background: #e47a1b;
+    background: #3D5A80;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -247,7 +244,7 @@
         display: none;
     }
     .form {
-        width: 100%;
+        width: 45%;
     }
 }
 
@@ -296,7 +293,7 @@
     top: 60%;
     right: 0;
     height: 50vh;
-    background: #e47a1b;
+    background: #3D5A80;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
