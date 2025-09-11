@@ -1,5 +1,5 @@
 .container {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 5%;
@@ -22,7 +22,7 @@
 }
 
 .form {
-    width: 70%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -146,13 +146,13 @@
     color: #fff;
 }
 
-.continue-button button :hover {
+.continue-button button:hover {
     background-color: #fafafa;
     border-color: #3D5A80;
     color: #3D5A80;
 }
 
-.continue-button button :hover {
+.continue-button button{
     background-color: #fafafa;
     border-color: #3D5A80;
     color: #3D5A80;
