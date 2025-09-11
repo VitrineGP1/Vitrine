@@ -148,15 +148,10 @@
     border-radius: 10px;
     cursor: pointer;
     color: #fff;
+    border-color: #3D5A80;
 }
 
 .continue-button button:hover {
-    background-color: #fafafa;
-    border-color: #3D5A80;
-    color: #3D5A80;
-}
-
-.continue-button button{
     background-color: #fafafa;
     border-color: #3D5A80;
     color: #3D5A80;
