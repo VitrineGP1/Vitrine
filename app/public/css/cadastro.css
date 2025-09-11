@@ -73,6 +73,10 @@
     border-radius: 10px;
 }
 
+.h2{
+    color:#3D5A80;
+}
+
 .input-group {
     display: flex;
     flex-wrap: wrap;
