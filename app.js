@@ -19,15 +19,15 @@ app.set("views", path.join(__dirname, 'app', 'views'));
 const pool = require("./config/pool_conexoes");
 
 // Importa e configura as rotas de AUTENTICAÇÃO
-const authRoutes = require("routes/authRoutes")(pool);
+const authRoutes = require("./routes/authRoutes")(pool);
 app.use("/api", authRoutes); // Rotas de login/cadastro
 
 // Importa e configura as rotas de PERFIL
-const profileRoutes = require("routes/profileRoutes")(pool); // Seu novo arquivo
+const profileRoutes = require("./routes/profileRoutes")(pool); // Seu novo arquivo
 app.use("/api", profileRoutes); // Mesmo prefixo /api
 
 // Importa rotas principais (para as views EJS)
-var rotas = require("routes/router");
+var rotas = require("./routes/router");
 app.use("/", rotas);
 
 app.listen(port, () => {
