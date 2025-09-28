@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs'); // Para hash de senhas
 module.exports = (pool) => {
 
     // Rota de CADASTRO de Usuário
-    router.post('/cadastrar_usuario', async (req, res) => {
+    router.post('/cadastro', async (req, res) => {
         const {
             NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
             LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
@@ -54,7 +54,7 @@ module.exports = (pool) => {
     });
 
     // Rota de LOGIN de Usuário
-    router.post('/login_usuario', async (req, res) => {
+    router.post('/login', async (req, res) => {
         const { EMAIL_USUARIO, SENHA_USUARIO } = req.body;
 
         if (!EMAIL_USUARIO || !SENHA_USUARIO) {
