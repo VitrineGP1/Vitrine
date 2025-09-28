@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'app', 'views'));
 
 // Importa o pool de conexões
-const pool = require("config/database");
+const pool = require("config/pool_conexoes");
 
 // Importa e configura as rotas de AUTENTICAÇÃO
 const authRoutes = require("routes/authRoutes")(pool);
