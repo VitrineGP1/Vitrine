@@ -20,167 +20,197 @@
                 <div class="line2"></div>
                 <div class="line3"></div>
             </aside>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="/">Início</a></li>
-                    <li><a href="/sobrenos">Sobre</a></li>
-                    <li><a href="/login" class="">Entrar</a></li>
-                    <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-                </ul>
-            </nav>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/sobrenos">Sobre</a></li>
+              <li><a href="/login">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/login">Página do Vendedor</a></li>
+            </ul>
+          </nav>
         </header>
-        <div class="header2"></div>
+
+
+
 
         <main class="slider-container">
             <section class="slider">
                 <section class="slides">
                     <figure class="slide">
-                        <img src="imagens/Brown and Beige Traditional Filipino Art Event Banner (1).svg" alt="Slide1">
+                        <img src="imagens/casa.svg" alt="Slide1">
                     </figure>
                 </section>
             </section>
         </main>
 
         <main class="categorias-container2">
-            <p class="event-filtros">Mais Vendidos</p>
-            <section class="grade">
+        <section class="grade">
                 
-                <article class="produtos">
-                    <br><br><hgroup><h3 class="h1" alt="Moveis">Cadeira de Balanço</h3></hgroup><br>
-                    <a href="/prod5">
-                        <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco">R$1.250,00</p><br>
-                    <a href="/home.html"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+          <article class="produtos">
+            <a href="/prod1">
+                
 
-                <article class="produtos">
-                    <br><br><hgroup><h3 class="h1" alt="Moveis">Cadeira de Balanço</h3></hgroup><br>
-                    <a href="/prod5">
-                        <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco">R$1.250,00</p><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+                  <img src="imagens/produto-1.webp" class="imagem" width="250px" height="250px">
+              <hgroup><h3 class="h1" alt="Moveis">Cesto de Corda Náutica</h3></hgroup>
+              <div class="hh4">Vendedor: **Loja Artesã Única**</div><br>
+              <div class="hh4">⭐⭐⭐⭐(4.5)</div>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-                <article class="produtos">
-                    <br><br><hgroup><h3 class="h1" alt="Moveis">Cadeira de Balanço</h3></hgroup><br>
-                    <a href="/prod5">
-                        <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco">R$1.250,00</p><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+          <article class="produtos">
+              <a href="/prod2">
+                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
+              
+              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-                <article class="produtos">
-                    <br><br><hgroup><h3 class="h1" alt="Moveis">Cadeira de Balanço</h3></hgroup><br>
-                    <a href="/prod5">
-                        <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco">R$1.250,00</p><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-            </section>
-
+          <article class="produtos">
+              <a href="/prod3">
+                  <img src="imagens/bolsa.png" class="imagem" width="250px" height="250px">
             
-        </main>
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Fio Náutico</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-        <main class="categorias-container">
-            <br><br>
-            <p class="event-filtros">Categorias</p><br><br>
+          <article class="produtos">
+              <a href="/prod4">
+                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-            <section class="carousel-container">
-                <section class="carousel">
-                    <figure class="carousel-item">
-                        <a href="#">
-                            <img src="imagens/artesanato.png" alt="Casa e Decoração">
-                        </a>
-                        <figcaption class="casa">Casa e Decoração</figcaption>
-                    </figure>
-                </section>
+      <article class="produtos">
+        <a href="/prod5">
+            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
 
-                <section class="carousel"> 
-                    <figure class="carousel-item">
-                        <a href="#">
-                            <img src="imagens/bolsa.png" alt="Moda" >
-                        </a>
-                        <figcaption class="figcaption">Moda</figcaption>
-                    </figure>
-                </section>
-           
-                <section class="carousel">
-                    <figure class="carousel-item">
-                        <a href="#">
-                            <img src="imagens/moveis.png" alt="Moveis" >
-                        </a>
-                        <figcaption class="figcaption">Moveis</figcaption>
-                    </figure>
-                </section>
+    <article class="produtos">
+        <a href="/prod6">
+            <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+</section>   
 
-                <section class="carousel">
-                    <figure class="carousel-item">
-                        <a href="#">
-                            <img src="imagens/croche.png" alt="Croche">   
-                        </a>
-                         <figcaption class="figcaption">Crochê</figcaption>
-                    </figure>  
-                </section>                  
-            </section>
-            <br><br><br><br>
-            <p class="event-filtros">Novos Produtos</p><br><br>
 
-            <section class="grade">
-                <article class="produtos2">
-                    <br><br><hgroup><h3 class="h8" alt="Casa e Decoração">Cesto organizador</h3></hgroup><br>
-                    <a href="/prod1">
-                        <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador" class="imagem2" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco2">R$265,00</p><br>
-                    <a href="/home"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-                <br><br><br>
+<main class="slider-container">
+    <section class="slider">
+        <section class="slides">
+            <figure class="slide">
+                <img src="imagens/casa-2.svg" alt="Slide1">
+            </figure>
+        </section>
+    </section>
+</main>
 
-                <article class="produtos3">
-                    <br><br><hgroup><h3 class="h9" alt="Casa e Decoração">Banquinho de Crochê </h3></hgroup><br>
-                    <a href="/prod2">
-                        <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" class="imagem3" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco3">R$315,00</p><br>
-                    <a href="/home"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+        <main class="categorias-container2">
+        <section class="grade">
+                
+          <article class="produtos">
+            <a href="/prod1">
+                
 
-                <article class="produtos4">
-                    <br><br><hgroup><h3 class="h10" alt="Moda">Bolsa de Fio Náutico</h3></hgroup><br>
-                    <a href="/prod3">
-                        <img src="imagens/bolsa.png" class="imagem4" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco4">R$235,00</p><br>
-                    <a href="/home"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+                  <img src="imagens/produto-1.webp" class="imagem" width="250px" height="250px">
+              <hgroup><h3 class="h1" alt="Moveis">Cesto de Corda Náutica</h3></hgroup>
+              <div class="hh4">Vendedor: **Loja Artesã Única**</div><br>
+              <div class="hh4">⭐⭐⭐⭐(4.5)</div>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-                <article class="produtos5">
-                    <br><br><hgroup><h3 class="h11" alt="Moda">Bolsa de Crochê</h3></hgroup><br>
-                    <a href="/prod4">
-                        <img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" class="imagem5" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <p class="preco5">R$145,00</p><br>
-                    <a href="/home"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-            </section>
-        </main>
+          <article class="produtos">
+              <a href="/prod2">
+                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
+              
+              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-        <br><br><br><br>
-        
+          <article class="produtos">
+              <a href="/prod3">
+                  <img src="imagens/bolsa.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Fio Náutico</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
 
-        
+          <article class="produtos">
+              <a href="/prod4">
+                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+      <article class="produtos">
+        <a href="/prod5">
+            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+
+    <article class="produtos">
+        <a href="/prod6">
+            <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+</section>   
+
+  </main>
         <br><br><br><br>
         <footer>
             <aside id="footer_content">
@@ -218,7 +248,7 @@
                 </section>
             </aside>
         </footer>
-        <script src="js/home.js"></script>
+        <script src="home.js"></script>
         <script src="js/navbar.js"></script>
     </body>
 </html>
