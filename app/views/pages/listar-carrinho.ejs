@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://sdks.mercadopago.com/js/v2"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.js"></script>
+    <script src="js/comprar-carrinho.js"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <section class="payment-form dark">
+        <div class="container_payment">
+            <div class="block-heading"> <h2>Checkout Pro</h2> </div>
+            <div class="form-payment">
+                <div class="products">
+                    <h2 class="title">Resumo do pedido</h2>
+                    <%
+                    var total = 0;
+                    carrinho.forEach(function(item){
+                        total +=(item.qtde * item.preco);
+                    %>
+                    <div class="item">
+                        <span class="price hidden" id="summary-price">R$ <%= item.preco.toFixed(2) %> </span>
+                        <span class="price" id="subtot-price">R$ <%= (item.qtde * item.preco).toFixed(2) %> </span>
+                        <p class="item-name"> <%= item.produto %>
+                            (<spam id="summary-quantity"> <%= item.qtde %>
+                            </spam> X R$ <%= item.preco.tofixed(2) %>)
+                        </p>
+                    </div>
+                    <% }); %>
+                    <div class="total">
+                        <span class="summary-total">Total R$ <%= total.toFixed(2) %> </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

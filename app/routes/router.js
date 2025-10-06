@@ -70,4 +70,36 @@ router.get("/rdsenha", function (req, res) {
     res.render("pages/rdsenha", )
 });
 
+// SDK do Mercado Pago
+const { MercadoPagoConfig, Preference } = require('mercadopago');
+const { pedidoController } = require("../controllers/pedidoController");
+// Adicione as credenciais
+const client = new MercadoPagoConfig({
+    accessToken: process.env.accessToken
+});
+
+router.post("/create-preference", function (req, res) {
+    const preference = new Preference(client);
+    console.log(req.body.items);
+    preference.create({
+        body: {
+            items: req.body.items,
+            back_urls: {
+                "success": process.env.URL_BASE + "/feedback",
+                "failure": process.env.URL_BASE + "/feedback",
+                "pending": process.env.URL_BASE + "/feedback"
+            },
+            auto_return: "approved",
+        }
+    })
+        .then((value) => {
+            res.json(value)
+        })
+        .catch(console.log)
+});
+
+router.get("/feedback", function (req, res) {
+    pedidoController.gravarPedido(req, res);
+});
+
 module.exports = router;
