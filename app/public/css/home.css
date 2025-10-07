@@ -37,31 +37,6 @@ font-size: small;
     margin: 0;
 }
 
-/* Se quiser que o header tenha um pouco de espaçamento */
-header {
-    padding: 10px 20px;
-    background-color: rgb(255, 255, 255); /* ou qualquer cor */
-    display: flex;
-    align-items: center;
-    gap: 30px; /* espaço entre logo e nav */
-}
-
-/* Logo ajustada para ficar alinhada */
-.logo img {
-    display: block;
-}
-
-/* bannerrrrrr*/
-/* botão hamburguer */
-.hamburger {
-    display: none;
-    font-size: 28px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #333;
-  }
-
   a {
     text-decoration: none;
     color: black;
@@ -69,10 +44,7 @@ header {
   
   /* responsividade */
   @media (max-width: 768px) {
-    /* esconde busca e nav */
-    form.search {
-      display: none;
-    }
+
   
     .nav-list {
       display: none;
@@ -86,15 +58,7 @@ header {
       padding: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-  
-    .nav-list.active {
-      display: flex;
-    }
-  
-    /* mostra hamburguer */
-    .hamburger {
-      display: block;
-    }
+
   }
   
 .banner {
@@ -129,88 +93,6 @@ header {
     background: #ff6f3c;
     color: #fff;
   }
-  
-  
-  
-header.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-  }
-  
-  /* logo */
-  .logo img {
-    display: block;
-  }
-  
-  /* barra de busca */
-  form.search {
-    flex: 1;
-    max-width: 600px;
-    display: flex;
-    margin: 0 20px;
-  }
-  
-  .search-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px 0 0 6px;
-    outline: none;
-  }
-  
-  .search-btn {
-    padding: 10px 15px;
-    border: none;
-    background-color: #ff6f3c;
-    color: #fff;
-    border-radius: 0 6px 6px 0;
-    cursor: pointer;
-  }
-  
-  /* nav */
-  .nav-list {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav-list a {
-    text-decoration: none;
-    color: #222;
-    font-size: 18px;
-    position: relative;
-  }
-  
-  .nav-list a:hover {
-    color: #ff6f3c;
-  }
-  
-  /* carrinho com badge */
-  .carrinho {
-    position: relative;
-  }
-  
-  .carrinho .count {
-    position: absolute;
-    top: -6px;
-    right: -10px;
-    background: #ff3b30;
-    color: #fff;
-    border-radius: 999px;
-    padding: 2px 6px;
-    font-size: 12px;
-  }
-  .categorias-container2{
-    background-color: #fafafa;
-    padding-top: 3%;
-}
 /* CSS para tornar a grade responsiva */
 .grade {
   display: flex;
@@ -398,10 +280,6 @@ footer {
 .footer-list .footer-link {
     color: var(--color-neutral-30);
     transition: all 0.4s;
-}
-
-.footer-list .footer-link:hover {
-    color: #3D5A80;
 }
 
 #footer_subscribe {

@@ -1,0 +1,179 @@
+        header {
+            background: #3D5A80;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 0 20px;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 1200px;
+            color: white;
+        }
+
+        header:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #3D5A80;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        ul a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        ul a:hover {
+            color: #3D5A80;
+            background-color: #f7fafc;
+        }
+
+        ul a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #3D5A80;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        ul a:hover::after {
+            width: 80%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .login-btn {
+            background: none ;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #3D5A80;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-icon {
+            font-size: 18px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #4a5568;
+        }
+
+        @media (max-width: 768px) {
+            ul, .auth-buttons {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                color: white;
+                width: 50%;
+            }
+
+            nav {
+                padding: 10px 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 12px 12px;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .mobile-menu a {
+                text-decoration: none;
+                color: #4a5568;
+                font-weight: 600;
+                padding: 10px 15px;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-menu a:hover {
+                background: #f7fafc;
+                color: #3D5A80;
+            }
+
+            .mobile-auth {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid #e2e8f0;
+            }
+
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu {
+                display: none !important;
+                color: white;
+                width: 50%;
+            }
+        }
