@@ -190,6 +190,7 @@ p.event-filtros {
 .slider-container {
     height: 50%;
     object-fit: cover;
+    margin-top: 40px;
 }
 
 .slider {
