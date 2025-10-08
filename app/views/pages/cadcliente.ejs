@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
+    <link rel="stylesheet" href="css/cadcliente.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="logo(2).png" alt="Logo" class="logo" width="70" height="70">
+                
+            
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Produtos</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+            </ul>
+            
+            <span class="auth-buttons">
+                <button class="login-btn">
+                    <span class="user-icon">👤</span>
+                    <span>Login</span>
+                </button>
+            </span>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </nav>
+        
+        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Produtos</a></li>
+            <li><a href="#">Sobre Nós</a></li>
+            <li class="mobile-auth">
+                <button class="login-btn" style="width: 100%; justify-content: center;">
+                    <span class="user-icon">👤</span>
+                    <span>Login</span>
+                </button>
+            </li>
+        </ul>
+    </header>
+    <section class="intro">
+        <h1>Criar Nova Conta</h1>
+        <p>Preencha os dados abaixo para criar sua conta</p>
+    </section>
+    
+    <main>
+        <form id="cadastro-form" novalidate>
+            
+            
+            <fieldset>
+                <legend>Informações Pessoais</legend>
+                
+                <section class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" required>
+                    <small id="nome-error" aria-live="polite"></small>
+                </section>
+                
+                <section class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                    <small id="email-error" aria-live="polite"></small>
+                </section>
+                
+                <section class="form-group">
+                    <label for="celular">Telefone</label>
+                    <input type="tel" id="celular" name="celular">
+                    <small id="celular-error" aria-live="polite"></small>
+                </section>
+                
+                <section class="form-group">
+                    <label for="dataNasc">Data de Nascimento</label>
+                    <input type="date" id="dataNasc" name="dataNasc">
+                    <small id="dataNasc-error" aria-live="polite"></small>
+                </section>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Endereço</legend>
+                
+                <section class="form-group">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" name="cep">
+                    <small id="cep-error" aria-live="polite"></small>
+                </section>
+                
+                <section class="form-group">
+                    <label for="logradouro">Logradouro</label>
+                    <input type="text" id="logradouro" name="logradouro">
+                </section>
+                
+                <section class="form-group">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" name="bairro">
+                </section>
+                
+                <section class="form-group">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" name="cidade">
+                </section>
+                
+                <section class="form-group">
+                    <label for="uf">UF</label>
+                    <input type="text" id="uf" name="uf" maxlength="2">
+                </section>
+            </fieldset>
+            
+            <fieldset>
+                <legend>Informações de Acesso</legend>
+                
+                <section class="form-group">
+                    <label for="password">Senha</label>
+                    <section class="password-container">
+                        <input type="password" id="password" name="password" required minlength="8">
+                        <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar senha">👁️</button>
+                    </section>
+                    <section class="password-strength-container">
+                        <section class="password-strength">
+                            <section class="password-strength-bar" id="strengthBar"></section>
+                        </section>
+                        <section class="strength-text" id="strengthText"></section>
+                    </section>
+                    <small id="password-error" aria-live="polite"></small>
+                </section>
+                
+                <section class="form-group">
+                    <label for="confirmPassword">Confirmar Senha</label>
+                    <section class="password-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <button type="button" id="toggleConfirmPassword" class="toggle-password" aria-label="Mostrar senha">👁️</button>
+                    </section>
+                    <small id="confirm-password-error" aria-live="polite"></small>
+                </section>
+            </fieldset>
+            
+            <button type="submit" id="submitBtn" class="btn-primary">
+                <span id="btnText">Criar Conta</span>
+                <span id="btnLoading" class="loading" style="display: none;"></span>
+            </button>
+            <section id="feedback-message" class="message" role="alert" aria-live="polite"></section>
+        </form>
+        
+        <section class="seller-section">
+            <h3>💼 Quer vender seus produtos?</h3>
+            <p>Crie uma conta de vendedor e tenha acesso a recursos exclusivos!</p>
+            
+            <section class="seller-features">
+                <span class="seller-feature">📦 Gerenciar produtos</span>
+                <span class="seller-feature">📊 Dashboard de vendas</span>
+                <span class="seller-feature">💰 Recebimentos</span>
+                <span class="seller-feature">👥 Gestão de clientes</span>
+            </section>
+            
+            <button type="button" id="sellerBtn" class="btn-secondary" onclick="window.location.href='/cadvendedor';">
+                Quero ser Vendedor
+            </button>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Já tem uma conta? <a href="#">Faça login</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
+<script>
+
+</script>
+</body>
+</html>
