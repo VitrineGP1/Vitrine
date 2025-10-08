@@ -19,7 +19,7 @@ app.set("views", path.join(__dirname, 'app', 'views'));
 const pool = require("./config/pool_conexoes");
 
 // Importa e configura as rotas de AUTENTICAÇÃO
-const authRoutes = require("./app/controllers/authRoutes")(pool);
+const authRoutes = require("./app/routes/authRoutes")(pool);
 app.use("/api", authRoutes); // Rotas de login/cadastro
 
 // Importa e configura as rotas de PERFIL
