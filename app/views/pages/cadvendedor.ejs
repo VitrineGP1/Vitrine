@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrine - Cadastro de Vendedor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
+    <link rel="stylesheet" href="cadvendedor.css">
+</head>
+<body>
+
+        <header>
+        <nav>
+            <img src="logo(2).png" alt="Logo" class="logo" width="70" height="70">
+
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Produtos</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+            </ul>
+            
+            <span class="auth-buttons">
+                <button class="login-btn">
+                    <span class="user-icon">👤</span>
+                    <span>Login</span>
+                </button>
+            </span>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </nav>
+        
+        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Produtos</a></li>
+            <li><a href="#">Sobre Nós</a></li>
+            <li class="mobile-auth">
+                <button class="login-btn" style="width: 100%; justify-content: center;">
+                    <span class="user-icon">👤</span>
+                    <span>Login</span>
+                </button>
+            </li>
+        </ul>
+    </header>
+
+    <!-- Notificação fixa para erros -->
+    <aside id="fixedNotification" class="fixed-notification error" aria-live="polite" aria-atomic="true">
+        <span class="notification-icon">⚠️</span>
+        <aside class="notification-content">
+            <div class="notification-title" id="notificationTitle">Erro no Formulário</div>
+            <div class="notification-message" id="notificationMessage">Por favor, corrija os erros destacados nos campos</div>
+        </aside>
+        <button type="button" class="notification-close" id="notificationClose" aria-label="Fechar notificação">×</button>
+    </aside>
+    
+    <section class="intro">
+        <h1>Cadastro de Vendedor</h1>
+        <p>Comece a vender na Vitrine!</p>
+        <span class="badge">💼 Conta Profissional</span>
+    </section>
+    
+    <main>
+        <form id="seller-form" novalidate>
+            <section id="feedback-message" class="message" role="alert" aria-live="polite"></section>
+            
+            <fieldset>
+                <legend>👤 Informações Pessoais</legend>
+                
+                <section class="form-row">
+                    <section class="form-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="cpf">CPF *</label>
+                        <input type="text" id="cpf" name="cpf" required>
+                    </section>
+                </section>
+                
+                <section class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" required>
+                </section>
+                
+                <section class="form-row">
+                    <section class="form-group">
+                        <label for="celular">Celular *</label>
+                        <input type="tel" id="celular" name="celular" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="dataNasc">Data de Nascimento *</label>
+                        <input type="date" id="dataNasc" name="dataNasc" required>
+                    </section>
+                </section>
+            </fieldset>
+            
+            <fieldset>
+                <legend>🏢 Informações do Negócio</legend>
+                
+                <section class="business-info">
+                    <section class="form-group">
+                        <label for="nomeLoja">Nome da Loja *</label>
+                        <input type="text" id="nomeLoja" name="nomeLoja" required placeholder="Como sua loja será chamada">
+                    </section>
+                    
+                    <section class="form-group optional-field">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="descricaoNegocio">Descrição da Loja *</label>
+                        <textarea id="descricaoNegocio" name="descricaoNegocio" placeholder="Conte um pouco sobre seus produtos ou serviços..." required></textarea>
+                    </section>
+                </section>
+            </fieldset>
+            
+            <fieldset>
+                <legend>📞 Contato e Localização</legend>
+                
+                <section class="form-group optional-field">
+                    <label for="telefoneComercial">Telefone Comercial</label>
+                    <input type="tel" id="telefoneComercial" name="telefoneComercial">
+                </section>
+                
+                <section class="form-group optional-field">
+                    <label for="site">Site ou Rede Social</label>
+                    <input type="url" id="site" name="site" placeholder="https://...">
+                </section>
+                
+                <section class="form-row">
+                    <section class="form-group">
+                        <label for="cep">CEP *</label>
+                        <input type="text" id="cep" name="cep" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="uf">UF *</label>
+                        <input type="text" id="uf" name="uf" maxlength="2" required>
+                    </section>
+                </section>
+                
+                <section class="form-group">
+                    <label for="logradouro">Logradouro *</label>
+                    <input type="text" id="logradouro" name="logradouro" required>
+                </section>
+                
+                <section class="form-row">
+                    <section class="form-group">
+                        <label for="bairro">Bairro *</label>
+                        <input type="text" id="bairro" name="bairro" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="cidade">Cidade *</label>
+                        <input type="text" id="cidade" name="cidade" required>
+                    </section>
+                </section>
+            </fieldset>
+            
+            <fieldset>
+                <legend>🔐 Informações de Acesso</legend>
+                
+                <section class="form-group">
+                    <label for="password">Senha *</label>
+                    <section class="password-container">
+                        <input type="password" id="password" name="password" required minlength="8">
+                        <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar senha">👁️</button>
+                    </section>
+                    <section class="password-strength-container">
+                        <section class="password-strength">
+                            <section class="password-strength-bar" id="strengthBar"></section>
+                        </section>
+                        <section class="strength-text" id="strengthText"></section>
+                    </section>
+                </section>
+                
+                <section class="form-group">
+                    <label for="confirmPassword">Confirmar Senha *</label>
+                    <section class="password-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <button type="button" id="toggleConfirmPassword" class="toggle-password" aria-label="Mostrar senha">👁️</button>
+                    </section>
+                </section>
+            </fieldset>
+            
+            <button type="submit" id="submitBtn" class="btn-primary">
+                <span id="btnText">Cadastrar</span>
+                <span id="btnLoading" class="loading" style="display: none;"></span>
+            </button>
+        </form>
+        
+        <section style="text-align: center; margin-top: 20px;">
+            <p>Já tem uma conta? <a href="/login">Fazer login</a></p>
+            <p><a href="/cadastro-cliente" class="btn-secondary" style="display: inline-block; width: auto; padding: 10px 20px; margin-top: 10px; text-decoration: none; color: white;">
+                ⬅️ Cadastrar como Cliente
+            </a></p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Precisa de ajuda? <a href="#">Fale conosco</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
+    <script src="cadvendedor.js"></script>
+
+</body>
+</html>
