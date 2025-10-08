@@ -16,14 +16,14 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'app', 'views'));
 
 // Importa o pool de conexões
-const pool = require("./config/pool_conexoes");
+const pool = require("./config/pool-conexoes");
 
 // Importa e configura as rotas de AUTENTICAÇÃO
 const authRoutes = require("./app/routes/authRoutes")(pool);
 app.use("/api", authRoutes); // Rotas de login/cadastro
 
 // Importa e configura as rotas de PERFIL
-const profileRoutes = require("./app/controllers/profileRoutes")(pool); // Seu novo arquivo
+const profileRoutes = require("./app/routes/profileRoutes")(pool); // Seu novo arquivo
 app.use("/api", profileRoutes); // Mesmo prefixo /api
 
 // Importa rotas principais (para as views EJS)

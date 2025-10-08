@@ -1,4 +1,3 @@
-// controllers/userController.js
 const bcrypt = require('bcryptjs');
 
 class UserController {
@@ -13,22 +12,30 @@ class UserController {
             CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO
         } = req.body;
 
-        // Validações (mantenha as suas)
         if (!NOME_USUARIO || !EMAIL_USUARIO || !SENHA_USUARIO) {
             return res.status(400).json({ success: false, message: "Nome, email e senha são obrigatórios." });
         }
+        
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL_USUARIO)) {
+            return res.status(400).json({ success: false, message: "Formato de email inválido." });
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(SENHA_USUARIO)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais." 
+            });
+        }
 
         try {
-            // Verifica se email existe
             const emailExists = await this.userModel.emailExists(EMAIL_USUARIO);
             if (emailExists) {
                 return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
             }
 
-            // Criptografa senha
             const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 12);
 
-            // Prepara dados
             const userData = {
                 NOME_USUARIO,
                 EMAIL_USUARIO,
@@ -40,8 +47,7 @@ class UserController {
                 UF_USUARIO: UF_USUARIO || null,
                 CEP_USUARIO: CEP_USUARIO || null,
                 DT_NASC_USUARIO: DT_NASC_USUARIO || null,
-                TIPO_USUARIO: TIPO_USUARIO || 'cliente',
-                DATA_CADASTRO: new Date()
+                TIPO_USUARIO: TIPO_USUARIO || 'cliente'
             };
 
             const result = await this.userModel.create(userData);
@@ -53,13 +59,25 @@ class UserController {
             });
 
         } catch (error) {
-            console.error('Erro no cadastro de usuário:', error);
+            console.error('Erro no cadastro:', error);
+            
+            if (error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
+            }
+            
             res.status(500).json({ success: false, message: "Erro interno do servidor." });
         }
     }
 
     async login(req, res) {
         const { EMAIL_USUARIO, SENHA_USUARIO } = req.body;
+
+        if (!EMAIL_USUARIO || !SENHA_USUARIO) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Email e senha são obrigatórios." 
+            });
+        }
 
         try {
             const user = await this.userModel.findByEmail(EMAIL_USUARIO);
@@ -75,6 +93,7 @@ class UserController {
             
             if (passwordMatch) {
                 const { SENHA_USUARIO, ...userWithoutPassword } = user;
+                
                 res.json({
                     success: true,
                     message: "Login bem-sucedido!",
@@ -98,6 +117,10 @@ class UserController {
     async getProfile(req, res) {
         const userId = req.query.id_usuario;
 
+        if (!userId) {
+            return res.status(400).json({ success: false, message: "ID do usuário não fornecido." });
+        }
+
         try {
             const user = await this.userModel.findById(userId);
             
@@ -113,7 +136,103 @@ class UserController {
     }
 
     async updateProfile(req, res) {
-        // Sua lógica de atualização aqui (já existe no seu código)
+        const {
+            id_usuario,
+            NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
+            BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO,
+            DT_NASC_USUARIO, TIPO_USUARIO, NOVA_SENHA_USUARIO, CONFIRM_SENHA_USUARIO
+        } = req.body;
+
+        if (!id_usuario) {
+            return res.status(400).json({ success: false, message: "ID do usuário é obrigatório." });
+        }
+        if (!NOME_USUARIO || !EMAIL_USUARIO) {
+            return res.status(400).json({ success: false, message: "Nome e Email são obrigatórios." });
+        }
+        if (NOVA_SENHA_USUARIO && NOVA_SENHA_USUARIO !== CONFIRM_SENHA_USUARIO) {
+            return res.status(400).json({ success: false, message: "As novas senhas não coincidem." });
+        }
+
+        if (NOVA_SENHA_USUARIO) {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(NOVA_SENHA_USUARIO)) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: "A nova senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais." 
+                });
+            }
+        }
+
+        try {
+            const emailExists = await this.userModel.emailExists(EMAIL_USUARIO, id_usuario);
+            if (emailExists) {
+                return res.status(409).json({ success: false, message: "Este email já está cadastrado para outro usuário." });
+            }
+
+            const updateData = {
+                NOME_USUARIO,
+                EMAIL_USUARIO,
+                CELULAR_USUARIO,
+                LOGRADOURO_USUARIO,
+                BAIRRO_USUARIO,
+                CIDADE_USUARIO,
+                UF_USUARIO,
+                CEP_USUARIO,
+                DT_NASC_USUARIO,
+                TIPO_USUARIO
+            };
+
+            if (NOVA_SENHA_USUARIO) {
+                updateData.SENHA_USUARIO = await bcrypt.hash(NOVA_SENHA_USUARIO, 12);
+            }
+
+            const result = await this.userModel.update(id_usuario, updateData);
+
+            if (result.affectedRows > 0) {
+                res.json({ success: true, message: "Perfil atualizado com sucesso!" });
+            } else {
+                res.json({ success: false, message: "Nenhuma alteração detectada." });
+            }
+
+        } catch (error) {
+            console.error('Erro ao atualizar perfil:', error);
+            res.status(500).json({ success: false, message: "Erro interno do servidor." });
+        }
+    }
+
+    async recoverPassword(req, res) {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Email é obrigatório." 
+            });
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Formato de email inválido." 
+            });
+        }
+
+        try {
+            const user = await this.userModel.findByEmail(email);
+            
+            // Por segurança, sempre retorna mesma mensagem
+            res.json({ 
+                success: true, 
+                message: "Se o email existir em nosso sistema, enviaremos instruções de recuperação." 
+            });
+
+        } catch (error) {
+            console.error('Erro na recuperação:', error);
+            res.status(500).json({ 
+                success: false, 
+                message: "Erro interno do servidor." 
+            });
+        }
     }
 }
 
