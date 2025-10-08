@@ -249,5 +249,60 @@ module.exports = (pool) => {
         }
     });
 
+    // Rota para RECUPERAR SENHA
+router.post('/recuperar_senha', async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ 
+            success: false, 
+            message: "Email é obrigatório." 
+        });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ 
+            success: false, 
+            message: "Formato de email inválido." 
+        });
+    }
+
+    try {
+        const connection = await pool.getConnection();
+        
+        // Verificar se o email existe
+        const [users] = await connection.execute(
+            'SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
+            [email]
+        );
+        
+        connection.release();
+
+        if (users.length === 0) {
+            // Por segurança, não revelar que o email não existe
+            return res.json({ 
+                success: true, 
+                message: "Se o email existir em nosso sistema, enviaremos instruções de recuperação." 
+            });
+        }
+
+        const user = users[0];
+        
+        console.log(`🔐 Solicitação de recuperação para: ${email} (ID: ${user.ID_USUARIO})`);
+        
+        res.json({ 
+            success: true, 
+            message: "Se o email existir em nosso sistema, enviaremos instruções de recuperação." 
+        });
+
+    } catch (error) {
+        console.error('Erro na recuperação de senha:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: "Erro interno do servidor." 
+        });
+    }
+    });
+
     return router;
 };
