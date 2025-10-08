@@ -92,48 +92,85 @@ module.exports = (pool) => {
         }
     });
 
-    // Rota de LOGIN de Usuário
     router.post('/login_usuario', async (req, res) => {
         const { EMAIL_USUARIO, SENHA_USUARIO } = req.body;
 
+        console.log('🔐 Tentativa de login:', { EMAIL_USUARIO });
+
+        // Validações
         if (!EMAIL_USUARIO || !SENHA_USUARIO) {
-            return res.status(400).json({ success: false, message: "Email e senha são obrigatórios." });
+            console.log('❌ Campos obrigatórios faltando');
+            return res.status(400).json({ 
+                success: false, 
+                message: "Email e senha são obrigatórios." 
+            });
         }
 
         try {
             const connection = await pool.getConnection();
+            console.log('✅ Conexão com banco obtida');
+
+            // Query mais simples e segura - apenas campos essenciais
             const [rows] = await connection.execute(
-                `SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, TIPO_USUARIO
-                 FROM USUARIOS WHERE EMAIL_USUARIO = ?`,
+                `SELECT 
+                    ID_USUARIO, 
+                    NOME_USUARIO, 
+                    EMAIL_USUARIO, 
+                    SENHA_USUARIO, 
+                    TIPO_USUARIO
+                 FROM USUARIOS 
+                 WHERE EMAIL_USUARIO = ?`,
                 [EMAIL_USUARIO]
             );
+            
             connection.release();
+            console.log(`📊 Usuários encontrados: ${rows.length}`);
 
             if (rows.length === 0) {
-                return res.status(401).json({ success: false, message: "Credenciais inválidas." });
+                console.log('❌ Email não encontrado:', EMAIL_USUARIO);
+                return res.status(401).json({ 
+                    success: false, 
+                    message: "Credenciais inválidas." 
+                });
             }
 
             const user = rows[0];
+            console.log('✅ Usuário encontrado:', user.ID_USUARIO);
+
+            // Verificar senha
             const passwordMatch = await bcrypt.compare(SENHA_USUARIO, user.SENHA_USUARIO);
+            console.log('🔑 Senha válida:', passwordMatch);
 
             if (passwordMatch) {
+                // Remove a senha do objeto de resposta
+                const { SENHA_USUARIO, ...userWithoutPassword } = user;
+                
+                console.log('✅ Login bem-sucedido para:', user.EMAIL_USUARIO);
+                
                 res.status(200).json({
                     success: true,
                     message: "Login bem-sucedido!",
-                    user: {
-                        id: user.ID_USUARIO,
-                        name: user.NOME_USUARIO,
-                        email: user.EMAIL_USUARIO,
-                        type: user.TIPO_USUARIO
-                    }
+                    user: userWithoutPassword
                 });
             } else {
-                res.status(401).json({ success: false, message: "Credenciais inválidas." });
+                console.log('❌ Senha inválida para:', EMAIL_USUARIO);
+                res.status(401).json({ 
+                    success: false, 
+                    message: "Credenciais inválidas." 
+                });
             }
 
         } catch (error) {
-            console.error('Erro no login de usuário:', error);
-            res.status(500).json({ success: false, message: "Erro interno do servidor." });
+            console.error('💥 ERRO NO LOGIN:', error);
+            
+            // Log mais detalhado para debug
+            console.error('Mensagem do erro:', error.message);
+            console.error('Stack trace:', error.stack);
+            
+            res.status(500).json({ 
+                success: false, 
+                message: "Erro interno do servidor.",
+            });
         }
     });
 
@@ -287,7 +324,7 @@ router.post('/recuperar_senha', async (req, res) => {
         }
 
         const user = users[0];
-        
+
         console.log(`🔐 Solicitação de recuperação para: ${email} (ID: ${user.ID_USUARIO})`);
         
         res.json({ 
