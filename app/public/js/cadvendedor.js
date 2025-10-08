@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Script de cadastro de vendedor iniciado...');
 
     // Elementos principais
     const sellerForm = document.getElementById('seller-form');
@@ -412,9 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // SUBMIT DO FORMULÁRIO
     if (sellerForm) {
         sellerForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            console.log('📝 Formulário de vendedor submetido - Iniciando cadastro...');
-            
+            event.preventDefault();            
             let isValid = true;
 
             // Obter valores
@@ -447,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 TIPO_USUARIO: 'vendedor'
             };
 
-            console.log('🔄 Dados coletados:', formData);
 
             // Validar todos os campos
             fieldsToValidate.forEach(({ field, name }) => {
@@ -485,7 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setLoadingState(true);
 
             try {
-                console.log('🔄 Enviando dados para API...', formData);
                 
                 // Fazer requisição para o backend - USANDO A MESMA ROTA DO CLIENTE
                 const response = await fetch('/api/cadastrar_usuario', {
@@ -496,13 +491,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(formData)
                 });
 
-                console.log('📨 Resposta recebida:', response.status);
 
                 const result = await response.json();
-                console.log('📊 Resultado:', result);
 
                 if (response.ok && result.success) {
-                    console.log('✅ Cadastro de vendedor realizado com sucesso!');
                     showFeedback('Cadastro de vendedor realizado com sucesso!', 'success');
                     sellerForm.reset();
                     if (strengthBar) strengthBar.style.width = '0%';
@@ -516,11 +508,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = '/login';
                     }, 2000);
                 } else {
-                    console.log('❌ Erro no cadastro:', result.message);
                     showFeedback(result.message || 'Erro ao cadastrar vendedor.', 'error');
                 }
             } catch (error) {
-                console.error('💥 Erro na requisição:', error);
                 showFeedback('Erro de conexão com o servidor.', 'error');
             } finally {
                 setLoadingState(false);
@@ -528,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    console.log('✅ Script de cadastro de vendedor carregado com sucesso!');
 });
 
 // Menu mobile (mantido do código original)

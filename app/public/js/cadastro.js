@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Script de cadastro iniciado...');
 
     // Verifica se está na página de cadastro
     const cadastroForm = document.getElementById('cadastro-form');
@@ -66,14 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
         togglePasswordBtn.addEventListener('click', () => {
             togglePasswordVisibility(passwordInput, togglePasswordBtn);
         });
-        console.log('Botão togglePassword configurado');
     }
 
     if (toggleConfirmPasswordBtn && confirmPasswordInput) {
         toggleConfirmPasswordBtn.addEventListener('click', () => {
             togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordBtn);
         });
-        console.log('Botão toggleConfirmPassword configurado');
     }
 
     // Função para verificar força da senha
@@ -152,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 passwordError.textContent = '';
             }
         });
-        console.log('Indicador de força de senha configurado');
     }
 
     // Feedback messages
@@ -197,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             e.target.value = value;
         });
-        console.log('Formatação de celular configurada');
     }
 
     // Formatação de CEP (COM VERIFICAÇÃO)
@@ -257,14 +252,12 @@ document.addEventListener('DOMContentLoaded', () => {
         typeSellerRadio.addEventListener('change', toggleSellerFields);
         typeBuyerRadio.addEventListener('change', toggleSellerFields);
         toggleSellerFields(); // Inicializar estado
-        console.log('Toggle de campos de vendedor configurado');
     }
 
     // SUBMIT DO FORMULÁRIO (COM VERIFICAÇÃO COMPLETA)
     if (cadastroForm) {
         cadastroForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            console.log('Formulário submetido');
             
             clearErrors();
             if (feedbackMessage) feedbackMessage.style.display = 'none';
@@ -290,12 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 TIPO_USUARIO = 'seller';
             }
 
-            console.log('Dados do formulário:', {
-                NOME_USUARIO,
-                EMAIL_USUARIO,
-                SENHA_USUARIO: SENHA_USUARIO ? '***' : 'vazia',
-                TIPO_USUARIO
-            });
 
             // Validações com verificação de elementos de erro
             if (!NOME_USUARIO || NOME_USUARIO.length < 3) {
@@ -362,7 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 TIPO_USUARIO
             };
 
-            console.log('Enviando dados para API:', { ...userData, SENHA_USUARIO: '***' });
 
             try {
                 // Fazer requisição para o backend
@@ -395,8 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showFeedback('Erro de conexão com o servidor.', 'error');
             }
         });
-        console.log('Event listener do formulário configurado');
     }
 
-    console.log('Script de cadastro carregado com sucesso!');
 });
