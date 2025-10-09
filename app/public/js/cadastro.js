@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Obter tipo de usuário com fallback
             let TIPO_USUARIO = 'cliente';
             if (typeSellerRadio && typeSellerRadio.checked) {
-                TIPO_USUARIO = 'seller';
+                TIPO_USUARIO = 'vendedor';
             }
 
 
