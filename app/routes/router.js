@@ -10,8 +10,20 @@ router.get("/home-perfil", function (req, res) {
     res.render("pages/home-perfil", )
 });
 
+router.get("/home-perfil-carrinho", function (req, res) {
+    res.render("pages/home-perfil-carrinho", )
+});
+
+router.get("/home-carrinho", function (req, res) {
+    res.render("pages/home-carrinho", )
+});
+
 router.get("/carrinho", function (req, res) {
     res.render("pages/carrinho", )
+});
+
+router.get("/carrinho-vazio", function (req, res) {
+    res.render("pages/carrinho-vazio", )
 });
 
 router.get("/login", function (req, res) {

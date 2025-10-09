@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
+const session = require('express-session');
 const app = express();
 const path = require('path');
 
@@ -9,6 +10,17 @@ const port = process.env.PORT || 3000;
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ✅ ADICIONE SESSIONS (IMPORTANTE!)
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'vitrine-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    }
+}));
 
 // Arquivos estáticos e EJS
 app.use(express.static(path.join(__dirname, 'app', 'public')));
