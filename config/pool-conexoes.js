@@ -1,4 +1,4 @@
-// config/pool-conexoes.js
+// config/pool-conexoes.js - VERSÃO FINAL FUNCIONAL
 const mysql = require('mysql2');
 
 console.log(' Iniciando conexão com Railway...');
@@ -8,60 +8,43 @@ console.log(' DB_PORT:', process.env.DB_PORT);
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT || 3306,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  ssl: { rejectUnauthorized: false },
   
-  ssl: {
-    rejectUnauthorized: false
-  },
-  connectTimeout: 60000,
-  acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true,
+  // Configurações válidas para MySQL2:
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
   enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
-  
-  charset: 'utf8mb4',
-  timezone: '+00:00'
+  keepAliveInitialDelay: 0
 });
 
-pool.getConnection((err, connection) => {
-    if (err) {
-        console.log(' ERRO de conexão:');
-        console.log('   Código:', err.code);
-        console.log('   Mensagem:', err.message);
-        console.log('   Host:', process.env.DB_HOST);
-        
-    } else {
-        console.log('  CONEXÃO BEM-SUCEDIDA com Railway MySQL!');
-        console.log('   Database:', process.env.DB_NAME);
-        
-        // Testa uma query para confirmar
-        connection.execute('SELECT 1 as test')
-            .then(([rows]) => {
-                console.log('    Query test funcionou:', rows);
-            })
-            .catch(e => console.log('    Query test falhou:', e.message))
-            .finally(() => {
-                connection.release();
-                console.log('   Conexão liberada');
-            });
-    }
-});
+// Converta para Promise interface
+const promisePool = pool.promise();
 
-// Event handlers para monitoramento
-pool.on('acquire', (connection) => {
+// Teste de conexão assíncrono
+async function initializeDatabase() {
+  try {
     console.log(' Conexão adquirida do pool');
-});
+    
+    // ✅ FORMA CORRETA com Promise interface
+    const [rows] = await promisePool.execute('SELECT 1 + 1 AS result');
+    console.log('  CONEXÃO BEM-SUCEDIDA com Railway MySQL!');
+    console.log('   Database:', process.env.DB_NAME);
+    console.log('   Test query result:', rows[0].result);
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Erro ao testar conexão:', error.message);
+    return false;
+  }
+}
 
-pool.on('release', (connection) => {
-    console.log(' Conexão liberada para o pool');
-});
+// Inicialize o banco
+initializeDatabase();
 
-pool.on('enqueue', () => {
-    console.log(' Aguardando conexão disponível...');
-});
-
-module.exports = pool.promise();
+// Exporte o pool com Promise interface
+module.exports = promisePool;
