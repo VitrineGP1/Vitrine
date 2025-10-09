@@ -1,4 +1,4 @@
-const db = require('../../config/BANCO_VITRINE');
+const db = require('mysql2');
 
 class UserModel {
     async emailExists(email, excludeUserId = null) {
