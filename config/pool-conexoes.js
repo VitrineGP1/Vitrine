@@ -1,10 +1,10 @@
 // config/pool-conexoes.js
 const mysql = require('mysql2');
 
-console.log('🔧 Iniciando conexão com Railway...');
-console.log('📊 DB_HOST:', process.env.DB_HOST);
-console.log('📊 DB_NAME:', process.env.DB_NAME);
-console.log('📊 DB_PORT:', process.env.DB_PORT);
+console.log(' Iniciando conexão com Railway...');
+console.log(' DB_HOST:', process.env.DB_HOST);
+console.log(' DB_NAME:', process.env.DB_NAME);
+console.log(' DB_PORT:', process.env.DB_PORT);
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -15,38 +15,46 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    connectTimeout: 30000,
-    acquireTimeout: 30000,
-    timeout: 30000,
-    ssl: { rejectUnauthorized: false }, // OBRIGATÓRIO para Railway
+    connectTimeout: 60000,
+    ssl: { rejectUnauthorized: false },
     charset: 'utf8mb4'
 });
 
-// Teste de conexão com mais detalhes
 pool.getConnection((err, connection) => {
     if (err) {
-        console.log('❌ ERRO de conexão com Railway:');
+        console.log(' ERRO de conexão:');
         console.log('   Código:', err.code);
         console.log('   Mensagem:', err.message);
         console.log('   Host:', process.env.DB_HOST);
-        console.log('   Porta:', process.env.DB_PORT);
         
-        if (err.code === 'ETIMEDOUT') {
-            console.log('💡 Dicas:');
-            console.log('   1. Verifique se o host do Railway está correto');
-            console.log('   2. Confirme a senha no Railway → Variables');
-            console.log('   3. Verifique se o banco está "Deployed"');
-        }
     } else {
-        console.log('✅ CONEXÃO BEM-SUCEDIDA com Railway MySQL!');
+        console.log('  CONEXÃO BEM-SUCEDIDA com Railway MySQL!');
         console.log('   Database:', process.env.DB_NAME);
         
-        // Testa uma query simples
+        // Testa uma query para confirmar
         connection.execute('SELECT 1 as test')
-            .then(() => console.log('   ✅ Query test funcionou'))
-            .catch(e => console.log('   ❌ Query test falhou:', e.message))
-            .finally(() => connection.release());
+            .then(([rows]) => {
+                console.log('    Query test funcionou:', rows);
+            })
+            .catch(e => console.log('    Query test falhou:', e.message))
+            .finally(() => {
+                connection.release();
+                console.log('   Conexão liberada');
+            });
     }
+});
+
+// Event handlers para monitoramento
+pool.on('acquire', (connection) => {
+    console.log(' Conexão adquirida do pool');
+});
+
+pool.on('release', (connection) => {
+    console.log(' Conexão liberada para o pool');
+});
+
+pool.on('enqueue', () => {
+    console.log(' Aguardando conexão disponível...');
 });
 
 module.exports = pool.promise();
