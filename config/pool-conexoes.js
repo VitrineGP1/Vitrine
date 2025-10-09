@@ -1,4 +1,3 @@
-// config/pool-conexoes.js - VERSÃO FINAL FUNCIONAL
 const mysql = require('mysql2/promise');
 
 console.log(' Iniciando conexão com Railway...');
@@ -7,11 +6,11 @@ console.log(' DB_NAME:', process.env.DB_NAME);
 console.log(' DB_PORT:', process.env.DB_PORT);
 
 const pool = mysql.createPool({
-    DB_HOST: process.env.DB_HOST,
-  DB_PORT: process.env.DB_PORT,
-  DB_USER: process.env.DB_USER,
-  DB_PASSWORD: process.env.DB_PASSWORD,
-  DB_NAME: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT) || 3306,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   ssl: { rejectUnauthorized: false },
   
   // Configurações válidas para MySQL2:
@@ -22,16 +21,14 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
-// Converta para Promise interface
-const promisePool = pool.promise();
+module.exports = pool;
 
-// Teste de conexão assíncrono
+// Teste de conexão assíncrono (opcional)
 async function initializeDatabase() {
   try {
     console.log(' Conexão adquirida do pool');
     
-    // ✅ FORMA CORRETA com Promise interface
-    const [rows] = await promisePool.execute('SELECT 1 + 1 AS result');
+    const [rows] = await pool.execute('SELECT 1 + 1 AS result');
     console.log('  CONEXÃO BEM-SUCEDIDA com Railway MySQL!');
     console.log('   Database:', process.env.DB_NAME);
     console.log('   Test query result:', rows[0].result);
@@ -39,12 +36,10 @@ async function initializeDatabase() {
     return true;
   } catch (error) {
     console.error('❌ Erro ao testar conexão:', error.message);
+    console.error('Stack trace:', error.stack);
     return false;
   }
 }
 
-// Inicialize o banco
-initializeDatabase();
-
-// Exporte o pool com Promise interface
-module.exports = promisePool;
+// Inicialize o banco (não-bloqueante)
+initializeDatabase().catch(console.error);
