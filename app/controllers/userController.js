@@ -6,35 +6,22 @@ class UserController {
     }
 
     async register(req, res) {
-        console.log('=== INICIANDO CADASTRO ===');
-        console.log('Dados recebidos:', req.body);
-
         const {
             NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
             LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
             CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO
         } = req.body;
 
-        // Validações básicas
         if (!NOME_USUARIO || !EMAIL_USUARIO || !SENHA_USUARIO) {
-            console.log('Campos obrigatórios faltando');
-            return res.status(400).json({ 
-                success: false, 
-                message: "Nome, email e senha são obrigatórios." 
-            });
+            return res.status(400).json({ success: false, message: "Nome, email e senha são obrigatórios." });
         }
         
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL_USUARIO)) {
-            console.log('Email inválido:', EMAIL_USUARIO);
-            return res.status(400).json({ 
-                success: false, 
-                message: "Formato de email inválido." 
-            });
+            return res.status(400).json({ success: false, message: "Formato de email inválido." });
         }
 
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         if (!passwordRegex.test(SENHA_USUARIO)) {
-            console.log('Senha não atende aos requisitos');
             return res.status(400).json({ 
                 success: false, 
                 message: "A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais." 
@@ -42,14 +29,9 @@ class UserController {
         }
 
         try {
-            console.log('Verificando se email existe:', EMAIL_USUARIO);
             const emailExists = await this.userModel.emailExists(EMAIL_USUARIO);
             if (emailExists) {
-                console.log('Email já cadastrado:', EMAIL_USUARIO);
-                return res.status(409).json({ 
-                    success: false, 
-                    message: "Este email já está cadastrado." 
-                });
+                return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
             }
 
             const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 12);
@@ -68,13 +50,7 @@ class UserController {
                 TIPO_USUARIO: TIPO_USUARIO || 'cliente'
             };
 
-            console.log('Dados do usuário preparados:', { 
-                ...userData, 
-                SENHA_USUARIO: '***criptografada***' 
-            });
-
             const result = await this.userModel.create(userData);
-            console.log('Resultado do model.create:', result);
 
             res.status(201).json({
                 success: true,
@@ -83,45 +59,17 @@ class UserController {
             });
 
         } catch (error) {
-            console.error('=== ERRO NO CADASTRO ===');
-            console.error('Tipo do erro:', error.constructor.name);
-            console.error('Mensagem do erro:', error.message);
-            console.error('Código do erro:', error.code);
-            console.error('SQL Message:', error.sqlMessage);
-            console.error('Stack trace:', error.stack);
+            console.error('Erro no cadastro:', error);
             
-            // Erros específicos do MySQL
             if (error.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({ 
-                    success: false, 
-                    message: "Este email já está cadastrado." 
-                });
+                return res.status(409).json({ success: false, message: "Este email já está cadastrado." });
             }
             
-            if (error.code === 'ER_BAD_FIELD_ERROR') {
-                return res.status(500).json({ 
-                    success: false, 
-                    message: `Erro no banco de dados: Coluna não encontrada. Detalhes: ${error.sqlMessage}` 
-                });
-            }
-
-            if (error.code === 'ER_NO_SUCH_TABLE') {
-                return res.status(500).json({ 
-                    success: false, 
-                    message: "Erro no banco de dados: Tabela não encontrada." 
-                });
-            }
-            
-            // Erro genérico
             res.status(500).json({ 
                 success: false, 
                 message: "Erro interno do servidor.",
                 ...(process.env.NODE_ENV === 'development' && {
-                    debug: {
-                        error: error.message,
-                        code: error.code,
-                        sqlMessage: error.sqlMessage
-                    }
+                    debug: error.message
                 })
             });
         }
@@ -136,19 +84,32 @@ class UserController {
 
         const { EMAIL_USUARIO, SENHA_USUARIO } = req.body;
 
+        // Validações básicas
         if (!EMAIL_USUARIO || !SENHA_USUARIO) {
+            console.log('Email ou senha não fornecidos');
             return res.status(400).json({ 
                 success: false, 
                 message: "Email e senha são obrigatórios." 
             });
         }
 
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL_USUARIO)) {
+            console.log('Formato de email inválido:', EMAIL_USUARIO);
+            return res.status(400).json({ 
+                success: false, 
+                message: "Formato de email inválido." 
+            });
+        }
+
         try {
             console.log('Buscando usuário por email:', EMAIL_USUARIO);
+            
+            // Buscar usuário no banco
             const user = await this.userModel.findByEmail(EMAIL_USUARIO);
             
             if (!user) {
-                console.log('Usuário não encontrado');
+                console.log('Usuário não encontrado para o email:', EMAIL_USUARIO);
+                // Por segurança, retornar mesma mensagem para não revelar se email existe
                 return res.status(401).json({ 
                     success: false, 
                     message: "Credenciais inválidas." 
@@ -156,10 +117,25 @@ class UserController {
             }
 
             console.log('Usuário encontrado, verificando senha...');
+            console.log('Senha do banco:', user.SENHA_USUARIO ? '***' : 'NÃO ENCONTRADA');
+            
+            // Verificar se a senha do usuário existe
+            if (!user.SENHA_USUARIO) {
+                console.error('Usuário sem senha no banco de dados');
+                return res.status(500).json({ 
+                    success: false, 
+                    message: "Erro interno do servidor." 
+                });
+            }
+
+            // Comparar senhas
             const passwordMatch = await bcrypt.compare(SENHA_USUARIO, user.SENHA_USUARIO);
+            console.log('Senha corresponde:', passwordMatch);
             
             if (passwordMatch) {
-                console.log('Senha correta - login bem-sucedido');
+                console.log('Login bem-sucedido para:', EMAIL_USUARIO);
+                
+                // Remover senha do objeto de resposta
                 const { SENHA_USUARIO, ...userWithoutPassword } = user;
                 
                 res.json({
@@ -168,17 +144,24 @@ class UserController {
                     user: userWithoutPassword
                 });
             } else {
-                console.log('Senha incorreta');
+                console.log('Senha incorreta para:', EMAIL_USUARIO);
                 res.status(401).json({ 
                     success: false, 
                     message: "Credenciais inválidas." 
                 });
             }
         } catch (error) {
-            console.error('Erro no login:', error);
+            console.error('=== ERRO NO LOGIN ===');
+            console.error('Tipo do erro:', error.constructor.name);
+            console.error('Mensagem do erro:', error.message);
+            console.error('Stack trace:', error.stack);
+            
             res.status(500).json({ 
                 success: false, 
-                message: "Erro interno do servidor." 
+                message: "Erro interno do servidor.",
+                ...(process.env.NODE_ENV === 'development' && {
+                    debug: error.message
+                })
             });
         }
     }
@@ -218,9 +201,6 @@ class UserController {
     }
 
     async updateProfile(req, res) {
-        console.log('=== ATUALIZANDO PERFIL ===');
-        console.log('Dados recebidos:', req.body);
-
         const {
             id_usuario,
             NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, LOGRADOURO_USUARIO,
