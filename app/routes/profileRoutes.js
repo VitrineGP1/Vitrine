@@ -15,25 +15,12 @@ module.exports = (pool) => {
                     });
                 }
 
-                const [users] = await pool.execute(
-                    'SELECT TIPO_USUARIO FROM USUARIOS WHERE ID_USUARIO = ?',
-                    [req.session.userId]
-                );
-
-                if (users.length === 0) {
-                    req.session.destroy();
-                    return res.status(401).json({ 
-                        success: false,
-                        error: 'Sessão expirada' 
-                    });
-                }
-
-                const userType = users[0].TIPO_USUARIO;
+                const userType = req.session.userType;
                 
                 if (requiredTypes.length > 0 && !requiredTypes.includes(userType)) {
                     return res.status(403).json({ 
                         success: false,
-                        error: 'Acesso não autorizado' 
+                        error: 'Acesso não autorizado para seu tipo de conta.' 
                     });
                 }
 
@@ -47,7 +34,7 @@ module.exports = (pool) => {
         };
     };
 
-    // Rota do cliente (apenas tipo 'C')
+    // Rota do cliente
     router.get('/cliente/perfil', requireAuth(['C']), async (req, res) => {
         try {
             const [cliente] = await pool.execute(
@@ -76,7 +63,7 @@ module.exports = (pool) => {
         }
     });
 
-    // Rota do vendedor (apenas tipo 'V')
+    // Rota do vendedor
     router.get('/vendedor/perfil', requireAuth(['V']), async (req, res) => {
         try {
             const [vendedor] = await pool.execute(
@@ -105,7 +92,7 @@ module.exports = (pool) => {
         }
     });
 
-    // Rota do admin (apenas tipo 'A')
+    // Rota do admin
     router.get('/admin/perfil', requireAuth(['A']), async (req, res) => {
         try {
             const [admin] = await pool.execute(

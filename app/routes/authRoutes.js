@@ -73,7 +73,7 @@ module.exports = (pool) => {
                     id: user.ID_USUARIO,
                     nome: user.NOME_USUARIO,
                     email: user.EMAIL_USUARIO,
-                    tipo: user.TIPO_USUARIO,           // 'A', 'V', 'C'
+                    tipo: user.TIPO_USUARIO,
                     tipoLegivel: userTypeLegivel,
                     imagemPerfil: user.IMAGEM_PERFIL_BASE64
                 }
@@ -97,7 +97,6 @@ module.exports = (pool) => {
                     error: 'Erro ao fazer logout' 
                 });
             }
-            res.clearCookie('connect.sid');
             res.json({ 
                 success: true, 
                 message: 'Logout realizado' 
@@ -121,21 +120,8 @@ module.exports = (pool) => {
                     u.NOME_USUARIO,
                     u.EMAIL_USUARIO,
                     u.TIPO_USUARIO,
-                    u.IMAGEM_PERFIL_BASE64,
-                    u.CELULAR_USUARIO,
-                    u.LOGRADOURO_USUARIO,
-                    u.BAIRRO_USUARIO,
-                    u.CIDADE_USUARIO,
-                    u.UF_USUARIO,
-                    CASE 
-                        WHEN u.TIPO_USUARIO = 'C' THEN c.CPF_CLIENTE
-                        WHEN u.TIPO_USUARIO = 'V' THEN v.DIGITO_PESSOA
-                        WHEN u.TIPO_USUARIO = 'A' THEN a.CPF_ADM
-                    END as DOCUMENTO
+                    u.IMAGEM_PERFIL_BASE64
                  FROM USUARIOS u
-                 LEFT JOIN CLIENTES c ON u.ID_USUARIO = c.ID_USUARIO
-                 LEFT JOIN VENDEDORES v ON u.ID_USUARIO = v.ID_USUARIO
-                 LEFT JOIN ADMINISTRADORES a ON u.ID_USUARIO = a.ID_USUARIO
                  WHERE u.ID_USUARIO = ?`,
                 [req.session.userId]
             );
@@ -160,15 +146,7 @@ module.exports = (pool) => {
                     email: user.EMAIL_USUARIO,
                     tipo: user.TIPO_USUARIO,
                     tipoLegivel: userTypeLegivel,
-                    imagemPerfil: user.IMAGEM_PERFIL_BASE64,
-                    celular: user.CELULAR_USUARIO,
-                    endereco: {
-                        logradouro: user.LOGRADOURO_USUARIO,
-                        bairro: user.BAIRRO_USUARIO,
-                        cidade: user.CIDADE_USUARIO,
-                        uf: user.UF_USUARIO
-                    },
-                    documento: user.DOCUMENTO
+                    imagemPerfil: user.IMAGEM_PERFIL_BASE64
                 }
             });
         } catch (error) {
