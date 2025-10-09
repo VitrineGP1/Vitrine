@@ -45,7 +45,7 @@ class UserModel {
                 `INSERT INTO USUARIOS (
                     NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
                     LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
-                    CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO, DATA_CADASTRO
+                    CEP_USUARIO, DT_NASC_USUARIO, TIPO_USUARIO
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())`,
                 [
                     userData.NOME_USUARIO, userData.EMAIL_USUARIO, userData.SENHA_USUARIO, 
