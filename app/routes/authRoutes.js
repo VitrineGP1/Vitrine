@@ -1,45 +1,46 @@
-// app/routes/authRoutes.js
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
 module.exports = (pool) => {
     const router = express.Router();
 
+    console.log('✅ authRoutes carregado');
+
     // Login
     router.post('/login', async (req, res) => {
+        console.log('📥 Recebendo requisição de login:', req.body.email);
+        
         try {
             const { email, password } = req.body;
 
             if (!email || !password) {
+                console.log('❌ Campos faltando');
                 return res.status(400).json({ 
                     success: false,
                     error: 'Email e senha são obrigatórios' 
                 });
             }
 
-            // Buscar usuário no banco
+            console.log('🔍 Buscando usuário no banco...');
+            
+            // Buscar usuário no banco - versão mais simples para debug
             const [users] = await pool.execute(
                 `SELECT 
-                    u.ID_USUARIO,
-                    u.NOME_USUARIO,
-                    u.EMAIL_USUARIO,
-                    u.SENHA_USUARIO,
-                    u.TIPO_USUARIO,
-                    u.IMAGEM_PERFIL_BASE64,
-                    CASE 
-                        WHEN u.TIPO_USUARIO = 'C' THEN c.CPF_CLIENTE
-                        WHEN u.TIPO_USUARIO = 'V' THEN v.DIGITO_PESSOA
-                        WHEN u.TIPO_USUARIO = 'A' THEN a.CPF_ADM
-                    END as DOCUMENTO
-                 FROM USUARIOS u
-                 LEFT JOIN CLIENTES c ON u.ID_USUARIO = c.ID_USUARIO
-                 LEFT JOIN VENDEDORES v ON u.ID_USUARIO = v.ID_USUARIO
-                 LEFT JOIN ADMINISTRADORES a ON u.ID_USUARIO = a.ID_USUARIO
-                 WHERE u.EMAIL_USUARIO = ?`,
+                    ID_USUARIO,
+                    NOME_USUARIO,
+                    EMAIL_USUARIO,
+                    SENHA_USUARIO,
+                    TIPO_USUARIO,
+                    IMAGEM_PERFIL_BASE64
+                 FROM USUARIOS 
+                 WHERE EMAIL_USUARIO = ?`,
                 [email]
             );
 
+            console.log(`📊 Usuários encontrados: ${users.length}`);
+
             if (users.length === 0) {
+                console.log('❌ Usuário não encontrado');
                 return res.status(401).json({ 
                     success: false,
                     error: 'Email ou senha incorretos' 
@@ -47,15 +48,21 @@ module.exports = (pool) => {
             }
 
             const user = users[0];
+            console.log('👤 Usuário encontrado:', user.EMAIL_USUARIO);
 
             // Verificar senha
+            console.log('🔐 Verificando senha...');
             const isPasswordValid = await bcrypt.compare(password, user.SENHA_USUARIO);
+            
             if (!isPasswordValid) {
+                console.log('❌ Senha incorreta');
                 return res.status(401).json({ 
                     success: false,
                     error: 'Email ou senha incorretos' 
                 });
             }
+
+            console.log('✅ Login válido - criando sessão');
 
             // Criar sessão
             req.session.userId = user.ID_USUARIO;
@@ -65,6 +72,8 @@ module.exports = (pool) => {
             // Converter tipo para legível
             const userTypes = { 'A': 'admin', 'V': 'vendedor', 'C': 'cliente' };
             const userTypeLegivel = userTypes[user.TIPO_USUARIO];
+
+            console.log('🎉 Login bem-sucedido para:', user.EMAIL_USUARIO);
 
             res.json({
                 success: true,
@@ -80,33 +89,44 @@ module.exports = (pool) => {
             });
 
         } catch (error) {
-            console.error('Login error:', error);
+            console.error('💥 ERRO NO LOGIN:', error);
             res.status(500).json({ 
                 success: false,
-                error: 'Erro interno do servidor' 
+                error: 'Erro interno do servidor: ' + error.message
             });
         }
     });
 
     // Logout
     router.post('/logout', (req, res) => {
-        req.session.destroy((err) => {
-            if (err) {
-                return res.status(500).json({ 
-                    success: false,
-                    error: 'Erro ao fazer logout' 
+        try {
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Erro no logout:', err);
+                    return res.status(500).json({ 
+                        success: false,
+                        error: 'Erro ao fazer logout' 
+                    });
+                }
+                res.json({ 
+                    success: true, 
+                    message: 'Logout realizado' 
                 });
-            }
-            res.json({ 
-                success: true, 
-                message: 'Logout realizado' 
             });
-        });
+        } catch (error) {
+            console.error('Erro no logout:', error);
+            res.status(500).json({ 
+                success: false,
+                error: 'Erro ao fazer logout' 
+            });
+        }
     });
 
     // Verificar sessão
     router.get('/me', async (req, res) => {
         try {
+            console.log('🔍 Verificando sessão:', req.session);
+            
             if (!req.session.userId) {
                 return res.status(401).json({ 
                     success: false,
@@ -116,13 +136,13 @@ module.exports = (pool) => {
 
             const [users] = await pool.execute(
                 `SELECT 
-                    u.ID_USUARIO,
-                    u.NOME_USUARIO,
-                    u.EMAIL_USUARIO,
-                    u.TIPO_USUARIO,
-                    u.IMAGEM_PERFIL_BASE64
-                 FROM USUARIOS u
-                 WHERE u.ID_USUARIO = ?`,
+                    ID_USUARIO,
+                    NOME_USUARIO,
+                    EMAIL_USUARIO,
+                    TIPO_USUARIO,
+                    IMAGEM_PERFIL_BASE64
+                 FROM USUARIOS
+                 WHERE ID_USUARIO = ?`,
                 [req.session.userId]
             );
 
@@ -150,7 +170,7 @@ module.exports = (pool) => {
                 }
             });
         } catch (error) {
-            console.error('Me error:', error);
+            console.error('Erro em /me:', error);
             res.status(500).json({ 
                 success: false,
                 error: 'Erro ao verificar sessão' 
