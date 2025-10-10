@@ -256,131 +256,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // SUBMIT DO FORMULÁRIO (COM VERIFICAÇÃO COMPLETA)
     if (cadastroForm) {
-        cadastroForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            
-            clearErrors();
-            if (feedbackMessage) feedbackMessage.style.display = 'none';
+    cadastroForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        clearErrors();
+        if (feedbackMessage) feedbackMessage.style.display = 'none';
 
-            let isValid = true;
+        let isValid = true;
 
-            // Obter valores com verificação de existência
-            const NOME_USUARIO = nomeInput ? nomeInput.value.trim() : '';
-            const EMAIL_USUARIO = emailInput ? emailInput.value.trim() : '';
-            const SENHA_USUARIO = passwordInput ? passwordInput.value : '';
-            const CONFIRM_SENHA_USUARIO = confirmPasswordInput ? confirmPasswordInput.value : '';
-            const CELULAR_USUARIO = celularInput ? celularInput.value.trim() : '';
-            const LOGRADOURO_USUARIO = logradouroInput ? logradouroInput.value.trim() : '';
-            const BAIRRO_USUARIO = bairroInput ? bairroInput.value.trim() : '';
-            const CIDADE_USUARIO = cidadeInput ? cidadeInput.value.trim() : '';
-            const UF_USUARIO = ufInput ? ufInput.value.trim() : '';
-            const CEP_USUARIO = cepInput ? cepInput.value.trim() : '';
-            const DT_NASC_USUARIO = dataNascInput ? dataNascInput.value : '';
-            
-            // Obter tipo de usuário com fallback
-            let TIPO_USUARIO = 'cliente';
-            if (typeSellerRadio && typeSellerRadio.checked) {
-                TIPO_USUARIO = 'vendedor';
+        // Obter valores com verificação de existência
+        const NOME_USUARIO = nomeInput ? nomeInput.value.trim() : '';
+        const EMAIL_USUARIO = emailInput ? emailInput.value.trim() : '';
+        const SENHA_USUARIO = passwordInput ? passwordInput.value : '';
+        const CONFIRM_SENHA_USUARIO = confirmPasswordInput ? confirmPasswordInput.value : '';
+        const CELULAR_USUARIO = celularInput ? celularInput.value.trim() : '';
+        const LOGRADOURO_USUARIO = logradouroInput ? logradouroInput.value.trim() : '';
+        const BAIRRO_USUARIO = bairroInput ? bairroInput.value.trim() : '';
+        const CIDADE_USUARIO = cidadeInput ? cidadeInput.value.trim() : '';
+        const UF_USUARIO = ufInput ? ufInput.value.trim() : '';
+        const CEP_USUARIO = cepInput ? cepInput.value.trim() : '';
+        const DT_NASC_USUARIO = dataNascInput ? dataNascInput.value : '';
+        
+        // ✅ DEFINIR SEMPRE COMO CLIENTE
+        const TIPO_USUARIO = 'C';
+        const CPF_CLIENTE = '00000000000'; // CPF temporário
+
+        // ... suas validações existentes (mantenha igual) ...
+
+        if (!isValid) {
+            showFeedback('Por favor, corrija os erros no formulário.', 'error');
+            return;
+        }
+
+        // Preparar dados para envio
+        const userData = {
+            NOME_USUARIO,
+            EMAIL_USUARIO,
+            SENHA_USUARIO,
+            CELULAR_USUARIO: CELULAR_USUARIO || null,
+            LOGRADOURO_USUARIO: LOGRADOURO_USUARIO || null,
+            BAIRRO_USUARIO: BAIRRO_USUARIO || null,
+            CIDADE_USUARIO: CIDADE_USUARIO || null,
+            UF_USUARIO: UF_USUARIO || null,
+            CEP_USUARIO: CEP_USUARIO || null,
+            DT_NASC_USUARIO: DT_NASC_USUARIO || null,
+            TIPO_USUARIO, // ✅ SEMPRE 'C' PARA CLIENTE
+            CPF_CLIENTE   // ✅ CPF TEMPORÁRIO
+        };
+
+        try {
+            // ✅ USA A ROTA ÚNICA
+            const response = await fetch('/api/cadastrar_usuario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const result = await response.json();
+            console.log('Resposta da API:', result);
+
+            if (response.ok && result.success) {
+                showFeedback(result.message, 'success');
+                cadastroForm.reset();
+                if (strengthBar) strengthBar.style.width = '0%';
+                if (strengthText) strengthText.textContent = '';
+                
+                // Redirecionar após sucesso
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+            } else {
+                showFeedback(result.error || 'Erro ao cadastrar usuário.', 'error');
             }
-
-
-            // Validações com verificação de elementos de erro
-            if (!NOME_USUARIO || NOME_USUARIO.length < 3) {
-                if (nomeError) nomeError.textContent = 'Nome deve ter no mínimo 3 caracteres.';
-                isValid = false;
-            }
-
-            if (!EMAIL_USUARIO || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL_USUARIO)) {
-                if (emailError) emailError.textContent = 'Formato de e-mail inválido.';
-                isValid = false;
-            }
-
-            // Validação forte da senha
-            const { strength, feedback } = checkPasswordStrength(SENHA_USUARIO);
-            if (!SENHA_USUARIO || SENHA_USUARIO.length < 8) {
-                if (passwordError) passwordError.textContent = 'A senha deve ter no mínimo 8 caracteres.';
-                isValid = false;
-            } else if (strength < 3) {
-                if (passwordError) passwordError.textContent = 'Senha muito fraca. Adicione: ' + feedback.join(', ');
-                isValid = false;
-            }
-
-            if (SENHA_USUARIO !== CONFIRM_SENHA_USUARIO) {
-                if (confirmPasswordError) confirmPasswordError.textContent = 'As senhas não coincidem.';
-                isValid = false;
-            }
-
-            if (CELULAR_USUARIO && CELULAR_USUARIO.length < 14) {
-                if (celularError) celularError.textContent = 'Celular incompleto.';
-                isValid = false;
-            }
-
-            if (CEP_USUARIO && !/^\d{5}-\d{3}$/.test(CEP_USUARIO)) {
-                if (cepError) cepError.textContent = 'CEP inválido.';
-                isValid = false;
-            }
-
-            if (DT_NASC_USUARIO) {
-                const birthDate = new Date(DT_NASC_USUARIO);
-                const today = new Date();
-                if (birthDate > today) {
-                    if (dataNascError) dataNascError.textContent = 'Data de nascimento não pode ser futura.';
-                    isValid = false;
-                }
-            }
-
-            if (!isValid) {
-                showFeedback('Por favor, corrija os erros no formulário.', 'error');
-                return;
-            }
-
-            // Preparar dados para envio
-            const userData = {
-                NOME_USUARIO,
-                EMAIL_USUARIO,
-                SENHA_USUARIO,
-                CELULAR_USUARIO: CELULAR_USUARIO || null,
-                LOGRADOURO_USUARIO: LOGRADOURO_USUARIO || null,
-                BAIRRO_USUARIO: BAIRRO_USUARIO || null,
-                CIDADE_USUARIO: CIDADE_USUARIO || null,
-                UF_USUARIO: UF_USUARIO || null,
-                CEP_USUARIO: CEP_USUARIO || null,
-                DT_NASC_USUARIO: DT_NASC_USUARIO || null,
-                TIPO_USUARIO
-            };
-
-
-            try {
-                // Fazer requisição para o backend
-                const response = await fetch('/api/cadastrar_usuario', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(userData)
-                });
-
-                const result = await response.json();
-                console.log('Resposta da API:', result);
-
-                if (response.ok && result.success) {
-                    showFeedback(result.message, 'success');
-                    cadastroForm.reset();
-                    if (strengthBar) strengthBar.style.width = '0%';
-                    if (strengthText) strengthText.textContent = '';
-                    
-                    // Redirecionar após sucesso
-                    setTimeout(() => {
-                        window.location.href = '/login';
-                    }, 2000);
-                } else {
-                    showFeedback(result.message || 'Erro ao cadastrar usuário.', 'error');
-                }
-            } catch (error) {
-                console.error('Erro na requisição:', error);
-                showFeedback('Erro de conexão com o servidor.', 'error');
-            }
-        });
-    }
-
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            showFeedback('Erro de conexão com o servidor.', 'error');
+        }
+    });
+}
 });

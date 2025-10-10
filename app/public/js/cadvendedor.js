@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 SENHA_USUARIO: passwordInput ? passwordInput.value : '',
                 CONFIRM_SENHA_USUARIO: confirmPasswordInput ? confirmPasswordInput.value : '',
                 
-                TIPO_USUARIO: 'vendedor'
+                TIPO_USUARIO: 'V'
             };
 
 

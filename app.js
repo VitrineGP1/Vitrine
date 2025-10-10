@@ -78,15 +78,16 @@ app.get('/api/teste', (req, res) => {
 });
 
 // Rota de cadastro de vendedor (específica para vendedores)
+// Rota única para cadastro de usuários (cliente ou vendedor)
 app.post('/api/cadastrar_usuario', async (req, res) => {
     try {
-        console.log(' Recebendo cadastro de vendedor:', req.body);
+        console.log('📝 Recebendo cadastro de usuário:', req.body);
         
         const { 
             NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, SENHA_USUARIO,
-            DT_NASC_USUARIO, NOME_LOJA, DESCRICAO_NEGOCIO,
+            DT_NASC_USUARIO, TIPO_USUARIO = 'C', // Padrão é Cliente
             CEP_USUARIO, UF_USUARIO, LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO,
-            CPF, CNPJ
+            CPF_CLIENTE, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA, DESCRICAO_NEGOCIO
         } = req.body;
 
         // Validações básicas
@@ -116,9 +117,6 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         // Hash da senha
         const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 12);
 
-        // Truncar dados para evitar erro de tamanho
-        const truncateString = (str, maxLength) => str ? str.substring(0, maxLength) : null;
-
         // Inserir usuário na tabela USUARIOS
         const [userResult] = await pool.execute(
             `INSERT INTO USUARIOS (
@@ -126,40 +124,55 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
                 LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO, DT_NASC_USUARIO
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
-                truncateString(NOME_USUARIO, 80), EMAIL_USUARIO, CELULAR_USUARIO, hashedPassword, 'V',
-                truncateString(LOGRADOURO_USUARIO, 80), truncateString(BAIRRO_USUARIO, 30), 
-                truncateString(CIDADE_USUARIO, 30), truncateString(UF_USUARIO, 2), truncateString(CEP_USUARIO, 10), DT_NASC_USUARIO
+                NOME_USUARIO, 
+                EMAIL_USUARIO, 
+                CELULAR_USUARIO || null, 
+                hashedPassword, 
+                TIPO_USUARIO, // 'C' para Cliente, 'V' para Vendedor
+                LOGRADOURO_USUARIO || null, 
+                BAIRRO_USUARIO || null, 
+                CIDADE_USUARIO || null, 
+                UF_USUARIO || null, 
+                CEP_USUARIO || null, 
+                DT_NASC_USUARIO || null
             ]
         );
 
         const userId = userResult.insertId;
 
-        // Determinar tipo de pessoa baseado no que foi enviado
-        let tipoPessoa = 'PF'; // Pessoa Física
-        let digitoPessoa = CPF || '00000000000';
+        // Inserir na tabela específica baseada no tipo
+        if (TIPO_USUARIO === 'C') {
+            // CLIENTE - Inserir na tabela CLIENTES
+            const cpf = CPF_CLIENTE || '00000000000'; // CPF temporário se não fornecido
+            await pool.execute(
+                'INSERT INTO CLIENTES (CPF_CLIENTE, ID_USUARIO) VALUES (?, ?)',
+                [cpf, userId]
+            );
+            
+            console.log('✅ Cliente cadastrado com sucesso:', EMAIL_USUARIO);
 
-        if (CNPJ && CNPJ.length === 14) {
-            tipoPessoa = 'PJ'; // Pessoa Jurídica
-            digitoPessoa = CNPJ;
+        } else if (TIPO_USUARIO === 'V') {
+            // VENDEDOR - Inserir na tabela VENDEDORES
+            const tipoPessoa = TIPO_PESSOA || 'PF';
+            const digitoPessoa = DIGITO_PESSOA || '00000000000';
+            
+            await pool.execute(
+                'INSERT INTO VENDEDORES (TIPO_PESSOA, DIGITO_PESSOA, ID_USUARIO) VALUES (?, ?, ?)',
+                [tipoPessoa, digitoPessoa, userId]
+            );
+            
+            console.log('✅ Vendedor cadastrado com sucesso:', EMAIL_USUARIO);
         }
-
-        // Inserir na tabela VENDEDORES
-        await pool.execute(
-            `INSERT INTO VENDEDORES (TIPO_PESSOA, DIGITO_PESSOA, ID_USUARIO) 
-             VALUES (?, ?, ?)`,
-            [tipoPessoa, digitoPessoa, userId]
-        );
-
-        console.log(' Vendedor cadastrado com sucesso:', EMAIL_USUARIO);
 
         res.json({
             success: true,
-            message: 'Vendedor cadastrado com sucesso!',
-            userId: userId
+            message: TIPO_USUARIO === 'C' ? 'Cliente cadastrado com sucesso!' : 'Vendedor cadastrado com sucesso!',
+            userId: userId,
+            userType: TIPO_USUARIO
         });
 
     } catch (error) {
-        console.error(' Erro no cadastro de vendedor:', error);
+        console.error('💥 Erro no cadastro:', error);
         res.status(500).json({
             success: false,
             error: 'Erro interno no cadastro: ' + error.message
