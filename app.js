@@ -127,7 +127,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 truncateString(NOME_USUARIO, 100), EMAIL_USUARIO, CELULAR_USUARIO, hashedPassword, 'V',
-                truncateString(LOGRADOURO_USUARIO, 100), truncateString(BAIRRO_USUARIO, 50), 
+                truncateString(LOGRADOURO_USUARIO, 100), truncateString(BAIRRO_USUARIO, 100), 
                 truncateString(CIDADE_USUARIO, 50), truncateString(UF_USUARIO, 2), CEP_USUARIO, DT_NASC_USUARIO
             ]
         );
