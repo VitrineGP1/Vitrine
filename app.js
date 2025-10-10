@@ -166,11 +166,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
 // Servir arquivos estáticos do React (se necessário)
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 
-// ... resto do código ...
-app.listen(port, () => {
-    console.log(` Servidor rodando na porta ${port}`);
-});
-
+// Start server
 app.listen(port, () => {
     console.log(` Servidor rodando na porta ${port}`);
     console.log(` http://localhost:${port}`);
