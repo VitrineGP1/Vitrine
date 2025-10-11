@@ -4,7 +4,7 @@ const express = require('express');
 module.exports = (pool) => {
     const router = express.Router();
 
-    // Middleware de autenticação
+
     const requireAuth = (requiredTypes = []) => {
         return async (req, res, next) => {
             try {

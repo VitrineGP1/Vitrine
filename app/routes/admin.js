@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { requireAdmin } = require('../middleware/auth');
+const { requireAdmin } = require('/middleware/auth.js');
 
 // Apenas Admin (TIPO_USUARIO = 'A')
 router.get('/dashboard', requireAdmin, (req, res) => {

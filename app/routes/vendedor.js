@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { requireVendedor } = require('../middleware/auth');
+const { requireVendedor } = require('/middleware/auth.js');
 
 // Apenas Vendedor (TIPO_USUARIO = 'V')
 router.get('/perfil', requireVendedor, async (req, res) => {

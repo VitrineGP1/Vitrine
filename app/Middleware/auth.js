@@ -38,7 +38,6 @@ const requireAuth = (requiredTypes = []) => {
                 });
             }
 
-            // Adicionar usuário à requisição (CORRIGIDO)
             req.user = {
                 ID_USUARIO: user.ID_USUARIO,
                 NOME_USUARIO: user.NOME_USUARIO,
@@ -65,7 +64,7 @@ const requireAuth = (requiredTypes = []) => {
     };
 };
 
-// Middlewares específicos por tipo
+
 const requireAdmin = requireAuth(['admin']);
 const requireVendedor = requireAuth(['vendedor']);
 const requireCliente = requireAuth(['cliente']);

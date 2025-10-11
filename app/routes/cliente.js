@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { requireCliente } = require('../middleware/auth');
+const { requireCliente } = require('/middleware/auth.js');
 
 // Apenas Cliente (TIPO_USUARIO = 'C')
 router.get('/perfil', requireCliente, async (req, res) => {
