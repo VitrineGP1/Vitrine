@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function (e) {
-    const mercadoPago = new MercadoPago('APP_USR-1660916369766569-100617-c4941cf14cc985525d2f4f6c1d22552c-251623582', {
+    const mercadoPago = new MercadoPago('APP_USR-eafb8069-68db-4706-9017-c1f656344c93', {
         locale: 'pt-BR' 
     });
 
