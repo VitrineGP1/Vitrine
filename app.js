@@ -82,20 +82,16 @@ app.get('/api/teste', (req, res) => {
     });
 });
 
-// Rota de cadastro de vendedor (específica para vendedores)
-// Rota única para cadastro de usuários (cliente ou vendedor)
+// Cadastro de usuários (cliente ou vendedor)
 app.post('/api/cadastrar_usuario', async (req, res) => {
     try {
-        console.log('📝 Recebendo cadastro de usuário:', req.body);
-        
         const { 
             NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, SENHA_USUARIO,
-            DT_NASC_USUARIO, TIPO_USUARIO = 'C', // Padrão é Cliente
+            DT_NASC_USUARIO, TIPO_USUARIO = 'C',
             CEP_USUARIO, UF_USUARIO, LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO,
-            CPF_CLIENTE, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA, DESCRICAO_NEGOCIO
+            CPF_CLIENTE, TIPO_PESSOA, DIGITO_PESSOA
         } = req.body;
 
-        // Validações básicas
         if (!NOME_USUARIO || !EMAIL_USUARIO || !SENHA_USUARIO) {
             return res.status(400).json({
                 success: false,
@@ -103,10 +99,9 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
             });
         }
 
-        const pool = require("./config/pool-conexoes");
         const bcrypt = require('bcryptjs');
 
-        // Verificar se email já existe
+        // Verificar email existente
         const [existingUsers] = await pool.execute(
             'SELECT ID_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
             [EMAIL_USUARIO]
@@ -119,60 +114,49 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
             });
         }
 
-        // Hash da senha
         const hashedPassword = await bcrypt.hash(SENHA_USUARIO, 12);
 
-        // Inserir usuário na tabela USUARIOS
+        // Inserir usuário
         const [userResult] = await pool.execute(
             `INSERT INTO USUARIOS (
                 NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, SENHA_USUARIO, TIPO_USUARIO,
                 LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO, DT_NASC_USUARIO
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
-                NOME_USUARIO, 
-                EMAIL_USUARIO, 
-                CELULAR_USUARIO || null, 
-                hashedPassword, 
-                TIPO_USUARIO, // 'C' para Cliente, 'V' para Vendedor
-                LOGRADOURO_USUARIO || null, 
-                BAIRRO_USUARIO || null, 
-                CIDADE_USUARIO || null, 
-                UF_USUARIO || null, 
-                CEP_USUARIO || null, 
-                DT_NASC_USUARIO || null
+                NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO || null, hashedPassword, TIPO_USUARIO,
+                LOGRADOURO_USUARIO || null, BAIRRO_USUARIO || null, CIDADE_USUARIO || null, 
+                UF_USUARIO || null, CEP_USUARIO || null, DT_NASC_USUARIO || null
             ]
         );
 
         const userId = userResult.insertId;
+        const userTypeConfig = {
+            'C': {
+                table: 'CLIENTES',
+                fields: 'CPF_CLIENTE, ID_USUARIO',
+                values: [CPF_CLIENTE || '00000000000', userId],
+                message: 'Cliente cadastrado com sucesso!'
+            },
+            'V': {
+                table: 'VENDEDORES', 
+                fields: 'TIPO_PESSOA, DIGITO_PESSOA, ID_USUARIO',
+                values: [TIPO_PESSOA || 'PF', DIGITO_PESSOA || '00000000000', userId],
+                message: 'Vendedor cadastrado com sucesso!'
+            }
+        };
 
-        // Inserir na tabela específica baseada no tipo
-        if (TIPO_USUARIO === 'C') {
-            // CLIENTE - Inserir na tabela CLIENTES
-            const cpf = CPF_CLIENTE || '00000000000'; // CPF temporário se não fornecido
+        const config = userTypeConfig[TIPO_USUARIO];
+        if (config) {
             await pool.execute(
-                'INSERT INTO CLIENTES (CPF_CLIENTE, ID_USUARIO) VALUES (?, ?)',
-                [cpf, userId]
+                `INSERT INTO ${config.table} (${config.fields}) VALUES (${config.fields.split(',').map(() => '?').join(', ')})`,
+                config.values
             );
-            
-            console.log('✅ Cliente cadastrado com sucesso:', EMAIL_USUARIO);
-
-        } else if (TIPO_USUARIO === 'V') {
-            // VENDEDOR - Inserir na tabela VENDEDORES
-            const tipoPessoa = TIPO_PESSOA || 'PF';
-            const digitoPessoa = DIGITO_PESSOA || '00000000000';
-            
-            await pool.execute(
-                'INSERT INTO VENDEDORES (TIPO_PESSOA, DIGITO_PESSOA, ID_USUARIO) VALUES (?, ?, ?)',
-                [tipoPessoa, digitoPessoa, userId]
-            );
-            
-            console.log('✅ Vendedor cadastrado com sucesso:', EMAIL_USUARIO);
         }
 
         res.json({
             success: true,
-            message: TIPO_USUARIO === 'C' ? 'Cliente cadastrado com sucesso!' : 'Vendedor cadastrado com sucesso!',
-            userId: userId,
+            message: config?.message || 'Usuário cadastrado com sucesso!',
+            userId,
             userType: TIPO_USUARIO
         });
 
@@ -185,8 +169,7 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     }
 });
 
-// Servir arquivos estáticos do React (se necessário)
-app.use(express.static(path.join(__dirname, 'app', 'public')));
+
 
 // Start server
 app.listen(port, () => {

@@ -6,6 +6,23 @@ module.exports = (pool) => {
 
     console.log('✅ authRoutes carregado');
 
+    // Função utilitária para buscar usuário
+    const getUserQuery = `SELECT 
+        ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO,
+        TIPO_USUARIO, IMAGEM_PERFIL_BASE64
+    FROM USUARIOS WHERE`;
+
+    const userTypes = { 'A': 'admin', 'V': 'vendedor', 'C': 'cliente' };
+
+    const formatUserResponse = (user) => ({
+        id: user.ID_USUARIO,
+        nome: user.NOME_USUARIO,
+        email: user.EMAIL_USUARIO,
+        tipo: user.TIPO_USUARIO,
+        tipoLegivel: userTypes[user.TIPO_USUARIO],
+        imagemPerfil: user.IMAGEM_PERFIL_BASE64
+    });
+
     // Login
     router.post('/login', async (req, res) => {
         console.log('📥 Recebendo requisição de login:', req.body.email);
@@ -23,17 +40,8 @@ module.exports = (pool) => {
 
             console.log('🔍 Buscando usuário no banco...');
             
-            // Buscar usuário no banco - versão mais simples para debug
             const [users] = await pool.execute(
-                `SELECT 
-                    ID_USUARIO,
-                    NOME_USUARIO,
-                    EMAIL_USUARIO,
-                    SENHA_USUARIO,
-                    TIPO_USUARIO,
-                    IMAGEM_PERFIL_BASE64
-                 FROM USUARIOS 
-                 WHERE EMAIL_USUARIO = ?`,
+                `${getUserQuery} EMAIL_USUARIO = ?`,
                 [email]
             );
 
@@ -69,23 +77,12 @@ module.exports = (pool) => {
             req.session.userType = user.TIPO_USUARIO;
             req.session.userName = user.NOME_USUARIO;
 
-            // Converter tipo para legível
-            const userTypes = { 'A': 'admin', 'V': 'vendedor', 'C': 'cliente' };
-            const userTypeLegivel = userTypes[user.TIPO_USUARIO];
-
             console.log('🎉 Login bem-sucedido para:', user.EMAIL_USUARIO);
 
             res.json({
                 success: true,
                 message: 'Login realizado com sucesso!',
-                user: {
-                    id: user.ID_USUARIO,
-                    nome: user.NOME_USUARIO,
-                    email: user.EMAIL_USUARIO,
-                    tipo: user.TIPO_USUARIO,
-                    tipoLegivel: userTypeLegivel,
-                    imagemPerfil: user.IMAGEM_PERFIL_BASE64
-                }
+                user: formatUserResponse(user)
             });
 
         } catch (error) {
@@ -135,14 +132,7 @@ module.exports = (pool) => {
             }
 
             const [users] = await pool.execute(
-                `SELECT 
-                    ID_USUARIO,
-                    NOME_USUARIO,
-                    EMAIL_USUARIO,
-                    TIPO_USUARIO,
-                    IMAGEM_PERFIL_BASE64
-                 FROM USUARIOS
-                 WHERE ID_USUARIO = ?`,
+                `${getUserQuery} ID_USUARIO = ?`,
                 [req.session.userId]
             );
 
@@ -154,20 +144,9 @@ module.exports = (pool) => {
                 });
             }
 
-            const user = users[0];
-            const userTypes = { 'A': 'admin', 'V': 'vendedor', 'C': 'cliente' };
-            const userTypeLegivel = userTypes[user.TIPO_USUARIO];
-
             res.json({
                 success: true,
-                user: {
-                    id: user.ID_USUARIO,
-                    nome: user.NOME_USUARIO,
-                    email: user.EMAIL_USUARIO,
-                    tipo: user.TIPO_USUARIO,
-                    tipoLegivel: userTypeLegivel,
-                    imagemPerfil: user.IMAGEM_PERFIL_BASE64
-                }
+                user: formatUserResponse(users[0])
             });
         } catch (error) {
             console.error('Erro em /me:', error);
