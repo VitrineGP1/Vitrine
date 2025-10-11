@@ -13,7 +13,7 @@ console.log(' Iniciando servidor...');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Sessions
+// Sessions - Para produção, use Redis ou outro store persistente
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-secret-for-dev',
     resave: false,
@@ -22,6 +22,7 @@ app.use(session({
         secure: false, // Mude para true em produção com HTTPS
         maxAge: 24 * 60 * 60 * 1000
     }
+    // Para produção, adicione: store: new RedisStore({ /* config */ })
 }));
 
 // Arquivos estáticos e EJS
