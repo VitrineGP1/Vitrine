@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         });
     });
 
+    
     function createCheckoutButton(preferenceId) {
         const bricksBuilder = mercadoPago.bricks();
 
