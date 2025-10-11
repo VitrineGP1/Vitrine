@@ -60,27 +60,34 @@ document.addEventListener("DOMContentLoaded", function (e) {
         const bricksBuilder = mercadoPago.bricks();
 
         const renderComponent = async (bricksBuilder) => {
-            if (window.checkoutButton) window.checkoutButton.unmount();
-            await bricksBuilder.create(
-                'wallet',
-                'button-checkout',
-                {
-                    initialization: {
-                        preferenceId: preferenceId
-                    },
-                    callbacks: {
-                        onError: (error) => {
-                            console.error("Erro no checkout:", error);
-                            alert("Erro no processamento do pagamento");
+            // Limpar container antes de criar novo
+            const container = document.getElementById('button-checkout');
+            if (container) container.innerHTML = '';
+            
+            try {
+                await bricksBuilder.create(
+                    'wallet',
+                    'button-checkout',
+                    {
+                        initialization: {
+                            preferenceId: preferenceId
                         },
-                        onReady: () => {
-                            console.log("Checkout pronto");
+                        callbacks: {
+                            onError: (error) => {
+                                console.error("Erro no checkout:", error);
+                                alert("Erro no processamento do pagamento");
+                            },
+                            onReady: () => {
+                                console.log("Checkout pronto");
+                            }
                         }
                     }
-                }
-            );
+                );
+            } catch (error) {
+                console.error('Erro ao criar botão:', error);
+            }
         };
-        window.checkoutButton = renderComponent(bricksBuilder);
+        renderComponent(bricksBuilder);
     }
 
     document.getElementById("go-back").addEventListener("click", function () {

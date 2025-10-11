@@ -31,7 +31,12 @@ Object.entries(routes).forEach(([path, page]) => {
 // SDK do Mercado Pago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { pedidoController } = require("../controllers/pedidoController");
-// Adicione as credenciais
+
+// Verificar se accessToken existe
+if (!process.env.accessToken) {
+    console.warn('⚠️  ACCESS TOKEN do Mercado Pago não configurado!');
+}
+
 const client = new MercadoPagoConfig({
     accessToken: process.env.accessToken
 });
