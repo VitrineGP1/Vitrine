@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', () => {
             // Extrai informações do produto do HTML
-            const productId = 'cesto-organizador-1'; // ID fixo para este produto, idealmente viria do backend/URL
+            const currentPath = window.location.pathname;
+            const productId = currentPath.replace('/', '') || 'produto-home'; // Usa a URL como ID único
             const name = productTitle.textContent.trim();
             const priceText = productPrice.textContent.trim().replace('R$', '').replace(',', '.');
             const price = parseFloat(priceText);

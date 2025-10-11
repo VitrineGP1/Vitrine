@@ -14,8 +14,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         const extractedData = cart.map(item => {
             return {
-                unit_price: Number(item.price.toFixed(2)),
+                title: item.name,
                 description: item.name,
+                unit_price: Number(item.price.toFixed(2)),
                 quantity: Number(item.quantity),
                 currency_id: "BRL"
             };
