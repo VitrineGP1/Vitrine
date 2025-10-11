@@ -38,8 +38,19 @@ const client = new MercadoPagoConfig({
 
 router.post("/create-preference", async (req, res) => {
     try {
+        console.log('Criando preferência MP:', req.body);
+        
+        if (!req.body.items || !Array.isArray(req.body.items) || req.body.items.length === 0) {
+            return res.status(400).json({ error: 'Items são obrigatórios' });
+        }
+
+        if (!process.env.accessToken) {
+            console.error('Access token não configurado');
+            return res.status(500).json({ error: 'Configuração de pagamento inválida' });
+        }
+
         const preference = new Preference(client);
-        const feedbackUrl = `${process.env.URL_BASE}/feedback`;
+        const feedbackUrl = `${process.env.URL_BASE || 'http://localhost:3000'}/feedback`;
         
         const result = await preference.create({
             body: {
@@ -53,10 +64,14 @@ router.post("/create-preference", async (req, res) => {
             }
         });
         
+        console.log('Preferência criada:', result.id);
         res.json(result);
     } catch (error) {
-        console.error('Erro ao criar preferência:', error);
-        res.status(500).json({ error: 'Erro interno' });
+        console.error('Erro ao criar preferência MP:', error);
+        res.status(500).json({ 
+            error: 'Erro ao processar pagamento',
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
     }
 });
 

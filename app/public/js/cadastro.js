@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (strengthBar) strengthBar.style.width = '0%';
                 if (strengthText) strengthText.textContent = '';
                 
-                // Redirecionar após sucesso
+
                 setTimeout(() => {
                     window.location.href = '/login';
                 }, 2000);

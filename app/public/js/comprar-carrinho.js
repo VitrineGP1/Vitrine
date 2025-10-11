@@ -33,9 +33,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
             body: JSON.stringify(orderData),
         })
         .then(function (response) {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
             return response.json();
         })
         .then(function (preference) {
+            if (!preference.id) {
+                throw new Error('ID da preferência não recebido');
+            }
             createCheckoutButton(preference.id);
             
             $(".shopping-cart").fadeOut(500);
@@ -44,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
             }, 500);
         })
         .catch(function (error) {
-            console.error("Erro:", error);
-            alert("Erro inesperado ao processar o pagamento");
+            console.error("Erro no pagamento:", error);
+            alert("Erro ao processar pagamento. Tente novamente.");
             $('#checkout-btn').attr("disabled", false);
         });
     });
