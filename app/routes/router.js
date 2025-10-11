@@ -42,40 +42,59 @@ const client = new MercadoPagoConfig({
 });
 
 router.post("/create-preference", async (req, res) => {
+    console.log('=== CREATE PREFERENCE CHAMADO ===');
+    console.log('Body recebido:', req.body);
+    console.log('Access Token existe:', !!process.env.accessToken);
+    
     try {
-        console.log('Criando preferência MP:', req.body);
-        
-        if (!req.body.items || !Array.isArray(req.body.items) || req.body.items.length === 0) {
+        // Validações básicas
+        if (!req.body || !req.body.items) {
+            console.log('Items não fornecidos');
             return res.status(400).json({ error: 'Items são obrigatórios' });
+        }
+
+        if (!Array.isArray(req.body.items) || req.body.items.length === 0) {
+            console.log('Items inválidos:', req.body.items);
+            return res.status(400).json({ error: 'Items devem ser um array não vazio' });
         }
 
         if (!process.env.accessToken) {
             console.error('Access token não configurado');
-            return res.status(500).json({ error: 'Configuração de pagamento inválida' });
+            return res.status(500).json({ error: 'Token de pagamento não configurado' });
         }
 
+        console.log('Criando preferência com items:', req.body.items);
+        
         const preference = new Preference(client);
-        const feedbackUrl = `${process.env.URL_BASE || 'http://localhost:3000'}/feedback`;
+        const feedbackUrl = `${process.env.URL_BASE || 'https://vitrine-lljl.onrender.com'}/feedback`;
         
-        const result = await preference.create({
-            body: {
-                items: req.body.items,
-                back_urls: {
-                    success: feedbackUrl,
-                    failure: feedbackUrl,
-                    pending: feedbackUrl
-                },
-                auto_return: "approved"
-            }
-        });
+        const preferenceData = {
+            items: req.body.items,
+            back_urls: {
+                success: feedbackUrl,
+                failure: feedbackUrl,
+                pending: feedbackUrl
+            },
+            auto_return: "approved"
+        };
         
-        console.log('Preferência criada:', result.id);
+        console.log('Dados da preferência:', preferenceData);
+        
+        const result = await preference.create({ body: preferenceData });
+        
+        console.log('Preferência criada com sucesso:', result.id);
         res.json(result);
+        
     } catch (error) {
-        console.error('Erro ao criar preferência MP:', error);
+        console.error('=== ERRO DETALHADO ===');
+        console.error('Tipo:', error.constructor.name);
+        console.error('Mensagem:', error.message);
+        console.error('Stack:', error.stack);
+        
         res.status(500).json({ 
             error: 'Erro ao processar pagamento',
-            details: process.env.NODE_ENV === 'development' ? error.message : undefined
+            message: error.message,
+            type: error.constructor.name
         });
     }
 });

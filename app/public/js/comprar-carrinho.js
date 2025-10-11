@@ -32,16 +32,23 @@ document.addEventListener("DOMContentLoaded", function (e) {
             },
             body: JSON.stringify(orderData),
         })
-        .then(function (response) {
+        .then(async function (response) {
+            console.log('Response status:', response.status);
+            
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                const errorData = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
+                console.error('Erro do servidor:', errorData);
+                throw new Error(`Erro ${response.status}: ${errorData.error || errorData.message || 'Erro no servidor'}`);
             }
             return response.json();
         })
         .then(function (preference) {
+            console.log('Preferência recebida:', preference);
+            
             if (!preference.id) {
                 throw new Error('ID da preferência não recebido');
             }
+            
             createCheckoutButton(preference.id);
             
             $(".shopping-cart").fadeOut(500);
@@ -50,8 +57,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
             }, 500);
         })
         .catch(function (error) {
-            console.error("Erro no pagamento:", error);
-            alert("Erro ao processar pagamento. Tente novamente.");
+            console.error("Erro completo:", error);
+            alert(`Erro: ${error.message}`);
             $('#checkout-btn').attr("disabled", false);
         });
     });
