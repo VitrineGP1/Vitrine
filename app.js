@@ -13,16 +13,20 @@ console.log(' Iniciando servidor...');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Sessions - Para produção, use Redis ou outro store persistente
+// Sessions - Store simples para desenvolvimento
+const MemoryStore = require('memorystore')(session);
+
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-secret-for-dev',
     resave: false,
     saveUninitialized: false,
+    store: new MemoryStore({
+        checkPeriod: 86400000 // limpa sessões expiradas a cada 24h
+    }),
     cookie: { 
         secure: false, // Mude para true em produção com HTTPS
         maxAge: 24 * 60 * 60 * 1000
     }
-    // Para produção, adicione: store: new RedisStore({ /* config */ })
 }));
 
 // Arquivos estáticos e EJS
