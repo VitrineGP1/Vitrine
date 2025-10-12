@@ -32,7 +32,7 @@ function checkLoginStatus() {
         const sellerLinks = navList.querySelectorAll('a');
         sellerLinks.forEach(link => {
             if (link.textContent.trim() === 'Seja um Vendedor') {
-                console.log('Found seller link, user type:', user.type, 'sellerId:', user.sellerId);
+                console.log('Found seller link, user type:', user.type, 'user data:', user);
                 if (user.type === 'V' || user.sellerId || user.type === 'A') {
                     console.log('Hiding seller link for seller/admin user');
                     link.style.display = 'none';

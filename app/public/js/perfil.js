@@ -79,9 +79,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadUserProfile() {
         const loggedInUser = localStorage.getItem('loggedUser');
+        console.log('PERFIL.JS: loggedInUser from localStorage:', loggedInUser);
         if (loggedInUser) {
             const user = JSON.parse(loggedInUser);
-            currentUserId = user.id; 
+            console.log('PERFIL.JS: parsed user data:', user);
+            currentUserId = user.id;
+            console.log('PERFIL.JS: currentUserId set to:', currentUserId); 
 
             if (!currentUserId) {
                 showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');

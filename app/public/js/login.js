@@ -83,7 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok && result.success) {
                     showMessage(messageDiv, result.message, 'success');
-                    localStorage.setItem('loggedUser', JSON.stringify(result.user));
+                    
+                    // Estruturar dados do usuário para compatibilidade
+                    const userData = {
+                        id: result.user.ID_USUARIO,
+                        name: result.user.NOME_USUARIO,
+                        email: result.user.EMAIL_USUARIO,
+                        type: result.user.TIPO_USUARIO,
+                        ID_USUARIO: result.user.ID_USUARIO,
+                        NOME_USUARIO: result.user.NOME_USUARIO,
+                        EMAIL_USUARIO: result.user.EMAIL_USUARIO,
+                        TIPO_USUARIO: result.user.TIPO_USUARIO
+                    };
+                    
+                    localStorage.setItem('loggedUser', JSON.stringify(userData));
 
                     // Transferir carrinho de sessão para usuário logado
                     const sessionCart = JSON.parse(localStorage.getItem('cart_session')) || [];
@@ -101,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                         
                         // Salvar carrinho mesclado e limpar sessão
-                        localStorage.setItem(`cart_${result.user.ID_USUARIO}`, JSON.stringify(userCart));
+                        localStorage.setItem(`cart_${userData.id}`, JSON.stringify(userCart));
                         localStorage.removeItem('cart_session');
                     }
 
@@ -114,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 1000);
                     } else {
                         setTimeout(() => {
-                            redirectByUserType(result.user.tipo); // 'A', 'V', 'C'
+                            redirectByUserType(userData.type); // 'A', 'V', 'C'
                         }, 1000);
                     }
                     
