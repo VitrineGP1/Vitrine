@@ -123,13 +123,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     loadCartItems();
-    
-    // Limpar carrinho de sessão ao fechar janela se não estiver logado
-    window.addEventListener('beforeunload', () => {
-        const user = JSON.parse(localStorage.getItem('user')) || null;
-        if (!user) {
-            localStorage.removeItem('cart_session');
-            localStorage.removeItem('cart');
-        }
-    });
 });

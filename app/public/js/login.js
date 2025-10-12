@@ -148,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     checkExistingSession();
     
-    // Limpar carrinho de sessão ao fechar janela se não estiver logado
-    window.addEventListener('beforeunload', () => {
+    // Limpar carrinho de sessão ao fechar navegador se não estiver logado
+    window.addEventListener('unload', () => {
         const user = JSON.parse(localStorage.getItem('user')) || null;
         if (!user) {
             localStorage.removeItem('cart_session');
