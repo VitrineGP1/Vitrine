@@ -80,9 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const result = await response.json();
+                console.log('LOGIN.JS: API response:', result);
 
                 if (response.ok && result.success) {
                     showMessage(messageDiv, result.message, 'success');
+                    
+                    console.log('LOGIN.JS: User data from API:', result.user);
                     
                     // Estruturar dados do usuário para compatibilidade
                     const userData = {
@@ -95,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         EMAIL_USUARIO: result.user.EMAIL_USUARIO,
                         TIPO_USUARIO: result.user.TIPO_USUARIO
                     };
+                    
+                    console.log('LOGIN.JS: Structured userData:', userData);
                     
                     localStorage.setItem('loggedUser', JSON.stringify(userData));
 
@@ -141,29 +146,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Verificar se já está logado
-    async function checkExistingSession() {
+    // Verificar se já está logado via localStorage
+    const existingUser = localStorage.getItem('loggedUser');
+    if (existingUser) {
         try {
-            const response = await fetch('/api/me', {
-                credentials: 'include'
-            });
-            
-            if (response.ok) {
-                const result = await response.json();
-                if (result.success) {
-                    redirectByUserType(result.user.tipo);
-                }
-            } else if (response.status === 401) {
-                // Usuário não está logado - comportamento normal
-                console.log('Usuário não autenticado');
+            const user = JSON.parse(existingUser);
+            if (user.type) {
+                redirectByUserType(user.type);
             }
         } catch (error) {
-            // Erro de rede ou outro erro - não crítico
-            console.log('Erro ao verificar sessão:', error.message);
+            console.log('Erro ao verificar usuário logado:', error.message);
         }
     }
-
-    checkExistingSession();
     
     // Limpar carrinho de sessão ao fechar navegador se não estiver logado
     window.addEventListener('unload', () => {
