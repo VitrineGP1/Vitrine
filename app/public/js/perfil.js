@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('PERFIL.JS: DOM carregado, inicializando...');
 
     const userProfileImage = document.getElementById('user-profile-image');
-    const profileImageFileInput = document.getElementById('profile-image-file-input');
+    const profileImageFileInput = document.getElementById('profile-image-input');
     const saveProfileImageBtn = document.getElementById('save-profile-image-btn');
     const profileImageFeedback = document.getElementById('profile-image-feedback');
+    
+    console.log('PERFIL.JS: Elementos encontrados:', {
+        userProfileImage: !!userProfileImage,
+        profileImageFileInput: !!profileImageFileInput,
+        saveProfileImageBtn: !!saveProfileImageBtn,
+        profileImageFeedback: !!profileImageFeedback
+    });
 
 
     const profileDetailsForm = document.getElementById('profile-details-form');
@@ -52,18 +60,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     function toggleEditMode(isEditing) {
-        const inputs = profileDetailsForm.querySelectorAll('input:not(#profile-type-display)');
-        inputs.forEach(input => {
-            input.readOnly = !isEditing;
-            if (isEditing) {
-                input.classList.add('editable');
-            } else {
-                input.classList.remove('editable');
-            }
-        });
-        editProfileBtn.style.display = isEditing ? 'none' : 'inline-block';
-        saveProfileBtn.style.display = isEditing ? 'inline-block' : 'none';
-        cancelEditBtn.style.display = isEditing ? 'inline-block' : 'none';
+        if (profileDetailsForm) {
+            const inputs = profileDetailsForm.querySelectorAll('input:not(#profile-type-display)');
+            inputs.forEach(input => {
+                input.readOnly = !isEditing;
+                if (isEditing) {
+                    input.classList.add('editable');
+                } else {
+                    input.classList.remove('editable');
+                }
+            });
+        }
+        if (editProfileBtn) editProfileBtn.style.display = isEditing ? 'none' : 'inline-block';
+        if (saveProfileBtn) saveProfileBtn.style.display = isEditing ? 'inline-block' : 'none';
+        if (cancelEditBtn) cancelEditBtn.style.display = isEditing ? 'inline-block' : 'none';
     }
 
 
@@ -101,10 +111,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
                     if (userData.IMAGEM_PERFIL_BASE64) {
-                        userProfileImage.src = userData.IMAGEM_PERFIL_BASE64;
+                        if (userProfileImage) userProfileImage.src = userData.IMAGEM_PERFIL_BASE64;
                         currentUserProfileImageBase64 = userData.IMAGEM_PERFIL_BASE64;
                     } else {
-                        userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                        if (userProfileImage) userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
                         currentUserProfileImageBase64 = null;
                     }
 
@@ -167,13 +177,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    userProfileImage.src = e.target.result;
+                    if (userProfileImage) userProfileImage.src = e.target.result;
                     currentUserProfileImageBase64 = e.target.result;
                     if (saveProfileImageBtn) saveProfileImageBtn.style.display = 'block'; 
                 };
                 reader.readAsDataURL(file);
             } else {
-                userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                if (userProfileImage) userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
                 currentUserProfileImageBase64 = null;
                 if (saveProfileImageBtn) saveProfileImageBtn.style.display = 'none'; 
             }
@@ -231,7 +241,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error('Erro na requisição de atualização de perfil:', error);
-            showFeedback('Erro de conexão com o servidor.', 'error');
+            if (profileImageFeedback) showFeedback(profileImageFeedback, 'Erro de conexão com o servidor.', 'error');
         }
         });
     }
@@ -304,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error('Erro na requisição de atualização do perfil:', error);
-            showFeedback('Erro de conexão com o servidor.', 'error');
+            if (profileDetailsFeedback) showFeedback(profileDetailsFeedback, 'Erro de conexão com o servidor.', 'error');
         }
         });
     }
@@ -366,7 +376,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error('Erro na requisição de mudança de senha:', error);
-            showFeedback('Erro de conexão com o servidor.', 'error');
+            if (passwordFeedback) showFeedback(passwordFeedback, 'Erro de conexão com o servidor.', 'error');
         }
         });
     }
