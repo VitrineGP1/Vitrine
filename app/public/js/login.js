@@ -83,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('LOGIN.JS: API response:', result);
 
                 if (response.ok && result.success) {
-                    showMessage(messageDiv, result.message, 'success');
+                    const firstName = result.user.NOME_USUARIO ? result.user.NOME_USUARIO.split(' ')[0] : 'usuário';
+                    showMessage(messageDiv, `Seja bem vindo(a) ${firstName}!`, 'success');
                     
                     console.log('LOGIN.JS: User data from API:', result.user);
                     
