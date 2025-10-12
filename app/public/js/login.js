@@ -27,17 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function redirectByUserType(userType) {
-        console.log('LOGIN.JS: redirectByUserType called with:', userType);
-        
-        const routes = {
-            'A': '/perfil',
-            'V': '/perfil',  
-            'C': '/perfil'
-        };
-
-        const page = routes[userType] || '/perfil'; // Sempre redirecionar para /perfil como fallback
-        console.log('LOGIN.JS: Redirecting to:', page);
-        window.location.href = page;
+        window.location.href = '/perfil';
     }
 
     if (loginForm) {
@@ -79,13 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const result = await response.json();
-                console.log('LOGIN.JS: API response:', result);
 
                 if (response.ok && result.success) {
                     const name = result.user.NOME_USUARIO ? result.user.NOME_USUARIO.split(' ')[0] : '';
                     showMessage(messageDiv, `Seja bem vindo(a) ${name}!`, 'success');
-                    
-                    console.log('LOGIN.JS: User data from API:', result.user);
                     
                     // Estruturar dados do usuário para compatibilidade
                     const userId = result.user.ID_USUARIO || result.user.id || result.user.userId;
@@ -104,15 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         TIPO_USUARIO: userType
                     };
                     
-                    console.log('LOGIN.JS: Final userData with fallbacks:', userData);
-                    
                     if (!userId) {
-                        console.error('LOGIN.JS: CRITICAL - No user ID found in API response!');
                         showMessage(messageDiv, 'Erro: ID do usuário não encontrado.', 'error');
                         return;
                     }
-                    
-                    console.log('LOGIN.JS: Structured userData:', userData);
                     
                     localStorage.setItem('loggedUser', JSON.stringify(userData));
 
@@ -145,10 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 1000);
                     } else {
                         setTimeout(() => {
-                            // Garantir que sempre tenha um tipo válido
-                            const userType = userData.type || userData.TIPO_USUARIO || 'C';
-                            console.log('LOGIN.JS: Using fallback user type:', userType);
-                            redirectByUserType(userType);
+                            redirectByUserType(userData.type || 'C');
                         }, 1000);
                     }
                     
