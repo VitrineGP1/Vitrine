@@ -88,16 +88,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('LOGIN.JS: User data from API:', result.user);
                     
                     // Estruturar dados do usuário para compatibilidade
+                    const userId = result.user.ID_USUARIO || result.user.id || result.user.userId;
+                    const userName = result.user.NOME_USUARIO || result.user.name || result.user.nome;
+                    const userEmail = result.user.EMAIL_USUARIO || result.user.email;
+                    const userType = result.user.TIPO_USUARIO || result.user.type || result.user.tipo || 'C';
+                    
                     const userData = {
-                        id: result.user.ID_USUARIO,
-                        name: result.user.NOME_USUARIO,
-                        email: result.user.EMAIL_USUARIO,
-                        type: result.user.TIPO_USUARIO,
-                        ID_USUARIO: result.user.ID_USUARIO,
-                        NOME_USUARIO: result.user.NOME_USUARIO,
-                        EMAIL_USUARIO: result.user.EMAIL_USUARIO,
-                        TIPO_USUARIO: result.user.TIPO_USUARIO
+                        id: userId,
+                        name: userName,
+                        email: userEmail,
+                        type: userType,
+                        ID_USUARIO: userId,
+                        NOME_USUARIO: userName,
+                        EMAIL_USUARIO: userEmail,
+                        TIPO_USUARIO: userType
                     };
+                    
+                    console.log('LOGIN.JS: Final userData with fallbacks:', userData);
+                    
+                    if (!userId) {
+                        console.error('LOGIN.JS: CRITICAL - No user ID found in API response!');
+                        showMessage(messageDiv, 'Erro: ID do usuário não encontrado.', 'error');
+                        return;
+                    }
                     
                     console.log('LOGIN.JS: Structured userData:', userData);
                     
