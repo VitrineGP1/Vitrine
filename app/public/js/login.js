@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function redirectByUserType(userType) {
         const routes = {
-            'A': '/admin.html',
-            'V': '/vendedor.html',  
-            'C': '/cliente.html'
+            'A': '/perfil',
+            'V': '/perfil',  
+            'C': '/perfil'
         };
 
         const page = routes[userType];
