@@ -1,17 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('PERFIL.JS: DOM carregado, inicializando...');
-
     const userProfileImage = document.getElementById('user-profile-image');
     const profileImageFileInput = document.getElementById('profile-image-input');
     const saveProfileImageBtn = document.getElementById('save-profile-image-btn');
     const profileImageFeedback = document.getElementById('profile-image-feedback');
-    
-    console.log('PERFIL.JS: Elementos encontrados:', {
-        userProfileImage: !!userProfileImage,
-        profileImageFileInput: !!profileImageFileInput,
-        saveProfileImageBtn: !!saveProfileImageBtn,
-        profileImageFeedback: !!profileImageFeedback
-    });
 
 
     const profileDetailsForm = document.getElementById('profile-details-form');
@@ -79,12 +70,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadUserProfile() {
         const loggedInUser = localStorage.getItem('loggedUser');
-        console.log('PERFIL.JS: loggedInUser from localStorage:', loggedInUser);
         if (loggedInUser) {
             const user = JSON.parse(loggedInUser);
-            console.log('PERFIL.JS: parsed user data:', user);
-            currentUserId = user.id;
-            console.log('PERFIL.JS: currentUserId set to:', currentUserId); 
+            currentUserId = user.id; 
 
             if (!currentUserId) {
                 showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');
