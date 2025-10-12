@@ -50,6 +50,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 
+    function fillProfileWithLocalStorageData(user) {
+        if (profileNameInput) profileNameInput.value = user.name || user.NOME_USUARIO || '';
+        if (profileEmailInput) profileEmailInput.value = user.email || user.EMAIL_USUARIO || '';
+        if (profileTypeDisplay) {
+            const userType = user.type || user.TIPO_USUARIO || 'C';
+            profileTypeDisplay.value = userType === 'V' ? 'Vendedor' : userType === 'A' ? 'Administrador' : 'Comprador';
+        }
+        
+        // Mostrar seção de vendedor se for vendedor
+        const userType = user.type || user.TIPO_USUARIO || 'C';
+        if (userType === 'V') {
+            const sellerMenuItem = document.getElementById('seller-menu-item');
+            const quickSellerBtn = document.getElementById('quick-seller-btn');
+            const dashboardChart = document.getElementById('dashboard-chart');
+            if (sellerMenuItem) sellerMenuItem.style.display = 'block';
+            if (quickSellerBtn) quickSellerBtn.style.display = 'inline-block';
+            if (dashboardChart) dashboardChart.style.display = 'block';
+        }
+        
+        toggleEditMode(false);
+    }
+
     function toggleEditMode(isEditing) {
         if (profileDetailsForm) {
             const inputs = profileDetailsForm.querySelectorAll('input:not(#profile-type-display)');
@@ -75,9 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentUserId = user.id; 
 
             if (!currentUserId) {
-                showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');
-                console.log('PERFIL.JS: currentUserId não encontrado');
-                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage.', 'error');
                 return;
             }
 
@@ -129,20 +149,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     toggleEditMode(false);
 
                 } else {
-                    showFeedback(profileDetailsFeedback, result.message || 'Erro ao carregar dados do usuário.', 'error');
-                    console.log('PERFIL.JS: Erro na API response');
-                    setTimeout(() => { window.location.href = '/login'; }, 2000);
+                    // Usar dados do localStorage como fallback
+                    fillProfileWithLocalStorageData(user);
                 }
             } catch (error) {
                 console.error('Erro ao buscar perfil:', error);
-                showFeedback(profileDetailsFeedback, 'Erro de conexão ao carregar perfil.', 'error');
-                console.log('PERFIL.JS: Erro de conexão');
-                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                // Usar dados do localStorage como fallback
+                fillProfileWithLocalStorageData(user);
             }
         } else {
-            showFeedback(profileDetailsFeedback, 'Você não está logado. Redirecionando para o login...', 'error');
-            console.log('PERFIL.JS: loggedUser não encontrado no localStorage');
-            setTimeout(() => { window.location.href = '/login'; }, 2000);
+            showFeedback(profileDetailsFeedback, 'Você não está logado.', 'error');
         }
     }
 
