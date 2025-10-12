@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ufInput = document.getElementById('uf');
     const cepInput = document.getElementById('cep');
     const dataNascInput = document.getElementById('dataNasc');
+    const cpfInput = document.getElementById('cpf');
 
     // Botões de mostrar/esconder senha
     const togglePasswordBtn = document.getElementById('togglePassword');
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPasswordError = document.getElementById('confirm-password-error');
     const cepError = document.getElementById('cep-error');
     const dataNascError = document.getElementById('dataNasc-error');
+    const cpfError = document.getElementById('cpf-error');
 
     // Tipo de usuário
     const typeBuyerRadio = document.getElementById('type-buyer');
@@ -169,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearErrors() {
         const errorElements = [
             nomeError, emailError, celularError, passwordError, 
-            confirmPasswordError, cepError, dataNascError
+            confirmPasswordError, cepError, dataNascError, cpfError
         ];
         
         errorElements.forEach(element => {
@@ -237,6 +239,53 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Formatação de CEP configurada');
     }
 
+    // Formatação e validação de CPF
+    if (cpfInput) {
+        cpfInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 9) {
+                value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (value.length > 6) {
+                value = value.replace(/(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+            } else if (value.length > 3) {
+                value = value.replace(/(\d{3})(\d{0,3})/, '$1.$2');
+            }
+            e.target.value = value;
+        });
+
+        cpfInput.addEventListener('blur', () => {
+            const cpf = cpfInput.value.replace(/\D/g, '');
+            if (cpf.length === 11 && !isValidCPF(cpf)) {
+                if (cpfError) cpfError.textContent = 'CPF inválido.';
+            } else if (cpf.length > 0 && cpf.length !== 11) {
+                if (cpfError) cpfError.textContent = 'CPF deve conter 11 dígitos.';
+            } else {
+                if (cpfError) cpfError.textContent = '';
+            }
+        });
+    }
+
+    // Função para validar CPF
+    function isValidCPF(cpf) {
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+        
+        let sum = 0;
+        for (let i = 0; i < 9; i++) {
+            sum += parseInt(cpf.charAt(i)) * (10 - i);
+        }
+        let remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        if (remainder !== parseInt(cpf.charAt(9))) return false;
+        
+        sum = 0;
+        for (let i = 0; i < 10; i++) {
+            sum += parseInt(cpf.charAt(i)) * (11 - i);
+        }
+        remainder = (sum * 10) % 11;
+        if (remainder === 10 || remainder === 11) remainder = 0;
+        return remainder === parseInt(cpf.charAt(10));
+    }
+
     // Toggle campos de vendedor (COM VERIFICAÇÃO)
     function toggleSellerFields() {
         if (!sellerFieldsDiv || !typeSellerRadio || !typeBuyerRadio) return;
@@ -276,12 +325,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const UF_USUARIO = ufInput ? ufInput.value.trim() : '';
         const CEP_USUARIO = cepInput ? cepInput.value.trim() : '';
         const DT_NASC_USUARIO = dataNascInput ? dataNascInput.value : '';
+        const CPF_CLIENTE = cpfInput ? cpfInput.value.replace(/\D/g, '') : '';
         
         // ✅ DEFINIR SEMPRE COMO CLIENTE
         const TIPO_USUARIO = 'C';
-        const CPF_CLIENTE = '00000000000'; // CPF temporário
 
-        // ... suas validações existentes (mantenha igual) ...
+        // Validações
+        if (!NOME_USUARIO) {
+            if (nomeError) nomeError.textContent = 'Nome é obrigatório.';
+            isValid = false;
+        }
+
+        if (!EMAIL_USUARIO) {
+            if (emailError) emailError.textContent = 'E-mail é obrigatório.';
+            isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(EMAIL_USUARIO)) {
+            if (emailError) emailError.textContent = 'E-mail inválido.';
+            isValid = false;
+        }
+
+        if (!SENHA_USUARIO) {
+            if (passwordError) passwordError.textContent = 'Senha é obrigatória.';
+            isValid = false;
+        } else if (SENHA_USUARIO.length < 8) {
+            if (passwordError) passwordError.textContent = 'Senha deve ter no mínimo 8 caracteres.';
+            isValid = false;
+        }
+
+        if (SENHA_USUARIO !== CONFIRM_SENHA_USUARIO) {
+            if (confirmPasswordError) confirmPasswordError.textContent = 'Senhas não coincidem.';
+            isValid = false;
+        }
+
+        if (!CPF_CLIENTE) {
+            if (cpfError) cpfError.textContent = 'CPF é obrigatório.';
+            isValid = false;
+        } else if (CPF_CLIENTE.length !== 11 || !isValidCPF(CPF_CLIENTE)) {
+            if (cpfError) cpfError.textContent = 'CPF inválido.';
+            isValid = false;
+        }
 
         if (!isValid) {
             showFeedback('Por favor, corrija os erros no formulário.', 'error');
@@ -301,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
             CEP_USUARIO: CEP_USUARIO || null,
             DT_NASC_USUARIO: DT_NASC_USUARIO || null,
             TIPO_USUARIO, // ✅ SEMPRE 'C' PARA CLIENTE
-            CPF_CLIENTE   // ✅ CPF TEMPORÁRIO
+            CPF_CLIENTE   // ✅ CPF DO FORMULÁRIO
         };
 
         try {
@@ -328,7 +410,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = '/login';
                 }, 2000);
             } else {
-                showFeedback(result.error || 'Erro ao cadastrar usuário.', 'error');
+                // Tratamento específico para cada tipo de erro
+                let errorMessage = 'Erro ao cadastrar usuário.';
+                
+                if (result.error) {
+                    if (result.error.includes('Email já cadastrado')) {
+                        errorMessage = 'Este e-mail já está cadastrado';
+                    } else if (result.error.includes('CELULAR_USUARIO')) {
+                        errorMessage = 'Número de celular já cadastrado';
+                    } else if (result.error.includes('CPF_CLIENTE')) {
+                        errorMessage = 'CPF já cadastrado';
+                    } else if (result.error.includes('NOME_USUARIO')) {
+                        errorMessage = 'Nome de usuário já existe';
+                    } else if (result.error.includes('Duplicate entry')) {
+                        errorMessage = 'Dados já cadastrados no sistema';
+                    } else {
+                        errorMessage = result.error;
+                    }
+                }
+                
+                showFeedback(errorMessage, 'error');
             }
         } catch (error) {
             console.error('Erro na requisição:', error);
