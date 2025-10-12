@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const storeNameSpan = document.getElementById('store-name');
     const goToSellerAreaBtn = document.getElementById('go-to-seller-area-btn');
 
-    const API_USER_URL = '/api/buscar_usuario';
+    const API_USER_URL = '/api/user';
     const API_UPDATE_USER_URL = '/api/atualizar_usuario';
 
     let currentUserId = null;
@@ -68,35 +68,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     async function loadUserProfile() {
-        const loggedInUser = localStorage.getItem('loggedInUser');
+        const loggedInUser = localStorage.getItem('loggedUser');
         if (loggedInUser) {
             const user = JSON.parse(loggedInUser);
             currentUserId = user.id; 
 
             if (!currentUserId) {
                 showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');
-                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                console.log('PERFIL.JS: currentUserId não encontrado');
+                // setTimeout(() => { window.location.href = '/login'; }, 2000);
                 return;
             }
 
             try {
-                const response = await fetch(`${API_USER_URL}?id_usuario=${currentUserId}`);
+                const response = await fetch(`${API_USER_URL}/${currentUserId}`);
                 const result = await response.json();
 
                 if (response.ok && result.success && result.user) {
                     const userData = result.user;
                     initialUserData = { ...userData };
 
-                    profileNameInput.value = userData.NOME_USUARIO || '';
-                    profileEmailInput.value = userData.EMAIL_USUARIO || '';
-                    profileCelularInput.value = userData.CELULAR_USUARIO || '';
-                    profileLogradouroInput.value = userData.LOGRADOURO_USUARIO || '';
-                    profileBairroInput.value = userData.BAIRRO_USUARIO || '';
-                    profileCidadeInput.value = userData.CIDADE_USUARIO || '';
-                    profileUfInput.value = userData.UF_USUARIO || '';
-                    profileCepInput.value = userData.CEP_USUARIO || '';
-                    profileDataNascInput.value = userData.DT_NASC_USUARIO ? new Date(userData.DT_NASC_USUARIO).toISOString().split('T')[0] : '';
-                    profileTypeDisplay.value = userData.TIPO_USUARIO === 'seller' ? 'Vendedor' : 'Comprador';
+                    if (profileNameInput) profileNameInput.value = userData.NOME_USUARIO || '';
+                    if (profileEmailInput) profileEmailInput.value = userData.EMAIL_USUARIO || '';
+                    if (profileCelularInput) profileCelularInput.value = userData.CELULAR_USUARIO || '';
+                    if (profileLogradouroInput) profileLogradouroInput.value = userData.LOGRADOURO_USUARIO || '';
+                    if (profileBairroInput) profileBairroInput.value = userData.BAIRRO_USUARIO || '';
+                    if (profileCidadeInput) profileCidadeInput.value = userData.CIDADE_USUARIO || '';
+                    if (profileUfInput) profileUfInput.value = userData.UF_USUARIO || '';
+                    if (profileCepInput) profileCepInput.value = userData.CEP_USUARIO || '';
+                    if (profileDataNascInput) profileDataNascInput.value = userData.DT_NASC_USUARIO ? new Date(userData.DT_NASC_USUARIO).toISOString().split('T')[0] : '';
+                    if (profileTypeDisplay) profileTypeDisplay.value = userData.TIPO_USUARIO === 'V' ? 'Vendedor' : userData.TIPO_USUARIO === 'C' ? 'Comprador' : 'Administrador';
 
 
                     if (userData.IMAGEM_PERFIL_BASE64) {
@@ -108,74 +109,80 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
 
  
-                    if (userData.TIPO_USUARIO === 'seller') {
-                        storeProfileSection.style.display = 'block';
-                        goToSellerAreaBtn.style.display = 'inline-block';
+                    if (userData.TIPO_USUARIO === 'V') {
+                        if (storeProfileSection) storeProfileSection.style.display = 'block';
+                        if (goToSellerAreaBtn) goToSellerAreaBtn.style.display = 'inline-block';
 
                         if (userData.IMAGEM_PERFIL_LOJA_BASE64) {
-                            storeProfileImage.src = userData.IMAGEM_PERFIL_LOJA_BASE64;
+                            if (storeProfileImage) storeProfileImage.src = userData.IMAGEM_PERFIL_LOJA_BASE64;
                         } else {
-                            storeProfileImage.src = 'https://placehold.co/120x120/cccccc/333333?text=Foto+Loja';
+                            if (storeProfileImage) storeProfileImage.src = 'https://placehold.co/120x120/cccccc/333333?text=Foto+Loja';
                         }
 
-                        storeNameSpan.textContent = user.storeName || 'Não definido';
+                        if (storeNameSpan) storeNameSpan.textContent = user.storeName || 'Não definido';
                     } else {
-                        storeProfileSection.style.display = 'none';
-                        goToSellerAreaBtn.style.display = 'none';
+                        if (storeProfileSection) storeProfileSection.style.display = 'none';
+                        if (goToSellerAreaBtn) goToSellerAreaBtn.style.display = 'none';
                     }
 
                     toggleEditMode(false);
 
                 } else {
                     showFeedback(profileDetailsFeedback, result.message || 'Erro ao carregar dados do usuário.', 'error');
-                    setTimeout(() => { window.location.href = '/login'; }, 2000);
+                    console.log('PERFIL.JS: Erro na API response');
+                    // setTimeout(() => { window.location.href = '/login'; }, 2000);
                 }
             } catch (error) {
                 console.error('Erro ao buscar perfil:', error);
                 showFeedback(profileDetailsFeedback, 'Erro de conexão ao carregar perfil.', 'error');
-                setTimeout(() => { window.location.href = '/login'; }, 2000);
+                console.log('PERFIL.JS: Erro de conexão');
+                // setTimeout(() => { window.location.href = '/login'; }, 2000);
             }
         } else {
             showFeedback(profileDetailsFeedback, 'Você não está logado. Redirecionando para o login...', 'error');
-            setTimeout(() => { window.location.href = '/login'; }, 2000);
+            console.log('PERFIL.JS: loggedUser não encontrado no localStorage');
+            // setTimeout(() => { window.location.href = '/login'; }, 2000);
         }
     }
 
 
-    profileImageFileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            if (file.size > 1 * 1024 * 1024) { 
-                showFeedback(profileImageFeedback, 'A imagem de perfil deve ter no máximo 1MB.', 'error');
-                profileImageFileInput.value = '';
+    if (profileImageFileInput) {
+        profileImageFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 1 * 1024 * 1024) { 
+                    showFeedback(profileImageFeedback, 'A imagem de perfil deve ter no máximo 1MB.', 'error');
+                    profileImageFileInput.value = '';
+                    userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                    currentUserProfileImageBase64 = null;
+                    return;
+                }
+                if (!file.type.startsWith('image/')) {
+                    showFeedback(profileImageFeedback, 'Por favor, selecione um arquivo de imagem válido.', 'error');
+                    profileImageFileInput.value = '';
+                    userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
+                    currentUserProfileImageBase64 = null;
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    userProfileImage.src = e.target.result;
+                    currentUserProfileImageBase64 = e.target.result;
+                    if (saveProfileImageBtn) saveProfileImageBtn.style.display = 'block'; 
+                };
+                reader.readAsDataURL(file);
+            } else {
                 userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
                 currentUserProfileImageBase64 = null;
-                return;
+                if (saveProfileImageBtn) saveProfileImageBtn.style.display = 'none'; 
             }
-            if (!file.type.startsWith('image/')) {
-                showFeedback(profileImageFeedback, 'Por favor, selecione um arquivo de imagem válido.', 'error');
-                profileImageFileInput.value = '';
-                userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
-                currentUserProfileImageBase64 = null;
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                userProfileImage.src = e.target.result;
-                currentUserProfileImageBase64 = e.target.result;
-                saveProfileImageBtn.style.display = 'block'; 
-            };
-            reader.readAsDataURL(file);
-        } else {
-            userProfileImage.src = 'https://placehold.co/150x150/cccccc/333333?text=Foto+Perfil';
-            currentUserProfileImageBase64 = null;
-            saveProfileImageBtn.style.display = 'none'; 
-        }
-    });
+        });
+    }
 
 
-    saveProfileImageBtn.addEventListener('click', async () => {
+    if (saveProfileImageBtn) {
+        saveProfileImageBtn.addEventListener('click', async () => {
         if (!currentUserId) {
             showFeedback(profileImageFeedback, 'Erro: ID do usuário não encontrado.', 'error');
             return;
@@ -214,10 +221,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showFeedback(profileImageFeedback, 'Foto de perfil atualizada com sucesso!', 'success');
                 saveProfileImageBtn.style.display = 'none';
 
-                let user = JSON.parse(localStorage.getItem('loggedInUser'));
+                let user = JSON.parse(localStorage.getItem('loggedUser'));
                 if (user) {
                     user.IMAGEM_PERFIL_BASE64 = currentUserProfileImageBase64;
-                    localStorage.setItem('loggedInUser', JSON.stringify(user));
+                    localStorage.setItem('loggedUser', JSON.stringify(user));
                 }
             } else {
                 showFeedback(profileImageFeedback, result.message || 'Erro ao atualizar foto de perfil.', 'error');
@@ -226,35 +233,40 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Erro na requisição de atualização de perfil:', error);
             showFeedback('Erro de conexão com o servidor.', 'error');
         }
-    });
+        });
+    }
 
 
-    editProfileBtn.addEventListener('click', () => {
-        toggleEditMode(true);
-        profileDetailsFeedback.textContent = ''; 
-    });
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+            toggleEditMode(true);
+            if (profileDetailsFeedback) profileDetailsFeedback.textContent = ''; 
+        });
+    }
 
 
-    cancelEditBtn.addEventListener('click', () => {
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', () => {
+            if (profileNameInput) profileNameInput.value = initialUserData.NOME_USUARIO || '';
+            if (profileEmailInput) profileEmailInput.value = initialUserData.EMAIL_USUARIO || '';
+            if (profileCelularInput) profileCelularInput.value = initialUserData.CELULAR_USUARIO || '';
+            if (profileLogradouroInput) profileLogradouroInput.value = initialUserData.LOGRADOURO_USUARIO || '';
+            if (profileBairroInput) profileBairroInput.value = initialUserData.BAIRRO_USUARIO || '';
+            if (profileCidadeInput) profileCidadeInput.value = initialUserData.CIDADE_USUARIO || '';
+            if (profileUfInput) profileUfInput.value = initialUserData.UF_USUARIO || '';
+            if (profileCepInput) profileCepInput.value = initialUserData.CEP_USUARIO || '';
+            if (profileDataNascInput) profileDataNascInput.value = initialUserData.DT_NASC_USUARIO ? new Date(initialUserData.DT_NASC_USUARIO).toISOString().split('T')[0] : '';
+            
+            if (profileDetailsFeedback) profileDetailsFeedback.textContent = ''; 
+            toggleEditMode(false); 
+        });
+    }
 
-        profileNameInput.value = initialUserData.NOME_USUARIO || '';
-        profileEmailInput.value = initialUserData.EMAIL_USUARIO || '';
-        profileCelularInput.value = initialUserData.CELULAR_USUARIO || '';
-        profileLogradouroInput.value = initialUserData.LOGRADOURO_USUARIO || '';
-        profileBairroInput.value = initialUserData.BAIRRO_USUARIO || '';
-        profileCidadeInput.value = initialUserData.CIDADE_USUARIO || '';
-        profileUfInput.value = initialUserData.UF_USUARIO || '';
-        profileCepInput.value = initialUserData.CEP_USUARIO || '';
-        profileDataNascInput.value = initialUserData.DT_NASC_USUARIO ? new Date(initialUserData.DT_NASC_USUARIO).toISOString().split('T')[0] : '';
-        
-        profileDetailsFeedback.textContent = ''; 
-        toggleEditMode(false); 
-    });
 
-
-    profileDetailsForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        profileDetailsFeedback.style.display = 'none';
+    if (profileDetailsForm) {
+        profileDetailsForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (profileDetailsFeedback) profileDetailsFeedback.style.display = 'none';
 
 
         const dataToUpdate = {
@@ -294,10 +306,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Erro na requisição de atualização do perfil:', error);
             showFeedback('Erro de conexão com o servidor.', 'error');
         }
-    });
+        });
+    }
 
-
-    passwordChangeForm.addEventListener('submit', async (event) => {
+    if (passwordChangeForm) {
+        passwordChangeForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         passwordFeedback.style.display = 'none';
 
@@ -355,12 +368,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Erro na requisição de mudança de senha:', error);
             showFeedback('Erro de conexão com o servidor.', 'error');
         }
-    });
+        });
+    }
 
-
-    goToSellerAreaBtn.addEventListener('click', () => {
-        window.location.href = '/vendedor';
-    });
+    if (goToSellerAreaBtn) {
+        goToSellerAreaBtn.addEventListener('click', () => {
+            window.location.href = '/vendedor';
+        });
+    }
 
     loadUserProfile(); 
 });
