@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,114 +5,56 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/carrinho.css">
     <link rel="stylesheet" href="css/reset.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/carrinho.js"></script>
+    <script src="js/comprar-carrinho.js"></script>
     <title>Seu Carrinho - Vitrine</title>
     <style>
-        /* Estilos para a mensagem de carrinho vazio */
-        .empty-cart-message {
-            text-align: center;
-            margin-top: 50px;
-            font-size: 1.2em;
-            color: #555;
-        }
-        /* Estilos para ocultar elementos visualmente para acessibilidade */
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            margin: -1px;
-            padding: 0;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-        /* Estilos para os botões de quantidade e remover (se não estiverem no seu CSS) */
-        .qty button {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-        .qty button:hover {
-            background-color: #e0e0e0;
-        }
-        .qty span {
-            margin: 0 10px;
-            font-weight: bold;
-        }
-        .remove {
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .remove:hover {
-            background-color: #cc0000;
-        }
-        /* Estilos para a tabela de carrinho */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        thead th {
-            background-color: #f8f8f8;
-            font-weight: bold;
-        }
-        .product img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 15px;
-        }
-        .product {
-            display: flex;
-            align-items: center;
-        }
-        .product .info .name {
-            font-weight: bold;
-        }
-        .product .info .category {
-            font-size: 0.9em;
-            color: #666;
-        }
+        .empty-cart-message { text-align: center; margin-top: 50px; font-size: 1.2em; color: #555; }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        .qty button { background-color: #f0f0f0; border: 1px solid #ccc; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 1em; }
+        .qty button:hover { background-color: #e0e0e0; }
+        .qty span { margin: 0 10px; font-weight: bold; }
+        .remove { background-color: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 1em; }
+        .remove:hover { background-color: #cc0000; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        thead th { background-color: #f8f8f8; font-weight: bold; }
+        .product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px; }
+        .product { display: flex; align-items: center; }
+        .product .info .name { font-weight: bold; }
+        .product .info .category { font-size: 0.9em; color: #666; }
+        .container_payment { display: none; margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
+        #button-checkout { margin-top: 20px; }
+        #go-back { margin-top: 10px; padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
     <header class="header">
-            <a class="logo" href="/">
-                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-            </a>
-
-            <aside class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </aside>
-            <nav>
-                <ul class="nav-list">
-                    <li><a href="/">Início</a></li>
-                    <li><a href="/sobrenos">Sobre</a></li>
-                    <li><a href="/login" class="">Entrar</a></li>
-                    <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
-                </ul>
-            </nav>
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <aside class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </aside>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login" class="">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
+            </ul>
+        </nav>
     </header>
     
     <main>
         <h1 class="page-title">Seu Carrinho</h1>
         <div class="content">
-            <section aria-labelledby="cart-items-heading">
+            <section aria-labelledby="cart-items-heading" class="shopping-cart">
                 <h2 id="cart-items-heading" class="visually-hidden">Itens no seu carrinho</h2>
                 <table>
                     <thead>
@@ -126,7 +67,6 @@
                         </tr>
                     </thead>
                     <tbody id="cart-items-container">
-                        <!-- Itens do carrinho serão inseridos aqui pelo JavaScript -->
                     </tbody>
                 </table>
                 <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Adicione produtos ao carrinho</p>
@@ -155,11 +95,26 @@
                         <span id="total-price" class="total-price">R$ 0,00</span>
                     </footer>
                 </div>
-                <button type="submit">Finalizar Compra</button>
+                <button type="button" id="checkout-btn">Finalizar Compra</button>
             </aside>
         </div>
+
+        <section class="payment-form dark">
+            <div class="container_payment">
+                <div class="block-heading">
+                    <h2>Checkout</h2>
+                </div>
+                <div class="form-payment">
+                    <div class="products">
+                        <h3 class="title">Resumo do pedido</h3>
+                        <div id="payment-summary">
+                        </div>
+                    </div>
+                    <div id="button-checkout"></div>
+                    <button id="go-back">Voltar ao Carrinho</button>
+                </div>
+            </div>
+        </section>
     </main>
-    <script src="js/navbar.js"></script>
-    <script src="js/carrinho.js"></script>
 </body>
 </html>

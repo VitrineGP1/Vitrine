@@ -1,106 +1,102 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
+// Mapeamento de rotas para páginas
+const routes = {
+    "/": "home",
+    "/home-perfil": "home-perfil",
+    "/home-perfil-carrinho": "home-perfil-carrinho",
+    "/home-carrinho": "home-carrinho",
+    "/carrinho": "carrinho",
+    "/carrinho-vazio": "carrinho-vazio",
+    "/login": "login",
+    "/cadcliente": "cadcliente",
+    "/cadvendedor": "cadvendedor",
+    "/perfil": "perfil",
+    "/sobrenos": "sobrenos",
+    "/prod1": "produto1",
+    "/prod2": "produto2",
+    "/prod3": "produto3",
+    "/prod4": "produto4",
+    "/vendedor": "vendedor",
+    "/prod": "produtos",
+    "/rdsenha": "rdsenha"
+};
 
-router.get("/", function (req, res) {
-    res.render("pages/home", )
-});
-
-router.get("/home-perfil", function (req, res) {
-    res.render("pages/home-perfil", )
-});
-
-router.get("/home-perfil-carrinho", function (req, res) {
-    res.render("pages/home-perfil-carrinho", )
-});
-
-router.get("/home-carrinho", function (req, res) {
-    res.render("pages/home-carrinho", )
-});
-
-router.get("/carrinho", function (req, res) {
-    res.render("pages/carrinho", )
-});
-
-router.get("/carrinho-vazio", function (req, res) {
-    res.render("pages/carrinho-vazio", )
-});
-
-router.get("/login", function (req, res) {
-    res.render("pages/login", )
-});
-
-router.get("/cadcliente", function (req, res) {
-    res.render("pages/cadcliente", )
-});
-
-router.get("/cadvendedor", function (req, res) {
-    res.render("pages/cadvendedor", )
-});
-
-
-router.get("/perfil", function (req, res) {
-    res.render("pages/perfil", )
-});
-
-router.get("/sobrenos", function (req, res) {
-    res.render("pages/sobrenos", )
-});
-
-router.get("/prod1", function (req, res) {
-    res.render("pages/produto1", )
-});
-
-router.get("/prod2", function (req, res) {
-    res.render("pages/produto2", )
-});
-
-router.get("/prod3", function (req, res) {
-    res.render("pages/produto3", )
-});
-
-router.get("/prod4", function (req, res) {
-    res.render("pages/produto4", )
-});
-
-router.get("/vendedor", function (req, res) {
-    res.render("pages/vendedor", )
-});
-
-router.get("/prod", function (req, res) {
-    res.render("pages/produtos", )
-});
-
-router.get("/rdsenha", function (req, res) {
-    res.render("pages/rdsenha", )
+// Criar rotas automaticamente
+Object.entries(routes).forEach(([path, page]) => {
+    router.get(path, (req, res) => res.render(`pages/${page}`));
 });
 
 // SDK do Mercado Pago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { pedidoController } = require("../controllers/pedidoController");
-// Adicione as credenciais
+
+// Verificar se accessToken existe
+if (!process.env.accessToken) {
+    console.warn('⚠️  ACCESS TOKEN do Mercado Pago não configurado!');
+}
+
 const client = new MercadoPagoConfig({
     accessToken: process.env.accessToken
 });
 
-router.post("/create-preference", function (req, res) {
-    const preference = new Preference(client);
-    console.log(req.body.items);
-    preference.create({
-        body: {
+router.post("/create-preference", async (req, res) => {
+    console.log('=== CREATE PREFERENCE CHAMADO ===');
+    console.log('Body recebido:', req.body);
+    console.log('Access Token existe:', !!process.env.accessToken);
+    
+    try {
+        // Validações básicas
+        if (!req.body || !req.body.items) {
+            console.log('Items não fornecidos');
+            return res.status(400).json({ error: 'Items são obrigatórios' });
+        }
+
+        if (!Array.isArray(req.body.items) || req.body.items.length === 0) {
+            console.log('Items inválidos:', req.body.items);
+            return res.status(400).json({ error: 'Items devem ser um array não vazio' });
+        }
+
+        if (!process.env.accessToken) {
+            console.error('Access token não configurado');
+            return res.status(500).json({ error: 'Token de pagamento não configurado' });
+        }
+
+        console.log('Criando preferência com items:', req.body.items);
+        
+        const preference = new Preference(client);
+        const feedbackUrl = `${process.env.URL_BASE || 'https://vitrine-lljl.onrender.com'}/feedback`;
+        
+        const preferenceData = {
             items: req.body.items,
             back_urls: {
-                "success": process.env.URL_BASE + "/feedback",
-                "failure": process.env.URL_BASE + "/feedback",
-                "pending": process.env.URL_BASE + "/feedback"
+                success: feedbackUrl,
+                failure: feedbackUrl,
+                pending: feedbackUrl
             },
-            auto_return: "approved",
-        }
-    })
-        .then((value) => {
-            res.json(value)
-        })
-        .catch(console.log)
+            auto_return: "approved"
+        };
+        
+        console.log('Dados da preferência:', preferenceData);
+        
+        const result = await preference.create({ body: preferenceData });
+        
+        console.log('Preferência criada com sucesso:', result.id);
+        res.json(result);
+        
+    } catch (error) {
+        console.error('=== ERRO DETALHADO ===');
+        console.error('Tipo:', error.constructor.name);
+        console.error('Mensagem:', error.message);
+        console.error('Stack:', error.stack);
+        
+        res.status(500).json({ 
+            error: 'Erro ao processar pagamento',
+            message: error.message,
+            type: error.constructor.name
+        });
+    }
 });
 
 router.get("/feedback", function (req, res) {

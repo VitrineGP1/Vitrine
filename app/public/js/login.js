@@ -1,13 +1,14 @@
+// app/public/js/login.js
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const messageDiv = document.getElementById('message');
-
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const emailErrorSpan = document.getElementById('emailError');
     const passwordErrorSpan = document.getElementById('passwordError');
 
-    const API_LOGIN_URL = '/api/login_usuario';
+    // ✅ URL CORRETA - aponta para sua rota authRoutes
+    const API_LOGIN_URL = '/api/login';
 
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -25,10 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordErrorSpan.textContent = '';
     }
 
+    function redirectByUserType(userType) {
+        const routes = {
+            'A': '/admin.html',
+            'V': '/vendedor.html',  
+            'C': '/cliente.html'
+        };
+
+        const page = routes[userType];
+        if (page) {
+            window.location.href = page;
+        } else {
+            showMessage(messageDiv, 'Tipo de conta não reconhecido.', 'error');
+        }
+    }
+
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-
             clearInputErrors();
             messageDiv.textContent = '';
             messageDiv.className = 'message';
@@ -49,9 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!password) {
                 passwordErrorSpan.textContent = 'Por favor, insira sua senha.';
                 hasError = true;
-            } else if (password.length < 8) {
-                passwordErrorSpan.textContent = 'A senha deve ter pelo menos 8 caracteres.';
-                hasError = true;
             }
 
             if (hasError) {
@@ -62,30 +74,86 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(API_LOGIN_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ EMAIL_USUARIO: email, SENHA_USUARIO: password })
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include', // ✅ IMPORTANTE para sessions
+                    body: JSON.stringify({ email, password })
                 });
 
                 const result = await response.json();
 
                 if (response.ok && result.success) {
                     showMessage(messageDiv, result.message, 'success');
+                    localStorage.setItem('user', JSON.stringify(result.user));
 
+                    // Transferir carrinho de sessão para usuário logado
+                    const sessionCart = JSON.parse(localStorage.getItem('cart_session')) || [];
+                    const userCart = JSON.parse(localStorage.getItem(`cart_${result.user.ID_USUARIO}`)) || [];
+                    
+                    if (sessionCart.length > 0) {
+                        // Mesclar carrinhos - adicionar itens da sessão ao carrinho do usuário
+                        sessionCart.forEach(sessionItem => {
+                            const existingIndex = userCart.findIndex(userItem => userItem.id === sessionItem.id);
+                            if (existingIndex > -1) {
+                                userCart[existingIndex].quantity += sessionItem.quantity;
+                            } else {
+                                userCart.push(sessionItem);
+                            }
+                        });
+                        
+                        // Salvar carrinho mesclado e limpar sessão
+                        localStorage.setItem(`cart_${result.user.ID_USUARIO}`, JSON.stringify(userCart));
+                        localStorage.removeItem('cart_session');
+                    }
 
-                    localStorage.setItem('loggedInUser', JSON.stringify(result.user));
-
-                    setTimeout(() => {
-                        window.location.href = '/perfil';
-                    }, 1000);
+                    // Verificar se há checkout pendente
+                    const pendingCheckout = localStorage.getItem('pendingCheckout');
+                    if (pendingCheckout === 'true') {
+                        localStorage.removeItem('pendingCheckout');
+                        setTimeout(() => {
+                            window.location.href = '/carrinho';
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            redirectByUserType(result.user.tipo); // 'A', 'V', 'C'
+                        }, 1000);
+                    }
+                    
                 } else {
-                    showMessage(messageDiv, result.message || 'Erro ao fazer login.', 'error');
+                    showMessage(messageDiv, result.error || 'Erro ao fazer login.', 'error');
                 }
             } catch (error) {
                 console.error('Erro na requisição de login:', error);
-                showMessage(messageDiv, 'Erro de conexão com o servidor. Verifique sua internet ou tente novamente mais tarde.', 'error');
+                showMessage(messageDiv, 'Erro de conexão com o servidor.', 'error');
             }
         });
     }
+
+    // Verificar se já está logado
+    async function checkExistingSession() {
+        try {
+            const response = await fetch('/api/me', {
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                if (result.success) {
+                    redirectByUserType(result.user.tipo);
+                }
+            }
+        } catch (error) {
+            // Não está logado - normal
+        }
+    }
+
+    checkExistingSession();
+    
+    // Limpar carrinho de sessão ao fechar navegador se não estiver logado
+    window.addEventListener('unload', () => {
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (!user) {
+            localStorage.removeItem('cart_session');
+            localStorage.removeItem('cart');
+        }
+    });
 });

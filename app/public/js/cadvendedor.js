@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Script de cadastro de vendedor iniciado...');
 
     // Elementos principais
     const sellerForm = document.getElementById('seller-form');
@@ -139,15 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners para os botões de mostrar/esconder
     if (togglePasswordBtn && passwordInput) {
-        togglePasswordBtn.addEventListener('click', () => {
+        console.log('✅ Botão toggle senha encontrado');
+        togglePasswordBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             togglePasswordVisibility(passwordInput, togglePasswordBtn);
         });
+    } else {
+        console.log('❌ Botão toggle senha não encontrado');
     }
 
     if (toggleConfirmPasswordBtn && confirmPasswordInput) {
-        toggleConfirmPasswordBtn.addEventListener('click', () => {
+        console.log('✅ Botão toggle confirmar senha encontrado');
+        toggleConfirmPasswordBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             togglePasswordVisibility(confirmPasswordInput, toggleConfirmPasswordBtn);
         });
+    } else {
+        console.log('❌ Botão toggle confirmar senha não encontrado');
     }
 
     // Função para verificar força da senha
@@ -412,9 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // SUBMIT DO FORMULÁRIO
     if (sellerForm) {
         sellerForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            console.log('📝 Formulário de vendedor submetido - Iniciando cadastro...');
-            
+            event.preventDefault();            
             let isValid = true;
 
             // Obter valores
@@ -444,29 +449,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 SENHA_USUARIO: passwordInput ? passwordInput.value : '',
                 CONFIRM_SENHA_USUARIO: confirmPasswordInput ? confirmPasswordInput.value : '',
                 
-                TIPO_USUARIO: 'vendedor'
+                TIPO_USUARIO: 'V'
             };
 
-            console.log('🔄 Dados coletados:', formData);
 
-            // Validar todos os campos
-            fieldsToValidate.forEach(({ field, name }) => {
-                if (!validateField(field, field.value, name)) {
-                    isValid = false;
-                }
-            });
-
-            // Validações adicionais
-            if (!formData.DT_NASC_USUARIO) {
+            // Validar apenas campos obrigatórios
+            if (!formData.NOME_USUARIO || formData.NOME_USUARIO.length < 3) {
                 isValid = false;
-                if (dataNascInput) showFieldErrorStyle(dataNascInput);
-                showFieldError('Data de Nascimento', 'Data de nascimento é obrigatória');
+                if (nomeInput) showFieldErrorStyle(nomeInput);
+                showFieldError('Nome', 'Nome deve ter no mínimo 3 caracteres');
             }
 
-            if (!formData.DESCRICAO_NEGOCIO) {
+            if (!formData.EMAIL_USUARIO || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.EMAIL_USUARIO)) {
                 isValid = false;
-                if (descricaoNegocioInput) showFieldErrorStyle(descricaoNegocioInput);
-                showFieldError('Descrição da Loja', 'Descrição da loja é obrigatória');
+                if (emailInput) showFieldErrorStyle(emailInput);
+                showFieldError('E-mail', 'E-mail inválido');
+            }
+
+            if (!formData.SENHA_USUARIO || formData.SENHA_USUARIO.length < 8) {
+                isValid = false;
+                if (passwordInput) showFieldErrorStyle(passwordInput);
+                showFieldError('Senha', 'Senha deve ter no mínimo 8 caracteres');
             }
 
             if (formData.SENHA_USUARIO !== formData.CONFIRM_SENHA_USUARIO) {
@@ -475,17 +478,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 showFieldError('Confirmar Senha', 'As senhas não coincidem');
             }
 
+            if (!formData.NOME_LOJA || formData.NOME_LOJA.length < 2) {
+                isValid = false;
+                if (nomeLojaInput) showFieldErrorStyle(nomeLojaInput);
+                showFieldError('Nome da Loja', 'Nome da loja é obrigatório');
+            }
+
+            if (!formData.DESCRICAO_NEGOCIO) {
+                isValid = false;
+                if (descricaoNegocioInput) showFieldErrorStyle(descricaoNegocioInput);
+                showFieldError('Descrição da Loja', 'Descrição da loja é obrigatória');
+            }
+
             if (!isValid) {
                 showFixedNotification('Erro no Formulário', 'Por favor, corrija os erros destacados nos campos', 'error');
                 simplyNotify.error('Por favor, corrija os erros destacados nos campos', 'Erro no Formulário');
                 return;
             }
 
+            // Debug: mostrar dados que serão enviados
+            console.log('Dados do formulário:', formData);
+
             // Mostrar estado de loading
             setLoadingState(true);
 
             try {
-                console.log('🔄 Enviando dados para API...', formData);
                 
                 // Fazer requisição para o backend - USANDO A MESMA ROTA DO CLIENTE
                 const response = await fetch('/api/cadastrar_usuario', {
@@ -496,13 +513,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(formData)
                 });
 
-                console.log('📨 Resposta recebida:', response.status);
 
                 const result = await response.json();
-                console.log('📊 Resultado:', result);
 
                 if (response.ok && result.success) {
-                    console.log('✅ Cadastro de vendedor realizado com sucesso!');
                     showFeedback('Cadastro de vendedor realizado com sucesso!', 'success');
                     sellerForm.reset();
                     if (strengthBar) strengthBar.style.width = '0%';
@@ -516,11 +530,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.location.href = '/login';
                     }, 2000);
                 } else {
-                    console.log('❌ Erro no cadastro:', result.message);
                     showFeedback(result.message || 'Erro ao cadastrar vendedor.', 'error');
                 }
             } catch (error) {
-                console.error('💥 Erro na requisição:', error);
                 showFeedback('Erro de conexão com o servidor.', 'error');
             } finally {
                 setLoadingState(false);
@@ -528,7 +540,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    console.log('✅ Script de cadastro de vendedor carregado com sucesso!');
 });
 
 // Menu mobile (mantido do código original)
