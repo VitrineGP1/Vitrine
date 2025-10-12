@@ -103,4 +103,29 @@ router.get("/feedback", function (req, res) {
     pedidoController.gravarPedido(req, res);
 });
 
+router.get("/recuperar-senha",  
+  verificarUsuAutenticado,  
+  function(req, res){  
+    res.render("pages/rec-senha",  
+    { listaErros: null, dadosNotificacao: null });  
+});
+
+router.post("/recuperar-senha",  
+  verificarUsuAutenticado,  
+  usuarioController.regrasValidacaoFormRecSenha,  
+  function(req, res){  
+    usuarioController.recuperarSenha(req, res);  
+});
+
+router.get("/resetar-senha",  
+  function(req, res){  
+    usuarioController.validarTokenNovaSenha(req, res);  
+});
+
+router.post("/reset-senha",  
+  usuarioController.regrasValidacaoFormNovaSenha,  
+  function(req, res){  
+    usuarioController.resetarSenha(req, res);  
+});
+
 module.exports = router;
