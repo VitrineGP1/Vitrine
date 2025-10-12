@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!currentUserId) {
                 showFeedback(profileImageFeedback, 'ID do usuário não encontrado no localStorage. Redirecionando para o login...', 'error');
                 console.log('PERFIL.JS: currentUserId não encontrado');
-                // setTimeout(() => { window.location.href = '/login'; }, 2000);
+                setTimeout(() => { window.location.href = '/login'; }, 2000);
                 return;
             }
 
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (profileUfInput) profileUfInput.value = userData.UF_USUARIO || '';
                     if (profileCepInput) profileCepInput.value = userData.CEP_USUARIO || '';
                     if (profileDataNascInput) profileDataNascInput.value = userData.DT_NASC_USUARIO ? new Date(userData.DT_NASC_USUARIO).toISOString().split('T')[0] : '';
-                    if (profileTypeDisplay) profileTypeDisplay.value = userData.TIPO_USUARIO === 'V' ? 'Vendedor' : userData.TIPO_USUARIO === 'C' ? 'Comprador' : 'Administrador';
+                    if (profileTypeDisplay) profileTypeDisplay.value = userData.TIPO_USUARIO === 'V' ? 'Vendedor' : userData.TIPO_USUARIO === 'C' ? 'Comprador' : 'A' ? 'Administrador' : 'Desconhecido';
 
 
                     if (userData.IMAGEM_PERFIL_BASE64) {
@@ -143,18 +143,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else {
                     showFeedback(profileDetailsFeedback, result.message || 'Erro ao carregar dados do usuário.', 'error');
                     console.log('PERFIL.JS: Erro na API response');
-                    // setTimeout(() => { window.location.href = '/login'; }, 2000);
+                    setTimeout(() => { window.location.href = '/login'; }, 2000);
                 }
             } catch (error) {
                 console.error('Erro ao buscar perfil:', error);
                 showFeedback(profileDetailsFeedback, 'Erro de conexão ao carregar perfil.', 'error');
                 console.log('PERFIL.JS: Erro de conexão');
-                // setTimeout(() => { window.location.href = '/login'; }, 2000);
+                setTimeout(() => { window.location.href = '/login'; }, 2000);
             }
         } else {
             showFeedback(profileDetailsFeedback, 'Você não está logado. Redirecionando para o login...', 'error');
             console.log('PERFIL.JS: loggedUser não encontrado no localStorage');
-            // setTimeout(() => { window.location.href = '/login'; }, 2000);
+            setTimeout(() => { window.location.href = '/login'; }, 2000);
         }
     }
 
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (goToSellerAreaBtn) {
         goToSellerAreaBtn.addEventListener('click', () => {
-            window.location.href = '/vendedor';
+            window.location.href = '/perfil';
         });
     }
 
