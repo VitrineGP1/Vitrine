@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const usuario = require('../models/userModel');
-const enviarEmail = require('../util/enviarEmail');
+const enviarEmail = require('../js/email-reset-senha');
 
 class UserController {
     constructor(userModel) {
@@ -294,7 +294,7 @@ class UserController {
         const errors = validationResult(req);
         console.log(errors);
         if (!errors.isEmpty()) {
-            return res.render("pages/rec-senha", {
+            return res.render("pages/rdsenha", {
                 listaErros: errors,
                 dadosNotificacao: null,
                 valores: req.body,
@@ -308,7 +308,7 @@ class UserController {
                 { userId: user[0].id_usuario, expiresIn: "40m" },
                 process.env.SECRET_KEY
             );
-            const html = require('./util/email-reset-senha')(process.env.URL_BASE, token);
+            const html = require('./js/email-reset-senha')(process.env.URL_BASE, token);
             enviarEmail(req.body.email_usu, "Pedido de recuperação de senha", null, html, () => {
                 return res.render("pages/index", {
                     listaErros: null,
@@ -330,7 +330,7 @@ class UserController {
         console.log(token);
         jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
             if (err) {
-                res.render("pages/rec-senha", {
+                res.render("pages/rdsenha", {
                     listaErros: null,
                     dadosNotificacao: { 
                         titulo: "Link expirado!",
