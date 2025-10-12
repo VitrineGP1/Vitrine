@@ -83,11 +83,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok && result.success) {
                     showMessage(messageDiv, result.message, 'success');
-                    localStorage.setItem('loggedInUser', JSON.stringify(result.user));
+                    localStorage.setItem('user', JSON.stringify(result.user));
 
-                    setTimeout(() => {
-                        redirectByUserType(result.user.tipo); // 'A', 'V', 'C'
-                    }, 1000);
+                    // Transferir carrinho de sessão para usuário logado
+                    const sessionCart = JSON.parse(localStorage.getItem('cart_session')) || [];
+                    const userCart = JSON.parse(localStorage.getItem(`cart_${result.user.ID_USUARIO}`)) || [];
+                    
+                    if (sessionCart.length > 0) {
+                        // Mesclar carrinhos - adicionar itens da sessão ao carrinho do usuário
+                        sessionCart.forEach(sessionItem => {
+                            const existingIndex = userCart.findIndex(userItem => userItem.id === sessionItem.id);
+                            if (existingIndex > -1) {
+                                userCart[existingIndex].quantity += sessionItem.quantity;
+                            } else {
+                                userCart.push(sessionItem);
+                            }
+                        });
+                        
+                        // Salvar carrinho mesclado e limpar sessão
+                        localStorage.setItem(`cart_${result.user.ID_USUARIO}`, JSON.stringify(userCart));
+                        localStorage.removeItem('cart_session');
+                    }
+
+                    // Verificar se há checkout pendente
+                    const pendingCheckout = localStorage.getItem('pendingCheckout');
+                    if (pendingCheckout === 'true') {
+                        localStorage.removeItem('pendingCheckout');
+                        setTimeout(() => {
+                            window.location.href = '/carrinho';
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            redirectByUserType(result.user.tipo); // 'A', 'V', 'C'
+                        }, 1000);
+                    }
                     
                 } else {
                     showMessage(messageDiv, result.error || 'Erro ao fazer login.', 'error');
@@ -118,4 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     checkExistingSession();
+    
+    // Limpar carrinho de sessão ao fechar janela se não estiver logado
+    window.addEventListener('beforeunload', () => {
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (!user) {
+            localStorage.removeItem('cart_session');
+            localStorage.removeItem('cart');
+        }
+    });
 });

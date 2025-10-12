@@ -10,6 +10,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
             return;
         }
 
+        // Verificar se o usuário está logado
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (!user) {
+            // Salvar carrinho antes de redirecionar
+            localStorage.setItem('pendingCheckout', 'true');
+            alert("Você precisa fazer login para finalizar a compra!");
+            window.location.href = '/login';
+            return;
+        }
+
         $('#checkout-btn').attr("disabled", true);
 
         const extractedData = cart.map(item => {

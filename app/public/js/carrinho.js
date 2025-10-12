@@ -5,7 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyCartMessage = document.getElementById('empty-cart-message');
 
     function loadCartItems() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        let cart = [];
+        
+        if (user) {
+            // Usuário logado - carregar carrinho do usuário
+            cart = JSON.parse(localStorage.getItem(`cart_${user.ID_USUARIO}`)) || [];
+        } else {
+            // Usuário não logado - carregar carrinho de sessão
+            cart = JSON.parse(localStorage.getItem('cart_session')) || [];
+        }
+        
+        // Manter compatibilidade
+        localStorage.setItem('cart', JSON.stringify(cart));
         cartItemsContainer.innerHTML = '';
 
         if (cart.length === 0) {
@@ -99,9 +111,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Salvar carrinho baseado no status de login
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (user) {
+            localStorage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
+        } else {
+            localStorage.setItem('cart_session', JSON.stringify(cart));
+        }
         localStorage.setItem('cart', JSON.stringify(cart));
         loadCartItems();
     });
 
     loadCartItems();
+    
+    // Limpar carrinho de sessão ao fechar janela se não estiver logado
+    window.addEventListener('beforeunload', () => {
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (!user) {
+            localStorage.removeItem('cart_session');
+            localStorage.removeItem('cart');
+        }
+    });
 });

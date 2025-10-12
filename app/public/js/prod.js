@@ -39,8 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 quantity: 1 // Inicia com 1 unidade no carrinho
             };
 
-            // Obtém o carrinho atual do localStorage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Gerenciar carrinho baseado no status de login
+            const user = JSON.parse(localStorage.getItem('user')) || null;
+            let cart = [];
+            
+            if (user) {
+                // Usuário logado - usar carrinho associado ao usuário
+                cart = JSON.parse(localStorage.getItem(`cart_${user.ID_USUARIO}`)) || [];
+            } else {
+                // Usuário não logado - usar carrinho de sessão
+                cart = JSON.parse(localStorage.getItem('cart_session')) || [];
+            }
 
             // Verifica se o produto já está no carrinho
             const existingProductIndex = cart.findIndex(item => item.id === product.id);
@@ -55,10 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 showCartFeedback(`${name} adicionado ao carrinho!`, 'cart-success');
             }
 
-            // Salva o carrinho atualizado no localStorage
+            // Salvar carrinho baseado no status de login
+            if (user) {
+                localStorage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
+            } else {
+                localStorage.setItem('cart_session', JSON.stringify(cart));
+            }
+            
+            // Manter compatibilidade com carrinho.js
             localStorage.setItem('cart', JSON.stringify(cart));
 
             console.log('Carrinho atual:', cart);
         });
     }
+    
+    // Limpar carrinho de sessão ao fechar janela se não estiver logado
+    window.addEventListener('beforeunload', () => {
+        const user = JSON.parse(localStorage.getItem('user')) || null;
+        if (!user) {
+            localStorage.removeItem('cart_session');
+            localStorage.removeItem('cart');
+        }
+    });
 });
