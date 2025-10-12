@@ -754,7 +754,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Atualizar sidebar
             const firstName = userData.nome ? userData.nome.split(' ')[0] : 'Usuário';
-            document.getElementById('profile-display-name').textContent = firstName;
+            const displayNameElement = document.getElementById('profile-display-name');
+            if (displayNameElement) displayNameElement.textContent = firstName;
             
             // Não sobrescrever imagens se já existem no localStorage
             const currentUser = JSON.parse(localStorage.getItem('loggedUser'));
@@ -773,9 +774,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Controlar visibilidade do menu vendedor
             if (userData.isVendedor) {
-                document.getElementById('seller-menu-item').style.display = 'block';
-                document.getElementById('quick-seller-btn').style.display = 'inline-block';
-                document.getElementById('dashboard-chart').style.display = 'block';
+                const sellerMenuItem = document.getElementById('seller-menu-item');
+                const quickSellerBtn = document.getElementById('quick-seller-btn');
+                const dashboardChart = document.getElementById('dashboard-chart');
+                
+                if (sellerMenuItem) sellerMenuItem.style.display = 'block';
+                if (quickSellerBtn) quickSellerBtn.style.display = 'inline-block';
+                if (dashboardChart) dashboardChart.style.display = 'block';
                 initDashboardChart();
             }
             
@@ -789,7 +794,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const inputs = document.querySelectorAll('#personal-section input');
             let originalData = {};
             
-            editBtn.addEventListener('click', function() {
+            if (editBtn) {
+                editBtn.addEventListener('click', function() {
                 // Salvar dados originais
                 inputs.forEach(input => {
                     originalData[input.id] = input.value;
@@ -797,12 +803,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
                 
                 // Trocar botões
-                editBtn.style.display = 'none';
-                saveBtn.style.display = 'inline-block';
-                cancelBtn.style.display = 'inline-block';
-            });
+                if (editBtn) editBtn.style.display = 'none';
+                if (saveBtn) saveBtn.style.display = 'inline-block';
+                if (cancelBtn) cancelBtn.style.display = 'inline-block';
+                });
+            }
             
-            cancelBtn.addEventListener('click', function() {
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
                 // Restaurar dados originais
                 inputs.forEach(input => {
                     input.value = originalData[input.id];
@@ -810,12 +818,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
                 
                 // Trocar botões
-                editBtn.style.display = 'inline-block';
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
-            });
+                if (editBtn) editBtn.style.display = 'inline-block';
+                if (saveBtn) saveBtn.style.display = 'none';
+                if (cancelBtn) cancelBtn.style.display = 'none';
+                });
+            }
             
-            saveBtn.addEventListener('click', function(e) {
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Aqui você faria a chamada para salvar os dados
                 alert('Dados salvos com sucesso!');
@@ -826,14 +836,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
                 
                 // Trocar botões
-                editBtn.style.display = 'inline-block';
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
+                if (editBtn) editBtn.style.display = 'inline-block';
+                if (saveBtn) saveBtn.style.display = 'none';
+                if (cancelBtn) cancelBtn.style.display = 'none';
                 
                 // Atualizar sidebar
-                const firstName = document.getElementById('profile-name-input').value.split(' ')[0];
-                document.getElementById('profile-display-name').textContent = firstName;
-            });
+                const nameInput = document.getElementById('profile-name-input');
+                const displayName = document.getElementById('profile-display-name');
+                if (nameInput && displayName) {
+                    const firstName = nameInput.value.split(' ')[0];
+                    displayName.textContent = firstName;
+                }
+                });
+            }
         }
         
         function checkSellerStatus() {
@@ -852,8 +867,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         
         // Navegação entre seções
-        document.querySelectorAll('.profile-menu a').forEach(link => {
-            link.addEventListener('click', function(e) {
+        const profileMenuLinks = document.querySelectorAll('.profile-menu a');
+        if (profileMenuLinks.length > 0) {
+            profileMenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
                 e.preventDefault();
                 
                 // Remove active class from all links
@@ -883,8 +900,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
 
                 }
+                });
             });
-        });
+        }
         
         // Funções da Área do Vendedor
         let salesChart;
@@ -1398,17 +1416,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         
         // Fechar modal ao clicar fora
-        document.getElementById('confirmation-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeConfirmationModal();
-            }
-        });
+        const confirmationModal = document.getElementById('confirmation-modal');
+        if (confirmationModal) {
+            confirmationModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeConfirmationModal();
+                }
+            });
+        }
         
-        document.getElementById('withdraw-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeWithdrawModal();
-            }
-        });
+        const withdrawModal = document.getElementById('withdraw-modal');
+        if (withdrawModal) {
+            withdrawModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeWithdrawModal();
+                }
+            });
+        }
         
         function removeAddress(button) {
             const addressItem = button.closest('.address-item');
@@ -1529,8 +1553,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
                 
                 // Configurar controles do gráfico do dashboard
-                document.querySelectorAll('#dashboard-chart .chart-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                const chartButtons = document.querySelectorAll('#dashboard-chart .chart-btn');
+                if (chartButtons.length > 0) {
+                    chartButtons.forEach(btn => {
+                        btn.addEventListener('click', function() {
                         document.querySelectorAll('#dashboard-chart .chart-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
                         const period = parseInt(this.dataset.period);
@@ -1540,10 +1566,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         dashboardChart.update();
                         
                         // Atualizar total de vendas e faturamento no grid
-                        document.getElementById('dashboard-chart-total-sales').textContent = data.total;
-                        document.getElementById('dashboard-chart-revenue').textContent = 'R$ ' + data.revenue.toLocaleString('pt-BR') + ',00';
+                        const totalSalesElement = document.getElementById('dashboard-chart-total-sales');
+                        const revenueElement = document.getElementById('dashboard-chart-revenue');
+                        if (totalSalesElement) totalSalesElement.textContent = data.total;
+                        if (revenueElement) revenueElement.textContent = 'R$ ' + data.revenue.toLocaleString('pt-BR') + ',00';
+                        });
                     });
-                });
+                }
             }
         }
         
