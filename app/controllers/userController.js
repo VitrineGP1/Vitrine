@@ -288,7 +288,7 @@ class UserController {
                 message: "Erro interno do servidor." 
             });
         }
-    }
+    },
 
     recuperarSenha: async (req, res) => {
         const errors = validationResult(req);
@@ -323,7 +323,7 @@ class UserController {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     validarTokenNovaSenha: async (req, res) => {
         const token = req.query.token;
@@ -348,7 +348,7 @@ class UserController {
                 });
             }
         });
-    }
+    };
 
     resetarSenha: async (req, res) => {
         const errors = validationResult(req);
