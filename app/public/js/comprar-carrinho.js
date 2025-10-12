@@ -81,6 +81,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
                         initialization: {
                             preferenceId: preferenceId
                         },
+                        customization: {
+                            texts: {
+                                valueProp: 'smart_option'
+                            }
+                        },
                         callbacks: {
                             onError: (error) => {
                                 console.error("Erro no checkout:", error);
