@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // Gerenciar carrinho baseado no status de login
-            const user = JSON.parse(localStorage.getItem('user')) || null;
+            const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
             let cart = [];
             
             if (user) {

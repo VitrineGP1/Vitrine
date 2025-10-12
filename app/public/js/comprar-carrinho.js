@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
 
         // Verificar se o usuário está logado
-        const user = JSON.parse(localStorage.getItem('user')) || null;
+        const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
         if (!user) {
             // Salvar carrinho antes de redirecionar
             localStorage.setItem('pendingCheckout', 'true');

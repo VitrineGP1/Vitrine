@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok && result.success) {
                     showMessage(messageDiv, result.message, 'success');
-                    localStorage.setItem('user', JSON.stringify(result.user));
+                    localStorage.setItem('loggedUser', JSON.stringify(result.user));
 
                     // Transferir carrinho de sessão para usuário logado
                     const sessionCart = JSON.parse(localStorage.getItem('cart_session')) || [];
@@ -140,9 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (result.success) {
                     redirectByUserType(result.user.tipo);
                 }
+            } else if (response.status === 401) {
+                // Usuário não está logado - comportamento normal
+                console.log('Usuário não autenticado');
             }
         } catch (error) {
-            // Não está logado - normal
+            // Erro de rede ou outro erro - não crítico
+            console.log('Erro ao verificar sessão:', error.message);
         }
     }
 
@@ -150,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Limpar carrinho de sessão ao fechar navegador se não estiver logado
     window.addEventListener('unload', () => {
-        const user = JSON.parse(localStorage.getItem('user')) || null;
+        const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
         if (!user) {
             localStorage.removeItem('cart_session');
             localStorage.removeItem('cart');

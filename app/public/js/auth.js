@@ -59,7 +59,7 @@ function checkLoginStatus() {
         }
     } else if (!loggedUser && window.location.pathname === '/perfil') {
         // Se não está logado e está na página de perfil, redireciona para login
-        console.log('AUTH.JS: Tentando redirecionar para login');
+        console.log('AUTH.JS: Usuário não autenticado na página de perfil');
         // window.location.href = '/login';
     }
 }

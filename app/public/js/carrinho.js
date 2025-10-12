@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyCartMessage = document.getElementById('empty-cart-message');
 
     function loadCartItems() {
-        const user = JSON.parse(localStorage.getItem('user')) || null;
+        const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
         let cart = [];
         
         if (user) {
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Salvar carrinho baseado no status de login
-        const user = JSON.parse(localStorage.getItem('user')) || null;
+        const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
         if (user) {
             localStorage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
         } else {
