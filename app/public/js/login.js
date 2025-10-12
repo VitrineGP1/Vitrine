@@ -27,18 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function redirectByUserType(userType) {
+        console.log('LOGIN.JS: redirectByUserType called with:', userType);
+        
         const routes = {
             'A': '/perfil',
             'V': '/perfil',  
             'C': '/perfil'
         };
 
-        const page = routes[userType];
-        if (page) {
-            window.location.href = page;
-        } else {
-            showMessage(messageDiv, 'Tipo de conta não reconhecido.', 'error');
-        }
+        const page = routes[userType] || '/perfil'; // Sempre redirecionar para /perfil como fallback
+        console.log('LOGIN.JS: Redirecting to:', page);
+        window.location.href = page;
     }
 
     if (loginForm) {
@@ -133,7 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 1000);
                     } else {
                         setTimeout(() => {
-                            redirectByUserType(userData.type); // 'A', 'V', 'C'
+                            // Garantir que sempre tenha um tipo válido
+                            const userType = userData.type || userData.TIPO_USUARIO || 'C';
+                            console.log('LOGIN.JS: Using fallback user type:', userType);
+                            redirectByUserType(userType);
                         }, 1000);
                     }
                     
