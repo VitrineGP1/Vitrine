@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadAdminData() {
     try {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
-        const response = await fetch(`/api/buscar_usuario?id=${user.id}`);
+        const response = await fetch(`/api/admin/user-details/${user.id}`);
         const data = await response.json();
         
         if (data.success) {
@@ -32,7 +32,7 @@ async function loadAdminData() {
 async function loadSystemStats() {
     try {
         // Carregar usuários
-        const usersResponse = await fetch('/api/check_users');
+        const usersResponse = await fetch('/api/admin/users');
         const usersData = await usersResponse.json();
         
         if (usersData.success) {
@@ -44,7 +44,7 @@ async function loadSystemStats() {
         }
 
         // Carregar produtos
-        const productsResponse = await fetch('/api/products');
+        const productsResponse = await fetch('/api/admin/products');
         const productsData = await productsResponse.json();
         
         if (productsData.success) {
