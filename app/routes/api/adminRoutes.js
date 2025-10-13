@@ -24,6 +24,60 @@ router.get('/users', async (req, res) => {
     }
 });
 
+// Buscar detalhes de um usuário
+router.get('/user-details/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await userModel.findById(userId);
+        
+        if (user) {
+            res.json({ success: true, user });
+        } else {
+            res.status(404).json({ success: false, message: 'Usuário não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar usuário:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Listar todos os produtos
+router.get('/products', async (req, res) => {
+    try {
+        const connection = await req.app.locals.pool.getConnection();
+        const [products] = await connection.execute(
+            `SELECT p.*, u.NOME_USUARIO as VENDEDOR_NOME 
+             FROM PRODUTOS p 
+             LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO 
+             ORDER BY p.ID_PROD DESC`
+        );
+        connection.release();
+        res.json({ success: true, products });
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Excluir produto
+router.delete('/products/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const connection = await req.app.locals.pool.getConnection();
+        const [result] = await connection.execute('DELETE FROM PRODUTOS WHERE ID_PROD = ?', [productId]);
+        connection.release();
+        
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Produto excluído com sucesso' });
+        } else {
+            res.status(404).json({ success: false, message: 'Produto não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao excluir produto:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 // Excluir usuário
 router.delete('/users/:id', async (req, res) => {
     try {
