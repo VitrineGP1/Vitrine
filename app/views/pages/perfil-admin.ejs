@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Administrador | Vitrine</title>
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/admin-dashboard">Dashboard Admin</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1><i class="fas fa-crown"></i> Perfil do Administrador</h1>
+        
+        <section class="admin-info-section">
+            <h2>Dados do Administrador</h2>
+            <form id="admin-profile-form">
+                <section class="form-group">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="celular">Celular:</label>
+                    <input type="tel" id="celular" name="celular">
+                </section>
+                
+                <button type="submit" class="btn-primary">Salvar Alterações</button>
+            </form>
+        </section>
+
+        <section class="system-stats-section">
+            <h2>Estatísticas do Sistema</h2>
+            <section class="stats-grid">
+                <article class="stat-card">
+                    <h3>Total de Usuários</h3>
+                    <span id="total-users">0</span>
+                </article>
+                <article class="stat-card">
+                    <h3>Vendedores Ativos</h3>
+                    <span id="total-sellers">0</span>
+                </article>
+                <article class="stat-card">
+                    <h3>Produtos Cadastrados</h3>
+                    <span id="total-products">0</span>
+                </article>
+                <article class="stat-card">
+                    <h3>Faturamento Total</h3>
+                    <span id="total-revenue">R$ 0,00</span>
+                </article>
+            </section>
+        </section>
+
+        <section class="admin-actions-section">
+            <h2>Ações Administrativas</h2>
+            <section class="actions-grid">
+                <a href="/admin-usuarios" class="action-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Gerenciar Usuários</h3>
+                    <p>Visualizar e gerenciar todos os usuários</p>
+                </a>
+                
+                <a href="/admin-vendedores" class="action-card">
+                    <i class="fas fa-store"></i>
+                    <h3>Gerenciar Vendedores</h3>
+                    <p>Visualizar e gerenciar vendedores</p>
+                </a>
+                
+                <a href="/admin-produtos" class="action-card">
+                    <i class="fas fa-box"></i>
+                    <h3>Gerenciar Produtos</h3>
+                    <p>Visualizar e gerenciar produtos</p>
+                </a>
+                
+                <section class="action-card" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    <h3>Exportar Dados</h3>
+                    <p>Exportar relatórios do sistema</p>
+                </section>
+            </section>
+        </section>
+
+        <section class="recent-activity-section">
+            <h2>Atividade Recente</h2>
+            <section id="recent-activity">
+                <!-- Atividades recentes serão carregadas aqui -->
+            </section>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/perfil-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Vendedor | Vitrine</title>
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/vendedor.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/vendedor">Dashboard</a></li>
+                <li><a href="/criar-produto">Criar Produto</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Perfil do Vendedor</h1>
+        
+        <section class="seller-info-section">
+            <h2>Dados da Loja</h2>
+            <form id="seller-profile-form">
+                <section class="form-group">
+                    <label for="nome-loja">Nome da Loja:</label>
+                    <input type="text" id="nome-loja" name="nome_loja" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="tipo-pessoa">Tipo de Pessoa:</label>
+                    <select id="tipo-pessoa" name="tipo_pessoa" required>
+                        <option value="PF">Pessoa Física</option>
+                        <option value="PJ">Pessoa Jurídica</option>
+                    </select>
+                </section>
+                
+                <section class="form-group">
+                    <label for="digito-pessoa">CPF/CNPJ:</label>
+                    <input type="text" id="digito-pessoa" name="digito_pessoa" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="foto-loja">Foto da Loja:</label>
+                    <input type="file" id="foto-loja" accept="image/*">
+                    <img id="preview-foto-loja" style="max-width: 150px; display: none;">
+                </section>
+                
+                <button type="submit" class="btn-primary">Salvar Dados da Loja</button>
+            </form>
+        </section>
+
+        <section class="personal-data-section">
+            <h2>Dados Pessoais</h2>
+            <form id="personal-data-form">
+                <section class="form-group">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required>
+                </section>
+                
+                <section class="form-group">
+                    <label for="celular">Celular:</label>
+                    <input type="tel" id="celular" name="celular">
+                </section>
+                
+                <button type="submit" class="btn-primary">Salvar Dados Pessoais</button>
+            </form>
+        </section>
+
+        <section class="products-section">
+            <h2>Meus Produtos</h2>
+            <section class="actions">
+                <a href="/criar-produto" class="btn-success">Adicionar Produto</a>
+            </section>
+            <section id="products-list">
+                <!-- Produtos serão carregados aqui -->
+            </section>
+        </section>
+
+        <section class="sales-section">
+            <h2>Vendas</h2>
+            <section id="sales-summary">
+                <article class="metric-card">
+                    <h3>Total de Vendas</h3>
+                    <span id="total-sales">0</span>
+                </article>
+                <article class="metric-card">
+                    <h3>Faturamento</h3>
+                    <span id="total-revenue">R$ 0,00</span>
+                </article>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/perfil-vendedor.js"></script>
+</body>
+</html>
