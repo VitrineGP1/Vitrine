@@ -3,18 +3,24 @@ document.addEventListener("DOMContentLoaded", function (e) {
         locale: 'pt-BR' 
     });
 
+    // Tentar solicitar acesso ao storage se disponível
+    if (window.storageHelper) {
+        window.storageHelper.requestStorageAccess();
+    }
+
     document.getElementById("checkout-btn").addEventListener("click", function () {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
+        const cart = JSON.parse(storage.getItem('cart')) || [];
         if (cart.length === 0) {
             alert("Seu carrinho está vazio!");
             return;
         }
 
         // Verificar se o usuário está logado
-        const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
+        const user = JSON.parse(storage.getItem('loggedUser')) || null;
         if (!user) {
             // Salvar carrinho antes de redirecionar
-            localStorage.setItem('pendingCheckout', 'true');
+            storage.setItem('pendingCheckout', 'true');
             alert("Você precisa fazer login para finalizar a compra!");
             window.location.href = '/login';
             return;

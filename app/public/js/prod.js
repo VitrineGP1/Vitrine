@@ -40,15 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // Gerenciar carrinho baseado no status de login
-            const user = JSON.parse(localStorage.getItem('loggedUser')) || null;
+            const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
+            const user = JSON.parse(storage.getItem('loggedUser')) || null;
             let cart = [];
             
             if (user) {
                 // Usuário logado - usar carrinho associado ao usuário
-                cart = JSON.parse(localStorage.getItem(`cart_${user.ID_USUARIO}`)) || [];
+                cart = JSON.parse(storage.getItem(`cart_${user.ID_USUARIO}`)) || [];
             } else {
                 // Usuário não logado - usar carrinho de sessão
-                cart = JSON.parse(localStorage.getItem('cart_session')) || [];
+                cart = JSON.parse(storage.getItem('cart_session')) || [];
             }
 
             // Verifica se o produto já está no carrinho
@@ -66,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Salvar carrinho baseado no status de login
             if (user) {
-                localStorage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
+                storage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
             } else {
-                localStorage.setItem('cart_session', JSON.stringify(cart));
+                storage.setItem('cart_session', JSON.stringify(cart));
             }
             
             // Manter compatibilidade com carrinho.js
-            localStorage.setItem('cart', JSON.stringify(cart));
+            storage.setItem('cart', JSON.stringify(cart));
 
             console.log('Carrinho atual:', cart);
         });
