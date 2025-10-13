@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .header { background: #fff; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .product-header { background: #fff; padding: 30px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 30px; }
+        .product-image { width: 200px; height: 200px; border-radius: 8px; object-fit: cover; }
+        .product-info { flex: 1; }
+        .product-info h1 { color: #333; margin-bottom: 10px; }
+        .product-price { font-size: 24px; color: #28a745; font-weight: bold; margin-bottom: 15px; }
+        .product-status { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .status-active { background: #e8f5e8; color: #388e3c; }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .details-card { background: #fff; border-radius: 8px; overflow: hidden; }
+        .card-header { padding: 20px; border-bottom: 1px solid #eee; }
+        .card-content { padding: 20px; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .info-label { font-weight: bold; color: #333; }
+        .info-value { color: #666; }
+        .btn { padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .rating { color: #ffc107; }
+        
+        /* Modal de confirmação */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 1000; }
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 8px; padding: 30px; max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal h3 { margin: 0 0 15px 0; color: #dc3545; }
+        .modal p { margin: 0 0 25px 0; color: #666; line-height: 1.5; }
+        .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+        .modal-btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .modal-btn-cancel { background: #6c757d; color: white; }
+        .modal-btn-confirm { background: #dc3545; color: white; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Detalhes do Produto</h2>
+            <a href="/admin-dashboard" class="btn btn-secondary">← Voltar ao Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-header">
+            <img id="product-image" src="https://placehold.co/200x200/cccccc/333333?text=Produto" alt="Produto" class="product-image">
+            <div class="product-info">
+                <h1 id="product-name">Carregando...</h1>
+                <div class="product-price" id="product-price">R$ 0,00</div>
+                <span class="product-status status-active">Ativo</span>
+                <p id="product-description" style="margin-top: 15px; color: #666; line-height: 1.5;">Carregando descrição...</p>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <div class="details-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-info-circle"></i> Informações do Produto</h3>
+                </div>
+                <div class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">ID:</span>
+                        <span class="info-value" id="product-id">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Categoria:</span>
+                        <span class="info-value" id="product-category">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Subcategoria:</span>
+                        <span class="info-value" id="product-subcategory">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tamanho:</span>
+                        <span class="info-value" id="product-size">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Quantidade em Estoque:</span>
+                        <span class="info-value" id="product-quantity">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Data de Cadastro:</span>
+                        <span class="info-value" id="product-date">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-store"></i> Informações do Vendedor</h3>
+                </div>
+                <div class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">Nome do Vendedor:</span>
+                        <span class="info-value" id="seller-name">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Nome da Loja:</span>
+                        <span class="info-value" id="seller-shop">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="seller-email">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Cidade:</span>
+                        <span class="info-value" id="seller-city">-</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Avaliação da Loja:</span>
+                        <span class="info-value rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            4.5 (127 avaliações)
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: right;">
+            <button class="btn" style="background: #6c757d; color: white; font-size: 12px; padding: 6px 12px;" onclick="deleteProduct()" title="Excluir produto">
+                <i class="fas fa-trash"></i> Excluir Produto
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div class="modal-overlay" id="delete-modal" onclick="hideDeleteModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <h3><i class="fas fa-exclamation-triangle"></i> Confirmar Exclusão</h3>
+            <p>Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita e o produto será removido permanentemente da plataforma.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="hideDeleteModal()">Cancelar</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Excluir Produto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (!productId) {
+                alert('ID do produto não fornecido');
+                window.location.href = '/admin-dashboard';
+                return;
+            }
+
+            await loadProductDetails(productId);
+        });
+
+        async function loadProductDetails(productId) {
+            try {
+                const response = await fetch(`/api/admin/product-details/${productId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayProductInfo(result.product, result.seller);
+                } else {
+                    console.error('Erro ao carregar dados do produto');
+                    setTimeout(() => {
+                        window.location.href = '/admin-dashboard';
+                    }, 1000);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        function displayProductInfo(product, seller) {
+            document.getElementById('product-id').textContent = product.ID_PROD;
+            document.getElementById('product-name').textContent = product.NOME_PROD;
+            document.getElementById('product-price').textContent = `R$ ${parseFloat(product.VALOR_UNITARIO).toFixed(2).replace('.', ',')}`;
+            document.getElementById('product-description').textContent = product.DESCRICAO_PROD || 'Sem descrição disponível';
+            document.getElementById('product-category').textContent = product.CATEGORIA || 'Não informado';
+            document.getElementById('product-subcategory').textContent = product.SUBCATEGORIA || 'Não informado';
+            document.getElementById('product-size').textContent = product.TAMANHO || 'Não informado';
+            document.getElementById('product-quantity').textContent = product.QUANTIDADE || '0';
+            document.getElementById('product-date').textContent = new Date(product.DATA_CADASTRO).toLocaleDateString('pt-BR');
+            
+            if (product.IMAGEM_BASE64) {
+                document.getElementById('product-image').src = `data:image/jpeg;base64,${product.IMAGEM_BASE64}`;
+            } else if (product.IMAGEM_URL) {
+                document.getElementById('product-image').src = product.IMAGEM_URL;
+            }
+            
+            if (seller) {
+                document.getElementById('seller-name').textContent = seller.NOME_USUARIO;
+                document.getElementById('seller-shop').textContent = 'Não informado';
+                document.getElementById('seller-email').textContent = seller.EMAIL_USUARIO;
+                document.getElementById('seller-city').textContent = seller.CIDADE_USUARIO || 'Não informado';
+            }
+        }
+        
+        function deleteProduct() {
+            showDeleteModal();
+        }
+        
+        function showDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'block';
+        }
+        
+        function hideDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'none';
+        }
+        
+        async function confirmDelete() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            hideDeleteModal();
+            
+            try {
+                const response = await fetch(`/api/admin/products/${productId}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccessMessage('Produto excluído com sucesso!');
+                    setTimeout(() => {
+                        window.location.href = '/admin-dashboard';
+                    }, 1500);
+                } else {
+                    showErrorMessage(result.message || 'Erro ao excluir produto');
+                }
+            } catch (error) {
+                showErrorMessage('Erro de conexão');
+            }
+        }
+        
+        function showSuccessMessage(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #28a745; color: white; padding: 15px 20px; border-radius: 5px; z-index: 1001;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function showErrorMessage(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #dc3545; color: white; padding: 15px 20px; border-radius: 5px; z-index: 1001;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

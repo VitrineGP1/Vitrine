@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Vendedores | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Proxima Nova', Arial, sans-serif;
+            background-color: #ebebeb;
+            color: #333;
+            margin: 0;
+            padding-top: 120px;
+        }
+        
+        .header {
+            background: #3D5A80 !important;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .sellers-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .seller-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .seller-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .seller-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #666;
+            overflow: hidden;
+        }
+        
+        .seller-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .seller-details-container {
+            flex: 1;
+        }
+        
+        .seller-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .seller-details {
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .seller-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-info { background: #3498db; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .stats-summary {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/admin-dashboard">Dashboard Admin</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-store"></i> Gerenciar Vendedores</h1>
+            <p>Visualize e gerencie todos os vendedores cadastrados na plataforma</p>
+        </div>
+
+        <div class="stats-summary">
+            <div class="stats-number" id="total-sellers">0</div>
+            <div>Vendedores Cadastrados</div>
+        </div>
+
+        <div class="search-section">
+            <input type="text" class="search-input" id="search-input" placeholder="Buscar vendedores por nome ou email...">
+        </div>
+
+        <div class="sellers-grid" id="sellers-grid">
+            <p style="text-align: center; color: #666;">Carregando vendedores...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSellers();
+            
+            document.getElementById('search-input').addEventListener('input', function() {
+                filterSellers(this.value);
+            });
+        });
+
+        let allSellers = [];
+
+        async function loadSellers() {
+            try {
+                const response = await fetch('/api/check_users');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allSellers = data.users.filter(user => user.TIPO_USUARIO === 'V');
+                    document.getElementById('total-sellers').textContent = allSellers.length;
+                    displaySellers(allSellers);
+                } else {
+                    document.getElementById('sellers-grid').innerHTML = '<p style="text-align: center; color: #666;">Erro ao carregar vendedores</p>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar vendedores:', error);
+                document.getElementById('sellers-grid').innerHTML = '<p style="text-align: center; color: #666;">Erro ao carregar vendedores</p>';
+            }
+        }
+
+        function displaySellers(sellers) {
+            const sellersGrid = document.getElementById('sellers-grid');
+            
+            if (sellers.length === 0) {
+                sellersGrid.innerHTML = '<p style="text-align: center; color: #666;">Nenhum vendedor encontrado</p>';
+                return;
+            }
+
+            sellersGrid.innerHTML = sellers.map(seller => {
+                const avatarContent = seller.IMAGEM_PERFIL_BASE64 
+                    ? `<img src="${seller.IMAGEM_PERFIL_BASE64}" alt="Foto do Vendedor">` 
+                    : `<i class="fas fa-user"></i>`;
+                
+                return `
+                    <div class="seller-card">
+                        <div class="seller-info">
+                            <div class="seller-avatar">
+                                ${avatarContent}
+                            </div>
+                            <div class="seller-details-container">
+                                <div class="seller-name">${seller.NOME_USUARIO}</div>
+                                <div class="seller-details"><i class="fas fa-envelope"></i> ${seller.EMAIL_USUARIO}</div>
+                                <div class="seller-details"><i class="fas fa-phone"></i> ${seller.CELULAR_USUARIO || 'Não informado'}</div>
+                                <div class="seller-details"><i class="fas fa-calendar"></i> Cadastrado em: ${new Date(seller.DATA_CADASTRO || Date.now()).toLocaleDateString('pt-BR')}</div>
+                            </div>
+                        </div>
+                        <div class="seller-actions">
+                            <a href="/admin-usuario-detalhes?id=${seller.ID_USUARIO}" class="btn btn-info">
+                                <i class="fas fa-eye"></i> Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterSellers(searchTerm) {
+            const filtered = allSellers.filter(seller => 
+                seller.NOME_USUARIO.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                seller.EMAIL_USUARIO.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            displaySellers(filtered);
+        }
+
+        // Função removida - botão de excluir foi removido da interface
+
+        function logout() {
+            localStorage.removeItem('loggedUser');
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

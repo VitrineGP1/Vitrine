@@ -12,6 +12,11 @@ const routes = {
     "/login": "login",
     "/cadcliente": "cadcliente",
     "/cadvendedor": "cadvendedor",
+    "/cadastro": "cadastro",
+    "/perfil": "perfil",
+    "/perfil-cliente": "perfil-cliente",
+    "/perfil-vendedor": "perfil-vendedor",
+    "/perfil-admin": "perfil-admin",
     "/sobrenos": "sobrenos",
     "/prod1": "produto1",
     "/prod2": "produto2",
@@ -20,6 +25,20 @@ const routes = {
     "/vendedor": "vendedor",
     "/prod": "produtos",
     "/rdsenha": "rdsenha",
+    "/dashboard-vendedor": "dashboard-vendedor",
+    "/criar-produto": "criar-produto",
+    "/admin-dashboard": "admin-dashboard",
+    "/admin-usuarios": "admin-usuarios",
+    "/admin-usuario-detalhes": "admin-usuario-detalhes",
+    "/admin-vendedores": "admin-vendedores",
+    "/admin-produto-detalhes": "admin-produto-detalhes",
+    "/admin-produtos": "admin-produtos",
+    "/meus-pedidos": "meus-pedidos",
+    // Dashboards por tipo de usuário
+    "/cliente/dashboard": "perfil-cliente",
+    "/vendedor/dashboard": "dashboard-vendedor",
+    "/admin/dashboard": "admin-dashboard",
+    // Compatibilidade com rotas antigas
     "/V": "perfil-vendedor",
     "/A": "perfil-admin",
     "/C": "perfil-cliente",
@@ -28,6 +47,14 @@ const routes = {
 // Criar rotas automaticamente
 Object.entries(routes).forEach(([path, page]) => {
     router.get(path, (req, res) => res.render(`pages/${page}`));
+});
+
+// Controlador de páginas
+const pageController = require('../controllers/pageController');
+
+// Rota especial para produtos com controller
+router.get("/produtos", function (req, res) {
+    pageController.produtos(req, res);
 });
 
 // SDK do Mercado Pago
