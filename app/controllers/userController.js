@@ -290,11 +290,11 @@ class UserController {
         }
     },
 
-    recuperarSenha: async (req, res) => {
+    recuperarSenha:  async (req, res) => {
         const errors = validationResult(req);
         console.log(errors);
         if (!errors.isEmpty()) {
-            return res.render("pages/rdsenha", {
+            return res.render("/rdsenha", {
                 listaErros: errors,
                 dadosNotificacao: null,
                 valores: req.body,
@@ -330,7 +330,7 @@ class UserController {
         console.log(token);
         jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
             if (err) {
-                res.render("pages/rdsenha", {
+                res.render("/rdsenha", {
                     listaErros: null,
                     dadosNotificacao: { 
                         titulo: "Link expirado!",
@@ -340,7 +340,7 @@ class UserController {
                     valores: req.body
                 });
             } else {
-                res.render("pages/resetar-senha", {
+                res.render("/resetar-senha", {
                     listaErros: null,
                     autenticado: req.session.autenticado,
                     id_usuario: decoded.userId,
@@ -354,7 +354,7 @@ class UserController {
         const errors = validationResult(req);
         console.log(errors);
         if (!errors.isEmpty()) {
-            return res.render("pages/resetar-senha", {
+            return res.render("/resetar-senha", {
                 listaErros: errors,
                 dadosNotificacao: null,
                 valores: req.body,
@@ -367,7 +367,7 @@ class UserController {
                 req.body.id_usuario
             );
             console.log(resetar);
-            res.render("pages/login", {
+            res.render("/login", {
                 listaErros: null,
                 dadosNotificacao: {
                     titulo: "Perfil alterado",

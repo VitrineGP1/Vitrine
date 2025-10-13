@@ -97,9 +97,27 @@ class AuthController {
 
             const tipoUsuarioFrontend = user.TIPO_USUARIO;
             
+            // Definir URL de redirecionamento baseado no tipo de usuário
+            let redirectUrl;
+            switch (user.TIPO_USUARIO) {
+                case 'C': // Cliente
+                    redirectUrl = '/perfil-cliente';
+                    break;
+                case 'V': // Vendedor
+                    redirectUrl = '/perfil-vendedor';
+                    break;
+                case 'A': // Administrador
+                    redirectUrl = '/perfil-admin';
+                    break;
+                default:
+                    redirectUrl = '/login';
+                    error = 'Usuário não encontrado, erro interno.';
+            }
+            
             res.status(200).json({
                 success: true,
                 message: "Login bem-sucedido!",
+                redirectUrl: redirectUrl,
                 user: {
                     id: user.ID_USUARIO,
                     name: user.NOME_USUARIO,

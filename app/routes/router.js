@@ -12,7 +12,6 @@ const routes = {
     "/login": "login",
     "/cadcliente": "cadcliente",
     "/cadvendedor": "cadvendedor",
-    "/perfil": "perfil",
     "/sobrenos": "sobrenos",
     "/prod1": "produto1",
     "/prod2": "produto2",
@@ -20,7 +19,10 @@ const routes = {
     "/prod4": "produto4",
     "/vendedor": "vendedor",
     "/prod": "produtos",
-    "/rdsenha": "rdsenha"
+    "/rdsenha": "rdsenha",
+    "/perfil-vendedor": "perfil-vendedor",
+    "/perfil-admin": "perfil-admin",
+    "/perfil-cliente": "perfil-cliente",
 };
 
 // Criar rotas automaticamente

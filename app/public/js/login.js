@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         passwordErrorSpan.textContent = '';
     }
 
-    function redirectByUserType(userType) {
-        window.location.href = '/perfil';
+    function redirectByUserType(redirectUrl) {
+        window.location.href = redirectUrl || '/perfil';
     }
 
     if (loginForm) {
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 1000);
                     } else {
                         setTimeout(() => {
-                            redirectByUserType(userData.type || 'C');
+                            redirectByUserType(result.redirectUrl);
                         }, 1000);
                     }
                     
