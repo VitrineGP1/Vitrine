@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function redirectByUserType(redirectUrl) {
-        window.location.href = redirectUrl || '/perfil';
+        window.location.href = redirectUrl || '/cliente/dashboard';
     }
 
     if (loginForm) {

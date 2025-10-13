@@ -21,8 +21,11 @@ function checkLoginStatus() {
                 if (user.type === 'A') {
                     link.href = '/admin-dashboard';
                     link.innerHTML = `<i class="fa fa-crown"></i> ${user.name.split(' ')[0]}`;
+                } else if (user.type === 'V') {
+                    link.href = '/vendedor/dashboard';
+                    link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
                 } else {
-                    link.href = '/perfil';
+                    link.href = '/cliente/dashboard';
                     link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
                 }
             }
@@ -57,11 +60,7 @@ function checkLoginStatus() {
             logoutLi.innerHTML = '<a href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</a>';
             navList.appendChild(logoutLi);
         }
-    } else if (!loggedUser && window.location.pathname === '/perfil') {
-        // Se não está logado e está na página de perfil, redireciona para login
-        console.log('AUTH.JS: Usuário não autenticado na página de perfil');
-        // window.location.href = '/login';
-    }
+
 }
 
 function logout() {

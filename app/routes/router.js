@@ -1,19 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-// Mapeamento de rotas para páginas
+// Mapeamento de rotas para páginas (apenas arquivos que existem)
 const routes = {
     "/": "home",
-    "/home-perfil": "home-perfil",
-    "/home-perfil-carrinho": "home-perfil-carrinho",
-    "/home-carrinho": "home-carrinho",
     "/carrinho": "carrinho",
-    "/carrinho-vazio": "carrinho-vazio",
     "/login": "login",
     "/cadcliente": "cadcliente",
     "/cadvendedor": "cadvendedor",
-    "/cadastro": "cadastro",
-    "/perfil": "perfil",
     "/perfil-cliente": "perfil-cliente",
     "/perfil-vendedor": "perfil-vendedor",
     "/perfil-admin": "perfil-admin",
@@ -23,21 +17,17 @@ const routes = {
     "/prod3": "produto3",
     "/prod4": "produto4",
     "/vendedor": "vendedor",
-    "/prod": "produtos",
+    "/produtos": "produtos",
     "/rdsenha": "rdsenha",
-    "/dashboard-vendedor": "dashboard-vendedor",
-    "/criar-produto": "criar-produto",
-    "/admin-dashboard": "admin-dashboard",
     "/admin-usuarios": "admin-usuarios",
-    "/admin-usuario-detalhes": "admin-usuario-detalhes",
+    "/admin-usuario-detalhes": "admin-usuarios-detalhes",
     "/admin-vendedores": "admin-vendedores",
-    "/admin-produto-detalhes": "admin-produto-detalhes",
+    "/admin-produto-detalhes": "admin-produtos-detalhes",
     "/admin-produtos": "admin-produtos",
-    "/meus-pedidos": "meus-pedidos",
     // Dashboards por tipo de usuário
     "/cliente/dashboard": "perfil-cliente",
-    "/vendedor/dashboard": "dashboard-vendedor",
-    "/admin/dashboard": "admin-dashboard",
+    "/vendedor/dashboard": "perfil-vendedor",
+    "/admin/dashboard": "perfil-admin",
     // Compatibilidade com rotas antigas
     "/V": "perfil-vendedor",
     "/A": "perfil-admin",
@@ -46,8 +36,23 @@ const routes = {
 
 // Criar rotas automaticamente
 Object.entries(routes).forEach(([path, page]) => {
-    router.get(path, (req, res) => res.render(`pages/${page}`));
+    router.get(path, (req, res) => {
+        try {
+            res.render(`pages/${page}`);
+        } catch (error) {
+            console.error(`Erro ao renderizar ${page}:`, error);
+            res.status(404).send('Página não encontrada');
+        }
+    });
 });
+
+// Rotas adicionais que podem não ter arquivos de view
+router.get('/perfil', (req, res) => res.render('pages/perfil-cliente'));
+router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
+router.get('/dashboard-vendedor', (req, res) => res.render('pages/perfil-vendedor'));
+router.get('/admin-dashboard', (req, res) => res.render('pages/perfil-admin'));
+router.get('/criar-produto', (req, res) => res.render('pages/perfil-vendedor'));
+router.get('/meus-pedidos', (req, res) => res.render('pages/perfil-cliente'));
 
 
 
