@@ -21,7 +21,7 @@ const routes = {
     "/prod": "produtos",
     "/rdsenha": "rdsenha",
     "/perfil-vendedor": "perfil-vendedor",
-    "/perfil-admin": "perfil-admin",
+    "/A": "perfil-admin",
     "/perfil-cliente": "perfil-cliente",
 };
 
