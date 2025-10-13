@@ -86,13 +86,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
-            
-            if (!user.id || user.type !== 'admin') {
-                alert('Acesso negado. Apenas administradores podem acessar esta página.');
-                window.location.href = '/';
-                return;
-            }
-
             await loadUsers();
             
             document.getElementById('search').addEventListener('input', filterUsers);
@@ -141,10 +134,10 @@
 
         function getTypeClass(type) {
             switch(type) {
-                case 'V': return 'seller';
-                case 'C': return 'buyer';
-                case 'A': return 'admin';
-                default: return 'buyer';
+                case 'V': return 'Vendedor';
+                case 'C': return 'Comprador';
+                case 'A': return 'Admin';
+                default: return 'Comprador';
             }
         }
 

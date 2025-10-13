@@ -76,4 +76,5 @@ function logout() {
 }
 
 // Executa quando a página carrega
-document.addEventListener('DOMContentLoaded', checkLoginStatus);
+document.addEventListener('DOMContentLoaded', checkLoginStatus)
+};
