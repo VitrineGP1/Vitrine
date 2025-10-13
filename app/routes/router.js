@@ -20,9 +20,9 @@ const routes = {
     "/vendedor": "vendedor",
     "/prod": "produtos",
     "/rdsenha": "rdsenha",
-    "/perfil-vendedor": "perfil-vendedor",
+    "/V": "perfil-vendedor",
     "/A": "perfil-admin",
-    "/perfil-cliente": "perfil-cliente",
+    "/C": "perfil-cliente",
 };
 
 // Criar rotas automaticamente

@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
     
     if (!user.id || user.type !== 'client') {
-        window.location.href = '/login';
-        return;
+        //window.location.href = '/login';
+        //return;
     }
 
     loadClientData();
