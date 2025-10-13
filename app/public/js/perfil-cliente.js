@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadClientData() {
     try {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
-        const response = await fetch(`/api/admin/user-details/${user.id}`);
+        const response = await fetch(`/api/buscar_usuario?id=${user.id}`);
         const data = await response.json();
         
         if (data.success) {

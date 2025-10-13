@@ -17,7 +17,7 @@ async function loadSellerData() {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
         const sellerId = user.sellerId || user.id;
         
-        const response = await fetch(`/api/admin/seller-profile?id_vendedor=${sellerId}`);
+        const response = await fetch(`/api/seller_profile?id_vendedor=${sellerId}`);
         const data = await response.json();
         
         if (data.success) {
@@ -25,6 +25,21 @@ async function loadSellerData() {
             document.getElementById('nome-loja').value = seller.NOME_LOJA || '';
             document.getElementById('tipo-pessoa').value = seller.TIPO_PESSOA || 'PF';
             document.getElementById('digito-pessoa').value = seller.DIGITO_PESSOA || '';
+            
+            // Exibir CPF/CNPJ criptografado
+            const cpfElement = document.getElementById('cpf-display');
+            const cnpjElement = document.getElementById('cnpj-display');
+            
+            if (seller.TIPO_PESSOA === 'PF' && (seller.CPF_CLIENTE || seller.DIGITO_PESSOA)) {
+                const cpf = seller.CPF_CLIENTE || seller.DIGITO_PESSOA;
+                cpfElement.textContent = maskCPF(cpf);
+                cpfElement.style.display = 'block';
+                cnpjElement.style.display = 'none';
+            } else if (seller.TIPO_PESSOA === 'PJ' && seller.DIGITO_PESSOA) {
+                cnpjElement.textContent = maskCNPJ(seller.DIGITO_PESSOA);
+                cnpjElement.style.display = 'block';
+                cpfElement.style.display = 'none';
+            }
             
             if (seller.IMAGEM_PERFIL_LOJA_BASE64) {
                 const preview = document.getElementById('preview-foto-loja');
@@ -34,7 +49,7 @@ async function loadSellerData() {
         }
 
         // Carregar dados pessoais
-        const userResponse = await fetch(`/api/admin/user-details/${user.id}`);
+        const userResponse = await fetch(`/api/buscar_usuario?id=${user.id}`);
         const userData = await userResponse.json();
         
         if (userData.success) {
@@ -53,7 +68,7 @@ async function loadProducts() {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
         const sellerId = user.sellerId || user.id;
         
-        const response = await fetch(`/api/admin/products-by-seller?seller_id=${sellerId}`);
+        const response = await fetch(`/api/products?seller_id=${sellerId}`);
         const data = await response.json();
         
         if (data.success) {
@@ -196,6 +211,20 @@ async function deleteProduct(id) {
             alert('Erro ao excluir produto');
         }
     }
+}
+
+function maskCPF(cpf) {
+    if (!cpf) return 'Não informado';
+    const cleaned = cpf.replace(/\D/g, '');
+    if (cleaned.length !== 11) return 'CPF inválido';
+    return `***.***.***-${cleaned.slice(-2)}`;
+}
+
+function maskCNPJ(cnpj) {
+    if (!cnpj) return 'Não informado';
+    const cleaned = cnpj.replace(/\D/g, '');
+    if (cleaned.length !== 14) return 'CNPJ inválido';
+    return `**.***.***/****-${cleaned.slice(-2)}`;
 }
 
 function logout() {

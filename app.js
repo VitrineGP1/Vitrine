@@ -87,6 +87,72 @@ app.get('/api/teste', (req, res) => {
     });
 });
 
+// Rota temporária para seller-profile
+app.get('/api/seller_profile', async (req, res) => {
+    try {
+        const sellerId = req.query.id_vendedor;
+        const [sellers] = await pool.execute(
+            `SELECT v.*, u.NOME_USUARIO, u.EMAIL_USUARIO, c.CPF_CLIENTE 
+             FROM VENDEDORES v 
+             LEFT JOIN USUARIOS u ON v.ID_USUARIO = u.ID_USUARIO 
+             LEFT JOIN CLIENTES c ON v.ID_USUARIO = c.ID_USUARIO 
+             WHERE v.ID_USUARIO = ?`,
+            [sellerId]
+        );
+        
+        if (sellers.length > 0) {
+            res.json({ success: true, seller: sellers[0] });
+        } else {
+            res.status(404).json({ success: false, message: 'Vendedor não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar vendedor:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Rota temporária para buscar usuário
+app.get('/api/buscar_usuario', async (req, res) => {
+    try {
+        const userId = req.query.id;
+        const [users] = await pool.execute(
+            `SELECT * FROM USUARIOS WHERE ID_USUARIO = ?`,
+            [userId]
+        );
+        
+        if (users.length > 0) {
+            res.json({ success: true, user: users[0] });
+        } else {
+            res.status(404).json({ success: false, message: 'Usuário não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar usuário:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Rota temporária para produtos por vendedor
+app.get('/api/products', async (req, res) => {
+    try {
+        const sellerId = req.query.seller_id;
+        let query = 'SELECT * FROM PRODUTOS';
+        let params = [];
+        
+        if (sellerId) {
+            query += ' WHERE ID_VENDEDOR = ?';
+            params.push(sellerId);
+        }
+        
+        query += ' ORDER BY ID_PROD DESC';
+        
+        const [products] = await pool.execute(query, params);
+        res.json({ success: true, products });
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 // Cadastro de usuários (cliente ou vendedor)
 app.post('/api/cadastrar_usuario', async (req, res) => {
     try {
