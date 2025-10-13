@@ -21,7 +21,12 @@ async function loadClientData() {
             document.getElementById('nome').value = userData.NOME_USUARIO || '';
             document.getElementById('email').value = userData.EMAIL_USUARIO || '';
             document.getElementById('celular').value = userData.CELULAR_USUARIO || '';
-            document.getElementById('data-nascimento').value = userData.DT_NASC_USUARIO || '';
+            // Converter data para formato yyyy-MM-dd
+            if (userData.DT_NASC_USUARIO) {
+                const date = new Date(userData.DT_NASC_USUARIO);
+                const formattedDate = date.toISOString().split('T')[0];
+                document.getElementById('data-nascimento').value = formattedDate;
+            }
             document.getElementById('cep').value = userData.CEP_USUARIO || '';
             document.getElementById('logradouro').value = userData.LOGRADOURO_USUARIO || '';
             document.getElementById('bairro').value = userData.BAIRRO_USUARIO || '';
