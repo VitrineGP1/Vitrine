@@ -59,6 +59,39 @@ router.get('/products', async (req, res) => {
     }
 });
 
+// Buscar detalhes de um produto
+router.get('/product-details/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const connection = await req.app.locals.pool.getConnection();
+        
+        const [products] = await connection.execute(
+            `SELECT p.*, u.NOME_USUARIO, u.EMAIL_USUARIO, u.CIDADE_USUARIO 
+             FROM PRODUTOS p 
+             LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO 
+             WHERE p.ID_PROD = ?`,
+            [productId]
+        );
+        
+        connection.release();
+        
+        if (products.length > 0) {
+            const product = products[0];
+            const seller = {
+                NOME_USUARIO: product.NOME_USUARIO,
+                EMAIL_USUARIO: product.EMAIL_USUARIO,
+                CIDADE_USUARIO: product.CIDADE_USUARIO
+            };
+            res.json({ success: true, product, seller });
+        } else {
+            res.status(404).json({ success: false, message: 'Produto não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar produto:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 // Excluir produto
 router.delete('/products/:id', async (req, res) => {
     try {

@@ -243,6 +243,11 @@
                 return; // Stats já foram substituídos no setupBuyerLayout
             }
             
+            // Verificar se stats existe antes de acessar propriedades
+            if (!stats) {
+                stats = {};
+            }
+            
             document.getElementById('total-products').textContent = stats.totalProducts || 0;
             document.getElementById('total-sales').textContent = stats.totalSales || 0;
             document.getElementById('total-revenue').textContent = `R$ ${(stats.totalRevenue || 0).toFixed(2).replace('.', ',')}`;
