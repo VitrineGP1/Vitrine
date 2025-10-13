@@ -49,13 +49,7 @@ Object.entries(routes).forEach(([path, page]) => {
     router.get(path, (req, res) => res.render(`pages/${page}`));
 });
 
-// Controlador de páginas
-const pageController = require('../controllers/pageController');
 
-// Rota especial para produtos com controller
-router.get("/produtos", function (req, res) {
-    pageController.produtos(req, res);
-});
 
 // SDK do Mercado Pago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
