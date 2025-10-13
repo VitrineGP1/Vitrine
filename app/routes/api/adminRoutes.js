@@ -111,6 +111,52 @@ router.delete('/products/:id', async (req, res) => {
     }
 });
 
+// Buscar perfil de vendedor
+router.get('/seller-profile', async (req, res) => {
+    try {
+        const sellerId = req.query.id_vendedor;
+        const connection = await req.app.locals.pool.getConnection();
+        
+        const [sellers] = await connection.execute(
+            `SELECT v.*, u.NOME_USUARIO, u.EMAIL_USUARIO 
+             FROM VENDEDORES v 
+             LEFT JOIN USUARIOS u ON v.ID_USUARIO = u.ID_USUARIO 
+             WHERE v.ID_USUARIO = ?`,
+            [sellerId]
+        );
+        
+        connection.release();
+        
+        if (sellers.length > 0) {
+            res.json({ success: true, seller: sellers[0] });
+        } else {
+            res.status(404).json({ success: false, message: 'Vendedor não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar vendedor:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Buscar produtos por vendedor
+router.get('/products-by-seller', async (req, res) => {
+    try {
+        const sellerId = req.query.seller_id;
+        const connection = await req.app.locals.pool.getConnection();
+        
+        const [products] = await connection.execute(
+            `SELECT * FROM PRODUTOS WHERE ID_VENDEDOR = ? ORDER BY ID_PROD DESC`,
+            [sellerId]
+        );
+        
+        connection.release();
+        res.json({ success: true, products });
+    } catch (error) {
+        console.error('Erro ao buscar produtos do vendedor:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 // Excluir usuário
 router.delete('/users/:id', async (req, res) => {
     try {

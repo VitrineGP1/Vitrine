@@ -17,7 +17,7 @@ async function loadSellerData() {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
         const sellerId = user.sellerId || user.id;
         
-        const response = await fetch(`/api/seller_profile?id_vendedor=${sellerId}`);
+        const response = await fetch(`/api/admin/seller-profile?id_vendedor=${sellerId}`);
         const data = await response.json();
         
         if (data.success) {
@@ -34,7 +34,7 @@ async function loadSellerData() {
         }
 
         // Carregar dados pessoais
-        const userResponse = await fetch(`/api/buscar_usuario?id=${user.id}`);
+        const userResponse = await fetch(`/api/admin/user-details/${user.id}`);
         const userData = await userResponse.json();
         
         if (userData.success) {
@@ -53,7 +53,7 @@ async function loadProducts() {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
         const sellerId = user.sellerId || user.id;
         
-        const response = await fetch(`/api/products?seller_id=${sellerId}`);
+        const response = await fetch(`/api/admin/products-by-seller?seller_id=${sellerId}`);
         const data = await response.json();
         
         if (data.success) {

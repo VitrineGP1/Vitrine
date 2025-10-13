@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadClientData() {
     try {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
-        const response = await fetch(`/api/buscar_usuario?id=${user.id}`);
+        const response = await fetch(`/api/admin/user-details/${user.id}`);
         const data = await response.json();
         
         if (data.success) {
@@ -52,8 +52,8 @@ async function updateClientData(e) {
 
     try {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
-        const response = await fetch('/api/update_user', {
-            method: 'POST',
+        const response = await fetch('/api/admin/user-details', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: user.id, ...userData })
         });
@@ -84,8 +84,8 @@ async function updateAddress(e) {
 
     try {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
-        const response = await fetch('/api/update_user', {
-            method: 'POST',
+        const response = await fetch('/api/admin/user-details', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: user.id, ...addressData })
         });

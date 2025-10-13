@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Cliente | Vitrine</title>
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/perfil-sidebar.css">
     <link rel="stylesheet" href="css/perfil-cliente.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -22,77 +25,96 @@
         </nav>
     </header>
 
-    <main class="container">
-        <h1>Perfil do Cliente</h1>
-        
-        <section class="profile-section">
-            <h2>Dados Pessoais</h2>
-            <form id="client-profile-form">
-                <section class="form-group">
-                    <label for="nome">Nome Completo:</label>
-                    <input type="text" id="nome" name="nome" required>
-                </section>
-                
-                <section class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
-                </section>
-                
-                <section class="form-group">
-                    <label for="celular">Celular:</label>
-                    <input type="tel" id="celular" name="celular">
-                </section>
-                
-                <section class="form-group">
-                    <label for="data-nascimento">Data de Nascimento:</label>
-                    <input type="date" id="data-nascimento" name="data_nascimento">
-                </section>
-                
-                <button type="submit" class="btn-primary">Salvar Alterações</button>
-            </form>
-        </section>
+    <main class="profile-container">
+        <aside class="sidebar">
+            <h2>Meu Perfil</h2>
+            <nav class="sidebar-menu">
+                <a href="#dados-pessoais" class="menu-item active" data-section="dados-pessoais">
+                    <i class="fas fa-user"></i> Dados Pessoais
+                </a>
+                <a href="#endereco" class="menu-item" data-section="endereco">
+                    <i class="fas fa-map-marker-alt"></i> Endereço
+                </a>
+                <a href="#pedidos" class="menu-item" data-section="pedidos">
+                    <i class="fas fa-shopping-bag"></i> Meus Pedidos
+                </a>
+                <a href="#" onclick="logout()" class="menu-item logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </nav>
+        </aside>
 
-        <section class="address-section">
-            <h2>Endereço de Entrega</h2>
-            <form id="address-form">
-                <section class="form-group">
-                    <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep" maxlength="9">
-                </section>
-                
-                <section class="form-group">
-                    <label for="logradouro">Logradouro:</label>
-                    <input type="text" id="logradouro" name="logradouro">
-                </section>
-                
-                <section class="form-group">
-                    <label for="bairro">Bairro:</label>
-                    <input type="text" id="bairro" name="bairro">
-                </section>
-                
-                <section class="form-group">
-                    <label for="cidade">Cidade:</label>
-                    <input type="text" id="cidade" name="cidade">
-                </section>
-                
-                <section class="form-group">
-                    <label for="uf">UF:</label>
-                    <input type="text" id="uf" name="uf" maxlength="2">
-                </section>
-                
-                <button type="submit" class="btn-primary">Salvar Endereço</button>
-            </form>
-        </section>
+        <section class="content">
+            <section id="dados-pessoais" class="content-section active">
+                <h2>Dados Pessoais</h2>
+                <form id="client-profile-form">
+                    <section class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required>
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="celular">Celular:</label>
+                        <input type="tel" id="celular" name="celular">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="data-nascimento">Data de Nascimento:</label>
+                        <input type="date" id="data-nascimento" name="data_nascimento">
+                    </section>
+                    
+                    <button type="submit" class="btn-primary">Salvar Alterações</button>
+                </form>
+            </section>
 
-        <section class="orders-section">
-            <h2>Meus Pedidos</h2>
-            <section id="orders-list">
-                <!-- Pedidos serão carregados aqui -->
+            <section id="endereco" class="content-section">
+                <h2>Endereço de Entrega</h2>
+                <form id="address-form">
+                    <section class="form-group">
+                        <label for="cep">CEP:</label>
+                        <input type="text" id="cep" name="cep" maxlength="9">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="logradouro">Logradouro:</label>
+                        <input type="text" id="logradouro" name="logradouro">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" id="bairro" name="bairro">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="cidade">Cidade:</label>
+                        <input type="text" id="cidade" name="cidade">
+                    </section>
+                    
+                    <section class="form-group">
+                        <label for="uf">UF:</label>
+                        <input type="text" id="uf" name="uf" maxlength="2">
+                    </section>
+                    
+                    <button type="submit" class="btn-primary">Salvar Endereço</button>
+                </form>
+            </section>
+
+            <section id="pedidos" class="content-section">
+                <h2>Meus Pedidos</h2>
+                <section id="orders-list">
+                    <!-- Pedidos serão carregados aqui -->
+                </section>
             </section>
         </section>
     </main>
 
     <script src="js/auth.js"></script>
+    <script src="js/perfil-sidebar.js"></script>
     <script src="js/perfil-cliente.js"></script>
 </body>
 </html>
