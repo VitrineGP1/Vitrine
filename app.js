@@ -42,11 +42,16 @@ const pool = require("./config/pool-conexoes");
 console.log(' Carregando rotas...');
 const authRoutes = require("./app/routes/authRoutes")(pool);
 const profileRoutes = require("./app/routes/profileRoutes")(pool);
+const adminRoutes = require("./app/routes/api/adminRoutes");
 const mainRoutes = require("./app/routes/router");
+
+// Disponibilizar pool para as rotas admin
+app.locals.pool = pool;
 
 // Configura rotas
 app.use("/api", authRoutes);
 app.use("/api", profileRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/", mainRoutes);
 
 // Health check
