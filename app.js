@@ -29,6 +29,9 @@ app.use(session({
     }
 }));
 
+// Favicon
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 // Arquivos estáticos e EJS
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 app.set("view engine", "ejs");
