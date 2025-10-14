@@ -1,41 +1,48 @@
-body {
-    max-width: 100%;
-    max-height: 100%;
-    background-color: rgb(255, 255, 255);
-}
-.hh4{
-  margin-top: -20px;
-font-size: small;
-}
-.box-produto {
-  background-color: #f0f0f0fb;
-  list-style: none;
-  text-decoration: none;
-}
-.nav-list a {
-    text-decoration: none;
-    color: black; /* ou a cor que quiser */
-    font-size: 18px; /* aumenta o tamanho do texto */
-    margin-right: 20px; /* espaço entre os links */
-}
-
-/* Para alinhar os itens horizontalmente */
-.nav-list {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 15px; /* espaço entre os itens */
+/* Reset básico */
+* {
+    margin: 0;
     padding: 0;
-    margin: 0;
+    box-sizing: border-box;
 }
 
-/* Para o carrinho, que é uma imagem, ajustar tamanho e remover margem extra */
-.nav-list .carrinho img {
-    width: 40px; /* ajuste o tamanho */
-    height: auto;
-    vertical-align: middle;
-    margin: 0;
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
 }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* bannerrrrrr*/
+/* botão hamburguer */
+.hamburger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+  }
 
   a {
     text-decoration: none;
@@ -44,7 +51,10 @@ font-size: small;
   
   /* responsividade */
   @media (max-width: 768px) {
-
+    /* esconde busca e nav */
+    form.search {
+      display: none;
+    }
   
     .nav-list {
       display: none;
@@ -58,7 +68,15 @@ font-size: small;
       padding: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-
+  
+    .nav-list.active {
+      display: flex;
+    }
+  
+    /* mostra hamburguer */
+    .hamburger {
+      display: block;
+    }
   }
   
 .banner {
@@ -93,6 +111,88 @@ font-size: small;
     background: #ff6f3c;
     color: #fff;
   }
+  
+  
+  
+header.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* logo */
+  .logo img {
+    display: block;
+  }
+  
+  /* barra de busca */
+  form.search {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    margin: 0 20px;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+  }
+  
+  .search-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: #ff6f3c;
+    color: #fff;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+  }
+  
+  /* nav */
+  .nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-list a {
+    text-decoration: none;
+    color: #222;
+    font-size: 18px;
+    position: relative;
+  }
+  
+  .nav-list a:hover {
+    color: #ff6f3c;
+  }
+  
+  /* carrinho com badge */
+  .carrinho {
+    position: relative;
+  }
+  
+  .carrinho .count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #ff3b30;
+    color: #fff;
+    border-radius: 999px;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+  .categorias-container2{
+    background-color: #fafafa;
+    padding-top: 3%;
+}
 /* CSS para tornar a grade responsiva */
 .grade {
   display: flex;
@@ -190,7 +290,6 @@ p.event-filtros {
 .slider-container {
     height: 50%;
     object-fit: cover;
-    margin-top: 40px;
 }
 
 .slider {
@@ -217,7 +316,6 @@ p.event-filtros {
     width: 100%;
     object-fit: cover;
 }
-
 footer {
     width: 100%;
     color:white;
@@ -282,6 +380,10 @@ footer {
 .footer-list .footer-link {
     color: var(--color-neutral-30);
     transition: all 0.4s;
+}
+
+.footer-list .footer-link:hover {
+    color: #3D5A80;
 }
 
 #footer_subscribe {
