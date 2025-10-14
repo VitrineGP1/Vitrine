@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok && result.success) {
                     const name = result.user.NOME_USUARIO ? result.user.NOME_USUARIO.split(' ')[0] : '';
                     showMessage(messageDiv, `Seja bem vindo(a) ${name}!`, 'success');
-                    
+
                     // Estruturar dados do usuário para compatibilidade
                     const userId = result.user.ID_USUARIO || result.user.id || result.user.userId;
                     const userName = result.user.NOME_USUARIO || result.user.name || result.user.nome;
                     const userEmail = result.user.EMAIL_USUARIO || result.user.email;
                     const userType = result.user.TIPO_USUARIO || result.user.type || result.user.tipo || 'C';
-                    
+
                     const userData = {
                         id: userId,
                         name: userName,
@@ -90,18 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         EMAIL_USUARIO: userEmail,
                         TIPO_USUARIO: userType
                     };
-                    
+
                     if (!userId) {
                         showMessage(messageDiv, 'Erro: ID do usuário não encontrado.', 'error');
                         return;
                     }
-                    
+
                     localStorage.setItem('loggedUser', JSON.stringify(userData));
 
                     // Transferir carrinho de sessão para usuário logado
                     const sessionCart = JSON.parse(localStorage.getItem('cart_session')) || [];
                     const userCart = JSON.parse(localStorage.getItem(`cart_${result.user.ID_USUARIO}`)) || [];
-                    
+
                     if (sessionCart.length > 0) {
                         // Mesclar carrinhos - adicionar itens da sessão ao carrinho do usuário
                         sessionCart.forEach(sessionItem => {
@@ -112,25 +112,15 @@ document.addEventListener('DOMContentLoaded', () => {
                                 userCart.push(sessionItem);
                             }
                         });
-                        
+
                         // Salvar carrinho mesclado e limpar sessão
                         localStorage.setItem(`cart_${userData.id}`, JSON.stringify(userCart));
                         localStorage.removeItem('cart_session');
                     }
 
-                    // Verificar se há checkout pendente
-                    const pendingCheckout = localStorage.getItem('pendingCheckout');
-                    if (pendingCheckout === 'true') {
-                        localStorage.removeItem('pendingCheckout');
-                        setTimeout(() => {
-                            window.location.href = '/carrinho';
-                        }, 1000);
-                    } else {
-                        setTimeout(() => {
-                            redirectByUserType(result.redirectUrl);
-                        }, 1000);
-                    }
-                    
+                    // Redirecionar imediatamente após login bem-sucedido
+                    window.location.href = '/perfil';
+
                 } else {
                     showMessage(messageDiv, result.error || 'Erro ao fazer login.', 'error');
                 }

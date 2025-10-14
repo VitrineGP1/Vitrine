@@ -33,14 +33,15 @@ Object.entries(routes).forEach(([path, page]) => {
                 // Carregar produtos para a home
                 try {
                     const pool = require('../../config/pool-conexoes');
-                    const result = await pool.request().query(`
-                        SELECT TOP 20 p.*, u.NOME_USUARIO as NOME_VENDEDOR 
-                        FROM PRODUTO p 
-                        LEFT JOIN USUARIO u ON p.ID_VENDEDOR = u.ID_USUARIO 
+                    const [rows] = await pool.execute(`
+                        SELECT p.*, u.NOME_USUARIO as NOME_VENDEDOR
+                        FROM PRODUTOS p
+                        LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO
                         ORDER BY p.ID_PROD DESC
+                        LIMIT 20
                     `);
-                    console.log('Produtos encontrados:', result.recordset.length);
-                    res.render(`pages/${page}`, { produtos: result.recordset });
+                    console.log('Produtos encontrados:', rows.length);
+                    res.render(`pages/${page}`, { produtos: rows });
                 } catch (dbError) {
                     console.error('Erro ao carregar produtos:', dbError);
                     res.render(`pages/${page}`, { produtos: [] });
