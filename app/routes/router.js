@@ -27,10 +27,24 @@ const routes = {
 
 // Criar rotas automaticamente
 Object.entries(routes).forEach(([path, page]) => {
-    router.get(path, (req, res) => {
+    router.get(path, async (req, res) => {
         try {
             if (page === 'home') {
-                res.render(`pages/${page}`, { produtos: [] });
+                // Carregar produtos para a home
+                const pool = require('../config/pool-conexoes');
+                try {
+                    const result = await pool.request().query(`
+                        SELECT p.*, u.NOME_USUARIO as NOME_VENDEDOR 
+                        FROM PRODUTO p 
+                        LEFT JOIN USUARIO u ON p.ID_VENDEDOR = u.ID_USUARIO 
+                        WHERE p.ATIVO = 1
+                        ORDER BY p.ID_PROD DESC
+                    `);
+                    res.render(`pages/${page}`, { produtos: result.recordset });
+                } catch (dbError) {
+                    console.error('Erro ao carregar produtos:', dbError);
+                    res.render(`pages/${page}`, { produtos: [] });
+                }
             } else {
                 res.render(`pages/${page}`);
             }
@@ -50,6 +64,7 @@ router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
 // SDK do Mercado Pago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { pedidoController } = require("../controllers/pedidoController");
+const pool = require('../config/pool-conexoes');
 
 // Verificar se accessToken existe
 if (!process.env.accessToken) {

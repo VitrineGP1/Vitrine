@@ -119,7 +119,6 @@ class StorageHelper {
             }, 10000);
         }
     }
-}
 
     // Interceptar tentativas de acesso direto ao localStorage
     setupStorageProxy() {
