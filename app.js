@@ -76,7 +76,11 @@ app.get('/test-db', async (req, res) => {
     }
 });
 
-// Rotas para o frontend React
+// Rotas para arquivos JS
+app.get('/js/perfil.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'app', 'public', 'js', 'perfil.js'));
+});
+
 app.get('/cadvendedor.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'app', 'public', 'js', 'cadvendedor.js'));
 });
@@ -110,6 +114,26 @@ app.get('/api/seller_profile', async (req, res) => {
         }
     } catch (error) {
         console.error('Erro ao buscar vendedor:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Rota para buscar usuário por ID
+app.get('/api/user/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const [users] = await pool.execute(
+            `SELECT * FROM USUARIOS WHERE ID_USUARIO = ?`,
+            [userId]
+        );
+        
+        if (users.length > 0) {
+            res.json({ success: true, user: users[0] });
+        } else {
+            res.status(404).json({ success: false, message: 'Usuário não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar usuário:', error);
         res.status(500).json({ success: false, message: 'Erro interno do servidor' });
     }
 });
