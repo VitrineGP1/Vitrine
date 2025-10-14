@@ -51,10 +51,12 @@ const mainRoutes = require("./app/routes/router");
 // Disponibilizar pool para as rotas admin
 app.locals.pool = pool;
 
-// Configura rotas
+// Configura rotas - API primeiro
 app.use("/api", authRoutes);
 app.use("/api", profileRoutes);
 app.use("/api/admin", adminRoutes);
+
+// Rotas principais por último
 app.use("/", mainRoutes);
 
 // Health check
