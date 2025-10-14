@@ -197,9 +197,9 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
                 LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO, DT_NASC_USUARIO
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
-                NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO || null, hashedPassword, TIPO_USUARIO,
-                LOGRADOURO_USUARIO || null, BAIRRO_USUARIO || null, CIDADE_USUARIO || null, 
-                UF_USUARIO || null, CEP_USUARIO || null, DT_NASC_USUARIO || null
+                NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO || '00000000000', hashedPassword, TIPO_USUARIO,
+                LOGRADOURO_USUARIO || 'N/A', BAIRRO_USUARIO || 'N/A', CIDADE_USUARIO || 'N/A', 
+                UF_USUARIO || 'SP', CEP_USUARIO || '00000000', DT_NASC_USUARIO || '1990-01-01'
             ]
         );
 
