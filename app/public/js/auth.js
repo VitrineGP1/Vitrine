@@ -17,17 +17,10 @@ function checkLoginStatus() {
         
         loginLinks.forEach(link => {
             if (link.textContent.trim() === 'Entrar') {
-                // Redireciona admin para dashboard, outros para perfil
-                if (user.type === 'A') {
-                    link.href = '/admin-dashboard';
-                    link.innerHTML = `<i class="fa fa-crown"></i> ${user.name.split(' ')[0]}`;
-                } else if (user.type === 'V') {
-                    link.href = '/vendedor/dashboard';
-                    link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
-                } else {
-                    link.href = '/cliente/dashboard';
-                    link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
-                }
+                // Todos redirecionam para perfil unificado
+                link.href = '/perfil';
+                const icon = user.type === 'A' ? 'fa-crown' : 'fa-user';
+                link.innerHTML = `<i class="fa ${icon}"></i> ${user.name.split(' ')[0]}`;
             }
         });
         
@@ -45,12 +38,7 @@ function checkLoginStatus() {
         
 
         
-        // Adiciona aba "Meus Pedidos" para compradores (exceto em páginas admin)
-        if (user.type === 'C' && !window.location.pathname.includes('admin')) {
-            const ordersLi = document.createElement('li');
-            ordersLi.innerHTML = '<a href="/meus-pedidos"><i class="fa fa-shopping-bag"></i> Meus Pedidos</a>';
-            navList.appendChild(ordersLi);
-        }
+
         
         // Verifica se já existe botão de logout
         const existingLogout = navList.querySelector('a[onclick="logout()"]');

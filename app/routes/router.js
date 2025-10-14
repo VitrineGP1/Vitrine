@@ -8,9 +8,7 @@ const routes = {
     "/login": "login",
     "/cadcliente": "cadcliente",
     "/cadvendedor": "cadvendedor",
-    "/perfil-cliente": "perfil-cliente",
-    "/perfil-vendedor": "perfil-vendedor",
-    "/perfil-admin": "perfil-admin",
+
     "/sobrenos": "sobrenos",
     "/prod1": "produto1",
     "/prod2": "produto2",
@@ -24,14 +22,7 @@ const routes = {
     "/admin-vendedores": "admin-vendedores",
     "/admin-produto-detalhes": "admin-produtos-detalhes",
     "/admin-produtos": "admin-produtos",
-    // Dashboards por tipo de usuário
-    "/cliente/dashboard": "perfil-cliente",
-    "/vendedor/dashboard": "perfil-vendedor",
-    "/admin/dashboard": "perfil-admin",
-    // Compatibilidade com rotas antigas
-    "/V": "perfil-vendedor",
-    "/A": "perfil-admin",
-    "/C": "perfil-cliente",
+
 };
 
 // Criar rotas automaticamente
@@ -50,13 +41,9 @@ Object.entries(routes).forEach(([path, page]) => {
     });
 });
 
-// Rotas adicionais que podem não ter arquivos de view
-router.get('/perfil', (req, res) => res.render('pages/perfil-cliente'));
+// Rota unificada de perfil
+router.get('/perfil', (req, res) => res.render('pages/perfil'));
 router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
-router.get('/dashboard-vendedor', (req, res) => res.render('pages/perfil-vendedor'));
-router.get('/admin-dashboard', (req, res) => res.render('pages/perfil-admin'));
-router.get('/criar-produto', (req, res) => res.render('pages/perfil-vendedor'));
-router.get('/meus-pedidos', (req, res) => res.render('pages/perfil-cliente'));
 
 
 

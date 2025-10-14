@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function redirectByUserType(redirectUrl) {
-        window.location.href = redirectUrl || '/cliente/dashboard';
+        window.location.href = '/perfil';
     }
 
     if (loginForm) {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const user = JSON.parse(existingUser);
             if (user.type) {
-                redirectByUserType(user.type);
+                window.location.href = '/perfil';
             }
         } catch (error) {
             console.log('Erro ao verificar usuário logado:', error.message);
