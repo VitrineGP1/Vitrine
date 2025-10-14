@@ -24,19 +24,22 @@
                 <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
             </a>
 
-            <div class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
             <nav>
                 <ul class="nav-list">
                     <li><a href="/">Início</a></li>
                     <li><a href="/sobrenos">Sobre</a></li>
                     <li><a href="/login">Entrar</a></li>
-                    <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
+                    <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px" alt="Carrinho de compras"></a></li>
                 </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu de navegação">☰</button>
             </nav>
+
+            <ul class="mobile-menu" id="mobileMenu" style="display: none;">
+                <li><a href="/">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho">Carrinho</a></li>
+            </ul>
         </header>
 
         <main class="container">

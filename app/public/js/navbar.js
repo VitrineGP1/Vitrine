@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    
+
     // Toggle mobile menu
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+            mobileMenu.style.display = mobileMenu.style.display === 'none' || mobileMenu.style.display === '' ? 'block' : 'none';
         });
     }
-    
+
     // Fechar menu ao clicar em um link (em dispositivos móveis)
     if (mobileMenu) {
         const mobileLinks = mobileMenu.querySelectorAll('a');
@@ -18,4 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Fechar menu ao clicar fora dele
+    document.addEventListener('click', function(event) {
+        if (mobileMenu && mobileMenuBtn && !mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+            mobileMenu.style.display = 'none';
+        }
+    });
 });

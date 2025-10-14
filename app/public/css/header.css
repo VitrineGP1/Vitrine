@@ -139,11 +139,16 @@
             .mobile-menu-btn {
                 display: block;
                 color: white;
-                width: 50%;
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                padding: 10px;
             }
 
             nav {
                 padding: 10px 0;
+                position: relative;
             }
 
             .mobile-menu {
@@ -158,6 +163,7 @@
                 border-radius: 0 0 12px 12px;
                 padding: 20px;
                 gap: 15px;
+                z-index: 1001;
             }
 
             .mobile-menu a {

@@ -14,19 +14,14 @@
                 <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
             </a>
 
-            <aside class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </aside>
-                    <!-- barra de busca -->
+            <!-- barra de busca -->
         <form class="search" role="search" action="/buscar" method="get">
             <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
             <button type="submit" class="search-btn">
               <i class="fa fa-search"></i>
             </button>
           </form>
-        
+
           <!-- navegação -->
           <nav>
             <ul class="nav-list" id="nav-list">
@@ -44,7 +39,20 @@
                 </a>
               </li>
             </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
           </nav>
+
+          <ul class="mobile-menu" id="mobileMenu" style="display: none;">
+            <li><a href="/">Início</a></li>
+            <li><a href="/login">Entrar</a></li>
+            <li><a href="/carrinho">Carrinho</a></li>
+            <li><a href="/cadastro">Seja um Vendedor</a></li>
+            <li style="display: none;" id="mobile-profile-icon-li">
+              <a href="/perfil" class="profile-icon" title="Meu Perfil">
+                <img id="mobile-header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              </a>
+            </li>
+          </ul>
         </header>
 
         <main class="slider-container">

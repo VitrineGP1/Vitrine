@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordErrorSpan = document.getElementById('passwordError');
 
     // ✅ URL CORRETA - aponta para sua rota authRoutes
-    const API_LOGIN_URL = '/api/login';
+    const API_LOGIN_URL = '/api/login_usuario';
 
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

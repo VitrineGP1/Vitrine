@@ -357,28 +357,54 @@ transition: background-color .10s;
   .first-column{
       width: 100%;
   }
-  
+
+  .second-column{
+      width: 100%;
+  }
+
   .sign-in-js .content::before {
       top: 60%;
       left: 0;
       border-radius: 0;
   }
 
-  .form {
+  .loginForm {
       width: 90%;
+  }
+
+  .label-input input {
+      width: 100%;
   }
 
 }
 
 @media screen and (max-width: 600px) {
-  .form {
-    width: 50%;
+  .loginForm {
+    width: 95%;
+  }
+
+  .title {
+      font-size: 24px;
+  }
+
+  .description {
+      font-size: 12px;
   }
 }
 
 @media screen and (max-width: 425px) {
-  .form {
-    width: 60%;
+  .loginForm {
+    width: 98%;
+  }
+
+  .title {
+      font-size: 20px;
+  }
+
+  .btn {
+      width: 120px;
+      padding: 8px 30px;
+      font-size: 9px;
   }
 }
 

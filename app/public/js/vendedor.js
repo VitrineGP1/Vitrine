@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const API_PRODUCTS_URL = '/api/products';
     // NOVA ROTA: Para buscar e atualizar dados do perfil do vendedor (incluindo a foto da loja)
-    const API_SELLER_PROFILE_URL = '/api/seller_profile'; 
+    const API_SELLER_PROFILE_URL = '/api/admin/seller-profile';
     const API_LOGIN_URL = '/api/login_usuario'; // Mantido para redirecionamento
 
     let currentSellerId = null;

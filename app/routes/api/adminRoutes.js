@@ -116,17 +116,17 @@ router.get('/seller-profile', async (req, res) => {
     try {
         const sellerId = req.query.id_vendedor;
         const connection = await req.app.locals.pool.getConnection();
-        
+
         const [sellers] = await connection.execute(
-            `SELECT v.*, u.NOME_USUARIO, u.EMAIL_USUARIO 
-             FROM VENDEDORES v 
-             LEFT JOIN USUARIOS u ON v.ID_USUARIO = u.ID_USUARIO 
+            `SELECT v.*, u.NOME_USUARIO, u.EMAIL_USUARIO
+             FROM VENDEDORES v
+             LEFT JOIN USUARIOS u ON v.ID_USUARIO = u.ID_USUARIO
              WHERE v.ID_USUARIO = ?`,
             [sellerId]
         );
-        
+
         connection.release();
-        
+
         if (sellers.length > 0) {
             res.json({ success: true, seller: sellers[0] });
         } else {
@@ -134,6 +134,30 @@ router.get('/seller-profile', async (req, res) => {
         }
     } catch (error) {
         console.error('Erro ao buscar vendedor:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
+// Atualizar perfil de vendedor (incluindo imagem de perfil da loja)
+router.put('/seller-profile', async (req, res) => {
+    try {
+        const { id_vendedor, IMAGEM_PERFIL_LOJA_BASE64 } = req.body;
+        const connection = await req.app.locals.pool.getConnection();
+
+        const [result] = await connection.execute(
+            `UPDATE VENDEDORES SET IMAGEM_PERFIL_LOJA_BASE64 = ? WHERE ID_USUARIO = ?`,
+            [IMAGEM_PERFIL_LOJA_BASE64, id_vendedor]
+        );
+
+        connection.release();
+
+        if (result.affectedRows > 0) {
+            res.json({ success: true, message: 'Perfil do vendedor atualizado com sucesso' });
+        } else {
+            res.status(404).json({ success: false, message: 'Vendedor não encontrado' });
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar perfil do vendedor:', error);
         res.status(500).json({ success: false, message: 'Erro interno do servidor' });
     }
 });
