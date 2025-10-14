@@ -827,7 +827,7 @@ img {
                                     </div>
                                     <p style="margin: 5px 0; color: #666;" id="main-address-display">
                                         <% if (typeof user !== 'undefined' && user && user.LOGRADOURO_USUARIO && user.LOGRADOURO_USUARIO !== 'N/A') { %>
-                                            <%= user.LOGRADOURO_USUARIO %> - <%= user.BAIRRO_USUARIO %><br><%= user.CIDADE_USUARIO %>, <%= user.UF_USUARIO %> - <%= user.CEP_USUARIO %>
+                                            <%= user.LOGRADOURO_USUARIO %>, <%= user.NUMERO_USUARIO || 'S/N' %> - <%= user.BAIRRO_USUARIO %><br><%= user.CIDADE_USUARIO %>, <%= user.UF_USUARIO %> - <%= user.CEP_USUARIO %>
                                         <% } else { %>
                                             
                                         <% } %>

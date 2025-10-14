@@ -216,11 +216,11 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
         const [userResult] = await pool.execute(
             `INSERT INTO USUARIOS (
                 NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO, SENHA_USUARIO, TIPO_USUARIO,
-                LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO, DT_NASC_USUARIO
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                LOGRADOURO_USUARIO, NUMERO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO, DT_NASC_USUARIO
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 NOME_USUARIO, EMAIL_USUARIO, CELULAR_USUARIO || '00000000000', hashedPassword, TIPO_USUARIO,
-                LOGRADOURO_USUARIO || 'N/A', BAIRRO_USUARIO || 'N/A', CIDADE_USUARIO || 'N/A', 
+                LOGRADOURO_USUARIO || 'N/A', req.body.NUMERO_USUARIO || 'S/N', BAIRRO_USUARIO || 'N/A', CIDADE_USUARIO || 'N/A', 
                 UF_USUARIO || 'SP', CEP_USUARIO || '00000000', DT_NASC_USUARIO || '1990-01-01'
             ]
         );

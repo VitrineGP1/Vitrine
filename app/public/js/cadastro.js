@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirmPassword');
     const logradouroInput = document.getElementById('logradouro');
+    const numeroInput = document.getElementById('numero');
     const bairroInput = document.getElementById('bairro');
     const cidadeInput = document.getElementById('cidade');
     const ufInput = document.getElementById('uf');
@@ -320,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const CONFIRM_SENHA_USUARIO = confirmPasswordInput ? confirmPasswordInput.value : '';
         const CELULAR_USUARIO = celularInput ? celularInput.value.trim() : '';
         const LOGRADOURO_USUARIO = logradouroInput ? logradouroInput.value.trim() : '';
+        const NUMERO_USUARIO = numeroInput ? numeroInput.value.trim() : '';
         const BAIRRO_USUARIO = bairroInput ? bairroInput.value.trim() : '';
         const CIDADE_USUARIO = cidadeInput ? cidadeInput.value.trim() : '';
         const UF_USUARIO = ufInput ? ufInput.value.trim() : '';
@@ -377,6 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
             SENHA_USUARIO,
             CELULAR_USUARIO: CELULAR_USUARIO || null,
             LOGRADOURO_USUARIO: LOGRADOURO_USUARIO || null,
+            NUMERO_USUARIO: NUMERO_USUARIO || null,
             BAIRRO_USUARIO: BAIRRO_USUARIO || null,
             CIDADE_USUARIO: CIDADE_USUARIO || null,
             UF_USUARIO: UF_USUARIO || null,

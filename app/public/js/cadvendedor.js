@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cepInput = document.getElementById('cep');
     const ufInput = document.getElementById('uf');
     const logradouroInput = document.getElementById('logradouro');
+    const numeroInput = document.getElementById('numero');
     const bairroInput = document.getElementById('bairro');
     const cidadeInput = document.getElementById('cidade');
     const passwordInput = document.getElementById('password');
@@ -442,6 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 CEP_USUARIO: cepInput ? cepInput.value.replace(/\D/g, '') : '',
                 UF_USUARIO: ufInput ? ufInput.value.trim() : '',
                 LOGRADOURO_USUARIO: logradouroInput ? logradouroInput.value.trim() : '',
+                NUMERO_USUARIO: numeroInput ? numeroInput.value.trim() : '',
                 BAIRRO_USUARIO: bairroInput ? bairroInput.value.trim() : '',
                 CIDADE_USUARIO: cidadeInput ? cidadeInput.value.trim() : '',
                 
