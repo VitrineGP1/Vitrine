@@ -5,6 +5,7 @@ class StorageHelper {
     constructor() {
         this.storageAvailable = this.checkStorageAvailability();
         this.fallbackStorage = new Map();
+        this.setupStorageProxy();
     }
 
     checkStorageAvailability() {
@@ -116,6 +117,41 @@ class StorageHelper {
                     warning.remove();
                 }
             }, 10000);
+        }
+    }
+}
+
+    // Interceptar tentativas de acesso direto ao localStorage
+    setupStorageProxy() {
+        if (!this.storageAvailable) {
+            const self = this;
+            const originalSetItem = Storage.prototype.setItem;
+            const originalGetItem = Storage.prototype.getItem;
+            const originalRemoveItem = Storage.prototype.removeItem;
+            
+            Storage.prototype.setItem = function(key, value) {
+                try {
+                    return originalSetItem.call(this, key, value);
+                } catch (e) {
+                    self.fallbackStorage.set(key, value);
+                }
+            };
+            
+            Storage.prototype.getItem = function(key) {
+                try {
+                    return originalGetItem.call(this, key);
+                } catch (e) {
+                    return self.fallbackStorage.get(key) || null;
+                }
+            };
+            
+            Storage.prototype.removeItem = function(key) {
+                try {
+                    return originalRemoveItem.call(this, key);
+                } catch (e) {
+                    self.fallbackStorage.delete(key);
+                }
+            };
         }
     }
 }
