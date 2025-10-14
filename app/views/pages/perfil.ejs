@@ -825,7 +825,7 @@ img {
                                         <span class="principal-badge" style="background: #3483fa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Principal</span>
                                         <h4 style="margin: 0; color: #333;">Casa</h4>
                                     </div>
-                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">Rua das Flores, 123 - Centro<br>São Paulo, SP - 01234-567</p>
+                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">Carregando endereço...</p>
                                 </div>
                                 <div class="address-actions">
                                     <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
@@ -1494,6 +1494,7 @@ img {
                     }
                     
                     populateUserFields(userData);
+                    updateMainAddress(userData);
                 } else {
                     // Fallback para dados básicos do login
                     const userData = {
@@ -1505,6 +1506,7 @@ img {
                     };
                     
                     populateUserFields(userData);
+                    updateMainAddress(userData);
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados do usuário:', error);
@@ -1518,6 +1520,16 @@ img {
                 };
                 
                 populateUserFields(userData);
+            }
+        }
+        
+        function updateMainAddress(userData) {
+            const mainAddressDisplay = document.getElementById('main-address-display');
+            if (mainAddressDisplay && userData.logradouro && userData.cidade) {
+                const address = `${userData.logradouro} - ${userData.bairro}<br>${userData.cidade}, ${userData.uf} - ${userData.cep}`;
+                mainAddressDisplay.innerHTML = address;
+            } else if (mainAddressDisplay) {
+                mainAddressDisplay.innerHTML = 'Nenhum endereço cadastrado';
             }
         }
         

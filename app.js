@@ -267,6 +267,38 @@ app.post('/api/cadastrar_usuario', async (req, res) => {
     }
 });
 
+// Atualizar dados do usuário
+app.put('/api/admin/user-details', async (req, res) => {
+    try {
+        const { id, nome, email, celular, data_nascimento, cep, logradouro, bairro, cidade, uf } = req.body;
+        
+        const updateFields = [];
+        const values = [];
+        
+        if (nome) { updateFields.push('NOME_USUARIO = ?'); values.push(nome); }
+        if (email) { updateFields.push('EMAIL_USUARIO = ?'); values.push(email); }
+        if (celular) { updateFields.push('CELULAR_USUARIO = ?'); values.push(celular); }
+        if (data_nascimento) { updateFields.push('DT_NASC_USUARIO = ?'); values.push(data_nascimento); }
+        if (cep) { updateFields.push('CEP_USUARIO = ?'); values.push(cep); }
+        if (logradouro) { updateFields.push('LOGRADOURO_USUARIO = ?'); values.push(logradouro); }
+        if (bairro) { updateFields.push('BAIRRO_USUARIO = ?'); values.push(bairro); }
+        if (cidade) { updateFields.push('CIDADE_USUARIO = ?'); values.push(cidade); }
+        if (uf) { updateFields.push('UF_USUARIO = ?'); values.push(uf); }
+        
+        values.push(id);
+        
+        await pool.execute(
+            `UPDATE USUARIOS SET ${updateFields.join(', ')} WHERE ID_USUARIO = ?`,
+            values
+        );
+        
+        res.json({ success: true, message: 'Dados atualizados com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 
 
 // Start server
