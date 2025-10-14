@@ -22,7 +22,7 @@ const routes = {
     "/admin-vendedores": "admin-vendedores",
     "/admin-produto-detalhes": "admin-produtos-detalhes",
     "/admin-produtos": "admin-produtos",
-    "/criar-produto": "criar-produto",
+    "/produto": "produto-dinamico",
 
 };
 

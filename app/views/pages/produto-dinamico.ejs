@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= produto.NOME_PROD %> - Especificações do Produto | Vitrine</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+    <style>
+        element.style {
+    background: #3D5A80;
+}
+header.header {
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.header {
+    background: #3D5A80;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.search-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+}
+form.search {
+    flex: 1;
+    max-width: 600px;
+    height: 30px;
+    display: flex;
+    margin: 0 20px;
+}
+.search-btn {
+    background: none;
+    border: none;
+    color: #3D5A80;
+    cursor: pointer;
+    padding: 5px;
+}
+.search-btn {
+    padding: 10px 15px;
+    border: none;
+    color: #000000;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+}
+
+.logo img {
+    border-radius: 50%;
+    transition: transform 0.3s 
+ease;
+}
+.logo img {
+    display: block;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+            color: #E0FBFC;
+        }
+        
+        .carrinho {
+            font-size: 1.5rem;
+        }
+        
+        .carrinho:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-radius: 20px;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px !important;
+            border-radius: 50% !important;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-icon:hover {
+            background: rgba(255,255,255,0.2) !important;
+            transform: scale(1.1);
+        }
+        
+        .profile-icon img {
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: border-color 0.3s ease;
+        }
+        
+        .profile-icon:hover img {
+            border-color: rgba(255,255,255,0.8);
+        }
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+}
+.button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+.search {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 25px;
+    padding: 8px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+}
+.fa, .fa-brands, .fa-classic, .fa-regular, .fa-sharp, .fa-solid, .fab, .far, .fas {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: var(--fa-display, inline-block);
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+}
+
+.fa {
+    font-family: var(--fa-style-family, "Font Awesome 6 Free");
+    font-weight: var(--fa-style, 900);
+}
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 10%;
+        }
+        .product-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .product-header img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5%;
+            flex: 1 1 300px;
+            width: 50%;
+        }
+        .product-details {
+            flex: 2 1 400px;
+        }
+        .product-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        .product-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .specifications {
+            margin-top: 20px;
+        }
+        .specifications h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        .product-specs-list {
+            list-style: none;
+            padding: 0;
+        }
+        .product-specs-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+        .product-specs-list li:last-child {
+            border-bottom: none;
+        }
+        .seller-info {
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+        }
+        .seller-info h2 {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        .seller-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .seller-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        .seller-rating {
+            color: #f1c40f;
+        }
+        
+        .seller-items {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Avaliações */
+        .reviews-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .reviews-section h2 {
+            font-size: 1.5rem;
+            color: #000;
+            margin-bottom: 20px;
+        }
+        
+        .review-form {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .rating-input {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .rating-input input[type="radio"] {
+            display: none;
+        }
+        
+        .rating-input label {
+            font-size: 1.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .rating-input input[type="radio"]:checked ~ label,
+        .rating-input input[type="radio"]:checked ~ label ~ label,
+        .rating-input label:hover,
+        .rating-input label:hover ~ label {
+            color: #f1c40f;
+        }
+        
+        .rating-input:hover label {
+            color: #ddd;
+        }
+        
+        .rating-input label:hover,
+        .rating-input label:hover ~ label {
+            color: #f1c40f;
+        }
+        
+        .review-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        
+        .review-submit {
+            background-color: #3D5A80;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .review-submit:hover {
+            background-color: #2c4a6b;
+        }
+        
+        .review-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .review-rating {
+            color: #f1c40f;
+        }
+        
+        .review-text {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* Modal de Login */
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+        
+        .login-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .login-modal h3 {
+            color: #3D5A80;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .login-modal p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .login-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .login-btn {
+            background-color: #3D5A80;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn:hover {
+            background-color: #2c4a6b;
+        }
+        
+        .cancel-btn {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #bbb;
+            gap: 10px;
+            justify-content: center;
+        
+        }
+        .login-btn {
+            background-color: #3D5A80;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn:hover {
+            background-color: #2c4a6b;
+        }
+        
+        .cancel-btn {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #bbb;
+        }
+
+        
+        /* Produtos "Você também pode gostar" */
+        .event-filtros {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3D5A80;
+            margin: 3rem 0 2rem 0;
+            position: relative;
+        }
+        .event-filtros::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #E0FBFC, #98C1D9);
+            border-radius: 2px;
+        }
+        .categorias-container2 {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        .grade {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        .produtos {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 1.2rem;
+            max-width: 250px;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+        .produtos:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .produtos a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .imagem {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .imagem:hover {
+            transform: scale(1.05);
+        }
+        .h1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000000;
+            margin: 1rem 0 0.5rem 0;
+            line-height: 1.4;
+        }
+        .hh4 {
+            color: #7F8C8D;
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+            line-height: 1.2;
+        }
+        .preco {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #27AE60;
+            margin: 1rem 0;
+        }
+
+        
+        @media (max-width: 768px) {
+            .product-header {
+                flex-direction: column;
+            }
+            .product-title {
+                font-size: 1.8rem;
+            }
+            .product-price {
+                font-size: 1.4rem;
+            }
+        }    
+
+        #cart-feedback-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        .cart-success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .cart-error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .add-to-cart-btn {
+            background-color: #e47a1b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #c06517;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, #2C3E50, #34495E);
+            color: white;
+            padding: 3rem 0 1rem 0;
+            margin-top: 4rem;
+        }
+        
+        #footer_content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        
+        #footer_contacts h3, .footer-list h3, #footer_subscribe h3 {
+            color: #E0FBFC;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        #footer_social_media {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-link {
+            color: #BDC3C7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: #E0FBFC;
+        }
+        
+        .footer-list ul {
+            list-style: none;
+        }
+        
+        .footer-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        #input_group {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .email {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        
+        #input_group button {
+            background: #E47A1B;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+<body>
+        <header class="header" style="background: #3D5A80;">
+            <a class="logo" href="/">
+                <img src="/imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
+
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/sobrenos">Sobre</a></li>
+              <li><a href="/login">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/cadastro">Seja um Vendedor</a></li>
+              <li style="display: none;" id="profile-icon-li">
+                <a href="/perfil" class="profile-icon" title="Meu Perfil">
+                  <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </header>
+
+
+    <main>
+        <section class="container" aria-labelledby="product-main-heading">
+            <div class="product-header">
+                <% if (produto.IMAGEM_BASE64) { %>
+                    <img id="product-image" src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                <% } else if (produto.IMAGEM_URL) { %>
+                    <img id="product-image" src="<%= produto.IMAGEM_URL %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                <% } else { %>
+                    <img id="product-image" src="imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                <% } %>
+                
+                <div class="product-details">
+                    <h1 id="product-main-heading" class="product-title"><%= produto.NOME_PROD %></h1>
+                    <p id="product-price" class="product-price">R$ <%= parseFloat(produto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                    <p class="product-description">
+                        <%= produto.DESCRICAO_PROD || 'Produto artesanal de alta qualidade.' %>
+                    </p>
+                    <button id="addToCartBtn" class="btn add-to-cart-btn" type="button" data-product-id="<%= produto.ID_PROD %>">ADICIONAR AO CARRINHO</button>
+                    <div id="cart-feedback-message" class="message"></div>
+                </div>
+            </div>
+
+            <section class="specifications" aria-labelledby="specs-heading">
+                <h2 id="specs-heading">Especificações Técnicas</h2>
+                <ul class="product-specs-list">
+                    <li><strong>Código:</strong> #<%= produto.ID_PROD %></li>
+                    <li><strong>Categoria:</strong> <%= produto.ID_CATEGORIA ? 'Categoria ' + produto.ID_CATEGORIA : 'Artesanato' %></li>
+                    <li><strong>Material:</strong> Artesanal</li>
+                    <li><strong>Qualidade:</strong> Premium</li>
+                </ul>
+            </section>
+
+            <section class="seller-info" aria-labelledby="seller-heading">
+                <h2 id="seller-heading">Informações do Vendedor</h2>
+                <div class="seller-details">
+                    <div>
+                        <p class="seller-name"><%= produto.NOME_LOJA || 'Loja Artesã' %></p>
+                        <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
+                        <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="reviews-section">
+                <h2>Avaliações do Produto</h2>
+                
+                <div class="review-form">
+                    <h3>Deixe sua avaliação</h3>
+                    <form id="reviewForm">
+                        <div class="rating-input">
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1">★</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3">★</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5">★</label>
+                        </div>
+                        <textarea class="review-textarea" placeholder="Escreva sua avaliação sobre o produto..." required></textarea>
+                        <button type="submit" class="review-submit">Enviar Avaliação</button>
+                    </form>
+                </div>
+                
+                <div class="reviews-list">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-author">Maria Silva</span>
+                            <span class="review-rating">★★★★★</span>
+                        </div>
+                        <p class="review-text">Produto de excelente qualidade! Superou minhas expectativas. Recomendo!</p>
+                    </div>
+                    
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-author">João Santos</span>
+                            <span class="review-rating">★★★★☆</span>
+                        </div>
+                        <p class="review-text">Muito bom produto artesanal. Chegou bem embalado e no prazo.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <p class="event-filtros">Você também pode gostar</p>
+    <main class="categorias-container2">
+        <section class="grade">
+            <% if (outrosProdutos && outrosProdutos.length > 0) { %>
+                <% outrosProdutos.slice(0, 5).forEach(outroProduto => { %>
+                    <article class="produtos">
+                        <a href="/produto/<%= outroProduto.ID_PROD %>">
+                            <% if (outroProduto.IMAGEM_BASE64) { %>
+                                <img src="data:image/jpeg;base64,<%= outroProduto.IMAGEM_BASE64 %>" class="imagem" width="250px" height="250px">
+                            <% } else if (outroProduto.IMAGEM_URL) { %>
+                                <img src="<%= outroProduto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
+                            <% } else { %>
+                                <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                            <% } %>
+                            <hgroup><h3 class="h1"><%= outroProduto.NOME_PROD %></h3></hgroup>
+                            <section class="hh4">Vendedor: <%= outroProduto.NOME_LOJA || 'Loja Artesã' %></section><br>
+                            <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+                            <p class="preco">R$ <%= parseFloat(outroProduto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                        </a>
+                    </article>
+                <% }); %>
+            <% } %>
+        </section>   
+    </main>
+
+    <footer>
+        <aside id="footer_content">
+            <section id="footer_contacts"> <h3>Contatos</h3>
+                <div id="footer_social_media">
+                    <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="footer-link" id="facebook" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+            </section>
+
+            <nav class="footer-list"> <h3>Paginas</h3>
+                <ul> 
+                    <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
+                    <li><a href="/prod" class="footer-link">Produtos</a></li>
+                    <li><a href="/login" class="footer-link">Entrar</a></li>
+                </ul>
+            </nav>
+
+            <section id="footer_subscribe"> <h3>Inscreva-se</h3>
+                <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
+                <div id="input_group">
+                    <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
+                    <button onclick="validateEmail()" aria-label="Inscrever-se">
+                        <i class="fa-regular fa-envelope"></i>
+                    </button>
+                </div>
+                <p id="message"></p>
+            </section>
+        </aside>
+    </footer>
+    
+    <!-- Modal de Login -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-modal-content">
+            <h3>Login Necessário</h3>
+            <p>Você precisa fazer login para realizar esta ação. Faça login ou crie uma conta para continuar.</p>
+            <div class="login-modal-buttons">
+                <a href="/login" class="login-btn">Fazer Login</a>
+                <button class="cancel-btn" onclick="closeLoginModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/prod.js"></script>
+    
+    <script>
+        // Funções do modal
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        
+        // Verificar se usuário está logado
+        function checkLogin() {
+            const loggedUser = localStorage.getItem('loggedUser');
+            return loggedUser !== null;
+        }
+        
+        // Formulário de avaliação
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!checkLogin()) {
+                    showLoginModal();
+                    return;
+                }
+                alert('Avaliação enviada com sucesso!');
+            });
+        });
+        
+        // Sistema de estrelas da esquerda para direita
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.rating-input label');
+            const radios = document.querySelectorAll('.rating-input input[type="radio"]');
+            
+            stars.forEach((star, index) => {
+                star.addEventListener('mouseover', () => {
+                    stars.forEach((s, i) => {
+                        s.style.color = i <= index ? '#f1c40f' : '#ddd';
+                    });
+                });
+                
+                star.addEventListener('click', () => {
+                    if (!checkLogin()) {
+                        showLoginModal();
+                        return;
+                    }
+                    radios[index].checked = true;
+                    stars.forEach((s, i) => {
+                        s.style.color = i <= index ? '#f1c40f' : '#ddd';
+                    });
+                });
+            });
+            
+            document.querySelector('.rating-input').addEventListener('mouseleave', () => {
+                const checkedIndex = Array.from(radios).findIndex(radio => radio.checked);
+                stars.forEach((s, i) => {
+                    s.style.color = checkedIndex >= 0 && i <= checkedIndex ? '#f1c40f' : '#ddd';
+                });
+            });
+        });
+        
+        // Fechar modal clicando fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target == modal) {
+                closeLoginModal();
+            }
+        }
+    </script>
+</body>
+</html>
