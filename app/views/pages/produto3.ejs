@@ -93,7 +93,7 @@
         <section class="specifications">
             <h3>Especificações Técnicas</h3>
             <ul>
-                <li><strong>Marca:</strong> Exemplo</li>
+                <li><strong>Marca:</strong> <% if (typeof produto !== 'undefined' && produto) { %>Artesanal<% } else { %>Carregando...<% } %></li>
                 <li><strong>Modelo:</strong> ABC123</li>
                 <li><strong>Dimensões:</strong> 28 x 30 x 30 cm</li>
                 <li><strong>Peso:</strong> 900g</li>
@@ -106,13 +106,13 @@
             <h3>Informações do Vendedor</h3>
             <div class="seller-details">
                 <div>
-                    <p class="seller-name">Nome do Vendedor: Loja Exemplo</p>
+                    <p class="seller-name">Nome do Vendedor: <% if (typeof produto !== 'undefined' && produto && produto.NOME_LOJA) { %><%= produto.NOME_LOJA %><% } else if (typeof produto !== 'undefined' && produto && produto.NOME_USUARIO) { %><%= produto.NOME_USUARIO %><% } else { %>Carregando...<% } %></p>
                     <p class="seller-rating">Avaliação: ★★★★☆ (4.5)</p>
                 </div>
             </div>
             <div class="contact-info">
-                <p><strong>Telefone:</strong> (11) 98765-4321</p>
-                <p><strong>Email:</strong> contato@lojaexemplo.com</p>
+                <p><strong>Telefone:</strong> <% if (typeof produto !== 'undefined' && produto && produto.CELULAR_USUARIO) { %><%= produto.CELULAR_USUARIO %><% } else { %>Não informado<% } %></p>
+                <p><strong>Email:</strong> <% if (typeof produto !== 'undefined' && produto && produto.EMAIL_USUARIO) { %><%= produto.EMAIL_USUARIO %><% } else { %>Não informado<% } %></p>
             </div>
         </section>
     </main>

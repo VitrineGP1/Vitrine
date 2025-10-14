@@ -66,7 +66,7 @@
             </div>
             <div class="user-info">
                 <h1 id="user-name">Carregando...</h1>
-                <p id="user-email">email@exemplo.com</p>
+                <p id="user-email"><% if (typeof user !== 'undefined' && user && user.EMAIL_USUARIO) { %><%= user.EMAIL_USUARIO %><% } else { %>Carregando...<% } %></p>
                 <span class="user-type" id="user-type">Carregando...</span>
             </div>
         </div>

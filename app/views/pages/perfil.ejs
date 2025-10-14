@@ -906,7 +906,7 @@ img {
                         <div class="form-grid">
                             <div class="form-field">
                                 <label>Chave PIX cadastrada</label>
-                                <input type="text" id="cards-pix" value="usuario@email.com" readonly>
+                                <input type="text" id="cards-pix" value="" readonly>
                             </div>
                         </div>
                     </div>
@@ -923,25 +923,10 @@ img {
                         <button class="btn btn-primary" onclick="addCard()"><i class="fas fa-plus"></i> Adicionar cartão</button>
                     </div>
                     <div id="cards-list" style="padding: 20px; background: #f8f9fa; border-radius: 6px;">
-                        <div class="card-item" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 15px; background: white; border-radius: 6px;">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <i class="fas fa-credit-card" style="font-size: 24px; color: #3483fa;"></i>
-                                <div>
-                                    <p style="margin: 0; font-weight: 600;">**** **** **** 1234</p>
-                                    <p style="margin: 0; font-size: 14px; color: #666;">Visa - Válido até 12/28</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary" onclick="removeCard(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
-                        </div>
-                        <div class="card-item" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: white; border-radius: 6px;">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <i class="fas fa-credit-card" style="font-size: 24px; color: #ff6b35;"></i>
-                                <div>
-                                    <p style="margin: 0; font-weight: 600;">**** **** **** 5678</p>
-                                    <p style="margin: 0; font-size: 14px; color: #666;">Mastercard - Válido até 08/27</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary" onclick="removeCard(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
+                        <div style="padding: 40px; text-align: center; color: #666;">
+                            <i class="fas fa-credit-card" style="font-size: 48px; margin-bottom: 16px; color: #ddd;"></i>
+                            <p>Nenhum cartão cadastrado</p>
+                            <p style="font-size: 14px;">Adicione cartões para facilitar suas compras</p>
                         </div>
                     </div>
                 </div>
@@ -1210,7 +1195,6 @@ img {
             loadUserData();
             setupEditControls();
             checkSellerStatus();
-            loadAddressesFromStorage();
             setupProfileImageUpload();
             
             // Garantir sincronização das imagens após carregamento
@@ -1370,76 +1354,7 @@ img {
             localStorage.setItem(`addresses_${loggedUser.id}`, JSON.stringify(addresses));
         }
         
-        function loadAddressesFromStorage() {
-            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-            if (!loggedUser) return;
-            
-            const savedAddresses = localStorage.getItem(`addresses_${loggedUser.id}`);
-            if (!savedAddresses) return;
-            
-            const addresses = JSON.parse(savedAddresses);
-            const addressesList = document.getElementById('addresses-list');
-            
-            // Limpar endereços existentes
-            const existingAddresses = addressesList.querySelectorAll('.address-item');
-            existingAddresses.forEach(item => {
-                if (item.getAttribute('data-main') !== 'true' || addresses.some(addr => addr.isMain)) {
-                    item.remove();
-                }
-            });
-            
-            // Separar endereços principais e secundários
-            const mainAddress = addresses.find(addr => addr.isMain);
-            const secondaryAddresses = addresses.filter(addr => !addr.isMain);
-            
-            // Adicionar endereço principal primeiro
-            if (mainAddress) {
-                const defaultMain = addressesList.querySelector('.address-item[data-main="true"]');
-                if (defaultMain) defaultMain.remove();
-                
-                const newAddress = document.createElement('div');
-                newAddress.className = 'address-item';
-                newAddress.setAttribute('data-main', 'true');
-                newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3483fa;';
-                newAddress.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div style="flex: 1;">
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <span class="principal-badge" style="background: #3483fa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Principal</span>
-                                <h4 style="margin: 0; color: #333;">${mainAddress.name}</h4>
-                            </div>
-                            <p style="margin: 5px 0; color: #666;">${mainAddress.address}</p>
-                        </div>
-                        <div class="address-actions">
-                            <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-secondary" onclick="removeAddress(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-                addressesList.prepend(newAddress);
-            }
-            
-            // Adicionar endereços secundários
-            secondaryAddresses.forEach(addr => {
-                const newAddress = document.createElement('div');
-                newAddress.className = 'address-item';
-                newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px;';
-                newAddress.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <div style="flex: 1;">
-                            <h4 style="margin: 0 0 10px 0; color: #333;">${addr.name}</h4>
-                            <p style="margin: 5px 0; color: #666;">${addr.address}</p>
-                        </div>
-                        <div class="address-actions">
-                            <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-secondary set-main-btn" onclick="setAsMainAddress(this)" style="background: #ffc107; color: #000; margin-right: 10px;"><i class="fas fa-star"></i></button>
-                            <button class="btn btn-secondary" onclick="removeAddress(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
-                addressesList.appendChild(newAddress);
-            });
-        }
+
         
         async function loadUserData() {
             // Buscar dados do usuário logado

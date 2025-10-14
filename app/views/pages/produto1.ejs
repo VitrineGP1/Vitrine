@@ -92,13 +92,13 @@
                 <h2 id="seller-heading">Informações do Vendedor</h2>
                 <div class="seller-details">
                     <div>
-                        <p class="seller-name">Vendido por: **Loja Artesã Única**</p>
+                        <p class="seller-name">Vendido por: <% if (typeof produto !== 'undefined' && produto && produto.NOME_LOJA) { %><%= produto.NOME_LOJA %><% } else if (typeof produto !== 'undefined' && produto && produto.NOME_USUARIO) { %><%= produto.NOME_USUARIO %><% } else { %>Loja Artesã<% } %></p>
                         <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
                     </div>
                 </div>
                 <div class="contact-info">
-                    <p><strong>Telefone:</strong> <a href="tel:+5511987654321">(11) 98765-4321</a></p>
-                    <p><strong>Email:</strong> <a href="mailto:contato@lojaexemplo.com">contato@lojaexemplo.com</a></p>
+                    <p><strong>Telefone:</strong> <% if (typeof produto !== 'undefined' && produto && produto.CELULAR_USUARIO) { %><%= produto.CELULAR_USUARIO %><% } else { %>Não informado<% } %></p>
+                    <p><strong>Email:</strong> <% if (typeof produto !== 'undefined' && produto && produto.EMAIL_USUARIO) { %><%= produto.EMAIL_USUARIO %><% } else { %>Não informado<% } %></p>
                 </div>
             </section>
         </section>
