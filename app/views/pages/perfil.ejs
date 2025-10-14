@@ -825,7 +825,13 @@ img {
                                         <span class="principal-badge" style="background: #3483fa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Principal</span>
                                         <h4 style="margin: 0; color: #333;">Casa</h4>
                                     </div>
-                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">Carregando endereço...</p>
+                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">
+                                        <% if (typeof user !== 'undefined' && user && user.LOGRADOURO_USUARIO && user.LOGRADOURO_USUARIO !== 'N/A') { %>
+                                            <%= user.LOGRADOURO_USUARIO %> - <%= user.BAIRRO_USUARIO %><br><%= user.CIDADE_USUARIO %>, <%= user.UF_USUARIO %> - <%= user.CEP_USUARIO %>
+                                        <% } else { %>
+                                            
+                                        <% } %>
+                                    </p>
                                 </div>
                                 <div class="address-actions">
                                     <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>

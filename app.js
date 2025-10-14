@@ -297,6 +297,23 @@ app.put('/api/admin/user-details', async (req, res) => {
     }
 });
 
+// Atualizar imagem de perfil
+app.post('/api/update-profile-image', async (req, res) => {
+    try {
+        const { userId, imageBase64 } = req.body;
+        
+        await pool.execute(
+            'UPDATE USUARIOS SET IMAGEM_PERFIL_BASE64 = ? WHERE ID_USUARIO = ?',
+            [imageBase64, userId]
+        );
+        
+        res.json({ success: true, message: 'Imagem atualizada com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao atualizar imagem:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 
 
 // Start server

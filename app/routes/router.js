@@ -58,7 +58,15 @@ Object.entries(routes).forEach(([path, page]) => {
 });
 
 // Rota unificada de perfil
-router.get('/perfil', (req, res) => res.render('pages/perfil'));
+router.get('/perfil', async (req, res) => {
+    try {
+        // Por enquanto renderizar sem dados, pois o usuário é carregado via JavaScript
+        res.render('pages/perfil', { user: null });
+    } catch (error) {
+        console.error('Erro ao renderizar perfil:', error);
+        res.render('pages/perfil', { user: null });
+    }
+});
 router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
 
 
