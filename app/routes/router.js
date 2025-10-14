@@ -61,6 +61,12 @@ Object.entries(routes).forEach(([path, page]) => {
 router.get('/perfil', (req, res) => res.render('pages/perfil'));
 router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
 
+// Middleware para capturar 404
+router.use((req, res) => {
+    console.log('404 - Rota não encontrada:', req.url);
+    res.status(404).send('Página não encontrada');
+});
+
 
 
 // SDK do Mercado Pago
