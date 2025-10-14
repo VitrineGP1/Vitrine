@@ -38,7 +38,11 @@ const routes = {
 Object.entries(routes).forEach(([path, page]) => {
     router.get(path, (req, res) => {
         try {
-            res.render(`pages/${page}`);
+            if (page === 'home') {
+                res.render(`pages/${page}`, { produtos: [] });
+            } else {
+                res.render(`pages/${page}`);
+            }
         } catch (error) {
             console.error(`Erro ao renderizar ${page}:`, error);
             res.status(404).send('Página não encontrada');
