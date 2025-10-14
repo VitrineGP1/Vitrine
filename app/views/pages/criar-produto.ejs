@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Produto | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Proxima Nova', Arial, sans-serif;
+            background-color: #ebebeb;
+            color: #333;
+            margin: 0;
+            padding-top: 120px;
+        }
+
+        .logo img {
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img {
+            display: block;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+            color: #E0FBFC;
+        }
+
+        .profile-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px !important;
+            border-radius: 50% !important;
+            transition: all 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            background: rgba(255,255,255,0.2) !important;
+            transform: scale(1.1);
+        }
+
+        .profile-icon img {
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .profile-icon:hover img {
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        .header {
+            background: #3D5A80 !important;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .carrinho:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-radius: 20px;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: #3483fa;
+            box-shadow: 0 0 0 2px rgba(52, 131, 250, 0.1);
+        }
+
+        .form-field textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #3483fa;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2968c8;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: flex-end;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .image-upload:hover {
+            border-color: #3483fa;
+            background: #f8f9ff;
+        }
+
+        .image-upload i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 16px;
+        }
+
+        .image-upload p {
+            color: #666;
+            margin: 0;
+        }
+
+        .image-preview {
+            display: none;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .image-preview img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .feedback-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3483fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 16px;
+                padding: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li>
+                    <a href="/carrinho" class="carrinho" aria-label="Carrinho de compras">
+                        <i class="fa fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/perfil" class="profile-icon" title="Meu Perfil">
+                        <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Foto de perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                    </a>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu de navegação">☰</button>
+        </nav>
+
+        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
+            <li><a href="/">Início</a></li>
+            <li><a href="/sobrenos">Sobre</a></li>
+            <li><a href="/carrinho">Carrinho</a></li>
+            <li><a href="/perfil">Perfil</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <header>
+            <h1>Criar Novo Produto</h1>
+            <p>Preencha as informações abaixo para cadastrar seu produto na plataforma.</p>
+        </header>
+
+        <form id="create-product-form">
+            <section class="form-section">
+                <h2>Informações Básicas</h2>
+                <fieldset class="form-grid">
+                    <div class="form-field">
+                        <label for="nome_produto">Nome do Produto *</label>
+                        <input type="text" id="nome_produto" name="nome_produto" required placeholder="Ex: Camiseta Básica">
+                    </div>
+                    <div class="form-field">
+                        <label for="categoria_produto">Categoria *</label>
+                        <select id="categoria_produto" name="categoria_produto" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="roupas">Roupas</option>
+                            <option value="acessorios">Acessórios</option>
+                            <option value="eletronicos">Eletrônicos</option>
+                            <option value="casa">Casa e Decoração</option>
+                            <option value="esportes">Esportes</option>
+                            <option value="livros">Livros</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="valor_unitario">Preço (R$) *</label>
+                        <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" min="0.01" required placeholder="0,00">
+                    </div>
+                    <div class="form-field">
+                        <label for="quantidade_estoque">Quantidade em Estoque *</label>
+                        <input type="number" id="quantidade_estoque" name="quantidade_estoque" min="1" required placeholder="1">
+                    </div>
+                </fieldset>
+            </section>
+
+            <section class="form-section">
+                <h2>Descrição e Detalhes</h2>
+                <fieldset class="form-grid">
+                    <div class="form-field" style="grid-column: 1 / -1;">
+                        <label for="descricao_produto">Descrição do Produto *</label>
+                        <textarea id="descricao_produto" name="descricao_produto" required placeholder="Descreva detalhadamente seu produto, incluindo características, materiais, cuidados, etc."></textarea>
+                    </div>
+                </fieldset>
+            </section>
+
+            <section class="form-section">
+                <h2>Imagem do Produto</h2>
+                <figure class="image-upload" onclick="document.getElementById('imagem_produto').click()">
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                    <figcaption>
+                        <p>Clique aqui para adicionar uma imagem</p>
+                        <p>Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 5MB</p>
+                    </figcaption>
+                </figure>
+                <input type="file" id="imagem_produto" accept="image/*" style="display: none;">
+                <figure class="image-preview" id="image-preview">
+                    <img id="preview-img" src="" alt="Preview do produto">
+                    <button type="button" class="remove-image" onclick="removeImage()" aria-label="Remover imagem">&times;</button>
+                </figure>
+            </section>
+
+            <nav class="btn-group" role="navigation" aria-label="Ações do formulário">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='/perfil'">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                    <span id="submit-text">Criar Produto</span>
+                </button>
+            </nav>
+
+            <output id="feedback-message" aria-live="polite"></output>
+        </form>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfileImageFromStorage();
+            setupImageUpload();
+            setupFormSubmission();
+        });
+
+        function loadProfileImageFromStorage() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            const headerProfileImage = document.getElementById('header-profile-image');
+
+            if (loggedUser) {
+                if (loggedUser.profileImage) {
+                    headerProfileImage.src = loggedUser.profileImage;
+                } else {
+                    const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                    headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                }
+            }
+        }
+
+        function setupImageUpload() {
+            const imageInput = document.getElementById('imagem_produto');
+            const imageUpload = document.querySelector('.image-upload');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('A imagem deve ter no máximo 5MB.');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        imageUpload.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function removeImage() {
+            const imageInput = document.getElementById('imagem_produto');
+            const imageUpload = document.querySelector('.image-upload');
+            const imagePreview = document.getElementById('image-preview');
+
+            imageInput.value = '';
+            imagePreview.style.display = 'none';
+            imageUpload.style.display = 'block';
+        }
+
+        function setupFormSubmission() {
+            const form = document.getElementById('create-product-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const submitText = document.getElementById('submit-text');
+            const feedbackMessage = document.getElementById('feedback-message');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                if (!loggedUser || !loggedUser.id) {
+                    showFeedback('Você precisa estar logado para criar um produto.', 'error');
+                    return;
+                }
+
+                // Mostrar loading
+                submitBtn.disabled = true;
+                submitText.innerHTML = '<span class="loading"></span>Criando...';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('nome_produto', document.getElementById('nome_produto').value);
+                    formData.append('categoria_produto', document.getElementById('categoria_produto').value);
+                    formData.append('valor_unitario', document.getElementById('valor_unitario').value);
+                    formData.append('quantidade_estoque', document.getElementById('quantidade_estoque').value);
+                    formData.append('descricao_produto', document.getElementById('descricao_produto').value);
+                    formData.append('id_vendedor', loggedUser.id);
+
+                    const imageInput = document.getElementById('imagem_produto');
+                    if (imageInput.files[0]) {
+                        formData.append('imagem_produto', imageInput.files[0]);
+                    }
+
+                    const response = await fetch('/api/produtos', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showFeedback('Produto criado com sucesso! Redirecionando...', 'success');
+                        setTimeout(() => {
+                            window.location.href = '/perfil';
+                        }, 2000);
+                    } else {
+                        showFeedback(result.error || 'Erro ao criar produto.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    showFeedback('Erro ao criar produto. Tente novamente.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitText.textContent = 'Criar Produto';
+                }
+            });
+        }
+
+        function showFeedback(message, type) {
+            const feedbackMessage = document.getElementById('feedback-message');
+            feedbackMessage.className = `feedback-message feedback-${type}`;
+            feedbackMessage.textContent = message;
+            feedbackMessage.style.display = 'block';
+
+            setTimeout(() => {
+                feedbackMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
