@@ -5,44 +5,48 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/home.css">
-        <link rel="stylesheet" href="css/header.css">
-        <script src="js/home.js"></script>
-        <script src="js/navbar.js"></script>
         <title>Vitrine - Artesanato e Produtos Feitos à Mão</title>
     </head>
     <body>
-        <header class="body-header">
-        <nav>
-            <img src="imagens/logo(2).png" alt="Logo" class="logo" width="70" height="70">
+        <header class="header" style="background: #3D5A80;">
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
 
-            <ul>
-                <li><a href="/" class="active">Home</a></li>
-                <li><a href="/produtos">Produtos</a></li>
-                <li><a href="/sobre">Sobre Nós</a></li>
-            </ul>
-            
-            <span class="auth-buttons">
-                <button class="login-btn" onclick="window.location.href='/login'">
-                    <span>Login</span>
-                </button>
-            </span>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        </nav>
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
         
-        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/prod">Produtos</a></li>
-            <li><a href="/sobrenos">Sobre Nós</a></li>
-            <li class="mobile-auth">
-                <button class="login-btn" style="width: 100%; justify-content: center;" onclick="window.location.href='/login'">
-                    <span class="user-icon">👤</span>
-                    <span>Login</span>
-                </button>
-            </li>
-        </ul>
-    </header>
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/login">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/cadastro">Seja um Vendedor</a></li>
+              <li style="display: none;" id="profile-icon-li">
+                <a href="/perfil" class="profile-icon" title="Meu Perfil">
+                  <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </header>
 
         <main class="slider-container">
             <section class="slider">
@@ -56,134 +60,28 @@
 
         <main class="categorias-container2">
         <section class="grade">
-                
-          <article class="produtos">
-            <a href="/prod1">
-                
-
-                  <img src="imagens/produto-1.webp" class="imagem" width="250px" height="250px">
-              <hgroup><h3 class="h1" alt="Moveis">Cesto de Corda Náutica</h3></hgroup>
-              <div class="hh4">Vendedor: **Loja Artesã Única**</div><br>
-              <div class="hh4">⭐⭐⭐⭐(4.5)</div>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod2">
-                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
-              
-              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod3">
-                  <img src="imagens/bolsa.png" class="imagem" width="250px" height="250px">
-            
-              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Fio Náutico</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod4">
-                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
-            
-              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-      <article class="produtos">
-        <a href="/prod5">
-            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
-      
-        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
-        <section class="hh4">Vendedor: Loja Exemplo</section><br>
-        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-        <p class="preco">R$1.250,00</p>
-      </a>
-    </article>
-</section>   
-
-
-<main class="slider-container">
-    <section class="slider">
-        <section class="slides">
-            <figure class="slide">
-                <img src="imagens/casa-2.svg" alt="Slide1">
-            </figure>
-        </section>
-    </section>
-</main>
-
-        <main class="categorias-container2">
-        <section class="grade">
-                
-          <article class="produtos">
-            <a href="/prod1">
-                
-
-                  <img src="imagens/produto-1.webp" class="imagem" width="250px" height="250px">
-              <hgroup><h3 class="h1" alt="Moveis">Cesto de Corda Náutica</h3></hgroup>
-              <div class="hh4">Vendedor: **Loja Artesã Única**</div><br>
-              <div class="hh4">⭐⭐⭐⭐(4.5)</div>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod2">
-                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
-              
-              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod3">
-                  <img src="imagens/bolsa.png" class="imagem" width="250px" height="250px">
-            
-              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Fio Náutico</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-          <article class="produtos">
-              <a href="/prod4">
-                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
-            
-              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
-              <section class="hh4">Vendedor: Loja Exemplo</section><br>
-              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-              <p class="preco">R$1.250,00</p>
-            </a>
-          </article>
-
-      <article class="produtos">
-        <a href="/prod5">
-            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
-      
-        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
-        <section class="hh4">Vendedor: Loja Exemplo</section><br>
-        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-        <p class="preco">R$1.250,00</p>
-      </a>
-    </article>
-</section>   
+          <% if (produtos && produtos.length > 0) { %>
+            <% produtos.forEach(produto => { %>
+              <article class="produtos">
+                <a href="/produto/<%= produto.ID_PROD %>">
+                  <% if (produto.IMAGEM_BASE64) { %>
+                    <img src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" class="imagem" width="250px" height="250px">
+                  <% } else if (produto.IMAGEM_URL) { %>
+                    <img src="<%= produto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
+                  <% } else { %>
+                    <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                  <% } %>
+                  <hgroup><h3 class="h1"><%= produto.NOME_PROD %></h3></hgroup>
+                  <div class="hh4">Vendedor: <%= produto.NOME_VENDEDOR || 'Loja não encontrada' %></div>
+                  <div class="hh4">⭐⭐⭐⭐(4.5)</div>
+                  <p class="preco">R$ <%= parseFloat(produto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                </a>
+              </article>
+            <% }); %>
+          <% } else { %>
+            <p style="text-align: center; color: #666; font-size: 18px; margin: 50px 0;">Nenhum produto encontrado.</p>
+          <% } %>
+        </section>   
 
   </main>
         <br><br><br><br>
@@ -223,5 +121,8 @@
                 </section>
             </aside>
         </footer>
+        <script src="js/auth.js"></script>
+        <script src="js/home.js"></script>
+        <script src="js/navbar.js"></script>
     </body>
 </html>
