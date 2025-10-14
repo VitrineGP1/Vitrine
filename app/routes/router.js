@@ -31,8 +31,8 @@ Object.entries(routes).forEach(([path, page]) => {
         try {
             if (page === 'home') {
                 // Carregar produtos para a home
-                const pool = require('../config/pool-conexoes');
                 try {
+                    const pool = require('../../config/pool-conexoes');
                     const result = await pool.request().query(`
                         SELECT p.*, u.NOME_USUARIO as NOME_VENDEDOR 
                         FROM PRODUTO p 
@@ -64,7 +64,6 @@ router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
 // SDK do Mercado Pago
 const { MercadoPagoConfig, Preference } = require('mercadopago');
 const { pedidoController } = require("../controllers/pedidoController");
-const pool = require('../config/pool-conexoes');
 
 // Verificar se accessToken existe
 if (!process.env.accessToken) {
