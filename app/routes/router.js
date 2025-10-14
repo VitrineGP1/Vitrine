@@ -34,12 +34,12 @@ Object.entries(routes).forEach(([path, page]) => {
                 try {
                     const pool = require('../../config/pool-conexoes');
                     const result = await pool.request().query(`
-                        SELECT p.*, u.NOME_USUARIO as NOME_VENDEDOR 
+                        SELECT TOP 20 p.*, u.NOME_USUARIO as NOME_VENDEDOR 
                         FROM PRODUTO p 
                         LEFT JOIN USUARIO u ON p.ID_VENDEDOR = u.ID_USUARIO 
-                        WHERE p.ATIVO = 1
                         ORDER BY p.ID_PROD DESC
                     `);
+                    console.log('Produtos encontrados:', result.recordset.length);
                     res.render(`pages/${page}`, { produtos: result.recordset });
                 } catch (dbError) {
                     console.error('Erro ao carregar produtos:', dbError);
