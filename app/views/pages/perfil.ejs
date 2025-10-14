@@ -1197,7 +1197,6 @@ img {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
-    <script src="js/perfil.js"></script>
     <script>
         // Carregar dados do usuário
         document.addEventListener('DOMContentLoaded', function() {
@@ -1525,11 +1524,13 @@ img {
         
         function updateMainAddress(userData) {
             const mainAddressDisplay = document.getElementById('main-address-display');
-            if (mainAddressDisplay && userData.logradouro && userData.cidade) {
-                const address = `${userData.logradouro} - ${userData.bairro}<br>${userData.cidade}, ${userData.uf} - ${userData.cep}`;
-                mainAddressDisplay.innerHTML = address;
-            } else if (mainAddressDisplay) {
-                mainAddressDisplay.innerHTML = 'Nenhum endereço cadastrado';
+            if (mainAddressDisplay) {
+                if (userData.logradouro && userData.cidade && userData.logradouro !== 'N/A' && userData.cidade !== 'N/A') {
+                    const address = `${userData.logradouro} - ${userData.bairro}<br>${userData.cidade}, ${userData.uf} - ${userData.cep}`;
+                    mainAddressDisplay.innerHTML = address;
+                } else {
+                    mainAddressDisplay.innerHTML = 'Nenhum endereço cadastrado';
+                }
             }
         }
         

@@ -77,10 +77,6 @@ app.get('/test-db', async (req, res) => {
 });
 
 // Rotas para arquivos JS
-app.get('/js/perfil.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'app', 'public', 'js', 'perfil.js'));
-});
-
 app.get('/cadvendedor.js', (req, res) => {
     res.sendFile(path.join(__dirname, 'app', 'public', 'js', 'cadvendedor.js'));
 });
