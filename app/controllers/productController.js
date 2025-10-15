@@ -16,9 +16,9 @@ class ProductController {
             NOME_PROD, VALOR_UNITARIO, ID_VENDEDOR, QUANTIDADE
         });
 
-        if (!NOME_PROD || !VALOR_UNITARIO || !ID_VENDEDOR || !QUANTIDADE) {
+        if (!NOME_PROD || !DESCRICAO_PROD || !VALOR_UNITARIO || !ID_VENDEDOR || !QUANTIDADE) {
             console.log('Validation failed: missing required fields');
-            return res.status(400).json({ success: false, message: "Nome, valor unitário, ID do vendedor e quantidade são obrigatórios." });
+            return res.status(400).json({ success: false, message: "Nome, descrição, valor unitário, ID do vendedor e quantidade são obrigatórios." });
         }
         if (isNaN(VALOR_UNITARIO) || parseFloat(VALOR_UNITARIO) <= 0) {
             console.log('Validation failed: invalid price');
@@ -39,7 +39,7 @@ class ProductController {
             const [result] = await connection.execute(
                 `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_BASE64, ID_VENDEDOR, QUANTIDADE)
                  VALUES (?, ?, ?, ?, ?, ?)`,
-                [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250) || null, VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
+                [NOME_PROD, DESCRICAO_PROD.substring(0, 250), VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
             );
             
             console.log('Product created successfully, ID:', result.insertId);

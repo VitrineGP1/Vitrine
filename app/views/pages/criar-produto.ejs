@@ -555,7 +555,8 @@
                         imagePreview.style.display = 'none';
                         setTimeout(() => window.location.href = '/perfil', 2000);
                     } else {
-                        showMessage(result.message || 'Erro ao criar produto', 'error');
+                        const friendlyMessage = getFriendlyErrorMessage(result.message);
+                        showMessage(friendlyMessage, 'error');
                     }
                 } catch (error) {
                     console.error('Erro ao enviar produto:', error);
@@ -563,6 +564,45 @@
                 }
             }
 
+            function getFriendlyErrorMessage(technicalMessage) {
+                if (!technicalMessage) return 'Ops! Algo deu errado. Tente novamente.';
+                
+                const message = technicalMessage.toLowerCase();
+                
+                if (message.includes('nome') && message.includes('obrigatório')) {
+                    return 'Por favor, digite o nome do produto.';
+                }
+                if (message.includes('descrição') && message.includes('obrigatório')) {
+                    return 'Por favor, adicione uma descrição para o produto.';
+                }
+                if (message.includes('valor') && message.includes('obrigatório')) {
+                    return 'Por favor, informe o preço do produto.';
+                }
+                if (message.includes('quantidade') && message.includes('obrigatório')) {
+                    return 'Por favor, informe quantos produtos você tem em estoque.';
+                }
+                if (message.includes('vendedor') && message.includes('obrigatório')) {
+                    return 'Erro de identificação. Faça login novamente.';
+                }
+                if (message.includes('valor') && message.includes('maior que zero')) {
+                    return 'O preço deve ser maior que zero.';
+                }
+                if (message.includes('duplicate') || message.includes('duplicado')) {
+                    return 'Já existe um produto com essas informações.';
+                }
+                if (message.includes('connection') || message.includes('conexão')) {
+                    return 'Problema de conexão. Verifique sua internet e tente novamente.';
+                }
+                if (message.includes('timeout')) {
+                    return 'A operação demorou muito. Tente novamente.';
+                }
+                if (message.includes('server') || message.includes('servidor')) {
+                    return 'Nosso sistema está temporariamente indisponível. Tente novamente em alguns minutos.';
+                }
+                
+                return 'Ops! Algo deu errado. Verifique os dados e tente novamente.';
+            }
+            
             function showMessage(text, type) {
                 messageDiv.textContent = text;
                 messageDiv.className = `message ${type}`;
