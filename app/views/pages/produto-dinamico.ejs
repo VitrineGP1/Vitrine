@@ -234,6 +234,21 @@ body {
             gap: 15px;
         }
         
+        .seller-profile-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .seller-profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+        
         .seller-main-info {
             display: flex;
             flex-direction: column;
@@ -843,6 +858,23 @@ body {
             display: flex;
             align-items: center;
             gap: 10px;
+            justify-content: flex-start;
+        }
+        
+        @media (max-width: 768px) {
+            .quantity-controls {
+                justify-content: center;
+            }
+            
+            .seller-profile-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .seller-profile-image {
+                align-self: center;
+            }
         }
         
         .qty-btn {
@@ -1166,11 +1198,14 @@ body {
             <aside class="seller-info" aria-labelledby="seller-heading">
                 <h2 id="seller-heading">Informações do Vendedor</h2>
                 <section class="seller-details">
-                    <header class="seller-main-info">
-                        <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
-                        <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
-                        <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
-                    </header>
+                    <div class="seller-profile-section">
+                        <img id="seller-profile-image" class="seller-profile-image" src="https://placehold.co/60x60/cccccc/333333?text=L" alt="Foto do vendedor">
+                        <header class="seller-main-info">
+                            <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
+                            <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
+                            <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
+                        </header>
+                    </div>
                     
                     <% if (produtosDaLoja && produtosDaLoja.length > 0) { %>
                     <section class="seller-produtos">
@@ -1354,6 +1389,9 @@ body {
             const sellerLink = document.getElementById('seller-link');
             const headerProfileImage = document.getElementById('header-profile-image');
             
+            // Carregar imagem do vendedor
+            loadSellerProfileImage();
+            
             if (loggedUser) {
                 try {
                     const user = JSON.parse(loggedUser);
@@ -1385,6 +1423,33 @@ body {
             if (loginLink) loginLink.style.display = 'block';
             if (profileLink) profileLink.style.display = 'none';
         });
+        
+        // Função para carregar imagem do vendedor
+        async function loadSellerProfileImage() {
+            const sellerId = '<%= produto.ID_VENDEDOR %>';
+            const sellerProfileImage = document.getElementById('seller-profile-image');
+            const sellerName = '<%= produto.NOME_VENDEDOR || "Loja" %>';
+            
+            if (!sellerProfileImage || !sellerId) return;
+            
+            try {
+                const response = await fetch(`/api/user/${sellerId}`);
+                const result = await response.json();
+                
+                if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
+                    sellerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+                } else {
+                    // Usar placeholder com inicial do nome da loja
+                    const firstLetter = sellerName.charAt(0).toUpperCase();
+                    sellerProfileImage.src = `https://placehold.co/60x60/cccccc/333333?text=${firstLetter}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imagem do vendedor:', error);
+                // Fallback para placeholder
+                const firstLetter = sellerName.charAt(0).toUpperCase();
+                sellerProfileImage.src = `https://placehold.co/60x60/cccccc/333333?text=${firstLetter}`;
+            }
+        }
         
         // Formulário de avaliação
         document.addEventListener('DOMContentLoaded', function() {

@@ -19,6 +19,13 @@ function checkLoginStatus() {
                     profileLink.style.display = 'flex';
                 });
                 
+                // Mostrar ícone de perfil
+                const profileIconLink = document.getElementById('profile-icon-link');
+                if (profileIconLink) {
+                    profileIconLink.style.display = 'block';
+                    loadUserProfileImage(user.id);
+                }
+                
                 // Encontra os links de login
                 const loginLinks = navList.querySelectorAll('a[href="/login"]');
                 
@@ -32,9 +39,6 @@ function checkLoginStatus() {
                             link.href = '/perfil';
                             link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
                         }
-                        
-                        // Carregar foto de perfil do banco de dados
-                        loadUserProfileImage(user.id);
                     }
                 });
                 
@@ -79,18 +83,27 @@ function checkLoginStatus() {
 }
 
 async function loadUserProfileImage(userId) {
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    const headerProfileImage = document.getElementById('header-profile-image');
+    
+    if (!headerProfileImage) return;
+    
     try {
         const response = await fetch(`/api/user/${userId}`);
         const result = await response.json();
         
         if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
-            const headerProfileImage = document.getElementById('header-profile-image');
-            if (headerProfileImage) {
-                headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
-            }
+            headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+        } else {
+            // Usar placeholder com inicial do nome
+            const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
         }
     } catch (error) {
         console.error('Erro ao carregar imagem de perfil:', error);
+        // Fallback para placeholder
+        const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+        headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
     }
 }
 

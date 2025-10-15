@@ -61,6 +61,25 @@ app.get('/api/buscar_usuario', (req, res) => userController.getUser(req, res));
 
 app.put('/api/atualizar_usuario', (req, res) => userController.updateUser(req, res));
 
+app.put('/api/update-profile-image', async (req, res) => {
+    const { userId, imageBase64 } = req.body;
+    if (!userId || !imageBase64) {
+        return res.status(400).json({ success: false, message: 'ID do usuário e imagem são obrigatórios' });
+    }
+    try {
+        const connection = await pool.getConnection();
+        await connection.execute(
+            'UPDATE USUARIOS SET IMAGEM_PERFIL_BASE64 = ? WHERE ID_USUARIO = ?',
+            [imageBase64, userId]
+        );
+        connection.release();
+        res.json({ success: true, message: 'Foto de perfil atualizada com sucesso' });
+    } catch (error) {
+        console.error('Erro ao atualizar foto de perfil:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 app.post('/api/products', (req, res) => productController.createProduct(req, res));
 
 app.get('/api/products', (req, res) => productController.getProducts(req, res));
