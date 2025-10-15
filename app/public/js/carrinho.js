@@ -137,9 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Se chegou até aqui, usuário está logado e pode prosseguir
-            alert('Redirecionando para o checkout...');
-            // Aqui você pode redirecionar para a página de checkout
-            // window.location.href = '/checkout';
+            // Redirecionar diretamente para a página de checkout
+            window.location.href = '/checkout';
         });
     }
     
