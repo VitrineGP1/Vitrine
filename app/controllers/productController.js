@@ -208,7 +208,12 @@ class ProductController {
         let connection;
         try {
             connection = await this.pool.getConnection();
-            const [produtos] = await connection.execute('SELECT ID_PROD, NOME_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64 FROM PRODUTOS');
+            const [produtos] = await connection.execute(`
+                SELECT p.ID_PROD, p.NOME_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR,
+                       u.NOME_USUARIO as NOME_VENDEDOR, u.IMAGEM_PERFIL_BASE64 as VENDEDOR_IMAGEM
+                FROM PRODUTOS p
+                LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO
+            `);
             res.render('produtos', { produtos: produtos });
         } catch (error) {
             console.error('Erro ao buscar produtos para EJS:', error);

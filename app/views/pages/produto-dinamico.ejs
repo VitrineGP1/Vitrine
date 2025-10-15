@@ -1400,12 +1400,9 @@ body {
                         if (loginLink) loginLink.style.display = 'none';
                         if (profileLink) profileLink.style.display = 'flex';
                         
-                        // Configurar imagem do perfil
-                        if (user.profileImage && headerProfileImage) {
-                            headerProfileImage.src = user.profileImage;
-                        } else if (headerProfileImage) {
-                            const firstName = user.name ? user.name.split(' ')[0] : 'U';
-                            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                        // Carregar imagem do perfil do banco de dados
+                        if (headerProfileImage) {
+                            loadUserProfileImageFromDB(user.id, headerProfileImage, user.name);
                         }
                         
                         // Ocultar "Seja um Vendedor" se já for vendedor ou admin
@@ -1448,6 +1445,27 @@ body {
                 // Fallback para placeholder
                 const firstLetter = sellerName.charAt(0).toUpperCase();
                 sellerProfileImage.src = `https://placehold.co/60x60/cccccc/333333?text=${firstLetter}`;
+            }
+        }
+        
+        // Função para carregar imagem de perfil do usuário do banco de dados
+        async function loadUserProfileImageFromDB(userId, imageElement, userName) {
+            if (!imageElement) return;
+            
+            try {
+                const response = await fetch(`/api/user/${userId}`);
+                const result = await response.json();
+                
+                if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
+                    imageElement.src = result.user.IMAGEM_PERFIL_BASE64;
+                } else {
+                    const firstName = userName ? userName.split(' ')[0] : 'U';
+                    imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imagem de perfil:', error);
+                const firstName = userName ? userName.split(' ')[0] : 'U';
+                imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
             }
         }
         
