@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function (e) {
-    const mercadoPago = new MercadoPago('APP_USR-eafb8069-68db-4706-9017-c1f656344c93', {
+    const mercadoPago = new MercadoPago('TESTUSER9000169861874775174', {
         locale: 'pt-BR' 
     });
 
