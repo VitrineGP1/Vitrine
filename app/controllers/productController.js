@@ -35,11 +35,11 @@ class ProductController {
             
             console.log('SQL values:', values);
             
+            // Simplificar o INSERT para campos essenciais apenas
             const [result] = await connection.execute(
-                `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64, ID_CATEGORIA, ID_VENDEDOR,
-                                       SUBCATEGORIA, TAMANHO, QUANTIDADE, BUSTO_P, COMP_P, BUSTO_M, COMP_M, BUSTO_G, COMP_G)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                values
+                `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_BASE64, ID_VENDEDOR, QUANTIDADE)
+                 VALUES (?, ?, ?, ?, ?, ?)`,
+                [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250) || null, VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
             );
             
             console.log('Product created successfully, ID:', result.insertId);
