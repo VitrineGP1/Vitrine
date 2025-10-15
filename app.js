@@ -171,26 +171,32 @@ app.post('/api/addresses', async (req, res) => {
 // Mercado Pago Checkout Pro
 app.post('/create-preference', async (req, res) => {
     const { MercadoPagoConfig, Preference } = require('mercadopago');
-    
+
+    console.log('Creating Mercado Pago preference...');
+    console.log('Access Token exists:', !!process.env.MERCADO_PAGO_ACCESS_TOKEN);
+    console.log('Request body:', req.body);
+
     try {
-        const client = new MercadoPagoConfig({ 
-            accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
+        const client = new MercadoPagoConfig({
+            accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN
         });
         const preference = new Preference(client);
-        
+
         const { items } = req.body;
-        
+
         const preferenceData = {
             items: items,
             back_urls: {
                 success: `${req.protocol}://${req.get('host')}/payment/success`,
                 failure: `${req.protocol}://${req.get('host')}/payment/failure`,
                 pending: `${req.protocol}://${req.get('host')}/payment/pending`
-            },
-            auto_return: 'approved'
+            }
         };
-        
+
+        console.log('Preference data:', preferenceData);
+
         const result = await preference.create({ body: preferenceData });
+        console.log('Preference created:', result.id);
         res.json({ id: result.id });
     } catch (error) {
         console.error('Erro ao criar preferência:', error);
