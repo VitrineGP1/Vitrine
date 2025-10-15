@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const path = require('path');
 
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 3001;
 
 // Middlewares
 app.use(express.json({ limit: '50mb' }));
@@ -102,4 +102,5 @@ app.delete('/api/admin/products/:id', (req, res) => adminController.deleteProduc
 
 app.listen(port, () => {
     console.log(`Servidor Node.js ouvindo na porta ${port}\nhttp://localhost:${port}`);
+    console.log(`NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
 });
