@@ -117,6 +117,43 @@ app.get('/meus-pedidos', (req, res) => {
 app.get('/api/admin/product-details/:id', (req, res) => productController.getProductDetails(req, res));
 app.delete('/api/admin/products/:id', (req, res) => adminController.deleteProduct(req, res));
 
+// Rotas de endereços
+app.get('/api/addresses/:userId', async (req, res) => {
+    const { userId } = req.params;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [addresses] = await connection.execute(
+            'SELECT * FROM ENDERECOS WHERE ID_USUARIO = ?',
+            [userId]
+        );
+        res.json(addresses);
+    } catch (error) {
+        console.error('Erro ao buscar endereços:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+app.post('/api/addresses', async (req, res) => {
+    const { userId, cep, logradouro, numero, bairro, cidade, uf } = req.body;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        await connection.execute(
+            'INSERT INTO ENDERECOS (ID_USUARIO, CEP, LOGRADOURO, NUMERO, BAIRRO, CIDADE, UF) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [userId, cep, logradouro, numero, bairro, cidade, uf]
+        );
+        res.json({ success: true, message: 'Endereço cadastrado com sucesso' });
+    } catch (error) {
+        console.error('Erro ao cadastrar endereço:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
 // Mercado Pago Checkout Pro
 app.post('/create-preference', async (req, res) => {
     const { MercadoPagoConfig, Preference } = require('mercadopago');

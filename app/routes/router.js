@@ -45,37 +45,7 @@ router.get("/checkout", function (req, res) {
     res.render("pages/checkout", )
 });
 
-// Rota para criar preferência do Mercado Pago
-router.post("/create-preference", async function (req, res) {
-    try {
-        const { items } = req.body;
-        
-        const preference = {
-            items: items,
-            back_urls: {
-                success: `${req.protocol}://${req.get('host')}/payment/success`,
-                failure: `${req.protocol}://${req.get('host')}/payment/failure`,
-                pending: `${req.protocol}://${req.get('host')}/payment/pending`
-            },
-            auto_return: "approved"
-        };
-        
-        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer APP_USR-6476532723991254-101421-04db4f53bda4904c9c087f81982c17e1-2908927997`
-            },
-            body: JSON.stringify(preference)
-        });
-        
-        const data = await response.json();
-        res.json(data);
-    } catch (error) {
-        console.error('Erro ao criar preferência:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-});
+
 
 router.get("/carrinho-vazio", function (req, res) {
     res.render("pages/carrinho-vazio", )
