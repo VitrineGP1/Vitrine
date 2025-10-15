@@ -72,10 +72,10 @@
                         <h3><i class="fas fa-map-marker-alt"></i> Endereço de Entrega</h3>
                         
                         <section class="address-options" id="address-options">
-                            <!-- Endereços serão carregados aqui -->
-                            <article class="address-option" data-address="new">
-                                <h4><i class="fas fa-plus"></i> Cadastrar novo endereço</h4>
-                                <p>Adicionar um novo endereço de entrega</p>
+                            <!-- Endereço será carregado aqui -->
+                            <article class="address-option" data-address="edit">
+                                <h4><i class="fas fa-edit"></i> Editar endereço</h4>
+                                <p>Atualizar seu endereço de entrega</p>
                             </article>
                         </section>
 
@@ -87,7 +87,7 @@
                                 </section>
                                 <section class="form-group">
                                     <label for="numero">Número</label>
-                                    <input type="text" id="numero" name="numero" required>
+                                    <input type="text" id="numero" name="numero">
                                 </section>
                             </section>
                             <section class="form-group">
@@ -108,7 +108,7 @@
                                 <label for="uf">UF</label>
                                 <input type="text" id="uf" name="uf" readonly maxlength="2">
                             </section>
-                            <button type="button" id="save-address-btn" class="btn" style="margin-top: 15px;">Salvar Endereço</button>
+                            <button type="button" id="save-address-btn" class="btn" style="margin-top: 15px;">Atualizar Endereço</button>
                         </section>
                     </section>
 
@@ -202,30 +202,39 @@
                 const addresses = await response.json();
                 
                 const addressOptions = document.getElementById('address-options');
-                const newAddressOption = addressOptions.querySelector('[data-address="new"]');
+                const newAddressOption = addressOptions.querySelector('[data-address="new"]').cloneNode(true);
                 
                 // Limpar endereços existentes
                 addressOptions.innerHTML = '';
                 
-                // Adicionar endereços salvos
-                addresses.forEach((address, index) => {
+                // Verificar se addresses é um array
+                if (Array.isArray(addresses) && addresses.length > 0) {
+                    const address = addresses[0];
                     const addressDiv = document.createElement('article');
-                    addressDiv.className = `address-option ${index === 0 ? 'selected' : ''}`;
+                    addressDiv.className = 'address-option selected';
                     addressDiv.dataset.addressId = address.ID_ENDERECO;
                     addressDiv.innerHTML = `
-                        <h4>Endereço ${index + 1}</h4>
-                        <p>${address.LOGRADOURO}, ${address.NUMERO} - ${address.BAIRRO}<br>
+                        <h4>Endereço Principal</h4>
+                        <p>${address.LOGRADOURO}, ${address.NUMERO || 'S/N'} - ${address.BAIRRO}<br>
                         ${address.CIDADE}, ${address.UF} - ${address.CEP}</p>
                     `;
                     addressOptions.appendChild(addressDiv);
-                });
+                }
                 
-                // Adicionar opção de novo endereço
+                // Adicionar opção de editar endereço
                 addressOptions.appendChild(newAddressOption);
                 
                 setupAddressListeners();
             } catch (error) {
                 console.error('Erro ao carregar endereços:', error);
+                // Manter apenas a opção de novo endereço
+                const addressOptions = document.getElementById('address-options');
+                const newAddressOption = addressOptions.querySelector('[data-address="new"]');
+                if (newAddressOption) {
+                    addressOptions.innerHTML = '';
+                    addressOptions.appendChild(newAddressOption);
+                    setupAddressListeners();
+                }
             }
         }
         
@@ -282,7 +291,7 @@
                     this.classList.add('selected');
                     
                     const newAddressForm = document.getElementById('new-address');
-                    if (this.dataset.address === 'new') {
+                    if (this.dataset.address === 'edit') {
                         newAddressForm.classList.add('show');
                     } else {
                         newAddressForm.classList.remove('show');
@@ -323,7 +332,7 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showSuccess('Endereço cadastrado com sucesso!');
+                    showSuccess('Endereço atualizado com sucesso!');
                     document.getElementById('new-address').classList.remove('show');
                     // Limpar formulário
                     document.getElementById('cep').value = '';
@@ -332,14 +341,14 @@
                     document.getElementById('bairro').value = '';
                     document.getElementById('cidade').value = '';
                     document.getElementById('uf').value = '';
-                    // Recarregar endereços
+                    // Recarregar endereço
                     loadUserAddresses();
                 } else {
-                    showError('Erro ao cadastrar endereço');
+                    showError('Erro ao atualizar endereço');
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                showError('Erro ao cadastrar endereço');
+                showError('Erro ao atualizar endereço');
             }
         }
 

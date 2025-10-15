@@ -123,14 +123,28 @@ app.get('/api/addresses/:userId', async (req, res) => {
     let connection;
     try {
         connection = await pool.getConnection();
-        const [addresses] = await connection.execute(
-            'SELECT * FROM ENDERECOS WHERE ID_USUARIO = ?',
+        const [user] = await connection.execute(
+            'SELECT LOGRADOURO_USUARIO, NUMERO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO FROM USUARIOS WHERE ID_USUARIO = ?',
             [userId]
         );
-        res.json(addresses);
+        
+        if (user.length > 0) {
+            const address = {
+                ID_ENDERECO: 1,
+                LOGRADOURO: user[0].LOGRADOURO_USUARIO,
+                NUMERO: user[0].NUMERO_USUARIO || '',
+                BAIRRO: user[0].BAIRRO_USUARIO,
+                CIDADE: user[0].CIDADE_USUARIO,
+                UF: user[0].UF_USUARIO,
+                CEP: user[0].CEP_USUARIO
+            };
+            res.json([address]);
+        } else {
+            res.json([]);
+        }
     } catch (error) {
-        console.error('Erro ao buscar endereços:', error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
+        console.error('Erro ao buscar endereço:', error);
+        res.json([]);
     } finally {
         if (connection) connection.release();
     }
@@ -142,12 +156,12 @@ app.post('/api/addresses', async (req, res) => {
     try {
         connection = await pool.getConnection();
         await connection.execute(
-            'INSERT INTO ENDERECOS (ID_USUARIO, CEP, LOGRADOURO, NUMERO, BAIRRO, CIDADE, UF) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [userId, cep, logradouro, numero, bairro, cidade, uf]
+            'UPDATE USUARIOS SET CEP_USUARIO = ?, LOGRADOURO_USUARIO = ?, NUMERO_USUARIO = ?, BAIRRO_USUARIO = ?, CIDADE_USUARIO = ?, UF_USUARIO = ? WHERE ID_USUARIO = ?',
+            [cep, logradouro, numero, bairro, cidade, uf, userId]
         );
-        res.json({ success: true, message: 'Endereço cadastrado com sucesso' });
+        res.json({ success: true, message: 'Endereço atualizado com sucesso' });
     } catch (error) {
-        console.error('Erro ao cadastrar endereço:', error);
+        console.error('Erro ao atualizar endereço:', error);
         res.status(500).json({ error: 'Erro interno do servidor' });
     } finally {
         if (connection) connection.release();
