@@ -1589,24 +1589,54 @@ img {
                 cancelBtn.style.display = 'none';
             });
             
-            saveBtn.addEventListener('click', function(e) {
+            saveBtn.addEventListener('click', async function(e) {
                 e.preventDefault();
-                // Aqui você faria a chamada para salvar os dados
-                alert('Dados salvos com sucesso!');
                 
-                // Tornar campos readonly novamente
-                inputs.forEach(input => {
-                    input.readOnly = true;
-                });
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                if (!loggedUser) return;
                 
-                // Trocar botões
-                editBtn.style.display = 'inline-block';
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
+                const updateData = {
+                    id: loggedUser.id,
+                    nome: document.getElementById('profile-name-input').value,
+                    email: document.getElementById('profile-email-input').value,
+                    celular: document.getElementById('profile-celular-input').value,
+                    data_nascimento: document.getElementById('profile-dataNasc-input').value
+                };
                 
-                // Atualizar sidebar
-                const firstName = document.getElementById('profile-name-input').value.split(' ')[0];
-                document.getElementById('profile-display-name').textContent = firstName;
+                try {
+                    const response = await fetch('/api/admin/user-details', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updateData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showToast('Dados salvos com sucesso!', 'success');
+                        
+                        // Tornar campos readonly novamente
+                        inputs.forEach(input => {
+                            input.readOnly = true;
+                        });
+                        
+                        // Trocar botões
+                        editBtn.style.display = 'inline-block';
+                        saveBtn.style.display = 'none';
+                        cancelBtn.style.display = 'none';
+                        
+                        // Atualizar sidebar
+                        const firstName = document.getElementById('profile-name-input').value.split(' ')[0];
+                        document.getElementById('profile-display-name').textContent = firstName;
+                    } else {
+                        showToast('Erro ao salvar dados', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao salvar:', error);
+                    showToast('Erro ao salvar dados', 'error');
+                }
             });
         }
         

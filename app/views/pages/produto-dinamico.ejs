@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= produto.NOME_PROD %> - Especificações do Produto | Vitrine</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
     <style>
@@ -723,7 +723,7 @@ body {
                 <% } else if (produto.IMAGEM_URL) { %>
                     <img id="product-image" src="<%= produto.IMAGEM_URL %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
                 <% } else { %>
-                    <img id="product-image" src="imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                    <img id="product-image" src="/imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
                 <% } %>
                 
                 <div class="product-details">
@@ -814,7 +814,7 @@ body {
                             <% } else if (outroProduto.IMAGEM_URL) { %>
                                 <img src="<%= outroProduto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
                             <% } else { %>
-                                <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                                <img src="/imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
                             <% } %>
                             <hgroup><h3 class="h1"><%= outroProduto.NOME_PROD %></h3></hgroup>
                             <section class="hh4">Vendedor: <%= outroProduto.NOME_LOJA || 'Loja Artesã' %></section><br>
@@ -876,9 +876,9 @@ body {
         </div>
     </div>
     
-    <script src="js/auth.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/prod.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/prod.js"></script>
     
     <script>
         // Funções do modal
@@ -938,6 +938,47 @@ body {
                     s.style.color = checkedIndex >= 0 && i <= checkedIndex ? '#f1c40f' : '#ddd';
                 });
             });
+            
+            // Funcionalidade do carrinho
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            const cartFeedbackMessage = document.getElementById('cart-feedback-message');
+            
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', () => {
+                    const productId = addToCartBtn.getAttribute('data-product-id');
+                    const name = document.getElementById('product-main-heading').textContent.trim();
+                    const priceText = document.getElementById('product-price').textContent.trim().replace('R$', '').replace(',', '.');
+                    const price = parseFloat(priceText);
+                    const image = document.getElementById('product-image').src;
+                    
+                    const product = {
+                        id: productId,
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1
+                    };
+                    
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const existingIndex = cart.findIndex(item => item.id === productId);
+                    
+                    if (existingIndex > -1) {
+                        cart[existingIndex].quantity += 1;
+                    } else {
+                        cart.push(product);
+                    }
+                    
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    cartFeedbackMessage.textContent = `${name} adicionado ao carrinho!`;
+                    cartFeedbackMessage.className = 'message cart-success-message';
+                    cartFeedbackMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        cartFeedbackMessage.style.display = 'none';
+                    }, 3000);
+                });
+            }
         });
         
         // Fechar modal clicando fora dele
