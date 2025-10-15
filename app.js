@@ -117,7 +117,50 @@ app.get('/meus-pedidos', (req, res) => {
 app.get('/api/admin/product-details/:id', (req, res) => productController.getProductDetails(req, res));
 app.delete('/api/admin/products/:id', (req, res) => adminController.deleteProduct(req, res));
 
+// Mercado Pago Checkout Pro
+app.post('/create-preference', async (req, res) => {
+    const { MercadoPagoConfig, Preference } = require('mercadopago');
+    
+    try {
+        const client = new MercadoPagoConfig({ 
+            accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
+        });
+        const preference = new Preference(client);
+        
+        const { items } = req.body;
+        
+        const preferenceData = {
+            items: items,
+            back_urls: {
+                success: `${req.protocol}://${req.get('host')}/payment/success`,
+                failure: `${req.protocol}://${req.get('host')}/payment/failure`,
+                pending: `${req.protocol}://${req.get('host')}/payment/pending`
+            },
+            auto_return: 'approved'
+        };
+        
+        const result = await preference.create({ body: preferenceData });
+        res.json({ id: result.id });
+    } catch (error) {
+        console.error('Erro ao criar preferência:', error);
+        res.status(500).json({ error: 'Erro ao processar pagamento' });
+    }
+});
 
+
+
+// Payment result pages
+app.get('/payment/success', (req, res) => {
+    res.render('pages/payment-success');
+});
+
+app.get('/payment/failure', (req, res) => {
+    res.render('pages/payment-failure');
+});
+
+app.get('/payment/pending', (req, res) => {
+    res.render('pages/payment-pending');
+});
 
 app.listen(port, () => {
     console.log(`Servidor Node.js ouvindo na porta ${port}\nhttp://localhost:${port}`);
