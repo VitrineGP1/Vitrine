@@ -1819,14 +1819,21 @@ img {
         async function loadSellerProducts() {
             try {
                 const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                console.log('loadSellerProducts - loggedUser:', loggedUser);
+                
                 if (!loggedUser || (!loggedUser.sellerId && !loggedUser.id)) {
                     document.getElementById('seller-products-grid').innerHTML = '<p>Faça login como vendedor para ver seus produtos.</p>';
                     return;
                 }
                 
                 const sellerId = loggedUser.sellerId || loggedUser.id;
+                console.log('loadSellerProducts - sellerId:', sellerId);
+                
                 const response = await fetch(`/api/products?seller_id=${sellerId}`);
+                console.log('loadSellerProducts - response status:', response.status);
+                
                 const result = await response.json();
+                console.log('loadSellerProducts - result:', result);
                 
                 if (result.success && result.products.length > 0) {
                     const grid = document.getElementById('seller-products-grid');
