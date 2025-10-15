@@ -203,7 +203,12 @@
         </section>
     </main>
 
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
+        const mp = new MercadoPago('APP_USR-adf57951-d1a6-40b1-9808-d922808b443e', {
+            locale: 'pt-BR'
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             loadOrderSummary();
             setupEventListeners();
@@ -293,17 +298,34 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
 
             try {
-                // Simular processamento do pedido
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
                 
-                // Limpar carrinho
-                localStorage.removeItem('cart');
+                const items = cart.map(item => ({
+                    title: item.name,
+                    unit_price: parseFloat(item.price),
+                    quantity: parseInt(item.quantity),
+                    currency_id: 'BRL'
+                }));
                 
-                // Redirecionar para página de sucesso
-                window.location.href = '/pedido-confirmado';
+                const response = await fetch('/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items })
+                });
+                
+                const preference = await response.json();
+                
+                if (preference.id) {
+                    // Redirecionar para o Mercado Pago
+                    window.open(preference.init_point, '_blank');
+                } else {
+                    throw new Error('Erro ao criar preferência de pagamento');
+                }
                 
             } catch (error) {
+                console.error('Erro:', error);
                 showError('Erro ao processar pedido. Tente novamente.');
+            } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-check"></i> Finalizar Pedido';
             }
