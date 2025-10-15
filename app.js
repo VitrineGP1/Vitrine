@@ -320,7 +320,7 @@ app.post('/create-preference', async (req, res) => {
         const { MercadoPagoConfig, Preference } = require('mercadopago');
         
         const client = new MercadoPagoConfig({
-            accessToken: 'APP_USR-1660916369766569-100617-c4941cf14cc985525d2f4f6c1d22552c-251623582'
+            accessToken: process.env.accessToken
         });
         
         const preference = new Preference(client);
