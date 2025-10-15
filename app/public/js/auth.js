@@ -49,29 +49,27 @@ function checkLoginStatus() {
                         }
                     }
                 });
+                
+                // Adiciona aba "Meus Pedidos" para compradores (exceto em páginas admin)
+                if (user.type === 'buyer' && !window.location.pathname.includes('admin')) {
+                    const ordersLi = document.createElement('li');
+                    ordersLi.innerHTML = '<a href="/meus-pedidos"><i class="fa fa-shopping-bag"></i> Meus Pedidos</a>';
+                    navList.appendChild(ordersLi);
+                }
+                
+                // Verifica se já existe botão de logout
+                const existingLogout = navList.querySelector('a[onclick="logout()"]');
+                if (!existingLogout) {
+                    // Adiciona botão de logout
+                    const logoutLi = document.createElement('li');
+                    logoutLi.innerHTML = '<a href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</a>';
+                    navList.appendChild(logoutLi);
+                }
             }
         } catch (e) {
             console.error('Erro ao processar dados do usuário logado:', e);
             // Se houver erro, limpar dados corrompidos
             localStorage.removeItem('loggedUser');
-        }
-        
-
-        
-        // Adiciona aba "Meus Pedidos" para compradores (exceto em páginas admin)
-        if (user.type === 'buyer' && !window.location.pathname.includes('admin')) {
-            const ordersLi = document.createElement('li');
-            ordersLi.innerHTML = '<a href="/meus-pedidos"><i class="fa fa-shopping-bag"></i> Meus Pedidos</a>';
-            navList.appendChild(ordersLi);
-        }
-        
-        // Verifica se já existe botão de logout
-        const existingLogout = navList.querySelector('a[onclick="logout()"]');
-        if (!existingLogout) {
-            // Adiciona botão de logout
-            const logoutLi = document.createElement('li');
-            logoutLi.innerHTML = '<a href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</a>';
-            navList.appendChild(logoutLi);
         }
     } else if (!loggedUser && window.location.pathname === '/perfil') {
         // Se não está logado e está na página de perfil, redireciona para login
