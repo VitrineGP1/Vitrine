@@ -37,6 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackMessage.textContent = message;
         feedbackMessage.className = `message ${type}-message`;
         feedbackMessage.style.display = 'block';
+        
+        // Usar simply-notify também
+        if (type === 'success') {
+            showSuccess(message);
+        } else {
+            showError(message);
+        }
+        
         setTimeout(() => {
             feedbackMessage.style.display = 'none';
         }, 5000);
@@ -243,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (!isValid) {
+            showError('Por favor, corrija os erros no formulário.');
             showFeedback('Por favor, corrija os erros no formulário.', 'error');
             return;
         }

@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para mostrar erro com simply-notify
     function showFieldError(fieldName, message) {
-        simplyNotify.error(message, `Erro no campo ${fieldName}`);
+        showError(message);
     }
 
     // Função para limpar estilos de erro
@@ -309,10 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostrar também na notificação fixa
         if (type === 'success') {
             showFixedNotification('Sucesso!', message, 'success');
-            simplyNotify.success(message);
+            showSuccess(message);
         } else {
             showFixedNotification('Erro', message, 'error');
-            simplyNotify.error(message);
+            showError(message);
         }
         
         setTimeout(() => {
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isValid) {
                 showFixedNotification('Erro no Formulário', 'Por favor, corrija os erros destacados nos campos', 'error');
-                simplyNotify.error('Por favor, corrija os erros destacados nos campos', 'Erro no Formulário');
+                showError('Por favor, corrija os erros destacados nos campos');
                 return;
             }
 
