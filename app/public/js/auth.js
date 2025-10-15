@@ -37,24 +37,24 @@ function checkLoginStatus() {
                         loadUserProfileImage(user.id);
                     }
                 });
+                
+                // Encontra e oculta o link "Seja um Vendedor" para vendedores e admins
+                const sellerLinks = navList.querySelectorAll('a');
+                sellerLinks.forEach(link => {
+                    if (link.textContent.trim() === 'Seja um Vendedor') {
+                        console.log('Found seller link, user type:', user.type, 'sellerId:', user.sellerId);
+                        if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                            console.log('Hiding seller link for seller/admin user');
+                            link.style.display = 'none';
+                        }
+                    }
+                });
             }
         } catch (e) {
             console.error('Erro ao processar dados do usuário logado:', e);
             // Se houver erro, limpar dados corrompidos
             localStorage.removeItem('loggedUser');
         }
-        
-        // Encontra e oculta o link "Seja um Vendedor" para vendedores e admins
-        const sellerLinks = navList.querySelectorAll('a');
-        sellerLinks.forEach(link => {
-            if (link.textContent.trim() === 'Seja um Vendedor') {
-                console.log('Found seller link, user type:', user.type, 'sellerId:', user.sellerId);
-                if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
-                    console.log('Hiding seller link for seller/admin user');
-                    link.style.display = 'none';
-                }
-            }
-        });
         
 
         
