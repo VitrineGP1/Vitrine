@@ -10,9 +10,7 @@ const port = process.env.PORT || 3030;
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// CORS middleware
-const corsMiddleware = require('./app/middleware/cors');
-app.use(corsMiddleware);
+
 
 // Pool de conexões
 const pool = require('./config/pool-conexoes');
