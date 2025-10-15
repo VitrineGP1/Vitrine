@@ -40,6 +40,10 @@ router.get("/carrinho", function (req, res) {
     res.render("pages/carrinho", )
 });
 
+router.get("/checkout", function (req, res) {
+    res.render("pages/checkout", )
+});
+
 router.get("/carrinho-vazio", function (req, res) {
     res.render("pages/carrinho-vazio", )
 });
