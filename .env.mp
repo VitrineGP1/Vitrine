@@ -1,12 +1,13 @@
 ///Vendedor
 TESTUSER9000169861874775174
 lUntns541S
-APP_USR-adf57951-d1a6-40b1-9808-d922808b443e
+APP_USR-c772a6f2-d024-4bc7-8074-0aa5d08ae613
+
 
 //Cliente
 TESTUSER349210768266008486
 S2chveJPCR
-APP_USR-d567c4f4-8536-4e58-ab63-ce890bc7f320
+APP_USR-eafb8069-68db-4706-9017-c1f656344c93
 
 //Cartões-TESTE
 //Só use os cartões de teste disponibilizados aqui. Evite usar cartões reais ou inventados, porque eles causam erros.
