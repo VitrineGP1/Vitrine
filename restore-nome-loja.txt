@@ -1,0 +1,13 @@
+// APÓS EXECUTAR O SCRIPT SQL, substitua o código na linha 55-66 por:
+
+if (TIPO_USUARIO === 'seller') {
+    if (!TIPO_PESSOA || !DIGITO_PESSOA || !NOME_LOJA) {
+        await connection.rollback();
+        return res.status(400).json({ success: false, message: "Para vendedores, Tipo de Pessoa, Dígito de Pessoa e Nome da Loja são obrigatórios." });
+    }
+    await connection.execute(
+        `INSERT INTO VENDEDORES (ID_USUARIO, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA)
+         VALUES (?, ?, ?, ?)`,
+        [newUserId, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA]
+    );
+}

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= produto.NOME_PROD %> - Especificações do Produto | Vitrine</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 </head>
     <style>
@@ -23,7 +23,7 @@ header.header {
 }
 
 .header {
-    background: #3D5A80;
+    background: #713112;
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -78,13 +78,21 @@ img {
     height: auto;
     display: block;
 }
+
+.profile-icon img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    max-width: 32px !important;
+}
         
         .nav-list {
             display: flex;
             list-style: none;
             gap: 1rem;
             align-items: center;
-            margin-right: 20px;
+            margin-right: 200px;
         }
         
         .nav-list a {
@@ -112,28 +120,7 @@ img {
             transition: all 0.3s ease;
         }
         
-        .profile-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px !important;
-            border-radius: 50% !important;
-            transition: all 0.3s ease;
-        }
-        
-        .profile-icon:hover {
-            background: rgba(255,255,255,0.2) !important;
-            transform: scale(1.1);
-        }
-        
-        .profile-icon img {
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: border-color 0.3s ease;
-        }
-        
-        .profile-icon:hover img {
-            border-color: rgba(255,255,255,0.8);
-        }
+
 body {
     font-family: 'Inter', Arial, sans-serif;
     background-color: #f8f9fa;
@@ -243,8 +230,14 @@ body {
         }
         .seller-details {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 15px;
+        }
+        
+        .seller-main-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
         .seller-name {
             font-size: 1.2rem;
@@ -259,6 +252,88 @@ body {
             font-size: 1rem;
             color: #666;
             margin-top: 5px;
+        }
+        
+        /* Produtos do vendedor dentro de seller-details */
+        .seller-produtos {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .seller-produtos h4 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .seller-produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .seller-produto-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 1rem;
+            max-width: 200px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .seller-produto-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .seller-produto-item a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .seller-produto-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .seller-produto-info {
+            padding: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .seller-produto-nome {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .seller-produto-preco {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #27AE60;
+            margin: 0;
         }
         
         /* Avaliações */
@@ -507,6 +582,21 @@ body {
             gap: 2rem;
             padding: 2rem 0;
         }
+        
+        @media (max-width: 768px) {
+            .grade {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grade {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 0.5rem;
+            }
+        }
         .produtos {
             background: white;
             border-radius: 15px;
@@ -561,15 +651,137 @@ body {
         }
 
         
+        @media (max-width: 1024px) {
+            .container {
+                margin-top: 8%;
+                padding: 10px;
+            }
+            
+            .product-header {
+                gap: 15px;
+            }
+            
+            .product-header img {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .container {
+                margin-top: 15%;
+            }
+            
             .product-header {
                 flex-direction: column;
+                text-align: center;
             }
+            
+            .product-header img {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
             .product-title {
                 font-size: 1.8rem;
             }
+            
             .product-price {
                 font-size: 1.4rem;
+            }
+            
+            .seller-info {
+                margin-top: 20px;
+            }
+            
+            .seller-produtos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .measurements-table {
+                font-size: 0.9rem;
+            }
+            
+            .measurements-table th,
+            .measurements-table td {
+                padding: 8px 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                margin-top: 20%;
+                padding: 5px;
+            }
+            
+            .product-title {
+                font-size: 1.5rem;
+            }
+            
+            .product-price {
+                font-size: 1.2rem;
+            }
+            
+            .product-header img {
+                max-width: 250px;
+            }
+            
+            .quantity-controls {
+                justify-content: center;
+            }
+            
+            .qty-btn {
+                width: 35px;
+                height: 35px;
+            }
+            
+            #product-quantity {
+                width: 50px;
+            }
+            
+            .seller-produtos-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 10px;
+            }
+            
+            .seller-produto-item {
+                height: 140px;
+                padding: 0.8rem;
+            }
+            
+            .seller-produto-item img {
+                height: 100px;
+            }
+            
+            .seller-produto-item {
+                height: 100px;
+                padding: 0.6rem;
+            }
+            
+            .seller-produto-item img {
+                height: 80px;
+            }
+            
+            .seller-produto-nome {
+                font-size: 0.8rem;
+            }
+            
+            .seller-produto-preco {
+                font-size: 0.9rem;
+            }
+            
+            .measurements-table {
+                font-size: 0.8rem;
+            }
+            
+            .measurements-table th,
+            .measurements-table td {
+                padding: 6px 4px;
+            }
+            
+            .add-to-cart-btn {
+                width: 100%;
+                padding: 12px;
             }
         }    
 
@@ -606,9 +818,140 @@ body {
             background-color: #c06517;
         }
         
+        /* Estilos para seleção de tamanho e quantidade */
+        .size-selection, .quantity-selection {
+            margin: 15px 0;
+        }
+        
+        .size-selection label, .quantity-selection label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .size-selection select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .qty-btn {
+            background: #4c4c4c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.4rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(61, 90, 128, 0.3);
+        }
+        
+        .qty-btn:hover {
+            background: #4c4c4c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(61, 90, 128, 0.4);
+        }
+        
+        .qty-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 6px rgba(61, 90, 128, 0.3);
+        }
+        
+        #qty-minus {
+            border-radius: 20px 0 0 20px;
+        }
+        
+        #qty-plus {
+            border-radius: 0 20px 20px 0;
+        }
+        
+        #product-quantity {
+            width: 60px;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid #3D5A80;
+            border-left: none;
+            border-right: none;
+            background: white;
+            font-size: 1rem;
+            font-weight: bold;
+            outline: none;
+        }
+        
+        #product-quantity::-webkit-outer-spin-button,
+        #product-quantity::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        #product-quantity:focus {
+            background: #f8f9fa;
+        }
+        
+        /* Tabela de Medidas */
+        .size-chart {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #713112;
+        }
+        
+        .size-chart h3 {
+            color: #713112;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .measurements-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .measurements-table th {
+            background: #713112;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .measurements-table td {
+            padding: 10px 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .measurements-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .measurements-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
         /* Footer Styles */
         footer {
-            background: linear-gradient(135deg, #2C3E50, #34495E);
+            background: #2a2a2a;
             color: white;
             padding: 3rem 0 1rem 0;
             margin-top: 4rem;
@@ -675,7 +1018,7 @@ body {
         }
     </style>
 <body>
-        <header class="header" style="background: #3D5A80;">
+        <header class="header" style="background: #713112;">
             <a class="logo" href="/">
                 <img src="/imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
             </a>
@@ -697,45 +1040,69 @@ body {
           <nav>
             <ul class="nav-list" id="nav-list">
               <li><a href="/">Início</a></li>
-              <li><a href="/sobrenos">Sobre</a></li>
-              <li><a href="/login">Entrar</a></li>
+              <li><a href="/login" id="login-link">Entrar</a></li>
               <li>
                 <a href="/carrinho" class="carrinho">
                   <i class="fa fa-shopping-cart"></i>
                 </a>
               </li>
-              <li><a href="/cadastro">Seja um Vendedor</a></li>
-              <li style="display: none;" id="profile-icon-li">
-                <a href="/perfil" class="profile-icon" title="Meu Perfil">
-                  <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                </a>
-              </li>
+              <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                <img id="header-profile-image" src="" alt="Perfil">
+              </a></li>
+              <li><a href="/cadastro" id="seller-link">Seja um Vendedor</a></li>
             </ul>
           </nav>
         </header>
 
 
     <main>
-        <section class="container" aria-labelledby="product-main-heading">
-            <div class="product-header">
-                <% if (produto.IMAGEM_BASE64) { %>
-                    <img id="product-image" src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
-                <% } else if (produto.IMAGEM_URL) { %>
-                    <img id="product-image" src="<%= produto.IMAGEM_URL %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
-                <% } else { %>
-                    <img id="product-image" src="/imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
-                <% } %>
+        <article class="container" aria-labelledby="product-main-heading">
+            <header class="product-header">
+                <figure>
+                    <% if (produto.IMAGEM_BASE64) { %>
+                        <img id="product-image" src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                    <% } else if (produto.IMAGEM_URL) { %>
+                        <img id="product-image" src="<%= produto.IMAGEM_URL %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                    <% } else { %>
+                        <img id="product-image" src="imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                    <% } %>
+                </figure>
                 
-                <div class="product-details">
+                <section class="product-details">
                     <h1 id="product-main-heading" class="product-title"><%= produto.NOME_PROD %></h1>
                     <p id="product-price" class="product-price">R$ <%= parseFloat(produto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
                     <p class="product-description">
                         <%= produto.DESCRICAO_PROD || 'Produto artesanal de alta qualidade.' %>
                     </p>
+                    
+                    <!-- Seleção de Tamanho (para roupas - categoria 1 ou produtos específicos) -->
+                    <% if (produto.ID_CATEGORIA == 1 || produto.ID_PROD == 4) { %>
+                    <fieldset class="size-selection">
+                        <label for="product-size">Tamanho:</label>
+                        <select id="product-size" name="size">
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M" selected>M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                        </select>
+                    </fieldset>
+                    <% } %>
+                    
+                    <!-- Seleção de Quantidade -->
+                    <fieldset class="quantity-selection">
+                        <label for="product-quantity">Quantidade:</label>
+                        <section class="quantity-controls">
+                            <button type="button" id="qty-minus" class="qty-btn">-</button>
+                            <input type="number" id="product-quantity" value="1" min="1" max="10">
+                            <button type="button" id="qty-plus" class="qty-btn">+</button>
+                        </section>
+                    </fieldset>
+                    
                     <button id="addToCartBtn" class="btn add-to-cart-btn" type="button" data-product-id="<%= produto.ID_PROD %>">ADICIONAR AO CARRINHO</button>
-                    <div id="cart-feedback-message" class="message"></div>
-                </div>
-            </div>
+                    <output id="cart-feedback-message" class="message"></output>
+                </section>
+            </header>
 
             <section class="specifications" aria-labelledby="specs-heading">
                 <h2 id="specs-heading">Especificações Técnicas</h2>
@@ -745,18 +1112,92 @@ body {
                     <li><strong>Material:</strong> Artesanal</li>
                     <li><strong>Qualidade:</strong> Premium</li>
                 </ul>
+                
+                <!-- Tabela de Medidas para Roupas -->
+                <% if (produto.ID_CATEGORIA == 1 || produto.ID_PROD == 4) { %>
+                <div class="size-chart">
+                    <h3>Tabela de Medidas</h3>
+                    <table class="measurements-table">
+                        <thead>
+                            <tr>
+                                <th>Tamanho</th>
+                                <th>Busto/Peito (cm)</th>
+                                <th>Cintura (cm)</th>
+                                <th>Quadril (cm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PP</td>
+                                <td>80-84</td>
+                                <td>60-64</td>
+                                <td>86-90</td>
+                            </tr>
+                            <tr>
+                                <td>P</td>
+                                <td>84-88</td>
+                                <td>64-68</td>
+                                <td>90-94</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>88-92</td>
+                                <td>68-72</td>
+                                <td>94-98</td>
+                            </tr>
+                            <tr>
+                                <td>G</td>
+                                <td>92-96</td>
+                                <td>72-76</td>
+                                <td>98-102</td>
+                            </tr>
+                            <tr>
+                                <td>GG</td>
+                                <td>96-100</td>
+                                <td>76-80</td>
+                                <td>102-106</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <% } %>
             </section>
 
-            <section class="seller-info" aria-labelledby="seller-heading">
+            <aside class="seller-info" aria-labelledby="seller-heading">
                 <h2 id="seller-heading">Informações do Vendedor</h2>
-                <div class="seller-details">
-                    <div>
-                        <p class="seller-name"><%= produto.NOME_LOJA || 'Loja Artesã' %></p>
+                <section class="seller-details">
+                    <header class="seller-main-info">
+                        <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
                         <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
                         <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
-                    </div>
-                </div>
-            </section>
+                    </header>
+                    
+                    <% if (produtosDaLoja && produtosDaLoja.length > 0) { %>
+                    <section class="seller-produtos">
+                        <h4>Outros produtos desta loja</h4>
+                        <nav class="seller-produtos-grid">
+                            <% produtosDaLoja.forEach(produtoLoja => { %>
+                                <figure class="seller-produto-item">
+                                    <a href="/produto/<%= produtoLoja.ID_PROD %>">
+                                        <% if (produtoLoja.IMAGEM_BASE64) { %>
+                                            <img src="data:image/jpeg;base64,<%= produtoLoja.IMAGEM_BASE64 %>" alt="<%= produtoLoja.NOME_PROD %>">
+                                        <% } else if (produtoLoja.IMAGEM_URL) { %>
+                                            <img src="<%= produtoLoja.IMAGEM_URL %>" alt="<%= produtoLoja.NOME_PROD %>">
+                                        <% } else { %>
+                                            <img src="imagens/produto-default.jpg" alt="<%= produtoLoja.NOME_PROD %>">
+                                        <% } %>
+                                        <figcaption class="seller-produto-info">
+                                            <p class="seller-produto-nome"><%= produtoLoja.NOME_PROD %></p>
+                                            <p class="seller-produto-preco">R$ <%= parseFloat(produtoLoja.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                                        </figcaption>
+                                    </a>
+                                </figure>
+                            <% }); %>
+                        </nav>
+                    </section>
+                    <% } %>
+                </section>
+            </aside>
             
             <section class="reviews-section">
                 <h2>Avaliações do Produto</h2>
@@ -784,7 +1225,7 @@ body {
                 <div class="reviews-list">
                     <div class="review-item">
                         <div class="review-header">
-                            <span class="review-author">Usuário Anônimo</span>
+                            <span class="review-author">Maria Silva</span>
                             <span class="review-rating">★★★★★</span>
                         </div>
                         <p class="review-text">Produto de excelente qualidade! Superou minhas expectativas. Recomendo!</p>
@@ -792,45 +1233,47 @@ body {
                     
                     <div class="review-item">
                         <div class="review-header">
-                            <span class="review-author">Usuário Anônimo</span>
+                            <span class="review-author">João Santos</span>
                             <span class="review-rating">★★★★☆</span>
                         </div>
                         <p class="review-text">Muito bom produto artesanal. Chegou bem embalado e no prazo.</p>
                     </div>
                 </div>
             </section>
-        </section>
+        </article>
     </main>
 
-    <p class="event-filtros">Você também pode gostar</p>
-    <main class="categorias-container2">
-        <section class="grade">
+    <section class="categorias-container2">
+        <h2 class="event-filtros">Você também pode gostar</h2>
+        <nav class="grade">
             <% if (outrosProdutos && outrosProdutos.length > 0) { %>
                 <% outrosProdutos.slice(0, 5).forEach(outroProduto => { %>
-                    <article class="produtos">
+                    <figure class="produtos">
                         <a href="/produto/<%= outroProduto.ID_PROD %>">
                             <% if (outroProduto.IMAGEM_BASE64) { %>
                                 <img src="data:image/jpeg;base64,<%= outroProduto.IMAGEM_BASE64 %>" class="imagem" width="250px" height="250px">
                             <% } else if (outroProduto.IMAGEM_URL) { %>
                                 <img src="<%= outroProduto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
                             <% } else { %>
-                                <img src="/imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                                <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
                             <% } %>
-                            <hgroup><h3 class="h1"><%= outroProduto.NOME_PROD %></h3></hgroup>
-                            <section class="hh4">Vendedor: <%= outroProduto.NOME_LOJA || 'Loja Artesã' %></section><br>
-                            <section class="hh4">⭐⭐⭐⭐(4.5)</section>
-                            <p class="preco">R$ <%= parseFloat(outroProduto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                            <figcaption>
+                                <h3 class="h1"><%= outroProduto.NOME_PROD %></h3>
+                                <p class="hh4">Vendedor: <%= outroProduto.NOME_VENDEDOR || 'Loja Artesã' %></p>
+                                <p class="hh4">⭐⭐⭐⭐(4.5)</p>
+                                <p class="preco">R$ <%= parseFloat(outroProduto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                            </figcaption>
                         </a>
-                    </article>
+                    </figure>
                 <% }); %>
             <% } %>
-        </section>   
-    </main>
+        </nav>   
+    </section>
 
     <footer>
-        <aside id="footer_content">
-            <section id="footer_contacts"> <h3>Contatos</h3>
-                <div id="footer_social_media">
+        <section id="footer_content">
+            <address id="footer_contacts"> <h3>Contatos</h3>
+                <nav id="footer_social_media">
                     <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
@@ -840,45 +1283,45 @@ body {
                     <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                </div>
-            </section>
+                </nav>
+            </address>
 
             <nav class="footer-list"> <h3>Paginas</h3>
                 <ul> 
                     <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
                     <li><a href="/prod" class="footer-link">Produtos</a></li>
-                    <li><a href="/login" class="footer-link">Entrar</a></li>
+
                 </ul>
             </nav>
 
             <section id="footer_subscribe"> <h3>Inscreva-se</h3>
                 <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
-                <div id="input_group">
+                <form id="input_group">
                     <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
-                    <button onclick="validateEmail()" aria-label="Inscrever-se">
+                    <button type="button" onclick="validateEmail()" aria-label="Inscrever-se">
                         <i class="fa-regular fa-envelope"></i>
                     </button>
-                </div>
+                </form>
                 <p id="message"></p>
             </section>
-        </aside>
+        </section>
     </footer>
     
     <!-- Modal de Login -->
-    <div id="loginModal" class="login-modal">
-        <div class="login-modal-content">
+    <dialog id="loginModal" class="login-modal">
+        <article class="login-modal-content">
             <h3>Login Necessário</h3>
             <p>Você precisa fazer login para realizar esta ação. Faça login ou crie uma conta para continuar.</p>
-            <div class="login-modal-buttons">
+            <nav class="login-modal-buttons">
                 <a href="/login" class="login-btn">Fazer Login</a>
                 <button class="cancel-btn" onclick="closeLoginModal()">Cancelar</button>
-            </div>
-        </div>
-    </div>
+            </nav>
+        </article>
+    </dialog>
     
-    <script src="/js/auth.js"></script>
-    <script src="/js/navbar.js"></script>
-    <script src="/js/prod.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/prod.js"></script>
     
     <script>
         // Funções do modal
@@ -893,19 +1336,69 @@ body {
         // Verificar se usuário está logado
         function checkLogin() {
             const loggedUser = localStorage.getItem('loggedUser');
-            return loggedUser !== null;
+            if (!loggedUser) return false;
+            try {
+                const user = JSON.parse(loggedUser);
+                return user && user.id;
+            } catch (e) {
+                console.error('Erro ao verificar login:', e);
+                return false;
+            }
         }
+        
+        // Verificar login ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedUser = localStorage.getItem('loggedUser');
+            const loginLink = document.getElementById('login-link');
+            const profileLink = document.getElementById('profile-link');
+            const sellerLink = document.getElementById('seller-link');
+            const headerProfileImage = document.getElementById('header-profile-image');
+            
+            if (loggedUser) {
+                try {
+                    const user = JSON.parse(loggedUser);
+                    if (user && user.id) {
+                        // Usuário logado
+                        if (loginLink) loginLink.style.display = 'none';
+                        if (profileLink) profileLink.style.display = 'flex';
+                        
+                        // Configurar imagem do perfil
+                        if (user.profileImage && headerProfileImage) {
+                            headerProfileImage.src = user.profileImage;
+                        } else if (headerProfileImage) {
+                            const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                        }
+                        
+                        // Ocultar "Seja um Vendedor" se já for vendedor ou admin
+                        if ((user.type === 'seller' || user.sellerId || user.type === 'admin') && sellerLink) {
+                            sellerLink.style.display = 'none';
+                        }
+                        return;
+                    }
+                } catch (e) {
+                    console.error('Erro ao parsear dados do usuário:', e);
+                }
+            }
+            
+            // Usuário não logado - mostrar links de login
+            if (loginLink) loginLink.style.display = 'block';
+            if (profileLink) profileLink.style.display = 'none';
+        });
         
         // Formulário de avaliação
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('reviewForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (!checkLogin()) {
-                    showLoginModal();
-                    return;
-                }
-                alert('Avaliação enviada com sucesso!');
-            });
+            const reviewForm = document.getElementById('reviewForm');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (!checkLogin()) {
+                        showLoginModal();
+                        return;
+                    }
+                    alert('Avaliação enviada com sucesso!');
+                });
+            }
         });
         
         // Sistema de estrelas da esquerda para direita
@@ -938,47 +1431,6 @@ body {
                     s.style.color = checkedIndex >= 0 && i <= checkedIndex ? '#f1c40f' : '#ddd';
                 });
             });
-            
-            // Funcionalidade do carrinho
-            const addToCartBtn = document.getElementById('addToCartBtn');
-            const cartFeedbackMessage = document.getElementById('cart-feedback-message');
-            
-            if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', () => {
-                    const productId = addToCartBtn.getAttribute('data-product-id');
-                    const name = document.getElementById('product-main-heading').textContent.trim();
-                    const priceText = document.getElementById('product-price').textContent.trim().replace('R$', '').replace(',', '.');
-                    const price = parseFloat(priceText);
-                    const image = document.getElementById('product-image').src;
-                    
-                    const product = {
-                        id: productId,
-                        name: name,
-                        price: price,
-                        image: image,
-                        quantity: 1
-                    };
-                    
-                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                    const existingIndex = cart.findIndex(item => item.id === productId);
-                    
-                    if (existingIndex > -1) {
-                        cart[existingIndex].quantity += 1;
-                    } else {
-                        cart.push(product);
-                    }
-                    
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    
-                    cartFeedbackMessage.textContent = `${name} adicionado ao carrinho!`;
-                    cartFeedbackMessage.className = 'message cart-success-message';
-                    cartFeedbackMessage.style.display = 'block';
-                    
-                    setTimeout(() => {
-                        cartFeedbackMessage.style.display = 'none';
-                    }, 3000);
-                });
-            }
         });
         
         // Fechar modal clicando fora dele
@@ -988,6 +1440,20 @@ body {
                 closeLoginModal();
             }
         }
+        
+        // Teste simples dos botões de quantidade
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'qty-minus') {
+                const input = document.getElementById('product-quantity');
+                let value = parseInt(input.value) || 1;
+                if (value > 1) input.value = value - 1;
+            }
+            if (e.target.id === 'qty-plus') {
+                const input = document.getElementById('product-quantity');
+                let value = parseInt(input.value) || 1;
+                if (value < 10) input.value = value + 1;
+            }
+        });
     </script>
 </body>
 </html>

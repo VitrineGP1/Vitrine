@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cesto Organizador - Especificações do Produto | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="/prod.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" xintegrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+
+    <style>
+        /* Estilos para a mensagem de feedback do carrinho (se não estiverem no seu CSS) */
+        #cart-feedback-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+        .cart-success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .cart-error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        /* Estilo para o botão de adicionar ao carrinho (se não estiver no seu CSS) */
+        .add-to-cart-btn {
+            background-color: #e47a1b; /* Cor primária da sua marca */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #c06517; /* Um tom mais escuro ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logotipo da Vitrine">
+        </a>
+            
+        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <span class="line1"></span>
+            <span class="line2"></span>
+            <span class="line3"></span>
+        </div>
+        <nav id="main-navigation" aria-label="Menu principal de navegação">
+            <ul class="nav-list">
+                <li><a href="/" aria-current="page">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras, atualmente vazio">
+                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
+                </a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="container" aria-labelledby="product-main-heading">
+            <div class="product-header">
+                <!-- Adicionado id para fácil acesso via JS -->
+                <img id="product-image" src="imagens/produto-1.webp" alt="Cesto organizador de corda náutica, cor clara, com detalhes em azul." width="500" height="500"/>
+                <div class="product-details">
+                    <!-- Adicionado id para fácil acesso via JS -->
+                    <h1 id="product-main-heading" class="product-title">Cesto Organizador de Corda Náutica</h1>
+                    <!-- Adicionado id para fácil acesso via JS -->
+                    <p id="product-price" class="product-price">R$265,00</p>
+                    <p class="product-description">
+                        Cesto Organizador Grande (46cm x 41cm) em Corda de Algodão com Alça
+Transforme a organização em um elemento de decoração com este Cesto Organizador que une funcionalidade e estilo!
+
+Este cesto é a solução perfeita para manter qualquer ambiente da casa impecável e com um toque moderno. O design em corda de algodão cru (ou na cor predominante do produto) segue as tendências de decoração Boho e Minimalista, adicionando textura e aconchego ao seu espaço.
+                    </p>
+                    <!-- Adicionado id para fácil acesso via JS -->
+                    <button id="addToCartBtn" class="btn add-to-cart-btn" type="button" aria-label="Adicionar Banquinho de Crochê ao carrinho">ADICIONAR AO CARRINHO</button>
+                    <!-- Mensagem de feedback para o carrinho -->
+                    <div id="cart-feedback-message" class="message"></div>
+                </div>
+            </div>
+
+            <section class="specifications" aria-labelledby="specs-heading">
+                <h2 id="specs-heading">Especificações Técnicas</h2>
+                <ul class="product-specs-list">
+                    <li><strong>Marca:</strong> Artesanato Vitrine</li>
+                    <li><strong>Modelo:</strong> ABC123 - Cesto Único</li>
+                    <li><strong>Dimensões:</strong> 46 cm (altura) x 41 cm (diâmetro)</li>
+                    <li><strong>Peso:</strong> Aproximadamente 900g</li>
+                    <li><strong>Material:</strong> Corda Náutica de alta durabilidade</li>
+                    <li><strong>Cor:</strong> Variado (padrões disponíveis incluem Preto, Bege e Cinza)</li>
+                </ul>
+            </section>
+
+            <section class="seller-info" aria-labelledby="seller-heading">
+                <h2 id="seller-heading">Informações do Vendedor</h2>
+                <div class="seller-details">
+                    <div>
+                        <p class="seller-name">Vendido por: **Loja Artesã Única**</p>
+                        <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <p><strong>Telefone:</strong> <a href="tel:+5511987654321">(11) 98765-4321</a></p>
+                    <p><strong>Email:</strong> <a href="mailto:contato@lojaexemplo.com">contato@lojaexemplo.com</a></p>
+                </div>
+            </section>
+        </section>
+    </main>
+
+
+    <p class="event-filtros">Você também pode gostar</p>
+    <main class="categorias-container2">
+        <section class="grade">
+                
+
+          <article class="produtos">
+              <a href="/prod2">
+                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
+              
+              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+          <article class="produtos">
+              <a href="/prod3">
+                  <img src="imagens/bolsa.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Fio Náutico</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+          <article class="produtos">
+              <a href="/prod4">
+                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+      <article class="produtos">
+        <a href="/prod5">
+            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+
+    <article class="produtos">
+        <a href="/prod6">
+            <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+</section>   
+  </main>
+
+    <footer>
+            <aside id="footer_content">
+                <section id="footer_contacts"> <h3>Contatos</h3>
+                    <div id="footer_social_media">
+                        <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="footer-link" id="facebook" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </section>
+
+                <nav class="footer-list"> <h3>Paginas</h3>
+                    <ul> 
+                        <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
+                        <li><a href="/prod" class="footer-link">Produtos</a></li>
+                        <li><a href="/login" class="footer-link">Entrar</a></li>
+                    </ul>
+                </nav>
+
+                <section id="footer_subscribe"> <h3>Inscreva-se</h3>
+                    <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
+                    <div id="input_group">
+                        <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
+                        <button onclick="validateEmail()" aria-label="Inscrever-se">
+                            <i class="fa-regular fa-envelope"></i>
+                        </button>
+                    </div>
+                    <p id="message"></p>
+                </section>
+            </aside>
+        </footer>
+    <script src="js/navbar.js"></script>
+
+    <script src="js/prod.js"></script>
+</body>
+</html>

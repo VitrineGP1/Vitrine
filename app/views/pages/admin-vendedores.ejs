@@ -219,7 +219,7 @@
 
         async function loadSellers() {
             try {
-                const response = await fetch('/api/admin/users');
+                const response = await fetch('/api/check_users');
                 const data = await response.json();
                 
                 if (data.success) {

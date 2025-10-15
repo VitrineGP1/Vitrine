@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const API_PRODUCTS_URL = '/api/products';
     // NOVA ROTA: Para buscar e atualizar dados do perfil do vendedor (incluindo a foto da loja)
-    const API_SELLER_PROFILE_URL = '/api/admin/seller-profile';
+    const API_SELLER_PROFILE_URL = '/api/seller_profile'; 
     const API_LOGIN_URL = '/api/login_usuario'; // Mantido para redirecionamento
 
     let currentSellerId = null;
@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loggedInUser = localStorage.getItem('loggedInUser');
     if (loggedInUser) {
         const user = JSON.parse(loggedInUser);
-        if (user.type === 'seller' || user.type === 'admin') { // Ajuste o tipo conforme seu BD
-            currentSellerId = user.id;
+        if (user.type === 'seller' || user.type === 'admin') {
+            currentSellerId = user.sellerId || user.id; // Usar sellerId se disponível
             loadSellerProducts(); // Carrega produtos
             loadStoreProfileImage(); // Carrega foto de perfil da loja
         } else {

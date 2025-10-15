@@ -21,11 +21,14 @@
                 <div class="line2"></div>
                 <div class="line3"></div>
             </div>
-            <ul class="nav-list">
+            <ul class="nav-list" id="nav-list">
                 <li><a href="/">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li><a href="/login">Entrar</a></li>
-                <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75" height="50" alt="Carrinho de compras"></a></li>
+                <li><a href="/login" id="login-link">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                  <img id="header-profile-image" src="" alt="Perfil">
+                </a></li>
+                <li><a href="/cadastro" id="seller-link">Seja um Vendedor</a></li>
             </ul>
         </nav>
     </header>
@@ -37,13 +40,36 @@
             Lançado em 2023, o projeto Vitrine visa ser a principal plataforma online para artesanato sustentável. Conectamos artesãos criativos a consumidores conscientes, promovendo produtos únicos e feitos de forma ecologicamente responsável. Nosso objetivo é estimular o consumo consciente e valorizar a produção artesanal, incentivando práticas sustentáveis.        </p>
         <p class="h1">
             Preservamos técnicas tradicionais e apoiamos artesãos locais para manter sua cultura viva, inclusive através de workshops e eventos. Trabalhamos por um fornecimento transparente, garantindo que consumidores saibam a origem dos materiais e as condições de trabalho, promovendo ética e responsabilidade.
-            Alinhados aos ODS 11 e 12 da ONU, a Vitrine aposta no artesanato sustentável para construir um mundo mais equilibrado e consciente.        </p>
+            Alinhados aos ODS 11 e 12 da ONU, a Vitrine aposta no artesanato sustentável para construir um mundo mais equilibrado e consciente.
+        </p>
+        
+        <section>
+            <h2 class="event-filtros" style="font-size: 2rem; margin: 2rem 0 1rem 0;">Sistema de Taxas</h2>
+            <article style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <p class="h1" style="text-align: center; margin-bottom: 1.5rem;">Nossa estrutura de taxas é transparente e justa:</p>
+                <section style="display: grid; gap: 1rem; margin: 1.5rem 0;">
+                    <article style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #E47A1B;">
+                        <span style="font-weight: bold; color: #333;">Produtos até R$ 74,99</span>
+                        <span style="font-size: 1.2rem; font-weight: bold; color: #E47A1B;">Taxa de 25%</span>
+                    </article>
+                    <article style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #F39C12;">
+                        <span style="font-weight: bold; color: #333;">Produtos de R$ 75,00 a R$ 99,99</span>
+                        <span style="font-size: 1.2rem; font-weight: bold; color: #F39C12;">Taxa de 15%</span>
+                    </article>
+                    <article style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #27AE60;">
+                        <span style="font-weight: bold; color: #333;">Produtos acima de R$ 100,00</span>
+                        <span style="font-size: 1.2rem; font-weight: bold; color: #27AE60;">Taxa de 12%</span>
+                    </article>
+                </section>
+                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1.5rem;">As taxas são aplicadas sobre o valor final de venda e incluem todos os serviços da plataforma.</p>
+            </article>
+        </section>
     </main>
 
     <footer>
-            <aside id="footer_content">
-                <section id="footer_contacts"> <h3>Contatos</h3>
-                    <div id="footer_social_media">
+            <section id="footer_content">
+                <address id="footer_contacts"> <h3>Contatos</h3>
+                    <nav id="footer_social_media">
                         <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
@@ -53,31 +79,66 @@
                         <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
-                    </div>
-                </section>
+                    </nav>
+                </address>
 
                 <nav class="footer-list"> <h3>Paginas</h3>
                     <ul> 
                         <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
                         <li><a href="/prod" class="footer-link">Produtos</a></li>
-                        <li><a href="/login" class="footer-link">Entrar</a></li>
                     </ul>
                 </nav>
 
                 <section id="footer_subscribe"> <h3>Inscreva-se</h3>
                     <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
-                    <div id="input_group">
+                    <form id="input_group">
                         <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
-                        <button onclick="validateEmail()" aria-label="Inscrever-se">
+                        <button type="button" onclick="validateEmail()" aria-label="Inscrever-se">
                             <i class="fa-regular fa-envelope"></i>
                         </button>
-                    </div>
+                    </form>
                     <p id="message"></p>
                 </section>
-            </aside>
+            </section>
         </footer>
         
-    <script src="js/home.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
+    <script>
+        // Gerenciar exibição do perfil no header
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedUser = localStorage.getItem('loggedUser');
+            const loginLink = document.getElementById('login-link');
+            const profileLink = document.getElementById('profile-link');
+            const sellerLink = document.getElementById('seller-link');
+            const headerProfileImage = document.getElementById('header-profile-image');
+            
+            if (loggedUser) {
+                try {
+                    const user = JSON.parse(loggedUser);
+                    if (user && user.id) {
+                        // Usuário logado
+                        loginLink.style.display = 'none';
+                        profileLink.style.display = 'flex';
+                        
+                        // Configurar imagem do perfil
+                        if (user.profileImage) {
+                            headerProfileImage.src = user.profileImage;
+                        } else {
+                            const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                        }
+                        
+                        // Ocultar "Seja um Vendedor" se já for vendedor ou admin
+                        if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                            sellerLink.style.display = 'none';
+                        }
+                    }
+                } catch (e) {
+                    console.error('Erro ao verificar usuário logado:', e);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -45,6 +45,13 @@
         .add-to-cart-btn:hover {
             background-color: #c06517; /* Um tom mais escuro ao passar o mouse */
         }
+        
+        .carrinho:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-radius: 20px;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -62,7 +69,6 @@
         <nav id="main-navigation" aria-label="Menu principal de navegação">
             <ul class="nav-list">
                 <li><a href="/" aria-current="page">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
                 <li><a href="/login">Entrar</a></li>
                 <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
                     <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
@@ -93,7 +99,7 @@
         <section class="specifications">
             <h3>Especificações Técnicas</h3>
             <ul>
-                <li><strong>Marca:</strong> <% if (typeof produto !== 'undefined' && produto) { %>Artesanal<% } else { %>Carregando...<% } %></li>
+                <li><strong>Marca:</strong> Exemplo</li>
                 <li><strong>Modelo:</strong> ABC123</li>
                 <li><strong>Dimensões:</strong> 28 x 30 x 30 cm</li>
                 <li><strong>Peso:</strong> 900g</li>
@@ -106,16 +112,78 @@
             <h3>Informações do Vendedor</h3>
             <div class="seller-details">
                 <div>
-                    <p class="seller-name">Nome do Vendedor: <% if (typeof produto !== 'undefined' && produto && produto.NOME_LOJA) { %><%= produto.NOME_LOJA %><% } else if (typeof produto !== 'undefined' && produto && produto.NOME_USUARIO) { %><%= produto.NOME_USUARIO %><% } else { %>Carregando...<% } %></p>
+                    <p class="seller-name">Nome do Vendedor: Loja Exemplo</p>
                     <p class="seller-rating">Avaliação: ★★★★☆ (4.5)</p>
                 </div>
             </div>
             <div class="contact-info">
-                <p><strong>Telefone:</strong> <% if (typeof produto !== 'undefined' && produto && produto.CELULAR_USUARIO) { %><%= produto.CELULAR_USUARIO %><% } else { %>Não informado<% } %></p>
-                <p><strong>Email:</strong> <% if (typeof produto !== 'undefined' && produto && produto.EMAIL_USUARIO) { %><%= produto.EMAIL_USUARIO %><% } else { %>Não informado<% } %></p>
+                <p><strong>Telefone:</strong> (11) 98765-4321</p>
+                <p><strong>Email:</strong> contato@lojaexemplo.com</p>
             </div>
         </section>
     </main>
+    <p class="event-filtros">Você também pode gostar</p>
+    <main class="categorias-container2">
+        <section class="grade">
+                
+          <article class="produtos">
+            <a href="/prod1">
+                
+
+                  <img src="imagens/produto-1.webp" class="imagem" width="250px" height="250px">
+              <hgroup><h3 class="h1" alt="Moveis">Cesto de Corda Náutica</h3></hgroup>
+              <div class="hh4">Vendedor: **Loja Artesã Única**</div><br>
+              <div class="hh4">⭐⭐⭐⭐(4.5)</div>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+          <article class="produtos">
+              <a href="/prod2">
+                  <img src="imagens/produto-2.jpg" class="imagem" width="250px" height="250px">
+              
+              <hgroup><h3 class="h1" alt="Moveis">Top Cropped de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+
+          <article class="produtos">
+              <a href="/prod4">
+                  <img src="imagens/produto-4.png" class="imagem" width="250px" height="250px">
+            
+              <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+              <section class="hh4">Vendedor: Loja Exemplo</section><br>
+              <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+              <p class="preco">R$1.250,00</p>
+            </a>
+          </article>
+
+      <article class="produtos">
+        <a href="/prod5">
+            <img src="imagens/produto-5.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Conjunto de Crochê com Top Sereia</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+
+    <article class="produtos">
+        <a href="/prod6">
+            <img src="https://img.elo7.com.br/product/zoom/4C5830A/cadeira-de-balanco-de-croche-algodao-e-juta-decor.jpg" class="imagem" width="250px" height="250px">
+      
+        <hgroup><h3 class="h1" alt="Moveis">Bolsa de Crochê</h3></hgroup>
+        <section class="hh4">Vendedor: Loja Exemplo</section><br>
+        <section class="hh4">⭐⭐⭐⭐(4.5)</section>
+        <p class="preco">R$1.250,00</p>
+      </a>
+    </article>
+</section>   
+  </main>
 
     <footer>
             <aside id="footer_content">
@@ -154,7 +222,6 @@
             </aside>
         </footer>
 
-    <script src="js/storage-helper.js"></script>
     <script src="js/navbar.js"></script>
     <!-- Inclua o script prod.js para a lógica de adicionar ao carrinho -->
     <script src="js/prod.js"></script>

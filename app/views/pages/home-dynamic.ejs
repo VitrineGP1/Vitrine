@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        <title>Vitrine - Artesanato e Produtos Feitos à Mão</title>
+    </head>
+    <body>
+        <header class="header" style="background: #713112;">
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
+
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/login" id="login-link">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                <img id="header-profile-image" src="" alt="Perfil">
+              </a></li>
+              <li><a href="/cadastro" id="seller-link">Seja um Vendedor</a></li>
+            </ul>
+          </nav>
+        </header>
+
+        <main class="slider-container">
+            <section class="slider">
+                <section class="slides">
+                    <figure class="slide">
+                        <img src="imagens/casa.svg" alt="Slide1">
+                    </figure>
+                </section>
+            </section>
+        </main>
+
+        <section class="categorias-container2">
+        <article class="grade">
+          <% if (produtos && produtos.length > 0) { %>
+            <% produtos.forEach(produto => { %>
+              <figure class="produtos">
+                <a href="/produto/<%= produto.ID_PROD %>">
+                  <% if (produto.IMAGEM_BASE64) { %>
+                    <img src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" class="imagem" width="250px" height="250px">
+                  <% } else if (produto.IMAGEM_URL) { %>
+                    <img src="<%= produto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
+                  <% } else { %>
+                    <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                  <% } %>
+                  <figcaption>
+                    <h3 class="h1"><%= produto.NOME_PROD %></h3>
+                    <p class="hh4">Vendedor: <%= produto.NOME_VENDEDOR || 'Loja não encontrada' %></p>
+                    <p class="hh4">⭐⭐⭐⭐(4.5)</p>
+                    <p class="preco">R$ <%= parseFloat(produto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                  </figcaption>
+                </a>
+              </figure>
+            <% }); %>
+          <% } else { %>
+            <p style="text-align: center; color: #666; font-size: 18px; margin: 50px 0;">Nenhum produto encontrado.</p>
+          <% } %>
+        </article>   
+
+  </section>
+        <br><br><br><br>
+        <footer>
+            <section id="footer_content">
+                <address id="footer_contacts"> <h3>Contatos</h3>
+                    <nav id="footer_social_media">
+                        <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="footer-link" id="facebook" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </nav>
+                </address>
+
+                <nav class="footer-list"> <h3>Paginas</h3>
+                    <ul> 
+                        <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
+                        <li><a href="/prod" class="footer-link">Produtos</a></li>
+
+                    </ul>
+                </nav>
+
+                <section id="footer_subscribe"> <h3>Inscreva-se</h3>
+                    <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
+                    <form id="input_group">
+                        <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
+                        <button type="button" onclick="validateEmail()" aria-label="Inscrever-se">
+                            <i class="fa-regular fa-envelope"></i>
+                        </button>
+                    </form>
+                    <p id="message"></p>
+                </section>
+            </section>
+        </footer>
+        <script src="js/auth.js"></script>
+        <script src="js/navbar.js"></script>
+        <script>
+            // Gerenciar exibição do perfil no header
+            document.addEventListener('DOMContentLoaded', function() {
+                const loggedUser = localStorage.getItem('loggedUser');
+                const loginLink = document.getElementById('login-link');
+                const profileLink = document.getElementById('profile-link');
+                const sellerLink = document.getElementById('seller-link');
+                const headerProfileImage = document.getElementById('header-profile-image');
+                
+                if (loggedUser) {
+                    try {
+                        const user = JSON.parse(loggedUser);
+                        if (user && user.id) {
+                            // Usuário logado
+                            loginLink.style.display = 'none';
+                            profileLink.style.display = 'flex';
+                            
+                            // Configurar imagem do perfil
+                            if (user.profileImage) {
+                                headerProfileImage.src = user.profileImage;
+                            } else {
+                                const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                            }
+                            
+                            // Ocultar "Seja um Vendedor" se já for vendedor ou admin
+                            if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                                sellerLink.style.display = 'none';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Erro ao verificar usuário logado:', e);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

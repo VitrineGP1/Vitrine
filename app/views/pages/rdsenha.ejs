@@ -98,10 +98,17 @@
         .back-to-login a:hover {
             text-decoration: underline;
         }
+        
+        .carrinho:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-radius: 20px;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" style="background: #3D5A80;">
         <a class="logo" href="/" aria-label="Página inicial da Vitrine">
             <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
         </a>
@@ -113,7 +120,6 @@
         <nav id="main-navigation" aria-label="Menu principal de navegação">
             <ul class="nav-list">
                 <li><a href="/" aria-current="page">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
                 <li><a href="/login">Entrar</a></li>
                 <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
                     <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">

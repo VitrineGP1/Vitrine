@@ -4,172 +4,78 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/home.css">
         <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/responsive.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <title>Vitrine - Artesanato e Produtos Feitos à Mão</title>
     </head>
     <body>
-        <header class="header">
+        <header class="header" style="background: #713112;">
             <a class="logo" href="/">
                 <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
             </a>
 
-            <aside class="mobile-menu">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </aside>
+            <button class="mobile-menu">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </button>
+            <form class="search" role="search" action="/buscar" method="get">
+                <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+                <button type="submit" class="search-btn">
+                  <i class="fa fa-search"></i>
+                </button>
+            </form>
             <nav>
-                <ul class="nav-list">
+                <ul class="nav-list" id="nav-list">
                     <li><a href="/">Início</a></li>
-                    <li><a href="/sobrenos">Sobre</a></li>
-                    <li><a href="/login" class="">Entrar</a></li>
-                    <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
+                    <li><a href="/login" id="login-link">Entrar</a></li>
+                    <li><a href="/carrinho" class="carrinho"><i class="fa fa-shopping-cart"></i></a></li>
+                    <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                      <img id="header-profile-image" src="" alt="Perfil">
+                    </a></li>
+                    <li><a href="/cadastro" id="seller-link">Seja um Vendedor</a></li>
                 </ul>
             </nav>
         </header>
         <div class="header2"></div>
 
-        <main>
-            <p class="event-filtros">Mais Vendidos</p><br><br>
-
+        <main class="categorias-container2" style="margin-top: 120px;">
+            <h1 class="event-filtros">Produtos Disponíveis</h1>
             <section class="grade">
-                <article class="produtos2">
-                    <br><br><hgroup><object class="h8">Cesto organizador</object></hgroup><br>
-                    <a href="/prod1">
-                        <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador" class="imagem2" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco2">R$265,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-                <br><br><br>
-
-                <article class="produtos3">
-                    <br><br><hgroup><object class="h9">Banquinho de Crochê </object></hgroup><br>
-                    <a href="/prod2">
-                        <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" class="imagem3" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco3">R$315,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos4">
-                    <br><br><hgroup><object class="h10">Bolsa de Fio Náutico</object></hgroup><br>
-                    <a href="/prod3">
-                        <img src="imagens/bolsa.png" class="imagem4" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco4">R$235,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos5">
-                    <br><br><hgroup><object class="h11">Bolsa de Crochê</object></hgroup><br>
-                    <a href="/prod4">
-                        <img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" class="imagem5" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco5">R$145,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-            </section>
-
-            <section class="grade">
-                <article class="produtos2">
-                    <br><br><hgroup><object class="h8">Cesto organizador</object></hgroup><br>
-                    <a href="/prod1">
-                        <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador" class="imagem2" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco2">R$265,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-                <br><br><br>
-
-                <article class="produtos3">
-                    <br><br><hgroup><object class="h9">Banquinho de Crochê </object></hgroup><br>
-                    <a href="/prod2">
-                        <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" class="imagem3" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco3">R$315,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos4">
-                    <br><br><hgroup><object class="h10">Bolsa de Fio Náutico</object></hgroup><br>
-                    <a href="/prod3">
-                        <img src="imagens/bolsa.png" class="imagem4" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco4">R$235,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos5">
-                    <br><br><hgroup><object class="h11">Bolsa de Crochê</object></hgroup><br>
-                    <a href="/prod4">
-                        <img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" class="imagem5" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco5">R$145,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-            </section>
-            
-            <section class="grade">
-                <article class="produtos2">
-                    <br><br><hgroup><object class="h8">Cesto organizador</object></hgroup><br>
-                    <a href="/prod1">
-                        <img src="https://img.elo7.com.br/product/zoom/4A276D4/cesto-organizador-de-corda-nautica-30cmx28cm-cesto-para-brinquedos.jpg" alt="Cesto organizador" class="imagem2" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco2">R$265,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-                <br><br><br>
-
-                <article class="produtos3">
-                    <br><br><hgroup><object class="h9">Banquinho de Crochê </object></hgroup><br>
-                    <a href="/prod2">
-                        <img src="https://img.elo7.com.br/product/zoom/4C58308/banquinho-tiradentes-de-croche-algodao-e-juta-decor.jpg" class="imagem3" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco3">R$315,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos4">
-                    <br><br><hgroup><object class="h10">Bolsa de Fio Náutico</object></hgroup><br>
-                    <a href="/prod3">
-                        <img src="imagens/bolsa.png" class="imagem4" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco4">R$235,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
-
-                <article class="produtos5">
-                    <br><br><hgroup><object class="h11">Bolsa de Crochê</object></hgroup><br>
-                    <a href="/prod4">
-                        <img src="https://img.elo7.com.br/product/685x685/308FB39/bolsa-de-croche-fundo-couro-legitimo-e-fecho-trapilho.jpg" class="imagem5" width="250px" height="250px">
-                    </a>
-                    <br><br>
-                    <object class="preco5">R$145,00</object><br>
-                    <a href="/home-carrinho"><button class="btn">ADICIONAR AO CARRINHO</button></a>
-                </article>
+                <% if (produtos && produtos.length > 0) { %>
+                    <% produtos.forEach(produto => { %>
+                        <figure class="produtos">
+                            <a href="/produto/<%= produto.ID_PROD %>">
+                                <% if (produto.IMAGEM_BASE64) { %>
+                                    <img src="data:image/jpeg;base64,<%= produto.IMAGEM_BASE64 %>" class="imagem" width="250px" height="250px">
+                                <% } else if (produto.IMAGEM_URL) { %>
+                                    <img src="<%= produto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
+                                <% } else { %>
+                                    <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                                <% } %>
+                                <figcaption>
+                                    <h3 class="h1"><%= produto.NOME_PROD %></h3>
+                                    <p class="hh4">Vendedor: <%= produto.NOME_VENDEDOR || 'Loja não encontrada' %></p>
+                                    <p class="hh4">⭐⭐⭐⭐(4.5)</p>
+                                    <p class="preco">R$ <%= parseFloat(produto.VALOR_UNITARIO).toFixed(2).replace('.', ',') %></p>
+                                </figcaption>
+                            </a>
+                        </figure>
+                    <% }); %>
+                <% } else { %>
+                    <p style="text-align: center; color: #666; font-size: 18px; margin: 50px 0;">Nenhum produto encontrado.</p>
+                <% } %>
             </section>
         </main>
         
         <br><br><br><br>
         <footer>
-            <aside id="footer_content">
-                <section id="footer_contacts"> <h3>Contatos</h3>
-                    <div id="footer_social_media">
+            <section id="footer_content">
+                <address id="footer_contacts"> <h3>Contatos</h3>
+                    <nav id="footer_social_media">
                         <a href="#" class="footer-link" id="instagram" aria-label="Instagram">
                             <i class="fa-brands fa-instagram"></i>
                         </a>
@@ -179,30 +85,62 @@
                         <a href="#" class="footer-link" id="whatsapp" aria-label="WhatsApp">
                             <i class="fa-brands fa-whatsapp"></i>
                         </a>
-                    </div>
-                </section>
+                    </nav>
+                </address>
 
                 <nav class="footer-list"> <h3>Paginas</h3>
                     <ul> 
                         <li><a href="/sobrenos" class="footer-link">Sobre Nós</a></li>
                         <li><a href="/prod" class="footer-link">Produtos</a></li>
-                        <li><a href="/login" class="footer-link">Entrar</a></li>
+
                     </ul>
                 </nav>
 
                 <section id="footer_subscribe"> <h3>Inscreva-se</h3>
                     <p>Digite seu e-mail para receber notificações sobre novos produtos</p>
-                    <div id="input_group">
+                    <form id="input_group">
                         <input class="email" type="email" id="email" placeholder="Digite seu e-mail">
-                        <button onclick="validateEmail()" aria-label="Inscrever-se">
+                        <button type="button" onclick="validateEmail()" aria-label="Inscrever-se">
                             <i class="fa-regular fa-envelope"></i>
                         </button>
-                    </div>
+                    </form>
                     <p id="message"></p>
                 </section>
-            </aside>
+            </section>
         </footer>
-        <script src="js/home.js"></script>
+        <script src="js/auth.js"></script>
         <script src="js/navbar.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loggedUser = localStorage.getItem('loggedUser');
+                const loginLink = document.getElementById('login-link');
+                const profileLink = document.getElementById('profile-link');
+                const sellerLink = document.getElementById('seller-link');
+                const headerProfileImage = document.getElementById('header-profile-image');
+                
+                if (loggedUser) {
+                    try {
+                        const user = JSON.parse(loggedUser);
+                        if (user && user.id) {
+                            loginLink.style.display = 'none';
+                            profileLink.style.display = 'flex';
+                            
+                            if (user.profileImage) {
+                                headerProfileImage.src = user.profileImage;
+                            } else {
+                                const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                            }
+                            
+                            if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                                sellerLink.style.display = 'none';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Erro ao verificar usuário logado:', e);
+                    }
+                }
+            });
+        </script>
     </body>
 </html>

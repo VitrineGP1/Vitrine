@@ -4,37 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPriceSpan = document.getElementById('total-price');
     const emptyCartMessage = document.getElementById('empty-cart-message');
 
-    // Mostrar aviso se storage não estiver disponível
-    if (window.storageHelper) {
-        window.storageHelper.showStorageWarning();
-    }
-
+    // Função para carregar e exibir os itens do carrinho
     function loadCartItems() {
-        const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
-        const user = JSON.parse(storage.getItem('loggedUser')) || null;
-        let cart = [];
-        
-        if (user) {
-            // Usuário logado - carregar carrinho do usuário
-            cart = JSON.parse(storage.getItem(`cart_${user.ID_USUARIO}`)) || [];
-        } else {
-            // Usuário não logado - carregar carrinho de sessão
-            cart = JSON.parse(storage.getItem('cart_session')) || [];
-        }
-        
-        // Manter compatibilidade
-        storage.setItem('cart', JSON.stringify(cart));
-        cartItemsContainer.innerHTML = '';
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartItemsContainer.innerHTML = ''; // Limpa o conteúdo atual da tabela
 
         if (cart.length === 0) {
-            emptyCartMessage.style.display = 'block';
-            cartItemsContainer.style.display = 'none';
+            emptyCartMessage.style.display = 'block'; // Mostra a mensagem de carrinho vazio
+            cartItemsContainer.style.display = 'none'; // Oculta a tabela
         } else {
-            emptyCartMessage.style.display = 'none';
-            cartItemsContainer.style.display = 'table-row-group';
+            emptyCartMessage.style.display = 'none'; // Oculta a mensagem de carrinho vazio
+            cartItemsContainer.style.display = 'table-row-group'; // Mostra a tabela (tbody)
             cart.forEach(item => {
                 const row = document.createElement('tr');
-                row.setAttribute('data-product-id', item.id);
+                row.setAttribute('data-product-id', item.id); // Armazena o ID do produto na linha
 
                 const itemTotal = item.price * item.quantity;
 
@@ -44,92 +27,130 @@ document.addEventListener('DOMContentLoaded', () => {
                             <img src="${item.image}" alt="${item.name}" />
                             <div class="info">
                                 <div class="name">${item.name}</div>
-                                <div class="category">Artesanato</div>
+                                <div class="category">Artesanato${item.size ? ' - Tamanho: ' + item.size : ''}</div>
                             </div>
                         </div>
                     </td>
                     <td>R$ ${item.price.toFixed(2).replace('.', ',')}</td>
                     <td>
                         <div class="qty">
-                            <button class="qty-minus" aria-label="Diminuir quantidade de ${item.name}"><i class="bx bx-minus"></i></button>
+                            <button class="qty-minus" aria-label="Diminuir quantidade de ${item.name}"><i class="bx bx-minus"></i>-</button>
                             <span>${item.quantity}</span>
-                            <button class="qty-plus" aria-label="Aumentar quantidade de ${item.name}"><i class="bx bx-plus"></i></button>
+                            <button class="qty-plus" aria-label="Aumentar quantidade de ${item.name}"><i class="bx bx-plus"></i>+</button>
                         </div>
                     </td>
                     <td>R$ ${itemTotal.toFixed(2).replace('.', ',')}</td>
                     <td>
                         <button class="remove-item" aria-label="Remover ${item.name} do carrinho">
-                            <i class="bx bx-x"></i>
+                            <i class="bx bx-x"></i>X
                         </button>
                     </td>
                 `;
                 cartItemsContainer.appendChild(row);
             });
         }
-        updateCartTotals();
-        updateCheckoutButton();
+        updateCartTotals(); // Atualiza os totais após carregar os itens
     }
 
+    // Função para atualizar os totais do carrinho
     function updateCartTotals() {
-        const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k) };
-        const cart = JSON.parse(storage.getItem('cart')) || [];
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
         let subtotal = 0;
         cart.forEach(item => {
             subtotal += item.price * item.quantity;
         });
 
-        const shippingCost = 0;
+        // Frete fixo para demonstração, pode ser calculado dinamicamente
+        const shippingCost = 0; // Gratuito
+
         const total = subtotal + shippingCost;
 
         subtotalPriceSpan.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
         totalPriceSpan.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
     }
 
-    function updateCheckoutButton() {
-        const checkoutBtn = document.getElementById('checkout-btn');
-        if (checkoutBtn) {
-            const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k) };
-            const cart = JSON.parse(storage.getItem('cart')) || [];
-            checkoutBtn.disabled = cart.length === 0;
-        }
-    }
-
+    // Função para manipular eventos de clique (aumentar/diminuir/remover)
     cartItemsContainer.addEventListener('click', (event) => {
         const target = event.target;
-        const row = target.closest('tr[data-product-id]');
-        if (!row) return;
+        const row = target.closest('tr[data-product-id]'); // Encontra a linha do produto
+        if (!row) return; // Se não encontrou a linha, sai
 
         const productId = row.getAttribute('data-product-id');
-        const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
-        let cart = JSON.parse(storage.getItem('cart')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const itemIndex = cart.findIndex(item => item.id === productId);
 
-        if (itemIndex === -1) return;
+        if (itemIndex === -1) return; // Produto não encontrado no carrinho
 
         if (target.classList.contains('qty-plus') || target.closest('.qty-plus')) {
+            // Aumentar quantidade
             cart[itemIndex].quantity += 1;
         } else if (target.classList.contains('qty-minus') || target.closest('.qty-minus')) {
+            // Diminuir quantidade
             if (cart[itemIndex].quantity > 1) {
                 cart[itemIndex].quantity -= 1;
             } else {
+                // Se a quantidade for 1 e tentar diminuir, remove o item
                 cart.splice(itemIndex, 1);
             }
         } else if (target.classList.contains('remove-item') || target.closest('.remove-item')) {
+            // Remover item
             cart.splice(itemIndex, 1);
         } else {
-            return;
+            return; // Não é um botão de quantidade ou remover
         }
 
-        // Salvar carrinho baseado no status de login
-        const user = JSON.parse(storage.getItem('loggedUser')) || null;
-        if (user) {
-            storage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
-        } else {
-            storage.setItem('cart_session', JSON.stringify(cart));
-        }
-        storage.setItem('cart', JSON.stringify(cart));
-        loadCartItems();
+        localStorage.setItem('cart', JSON.stringify(cart)); // Salva o carrinho atualizado
+        loadCartItems(); // Recarrega os itens e atualiza os totais
     });
 
+    // Função para verificar se o usuário está logado
+    function isUserLoggedIn() {
+        const loggedUser = localStorage.getItem('loggedUser');
+        return loggedUser && JSON.parse(loggedUser).id;
+    }
+    
+    // Função para mostrar o modal de login
+    function showCheckoutLoginModal() {
+        document.getElementById('checkoutLoginModal').style.display = 'flex';
+    }
+    
+    // Função para fechar o modal de login
+    window.closeCheckoutModal = function() {
+        document.getElementById('checkoutLoginModal').style.display = 'none';
+    }
+    
+    // Event listener para o botão de finalizar compra
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            
+            if (!isUserLoggedIn()) {
+                showCheckoutLoginModal();
+                return;
+            }
+            
+            // Se chegou até aqui, usuário está logado e pode prosseguir
+            alert('Redirecionando para o checkout...');
+            // Aqui você pode redirecionar para a página de checkout
+            // window.location.href = '/checkout';
+        });
+    }
+    
+    // Fechar modal clicando fora dele
+    window.onclick = function(event) {
+        const modal = document.getElementById('checkoutLoginModal');
+        if (event.target === modal) {
+            closeCheckoutModal();
+        }
+    }
+
+    // Carrega os itens do carrinho quando a página é carregada
     loadCartItems();
 });

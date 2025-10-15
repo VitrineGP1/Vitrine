@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Proxima Nova', Arial, sans-serif;
+            background-color: #ebebeb;
+            color: #333;
+            margin: 0;
+            padding-top: 120px;
+        }
+        
+        .header {
+            background: #3D5A80 !important;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .orders-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: white;
+            color: #666;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tab:hover {
+            background: #ecf0f1;
+        }
+        
+        .tab.active:hover {
+            background: #2980b9;
+        }
+        
+        .orders-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .order-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .order-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .order-info {
+            flex: 1;
+        }
+        
+        .order-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .order-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+        
+        .order-price {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-transit { background: #cce5ff; color: #004085; }
+        .status-delivered { background: #d4edda; color: #155724; }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+            
+            .header {
+                padding: 0.5rem 1rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .page-header {
+                padding: 20px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .orders-tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .order-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .order-image {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+            }
+            
+            .order-status {
+                align-self: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .page-header {
+                padding: 15px;
+            }
+            
+            .page-header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .orders-content {
+                padding: 15px;
+            }
+            
+            .order-card {
+                padding: 15px;
+                gap: 10px;
+            }
+            
+            .order-image {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .order-title {
+                font-size: 1rem;
+            }
+            
+            .order-details {
+                font-size: 0.8rem;
+            }
+            
+            .order-status {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/sobrenos">Sobre</a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/carrinho" class="carrinho"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="/cadastro">Seja um Vendedor</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-shopping-bag"></i> Meus Pedidos</h1>
+            <p>Acompanhe o status de todos os seus pedidos</p>
+        </div>
+
+        <div class="orders-tabs">
+            <button class="tab active" onclick="showTab('pending')">
+                <i class="fas fa-clock"></i> Em Andamento
+            </button>
+            <button class="tab" onclick="showTab('transit')">
+                <i class="fas fa-truck"></i> Em Trânsito
+            </button>
+            <button class="tab" onclick="showTab('delivered')">
+                <i class="fas fa-check-circle"></i> Entregues
+            </button>
+        </div>
+
+        <div class="orders-content">
+            <div id="pending-orders">
+                <div class="order-card">
+                    <img src="https://placehold.co/80x80/cccccc/333333?text=Produto" alt="Produto" class="order-image">
+                    <div class="order-info">
+                        <div class="order-title">Vaso Decorativo Artesanal</div>
+                        <div class="order-details">Pedido #12345 • Vendedor: Arte & Cia</div>
+                        <div class="order-details">Pedido em: 18/12/2024</div>
+                        <div class="order-price">R$ 89,90</div>
+                    </div>
+                    <div class="order-status status-pending">Preparando</div>
+                </div>
+                
+                <div class="order-card">
+                    <img src="https://placehold.co/80x80/cccccc/333333?text=Produto" alt="Produto" class="order-image">
+                    <div class="order-info">
+                        <div class="order-title">Colar Artesanal de Pérolas</div>
+                        <div class="order-details">Pedido #12344 • Vendedor: Joias Artesanais</div>
+                        <div class="order-details">Pedido em: 16/12/2024</div>
+                        <div class="order-price">R$ 125,00</div>
+                    </div>
+                    <div class="order-status status-pending">Confirmado</div>
+                </div>
+            </div>
+
+            <div id="transit-orders" style="display: none;">
+                <div class="order-card">
+                    <img src="https://placehold.co/80x80/cccccc/333333?text=Produto" alt="Produto" class="order-image">
+                    <div class="order-info">
+                        <div class="order-title">Bolsa de Crochê</div>
+                        <div class="order-details">Pedido #12343 • Vendedor: Fios & Tramas</div>
+                        <div class="order-details">Enviado em: 14/12/2024 • Previsão: 20/12/2024</div>
+                        <div class="order-price">R$ 75,50</div>
+                    </div>
+                    <div class="order-status status-transit">Em Trânsito</div>
+                </div>
+            </div>
+
+            <div id="delivered-orders" style="display: none;">
+                <div class="order-card">
+                    <img src="https://placehold.co/80x80/cccccc/333333?text=Produto" alt="Produto" class="order-image">
+                    <div class="order-info">
+                        <div class="order-title">Quadro Decorativo</div>
+                        <div class="order-details">Pedido #12342 • Vendedor: Arte Moderna</div>
+                        <div class="order-details">Entregue em: 10/12/2024</div>
+                        <div class="order-price">R$ 150,00</div>
+                    </div>
+                    <div class="order-status status-delivered">Entregue</div>
+                </div>
+                
+                <div class="order-card">
+                    <img src="https://placehold.co/80x80/cccccc/333333?text=Produto" alt="Produto" class="order-image">
+                    <div class="order-info">
+                        <div class="order-title">Tapete Artesanal</div>
+                        <div class="order-details">Pedido #12341 • Vendedor: Casa & Decoração</div>
+                        <div class="order-details">Entregue em: 05/12/2024</div>
+                        <div class="order-price">R$ 95,00</div>
+                    </div>
+                    <div class="order-status status-delivered">Entregue</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function showTab(tabName) {
+            // Ocultar todas as abas
+            document.getElementById('pending-orders').style.display = 'none';
+            document.getElementById('transit-orders').style.display = 'none';
+            document.getElementById('delivered-orders').style.display = 'none';
+            
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            
+            // Mostrar aba selecionada
+            document.getElementById(tabName + '-orders').style.display = 'block';
+            
+            // Adicionar classe active na aba clicada
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -66,7 +66,7 @@ body {
             object-fit: cover;
         }
         .btn-primary {
-            background-color: #3D5A80;
+            background-color: #FF8C00;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -76,7 +76,7 @@ body {
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #3D5A80;
+            background-color: #FF7F00;
         }
         .btn-secondary {
             background-color: #6c757d;
@@ -120,12 +120,12 @@ body {
             font-size: 0.9em;
         }
         .edit-btn {
-            background-color: #007bff;
+            background-color: #FF8C00;
             color: white;
             border: none;
         }
         .edit-btn:hover {
-            background-color: #0056b3;
+            background-color: #FF7F00;
         }
         .delete-btn {
             background-color: #dc3545;

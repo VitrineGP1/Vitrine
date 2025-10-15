@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin | Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Proxima Nova', Arial, sans-serif;
+            background-color: #ebebeb;
+            color: #333;
+            margin: 0;
+            padding-top: 120px;
+        }
+        
+        .header {
+            background: #713112 !important;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .users-stat { color: #3498db; }
+        .sellers-stat { color: #e74c3c; }
+        .products-stat { color: #2ecc71; }
+        .revenue-stat { color: #f39c12; }
+        
+        .admin-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .admin-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-title {
+            margin: 0;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        
+        .section-content {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .item-list li {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .item-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+        
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-info { background: #3498db; color: white; text-decoration: none; }
+        .btn-warning { background: #f39c12; color: white; }
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .admin-container {
+                padding: 15px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .admin-sections {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+            
+            .header {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-right: 0;
+            }
+            
+            .admin-container {
+                padding: 10px;
+            }
+            
+            .admin-header {
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .admin-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.5rem;
+            }
+            
+            .admin-header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stat-card {
+                padding: 10px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .section-content {
+                padding: 15px;
+                max-height: 300px;
+            }
+            
+            .item-list li {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        </a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/admin-dashboard">Dashboard Admin</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-crown"></i> Dashboard Administrativo</h1>
+            <p>Painel de controle completo da plataforma Vitrine</p>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <a href="/admin-usuarios" class="stat-card" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div class="stat-number users-stat" id="total-users">0</div>
+                <div class="stat-label">Total de Usuários</div>
+            </a>
+            <a href="/admin-vendedores" class="stat-card" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div class="stat-number sellers-stat" id="total-sellers">0</div>
+                <div class="stat-label">Vendedores Ativos</div>
+            </a>
+            <a href="/admin-produtos" class="stat-card" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div class="stat-number products-stat" id="total-products">0</div>
+                <div class="stat-label">Produtos Cadastrados</div>
+            </a>
+            <a href="/admin-usuario-detalhes?id=3" class="stat-card" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div class="stat-number revenue-stat" id="total-revenue">R$ 0,00</div>
+                <div class="stat-label">Faturamento Total</div>
+            </a>
+        </div>
+
+        <!-- Seções -->
+        <div class="admin-sections">
+            <!-- Usuários -->
+            <div class="admin-section">
+                <div class="section-header">
+                    <h3 class="section-title"><i class="fas fa-users"></i> Usuários Recentes</h3>
+                </div>
+                <div class="section-content">
+                    <ul class="item-list" id="users-list">
+                        <li><p>Carregando usuários...</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Vendedores -->
+            <div class="admin-section">
+                <div class="section-header">
+                    <h3 class="section-title"><i class="fas fa-store"></i> Vendedores</h3>
+                </div>
+                <div class="section-content">
+                    <ul class="item-list" id="sellers-list">
+                        <li><p>Carregando vendedores...</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Produtos -->
+            <div class="admin-section">
+                <div class="section-header">
+                    <h3 class="section-title"><i class="fas fa-box"></i> Produtos Recentes</h3>
+                </div>
+                <div class="section-content">
+                    <ul class="item-list" id="products-list">
+                        <li><p>Carregando produtos...</p></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Categorias -->
+            <div class="admin-section">
+                <div class="section-header">
+                    <h3 class="section-title"><i class="fas fa-tags"></i> Categorias</h3>
+                </div>
+                <div class="section-content">
+                    <ul class="item-list" id="categories-list">
+                        <li><p>Carregando categorias...</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+
+        async function loadDashboardData() {
+            await loadUsers();
+            await loadSellers();
+            await loadProducts();
+            await loadCategories();
+        }
+
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/check_users');
+                const data = await response.json();
+                
+                const usersList = document.getElementById('users-list');
+                document.getElementById('total-users').textContent = data.users.length;
+                
+                if (data.success && data.users.length > 0) {
+                    usersList.innerHTML = data.users.map(user => `
+                        <li>
+                            <div class="item-info">
+                                <div class="item-name">${user.NOME_USUARIO}</div>
+                                <div class="item-details">${user.EMAIL_USUARIO} • ${user.TIPO_USUARIO}</div>
+                            </div>
+                            <a href="/admin-usuario-detalhes?id=${user.ID_USUARIO}" class="btn btn-info">Ver</a>
+                        </li>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuários:', error);
+            }
+        }
+
+        async function loadSellers() {
+            try {
+                const response = await fetch('/api/check_users');
+                const data = await response.json();
+                
+                const sellers = data.users.filter(user => user.TIPO_USUARIO === 'V');
+                const sellersList = document.getElementById('sellers-list');
+                document.getElementById('total-sellers').textContent = sellers.length;
+                
+                if (sellers.length > 0) {
+                    sellersList.innerHTML = sellers.map(seller => `
+                        <li>
+                            <div class="item-info">
+                                <div class="item-name">${seller.NOME_USUARIO}</div>
+                                <div class="item-details">${seller.EMAIL_USUARIO}</div>
+                            </div>
+                            <a href="/admin-usuario-detalhes?id=${seller.ID_USUARIO}" class="btn btn-info">Ver</a>
+                        </li>
+                    `).join('');
+                } else {
+                    sellersList.innerHTML = '<li><p>Nenhum vendedor encontrado</p></li>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar vendedores:', error);
+            }
+        }
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                
+                const productsList = document.getElementById('products-list');
+                document.getElementById('total-products').textContent = data.products.length;
+                
+                if (data.success && data.products.length > 0) {
+                    let totalRevenue = 0;
+                    productsList.innerHTML = data.products.map(product => {
+                        totalRevenue += parseFloat(product.VALOR_UNITARIO);
+                        return `
+                            <li>
+                                <div class="item-info">
+                                    <div class="item-name">${product.NOME_PROD}</div>
+                                    <div class="item-details">R$ ${parseFloat(product.VALOR_UNITARIO).toFixed(2).replace('.', ',')}</div>
+                                </div>
+                                <a href="/admin-produto-detalhes?id=${product.ID_PROD}" class="btn btn-info">Ver</a>
+                            </li>
+                        `;
+                    }).join('');
+                    
+                    document.getElementById('total-revenue').textContent = `R$ ${totalRevenue.toFixed(2).replace('.', ',')}`;
+                } else {
+                    productsList.innerHTML = '<li><p>Nenhum produto encontrado</p></li>';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+            }
+        }
+
+        async function loadCategories() {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = `
+                <li><div class="item-info"><div class="item-name">Artesanato</div><div class="item-details">ID: 1</div></div></li>
+                <li><div class="item-info"><div class="item-name">Decoração</div><div class="item-details">ID: 2</div></div></li>
+                <li><div class="item-info"><div class="item-name">Roupas</div><div class="item-details">ID: 3</div></div></li>
+                <li><div class="item-info"><div class="item-name">Acessórios</div><div class="item-details">ID: 4</div></div></li>
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedUser');
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

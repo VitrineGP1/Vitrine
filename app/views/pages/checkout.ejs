@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Vitrine</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        body { padding-top: 120px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .checkout-header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
+        .checkout-content { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .checkout-form { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .order-summary { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); height: fit-content; }
+        .form-section { margin-bottom: 30px; }
+        .form-section h3 { margin-bottom: 20px; color: #333; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; }
+        .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+        .payment-method { border: 2px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .payment-method:hover { border-color: #3D5A80; }
+        .payment-method.selected { border-color: #3D5A80; background: #f8f9fa; }
+        .payment-method i { font-size: 2rem; margin-bottom: 10px; color: #3D5A80; }
+        .order-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
+        .item-image { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: bold; margin-bottom: 5px; }
+        .item-details { color: #666; font-size: 0.9rem; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+        .summary-total { font-weight: bold; font-size: 1.2rem; border-top: 2px solid #f0f0f0; padding-top: 15px; margin-top: 15px; }
+        .btn { padding: 15px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%; }
+        .btn:hover { background: #218838; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .address-options { margin-bottom: 20px; }
+        .address-option { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 10px; cursor: pointer; }
+        .address-option:hover { border-color: #3D5A80; }
+        .address-option.selected { border-color: #3D5A80; background: #f8f9fa; }
+        .new-address { display: none; }
+        .new-address.show { display: block; }
+        @media (max-width: 768px) {
+            .checkout-content { grid-template-columns: 1fr; }
+            .form-row, .form-row-3 { grid-template-columns: 1fr; }
+            .payment-methods { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a class="logo" href="/"><img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine"></a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/">Início</a></li>
+                <li><a href="/carrinho">Carrinho</a></li>
+                <li><a href="/perfil">Perfil</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <header class="checkout-header">
+            <h1><i class="fas fa-credit-card"></i> Finalizar Compra</h1>
+            <p>Revise seus dados e finalize seu pedido</p>
+        </header>
+
+        <section class="checkout-content">
+            <main class="checkout-form">
+                <form id="checkout-form">
+                    <section class="form-section">
+                        <h3><i class="fas fa-map-marker-alt"></i> Endereço de Entrega</h3>
+                        
+                        <section class="address-options">
+                            <article class="address-option selected" data-address="saved">
+                                <h4>Endereço Principal</h4>
+                                <p>Rua das Flores, 123 - Jardim Primavera<br>
+                                São Paulo, SP - 01234-567</p>
+                            </article>
+                            
+                            <article class="address-option" data-address="new">
+                                <h4><i class="fas fa-plus"></i> Usar outro endereço</h4>
+                                <p>Cadastrar um novo endereço de entrega</p>
+                            </article>
+                        </section>
+
+                        <section class="new-address" id="new-address">
+                            <section class="form-row">
+                                <section class="form-group">
+                                    <label for="cep">CEP</label>
+                                    <input type="text" id="cep" name="cep" maxlength="10">
+                                </section>
+                                <section class="form-group">
+                                    <label for="numero">Número</label>
+                                    <input type="text" id="numero" name="numero">
+                                </section>
+                            </section>
+                            <section class="form-group">
+                                <label for="logradouro">Logradouro</label>
+                                <input type="text" id="logradouro" name="logradouro">
+                            </section>
+                            <section class="form-row">
+                                <section class="form-group">
+                                    <label for="bairro">Bairro</label>
+                                    <input type="text" id="bairro" name="bairro">
+                                </section>
+                                <section class="form-group">
+                                    <label for="cidade">Cidade</label>
+                                    <input type="text" id="cidade" name="cidade">
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+
+                    <section class="form-section">
+                        <h3><i class="fas fa-credit-card"></i> Forma de Pagamento</h3>
+                        
+                        <section class="payment-methods">
+                            <article class="payment-method selected" data-method="pix">
+                                <i class="fas fa-qrcode"></i>
+                                <h4>PIX</h4>
+                                <p>Pagamento instantâneo</p>
+                            </article>
+                            
+                            <article class="payment-method" data-method="cartao">
+                                <i class="fas fa-credit-card"></i>
+                                <h4>Cartão</h4>
+                                <p>Crédito ou Débito</p>
+                            </article>
+                            
+                            <article class="payment-method" data-method="boleto">
+                                <i class="fas fa-barcode"></i>
+                                <h4>Boleto</h4>
+                                <p>Vencimento em 3 dias</p>
+                            </article>
+                        </section>
+
+                        <section id="card-details" style="display: none; margin-top: 20px;">
+                            <section class="form-group">
+                                <label for="card-number">Número do Cartão</label>
+                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </section>
+                            <section class="form-row-3">
+                                <section class="form-group">
+                                    <label for="card-name">Nome no Cartão</label>
+                                    <input type="text" id="card-name" placeholder="Nome como no cartão">
+                                </section>
+                                <section class="form-group">
+                                    <label for="card-expiry">Validade</label>
+                                    <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5">
+                                </section>
+                                <section class="form-group">
+                                    <label for="card-cvv">CVV</label>
+                                    <input type="text" id="card-cvv" placeholder="123" maxlength="4">
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+
+                    <button type="submit" class="btn" id="place-order-btn">
+                        <i class="fas fa-check"></i> Finalizar Pedido
+                    </button>
+                </form>
+            </main>
+
+            <aside class="order-summary">
+                <h3>Resumo do Pedido</h3>
+                
+                <section id="order-items">
+                    <!-- Itens serão carregados aqui -->
+                </section>
+
+                <section class="summary-details">
+                    <section class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">R$ 0,00</span>
+                    </section>
+                    <section class="summary-row">
+                        <span>Frete:</span>
+                        <span id="shipping">Grátis</span>
+                    </section>
+                    <section class="summary-row">
+                        <span>Desconto:</span>
+                        <span id="discount">R$ 0,00</span>
+                    </section>
+                    <section class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span id="total">R$ 0,00</span>
+                    </section>
+                </section>
+
+                <section style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f0f0f0;">
+                    <h4><i class="fas fa-shield-alt"></i> Compra Segura</h4>
+                    <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">
+                        Seus dados estão protegidos com criptografia SSL
+                    </p>
+                </section>
+            </aside>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            setupEventListeners();
+        });
+
+        function loadOrderSummary() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            const orderItems = document.getElementById('order-items');
+            
+            if (carrinho.length === 0) {
+                window.location.href = '/carrinho';
+                return;
+            }
+
+            orderItems.innerHTML = carrinho.map(item => `
+                <article class="order-item">
+                    <img src="${item.imagem || 'https://placehold.co/60x60/cccccc/333333?text=Produto'}" 
+                         alt="${item.nome}" class="item-image">
+                    <section class="item-info">
+                        <p class="item-name">${item.nome}</p>
+                        <p class="item-details">Qtd: ${item.quantidade} × R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                    </section>
+                </article>
+            `).join('');
+
+            const subtotal = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+            document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('total').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        function setupEventListeners() {
+            // Seleção de endereço
+            document.querySelectorAll('.address-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.address-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const newAddressForm = document.getElementById('new-address');
+                    if (this.dataset.address === 'new') {
+                        newAddressForm.classList.add('show');
+                    } else {
+                        newAddressForm.classList.remove('show');
+                    }
+                });
+            });
+
+            // Seleção de método de pagamento
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const cardDetails = document.getElementById('card-details');
+                    if (this.dataset.method === 'cartao') {
+                        cardDetails.style.display = 'block';
+                    } else {
+                        cardDetails.style.display = 'none';
+                    }
+                });
+            });
+
+            // Formatação de campos
+            document.getElementById('card-number')?.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+
+            document.getElementById('card-expiry')?.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+
+            // Submit do formulário
+            document.getElementById('checkout-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                processOrder();
+            });
+        }
+
+        async function processOrder() {
+            const btn = document.getElementById('place-order-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+
+            try {
+                // Simular processamento do pedido
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Limpar carrinho
+                localStorage.removeItem('carrinho');
+                
+                // Redirecionar para página de sucesso
+                window.location.href = '/pedido-confirmado';
+                
+            } catch (error) {
+                alert('Erro ao processar pedido. Tente novamente.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check"></i> Finalizar Pedido';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedUser');
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

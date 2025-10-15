@@ -4,544 +4,572 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Produto | Vitrine</title>
-    <link rel="stylesheet" href="css/home.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <style>
-        body {
-            font-family: 'Proxima Nova', Arial, sans-serif;
-            background-color: #ebebeb;
-            color: #333;
-            margin: 0;
-            padding-top: 120px;
-        }
-
-        .logo img {
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .logo img {
-            display: block;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .nav-list {
-            display: flex;
-            list-style: none;
-            gap: 1rem;
-            align-items: center;
-            margin-right: 20px;
-        }
-
-        .nav-list a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 20px;
-        }
-
-        .nav-list a:hover {
-            background: rgba(255,255,255,0.2);
-            color: #E0FBFC;
-        }
-
-        .profile-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px !important;
-            border-radius: 50% !important;
-            transition: all 0.3s ease;
-        }
-
-        .profile-icon:hover {
-            background: rgba(255,255,255,0.2) !important;
-            transform: scale(1.1);
-        }
-
-        .profile-icon img {
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: border-color 0.3s ease;
-        }
-
-        .profile-icon:hover img {
-            border-color: rgba(255,255,255,0.8);
-        }
-
-        .header {
-            background: #3D5A80 !important;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .carrinho:hover {
-            background: rgba(255,255,255,0.2) !important;
-            border-radius: 20px;
-            transform: scale(1.05);
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .form-section {
-            margin-bottom: 30px;
-        }
-
-        .form-section h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-field label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .form-field input,
-        .form-field select,
-        .form-field textarea {
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.2s;
-        }
-
-        .form-field input:focus,
-        .form-field select:focus,
-        .form-field textarea:focus {
-            outline: none;
-            border-color: #3483fa;
-            box-shadow: 0 0 0 2px rgba(52, 131, 250, 0.1);
-        }
-
-        .form-field textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background: #3483fa;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #2968c8;
-        }
-
-        .btn-secondary {
-            background: #f5f5f5;
-            color: #666;
-        }
-
-        .btn-secondary:hover {
-            background: #e9ecef;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-            justify-content: flex-end;
-        }
-
-        .image-upload {
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .image-upload:hover {
-            border-color: #3483fa;
-            background: #f8f9ff;
-        }
-
-        .image-upload i {
-            font-size: 48px;
-            color: #ddd;
-            margin-bottom: 16px;
-        }
-
-        .image-upload p {
-            color: #666;
-            margin: 0;
-        }
-
-        .image-preview {
-            display: none;
-            position: relative;
-            margin-top: 20px;
-        }
-
-        .image-preview img {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .remove-image {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feedback-message {
-            margin-top: 16px;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .feedback-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .feedback-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3483fa;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin: 16px;
-                padding: 16px;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f5f5f5; }
+        .header { background: #fff; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        .form-container { background: #fff; padding: 30px; border-radius: 8px; }
+        
+        /* Progress Steps */
+        .progress-container { margin-bottom: 30px; }
+        .progress-steps { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; }
+        .step-number { width: 40px; height: 40px; border-radius: 50%; background: #ddd; color: #666; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 8px; }
+        .step.active .step-number { background: #FF8C00; color: white; }
+        .step.completed .step-number { background: #28a745; color: white; }
+        .step-title { font-size: 14px; color: #666; text-align: center; }
+        .step.active .step-title { color: #FF8C00; font-weight: bold; }
+        .step-line { position: absolute; top: 20px; left: 50%; width: 100%; height: 2px; background: #ddd; z-index: -1; }
+        .step:last-child .step-line { display: none; }
+        .step.completed .step-line { background: #28a745; }
+        
+        /* Form Steps */
+        .form-step { display: none; }
+        .form-step.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 18px; font-family: Arial, Helvetica, sans-serif; }
+        .form-group textarea { height: 100px; resize: vertical; }
+        .image-upload { border: 2px dashed #ddd; padding: 40px; text-align: center; border-radius: 6px; cursor: pointer; }
+        .image-upload:hover { border-color: #FF8C00; }
+        .image-preview { max-width: 200px; max-height: 200px; margin: 10px auto; display: none; }
+        .btn { padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+        .btn-primary { background: #FF8C00; color: white; }
+        .btn-success { background: #FF8C00; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .actions { display: flex; gap: 15px; justify-content: space-between; margin-top: 30px; }
+        .message { padding: 15px; border-radius: 6px; margin-bottom: 20px; text-align: center; display: none; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .step-description { color: #666; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <header class="header">
-        <a class="logo" href="/">
-            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-        </a>
-
-        <nav>
-            <ul class="nav-list">
-                <li><a href="/">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li>
-                    <a href="/carrinho" class="carrinho" aria-label="Carrinho de compras">
-                        <i class="fa fa-shopping-cart"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/perfil" class="profile-icon" title="Meu Perfil">
-                        <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Foto de perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                    </a>
-                </li>
-            </ul>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu de navegação">☰</button>
-        </nav>
-
-        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
-            <li><a href="/">Início</a></li>
-            <li><a href="/sobrenos">Sobre</a></li>
-            <li><a href="/carrinho">Carrinho</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-        </ul>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Criar Novo Produto</h2>
+            <a href="/perfil" class="btn btn-secondary">← Voltar ao Perfil</a>
+        </div>
     </header>
 
-    <main class="container">
-        <header>
-            <h1>Criar Novo Produto</h1>
-            <p>Preencha as informações abaixo para cadastrar seu produto na plataforma.</p>
-        </header>
-
-        <form id="create-product-form">
-            <section class="form-section">
-                <h2>Informações Básicas</h2>
-                <fieldset class="form-grid">
-                    <div class="form-field">
-                        <label for="nome_produto">Nome do Produto *</label>
-                        <input type="text" id="nome_produto" name="nome_produto" required placeholder="Ex: Camiseta Básica">
+    <div class="container">
+        <div class="form-container">
+            <div id="message" class="message"></div>
+            
+            <!-- Progress Steps -->
+            <div class="progress-container">
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Categoria</div>
+                        <div class="step-line"></div>
                     </div>
-                    <div class="form-field">
-                        <label for="categoria_produto">Categoria *</label>
-                        <select id="categoria_produto" name="categoria_produto" required>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Informações Básicas</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Imagens</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Revisão</div>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="product-form">
+                <!-- Etapa 1: Categoria -->
+                <div class="form-step active" data-step="1">
+                    <h3>Categoria do Produto</h3>
+                    <p class="step-description">Primeiro, selecione a categoria do seu produto.</p>
+                    
+                    <div class="form-group">
+                        <label for="categoria">Categoria *</label>
+                        <select id="categoria" name="ID_CATEGORIA" required>
                             <option value="">Selecione uma categoria</option>
-                            <option value="roupas">Roupas</option>
-                            <option value="acessorios">Acessórios</option>
-                            <option value="eletronicos">Eletrônicos</option>
-                            <option value="casa">Casa e Decoração</option>
-                            <option value="esportes">Esportes</option>
-                            <option value="livros">Livros</option>
-                            <option value="outros">Outros</option>
+                            <option value="1">Artesanato</option>
+                            <option value="2">Decoração</option>
+                            <option value="3">Roupas</option>
+                            <option value="4">Acessórios</option>
                         </select>
                     </div>
-                    <div class="form-field">
-                        <label for="valor_unitario">Preço (R$) *</label>
-                        <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" min="0.01" required placeholder="0,00">
+
+                    <div class="form-group" id="subcategoria-group" style="display: none;">
+                        <label for="subcategoria">Subcategoria *</label>
+                        <select id="subcategoria" name="SUBCATEGORIA">
+                            <option value="">Selecione uma subcategoria</option>
+                        </select>
                     </div>
-                    <div class="form-field">
-                        <label for="quantidade_estoque">Quantidade em Estoque *</label>
-                        <input type="number" id="quantidade_estoque" name="quantidade_estoque" min="1" required placeholder="1">
+                </div>
+
+                <!-- Etapa 2: Informações Básicas -->
+                <div class="form-step" data-step="2">
+                    <h3>Informações Básicas do Produto</h3>
+                    <p class="step-description">Agora vamos às informações principais do seu produto.</p>
+                    
+                    <div class="form-group">
+                        <label for="nome">Nome do Produto *</label>
+                        <input type="text" id="nome" name="NOME_PROD" required>
                     </div>
-                </fieldset>
-            </section>
 
-            <section class="form-section">
-                <h2>Descrição e Detalhes</h2>
-                <fieldset class="form-grid">
-                    <div class="form-field" style="grid-column: 1 / -1;">
-                        <label for="descricao_produto">Descrição do Produto *</label>
-                        <textarea id="descricao_produto" name="descricao_produto" required placeholder="Descreva detalhadamente seu produto, incluindo características, materiais, cuidados, etc."></textarea>
+                    <div class="form-group">
+                        <label for="descricao">Descrição do Produto <small style="color: #666;">(Máximo: 250 caracteres)</small></label>
+                        <textarea id="descricao" name="DESCRICAO_PROD" maxlength="250" placeholder="Descreva as características, benefícios e detalhes do seu produto..."></textarea>
+                        <small id="desc-counter" style="color: #666; font-size: 12px;">0/250 caracteres</small>
                     </div>
-                </fieldset>
-            </section>
 
-            <section class="form-section">
-                <h2>Imagem do Produto</h2>
-                <figure class="image-upload" onclick="document.getElementById('imagem_produto').click()">
-                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
-                    <figcaption>
-                        <p>Clique aqui para adicionar uma imagem</p>
-                        <p>Formatos aceitos: JPG, PNG, GIF. Tamanho máximo: 5MB</p>
-                    </figcaption>
-                </figure>
-                <input type="file" id="imagem_produto" accept="image/*" style="display: none;">
-                <figure class="image-preview" id="image-preview">
-                    <img id="preview-img" src="" alt="Preview do produto">
-                    <button type="button" class="remove-image" onclick="removeImage()" aria-label="Remover imagem">&times;</button>
-                </figure>
-            </section>
+                    <div class="form-group">
+                        <label for="valor">Preço (R$) *</label>
+                        <input type="number" id="valor" name="VALOR_UNITARIO" step="0.01" min="0.01" required>
+                        <div id="tax-info" style="margin-top: 10px; padding: 10px; border-radius: 6px; background: #f8f9fa; border-left: 4px solid #FF8C00; display: none;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">Informações sobre Taxa:</div>
+                            <div id="tax-rate" style="color: #666;"></div>
+                            <div id="final-value" style="color: #28a745; font-weight: bold; margin-top: 5px;"></div>
+                            <div style="margin-top: 10px;">
+                                <a href="/sobrenos" target="_blank" style="color: #FF8C00; text-decoration: none; font-size: 14px;">
+                                    <i class="fas fa-info-circle"></i> Confira nossas taxas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-            <nav class="btn-group" role="navigation" aria-label="Ações do formulário">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='/perfil'">Cancelar</button>
-                <button type="submit" class="btn btn-primary" id="submit-btn">
-                    <span id="submit-text">Criar Produto</span>
-                </button>
-            </nav>
+                    <div class="form-group" id="tamanho-group" style="display: none;">
+                        <label for="tamanho">Tamanho *</label>
+                        <select id="tamanho" name="TAMANHO">
+                            <option value="">Selecione um tamanho</option>
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                            <option value="XG">XG</option>
+                        </select>
+                    </div>
 
-            <output id="feedback-message" aria-live="polite"></output>
-        </form>
-    </main>
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade em Estoque *</label>
+                        <input type="number" id="quantidade" name="QUANTIDADE" min="1" required>
+                    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/navbar.js"></script>
+                    <div class="form-group" id="tabela-tamanhos-group" style="display: none;">
+                        <label>Tabela de Tamanhos *</label>
+                        <div style="border: 1px solid #ddd; border-radius: 6px; padding: 15px; background: #f9f9f9;">
+                            <p style="margin-bottom: 15px; font-weight: bold;">Preencha as medidas para cada tamanho:</p>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #f0f0f0;">
+                                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Tamanho</th>
+                                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Busto (cm)</th>
+                                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Comprimento (cm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">P</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="busto-p" name="BUSTO_P" placeholder="Ex: 80-84" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="comp-p" name="COMP_P" placeholder="Ex: 30" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">M</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="busto-m" name="BUSTO_M" placeholder="Ex: 86-90" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="comp-m" name="COMP_M" placeholder="Ex: 32" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">G</td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="busto-g" name="BUSTO_G" placeholder="Ex: 92-96" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                        <td style="border: 1px solid #ddd; padding: 8px;"><input type="text" id="comp-g" name="COMP_G" placeholder="Ex: 34" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Etapa 3: Imagens -->
+                <div class="form-step" data-step="3">
+                    <h3>Imagens do Produto</h3>
+                    <p class="step-description">Adicione fotos do seu produto para atrair mais compradores.</p>
+                    
+                    <div class="form-group">
+                        <label>Imagem Principal</label>
+                        <div class="image-upload" onclick="document.getElementById('image-input').click()">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #ccc; margin-bottom: 10px;"></i>
+                            <p>Clique para selecionar uma imagem</p>
+                            <input type="file" id="image-input" accept="image/*" style="display: none;">
+                        </div>
+                        <img id="image-preview" class="image-preview" alt="Preview">
+                    </div>
+                </div>
+
+                <!-- Etapa 4: Revisão -->
+                <div class="form-step" data-step="4">
+                    <h3>Revisão do Produto</h3>
+                    <p class="step-description">Confira todas as informações antes de publicar seu produto.</p>
+                    
+                    <div id="review-content">
+                        <!-- Conteúdo será preenchido via JavaScript -->
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="button" id="prev-btn" class="btn btn-secondary" style="display: none;">← Anterior</button>
+                    <div style="flex: 1;"></div>
+                    <button type="button" id="next-btn" class="btn btn-primary">Próximo →</button>
+                    <button type="submit" id="submit-btn" class="btn btn-success" style="display: none;">
+                        <i class="fas fa-save"></i> Publicar Produto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProfileImageFromStorage();
-            setupImageUpload();
-            setupFormSubmission();
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('loggedUser') || '{}');
+            
+            if (!user.sellerId && !user.id) {
+                window.location.href = '/login';
+                return;
+            }
 
-        function loadProfileImageFromStorage() {
-            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-            const headerProfileImage = document.getElementById('header-profile-image');
-
-            if (loggedUser) {
-                if (loggedUser.profileImage) {
-                    headerProfileImage.src = loggedUser.profileImage;
+            const imageInput = document.getElementById('image-input');
+            const imagePreview = document.getElementById('image-preview');
+            const messageDiv = document.getElementById('message');
+            const form = document.getElementById('product-form');
+            const priceInput = document.getElementById('valor');
+            const taxInfo = document.getElementById('tax-info');
+            const taxRate = document.getElementById('tax-rate');
+            const finalValue = document.getElementById('final-value');
+            
+            // Calcular taxa ao digitar preço
+            priceInput.addEventListener('input', function() {
+                const price = parseFloat(this.value);
+                if (price > 0) {
+                    let rate, taxAmount, finalAmount;
+                    
+                    if (price <= 74.99) {
+                        rate = 25;
+                    } else if (price <= 99.99) {
+                        rate = 15;
+                    } else {
+                        rate = 12;
+                    }
+                    
+                    taxAmount = price * (rate / 100);
+                    finalAmount = price - taxAmount;
+                    
+                    taxRate.textContent = `Taxa aplicada: ${rate}% (R$ ${taxAmount.toFixed(2).replace('.', ',')})`;
+                    finalValue.textContent = `Você receberá: R$ ${finalAmount.toFixed(2).replace('.', ',')}`;
+                    taxInfo.style.display = 'block';
                 } else {
-                    const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
-                    headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                    taxInfo.style.display = 'none';
+                }
+            });
+            const descricaoInput = document.getElementById('descricao');
+            const descCounter = document.getElementById('desc-counter');
+            const nextBtn = document.getElementById('next-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const categoriaSelect = document.getElementById('categoria');
+            const subcategoriaGroup = document.getElementById('subcategoria-group');
+            const subcategoriaSelect = document.getElementById('subcategoria');
+            
+            let currentStep = 1;
+            const totalSteps = 4;
+            
+            // Subcategorias para roupas
+            const subcategorias = {
+                '3': [
+                    { value: 'conjunto', text: 'Conjunto' },
+                    { value: 'sutia', text: 'Sutiã' },
+                    { value: 'calcinha', text: 'Calcinha' },
+                    { value: 'blusa', text: 'Blusa' },
+                    { value: 'calca', text: 'Calça' }
+                ]
+            };
+            
+            // Event listener para categoria
+            categoriaSelect.addEventListener('change', function() {
+                const categoriaId = this.value;
+                const tamanhoGroup = document.getElementById('tamanho-group');
+                const tamanhoSelect = document.getElementById('tamanho');
+                
+                if (categoriaId === '3') { // Roupas
+                    subcategoriaGroup.style.display = 'block';
+                    subcategoriaSelect.innerHTML = '<option value="">Selecione uma subcategoria</option>';
+                    
+                    subcategorias[categoriaId].forEach(sub => {
+                        const option = document.createElement('option');
+                        option.value = sub.value;
+                        option.textContent = sub.text;
+                        subcategoriaSelect.appendChild(option);
+                    });
+                    
+                    subcategoriaSelect.required = true;
+                    tamanhoGroup.style.display = 'block';
+                    tamanhoSelect.required = true;
+                    document.getElementById('tabela-tamanhos-group').style.display = 'block';
+                } else {
+                    subcategoriaGroup.style.display = 'none';
+                    subcategoriaSelect.required = false;
+                    tamanhoGroup.style.display = 'none';
+                    tamanhoSelect.required = false;
+                    document.getElementById('tabela-tamanhos-group').style.display = 'none';
+                }
+            });
+            
+
+            
+            // Contador de caracteres da descrição
+            descricaoInput.addEventListener('input', () => {
+                const length = descricaoInput.value.length;
+                descCounter.textContent = `${length}/250 caracteres`;
+                if (length > 240) {
+                    descCounter.style.color = '#dc3545';
+                } else {
+                    descCounter.style.color = '#666';
+                }
+            });
+            
+            // Navegação entre etapas
+            nextBtn.addEventListener('click', () => {
+                if (validateCurrentStep()) {
+                    if (currentStep < totalSteps) {
+                        currentStep++;
+                        updateStep();
+                    }
+                }
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStep();
+                }
+            });
+            
+            function validateCurrentStep() {
+                const currentStepDiv = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+                const requiredFields = currentStepDiv.querySelectorAll('input[required], select[required]');
+                
+                for (let field of requiredFields) {
+                    if (!field.value.trim()) {
+                        field.focus();
+                        showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+                        return false;
+                    }
+                }
+                
+
+                
+                return true;
+            }
+            
+            function updateStep() {
+                // Atualizar progress steps
+                document.querySelectorAll('.step').forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    if (index + 1 < currentStep) {
+                        step.classList.add('completed');
+                    } else if (index + 1 === currentStep) {
+                        step.classList.add('active');
+                    }
+                });
+                
+                // Atualizar form steps
+                document.querySelectorAll('.form-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                
+                // Atualizar botões
+                prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+                nextBtn.style.display = currentStep < totalSteps ? 'block' : 'none';
+                submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
+                
+                // Atualizar conteúdo da revisão
+                if (currentStep === 4) {
+                    updateReviewContent();
                 }
             }
-        }
+            
+            function updateReviewContent() {
+                const reviewDiv = document.getElementById('review-content');
+                const nome = document.getElementById('nome').value;
+                const descricao = document.getElementById('descricao').value;
+                const valor = document.getElementById('valor').value;
+                const categoria = document.getElementById('categoria');
+                const categoriaText = categoria.options[categoria.selectedIndex].text;
+                const subcategoria = document.getElementById('subcategoria');
+                const subcategoriaText = subcategoria.value ? subcategoria.options[subcategoria.selectedIndex].text : 'Não aplicável';
+                const tamanho = document.getElementById('tamanho');
+                const tamanhoText = tamanho.value ? tamanho.value : 'Não aplicável';
+                const quantidade = document.getElementById('quantidade').value;
+                
+                // Tabela de tamanhos
+                let tabelaTamanhos = 'Não aplicável';
+                if (categoria.value === '3') {
+                    const bustoP = document.getElementById('busto-p').value;
+                    const compP = document.getElementById('comp-p').value;
+                    const bustoM = document.getElementById('busto-m').value;
+                    const compM = document.getElementById('comp-m').value;
+                    const bustoG = document.getElementById('busto-g').value;
+                    const compG = document.getElementById('comp-g').value;
+                    
+                    tabelaTamanhos = `
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <tr><th style="border: 1px solid #ddd; padding: 5px;">Tamanho</th><th style="border: 1px solid #ddd; padding: 5px;">Busto</th><th style="border: 1px solid #ddd; padding: 5px;">Comprimento</th></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 5px;">P</td><td style="border: 1px solid #ddd; padding: 5px;">${bustoP || '-'}</td><td style="border: 1px solid #ddd; padding: 5px;">${compP || '-'}</td></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 5px;">M</td><td style="border: 1px solid #ddd; padding: 5px;">${bustoM || '-'}</td><td style="border: 1px solid #ddd; padding: 5px;">${compM || '-'}</td></tr>
+                            <tr><td style="border: 1px solid #ddd; padding: 5px;">G</td><td style="border: 1px solid #ddd; padding: 5px;">${bustoG || '-'}</td><td style="border: 1px solid #ddd; padding: 5px;">${compG || '-'}</td></tr>
+                        </table>
+                    `;
+                }
+                
+                reviewDiv.innerHTML = `
+                    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #f9f9f9;">
+                        <h4 style="margin-bottom: 15px; color: #333;">Resumo do Produto</h4>
+                        <p><strong>Nome:</strong> ${nome}</p>
+                        <p><strong>Descrição:</strong> ${descricao || 'Não informada'}</p>
+                        <p><strong>Preço:</strong> R$ ${parseFloat(valor).toFixed(2).replace('.', ',')}</p>
+                        <div style="background: #e8f5e8; padding: 10px; border-radius: 6px; margin: 10px 0;">
+                            <strong>Informações Financeiras:</strong><br>
+                            ${(() => {
+                                const price = parseFloat(valor);
+                                let rate = price <= 74.99 ? 25 : price <= 99.99 ? 15 : 12;
+                                const taxAmount = price * (rate / 100);
+                                const finalAmount = price - taxAmount;
+                                return `Taxa: ${rate}% (R$ ${taxAmount.toFixed(2).replace('.', ',')})<br>Você receberá: <strong>R$ ${finalAmount.toFixed(2).replace('.', ',')}</strong>`;
+                            })()}
+                        </div>
+                        <p><strong>Categoria:</strong> ${categoriaText}</p>
+                        <p><strong>Subcategoria:</strong> ${subcategoriaText}</p>
+                        <p><strong>Tamanho:</strong> ${tamanhoText}</p>
+                        <p><strong>Quantidade:</strong> ${quantidade} unidades</p>
+                        <div><strong>Tabela de Tamanhos:</strong> ${tabelaTamanhos}</div>
+                        <p><strong>Imagem:</strong> ${imageInput.files[0] ? 'Adicionada' : 'Não adicionada'}</p>
+                    </div>
+                `;
+            }
 
-        function setupImageUpload() {
-            const imageInput = document.getElementById('imagem_produto');
-            const imageUpload = document.querySelector('.image-upload');
-            const imagePreview = document.getElementById('image-preview');
-            const previewImg = document.getElementById('preview-img');
-
-            imageInput.addEventListener('change', function(e) {
+            imageInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (file) {
-                    if (file.size > 5 * 1024 * 1024) {
-                        alert('A imagem deve ter no máximo 5MB.');
-                        return;
-                    }
-
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewImg.src = e.target.result;
+                    // Comprimir imagem antes de mostrar preview
+                    compressImage(file, (compressedDataUrl) => {
+                        imagePreview.src = compressedDataUrl;
                         imagePreview.style.display = 'block';
-                        imageUpload.style.display = 'none';
-                    };
-                    reader.readAsDataURL(file);
+                    });
                 }
             });
-        }
-
-        function removeImage() {
-            const imageInput = document.getElementById('imagem_produto');
-            const imageUpload = document.querySelector('.image-upload');
-            const imagePreview = document.getElementById('image-preview');
-
-            imageInput.value = '';
-            imagePreview.style.display = 'none';
-            imageUpload.style.display = 'block';
-        }
-
-        function setupFormSubmission() {
-            const form = document.getElementById('create-product-form');
-            const submitBtn = document.getElementById('submit-btn');
-            const submitText = document.getElementById('submit-text');
-            const feedbackMessage = document.getElementById('feedback-message');
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-
-                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-                if (!loggedUser || !loggedUser.id) {
-                    showFeedback('Você precisa estar logado para criar um produto.', 'error');
-                    return;
-                }
-
-                // Mostrar loading
-                submitBtn.disabled = true;
-                submitText.innerHTML = '<span class="loading"></span>Criando...';
-
-                try {
-                    const formData = new FormData();
-                    formData.append('nome_produto', document.getElementById('nome_produto').value);
-                    formData.append('categoria_produto', document.getElementById('categoria_produto').value);
-                    formData.append('valor_unitario', document.getElementById('valor_unitario').value);
-                    formData.append('quantidade_estoque', document.getElementById('quantidade_estoque').value);
-                    formData.append('descricao_produto', document.getElementById('descricao_produto').value);
-                    formData.append('id_vendedor', loggedUser.id);
-
-                    const imageInput = document.getElementById('imagem_produto');
-                    if (imageInput.files[0]) {
-                        formData.append('imagem_produto', imageInput.files[0]);
+            
+            function compressImage(file, callback) {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    // Redimensionar para máximo 800x600
+                    let { width, height } = img;
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    
+                    if (width > maxWidth || height > maxHeight) {
+                        const ratio = Math.min(maxWidth / width, maxHeight / height);
+                        width *= ratio;
+                        height *= ratio;
                     }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Comprimir com qualidade 0.7
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    callback(compressedDataUrl);
+                };
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
 
-                    const response = await fetch('/api/produtos', {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const price = parseFloat(formData.get('VALOR_UNITARIO'));
+                
+                const productData = {
+                    NOME_PROD: formData.get('NOME_PROD'),
+                    DESCRICAO_PROD: formData.get('DESCRICAO_PROD'),
+                    VALOR_UNITARIO: price,
+                    ID_CATEGORIA: formData.get('ID_CATEGORIA') || null,
+                    SUBCATEGORIA: formData.get('SUBCATEGORIA') || null,
+                    TAMANHO: formData.get('TAMANHO') || null,
+                    QUANTIDADE: parseInt(formData.get('QUANTIDADE')) || 1,
+                    BUSTO_P: formData.get('BUSTO_P') || null,
+                    COMP_P: formData.get('COMP_P') || null,
+                    BUSTO_M: formData.get('BUSTO_M') || null,
+                    COMP_M: formData.get('COMP_M') || null,
+                    BUSTO_G: formData.get('BUSTO_G') || null,
+                    COMP_G: formData.get('COMP_G') || null,
+                    ID_VENDEDOR: user.sellerId || user.id
+                };
+
+                if (imageInput.files[0]) {
+                    // Usar imagem comprimida do preview
+                    const compressedBase64 = imagePreview.src.split(',')[1];
+                    productData.IMAGEM_BASE64 = compressedBase64;
+                    await submitProduct(productData);
+                } else {
+                    await submitProduct(productData);
+                }
+            });
+
+            async function submitProduct(productData) {
+                console.log('Enviando produto:', productData);
+                try {
+                    const response = await fetch('/api/products', {
                         method: 'POST',
-                        body: formData
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(productData)
                     });
 
+                    console.log('Response status:', response.status);
                     const result = await response.json();
-
+                    console.log('Response data:', result);
+                    
                     if (result.success) {
-                        showFeedback('Produto criado com sucesso! Redirecionando...', 'success');
-                        setTimeout(() => {
-                            window.location.href = '/perfil';
-                        }, 2000);
+                        showMessage('Produto criado com sucesso!', 'success');
+                        form.reset();
+                        imagePreview.style.display = 'none';
+                        setTimeout(() => window.location.href = '/perfil', 2000);
                     } else {
-                        showFeedback(result.error || 'Erro ao criar produto.', 'error');
+                        showMessage(result.message || 'Erro ao criar produto', 'error');
                     }
                 } catch (error) {
-                    console.error('Erro:', error);
-                    showFeedback('Erro ao criar produto. Tente novamente.', 'error');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitText.textContent = 'Criar Produto';
+                    console.error('Erro ao enviar produto:', error);
+                    showMessage('Erro de conexão', 'error');
                 }
-            });
-        }
+            }
 
-        function showFeedback(message, type) {
-            const feedbackMessage = document.getElementById('feedback-message');
-            feedbackMessage.className = `feedback-message feedback-${type}`;
-            feedbackMessage.textContent = message;
-            feedbackMessage.style.display = 'block';
-
-            setTimeout(() => {
-                feedbackMessage.style.display = 'none';
-            }, 5000);
-        }
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = `message ${type}`;
+                messageDiv.style.display = 'block';
+                setTimeout(() => messageDiv.style.display = 'none', 5000);
+            }
+        });
     </script>
 </body>
 </html>

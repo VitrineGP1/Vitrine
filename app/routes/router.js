@@ -1,115 +1,164 @@
-const express = require("express");
-const router = express.Router();
+var express = require("express");
+var router = express.Router();
 
-// Mapeamento de rotas para páginas (apenas arquivos que existem)
-const routes = {
-    "/": "home",
-    "/carrinho": "carrinho",
-    "/login": "login",
-    "/cadcliente": "cadcliente",
-    "/cadvendedor": "cadvendedor",
+// Usar o pool centralizado
+const pool = require('../../config/pool-conexoes');
 
-    "/sobrenos": "sobrenos",
-    "/prod1": "produto1",
-    "/prod2": "produto2",
-    "/prod3": "produto3",
-    "/prod4": "produto4",
-    "/vendedor": "vendedor",
-    "/produtos": "produtos",
-    "/rdsenha": "rdsenha",
-    "/admin-usuarios": "admin-usuarios",
-    "/admin-usuario-detalhes": "admin-usuarios-detalhes",
-    "/admin-vendedores": "admin-vendedores",
-    "/admin-produto-detalhes": "admin-produtos-detalhes",
-    "/admin-produtos": "admin-produtos",
-    "/produto": "produto-dinamico",
 
-};
-
-// Criar rotas automaticamente
-Object.entries(routes).forEach(([path, page]) => {
-    router.get(path, async (req, res) => {
-        try {
-            if (page === 'home') {
-                // Carregar produtos para a home
-                try {
-                    const pool = require('../../config/pool-conexoes');
-                    const [rows] = await pool.execute(`
-                        SELECT p.*, u.NOME_USUARIO as NOME_VENDEDOR
-                        FROM PRODUTOS p
-                        LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO
-                        ORDER BY p.ID_PROD DESC
-                        LIMIT 20
-                    `);
-                    console.log('Produtos encontrados:', rows.length);
-                    res.render(`pages/${page}`, { produtos: rows });
-                } catch (dbError) {
-                    console.error('Erro ao carregar produtos:', dbError);
-                    res.render(`pages/${page}`, { produtos: [] });
-                }
-            } else {
-                res.render(`pages/${page}`);
-            }
-        } catch (error) {
-            console.error(`Erro ao renderizar ${page}:`, error);
-            res.status(404).send('Página não encontrada');
-        }
-    });
+router.get("/", async function (req, res) {
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [produtos] = await connection.execute(
+            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR'
+        );
+        console.log('Produtos encontrados:', produtos.length);
+        res.render("pages/home-dynamic", { produtos });
+    } catch (error) {
+        console.error('Erro ao buscar produtos na home:', error);
+        console.error('Detalhes do erro:', error.message);
+        // Renderiza a home estática em caso de erro de conexão
+        res.render("pages/home", {});
+    } finally {
+        if (connection) connection.release();
+    }
 });
 
-// Rota específica para produto dinâmico
-router.get('/produto/:id', async (req, res) => {
+router.get("/home-perfil", function (req, res) {
+    res.render("pages/home-perfil", )
+});
+
+router.get("/home-perfil-carrinho", function (req, res) {
+    res.render("pages/home-perfil-carrinho", )
+});
+
+router.get("/home-carrinho", function (req, res) {
+    res.render("pages/home-carrinho", )
+});
+
+router.get("/carrinho", function (req, res) {
+    res.render("pages/carrinho", )
+});
+
+router.get("/carrinho-vazio", function (req, res) {
+    res.render("pages/carrinho-vazio", )
+});
+
+router.get("/login", function (req, res) {
+    res.render("pages/login", )
+});
+
+router.get("/cadastro", function (req, res) {
+    res.render("pages/cadastro", )
+});
+
+router.get("/perfil", function (req, res) {
+    res.render("pages/perfil", )
+});
+
+router.get("/sobrenos", function (req, res) {
+    res.render("pages/sobrenos", )
+});
+
+router.get("/prod1", function (req, res) {
+    res.render("pages/produto1", )
+});
+
+router.get("/prod2", function (req, res) {
+    res.render("pages/produto2", )
+});
+
+router.get("/prod3", function (req, res) {
+    res.render("pages/produto3", )
+});
+
+router.get("/prod4", function (req, res) {
+    res.render("pages/produto4", )
+});
+
+router.get("/vendedor", function (req, res) {
+    res.render("pages/vendedor", )
+});
+
+router.get("/prod", async function (req, res) {
+    let connection;
     try {
-        const pool = require('../../config/pool-conexoes');
-        const produtoId = req.params.id;
+        connection = await pool.getConnection();
+        const [produtos] = await connection.execute(
+            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR'
+        );
+        res.render("pages/produtos", { produtos });
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        res.render("pages/produtos", { produtos: [] });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+router.get("/rdsenha", function (req, res) {
+    res.render("pages/rdsenha", )
+});
+
+router.get("/dashboard-vendedor", function (req, res) {
+    res.render("pages/dashboard-vendedor", )
+});
+
+router.get("/criar-produto", function (req, res) {
+    res.render("pages/criar-produto", )
+});
+
+router.get("/admin-dashboard", function (req, res) {
+    res.render("pages/admin-dashboard", )
+});
+
+router.get("/admin-usuarios", function (req, res) {
+    res.render("pages/admin-usuarios", )
+});
+
+router.get("/admin-usuario-detalhes", function (req, res) {
+    res.render("pages/admin-usuario-detalhes", )
+});
+
+router.get("/produto/:id", async function (req, res) {
+    const productId = req.params.id;
+    let connection;
+    try {
+        connection = await pool.getConnection();
         
-        // Buscar produto com dados do vendedor
-        const [produtos] = await pool.execute(`
-            SELECT p.*, u.NOME_USUARIO, u.EMAIL_USUARIO, u.CELULAR_USUARIO, v.NOME_LOJA
-            FROM PRODUTOS p
-            LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO
-            LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_USUARIO
-            WHERE p.ID_PROD = ?
-        `, [produtoId]);
+        // Buscar produto específico
+        const [produto] = await connection.execute(
+            'SELECT p.*, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR WHERE p.ID_PROD = ?',
+            [productId]
+        );
         
-        if (produtos.length === 0) {
-            return res.status(404).send('Produto não encontrado');
+        if (produto.length === 0) {
+            return res.status(404).render('pages/404');
         }
         
-        // Buscar outros produtos
-        const [outrosProdutos] = await pool.execute(`
-            SELECT p.*, v.NOME_LOJA
-            FROM PRODUTOS p
-            LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_USUARIO
-            WHERE p.ID_PROD != ?
-            ORDER BY RAND()
-            LIMIT 5
-        `, [produtoId]);
+        // Buscar outros produtos para "Você também pode gostar"
+        const [outrosProdutos] = await connection.execute(
+            'SELECT p.*, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR WHERE p.ID_PROD != ? LIMIT 5',
+            [productId]
+        );
         
-        res.render('pages/produto-dinamico', {
-            produto: produtos[0],
-            outrosProdutos: outrosProdutos
+        // Buscar outros produtos da mesma loja
+        const [produtosDaLoja] = await connection.execute(
+            'SELECT p.ID_PROD, p.NOME_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64 FROM PRODUTOS p WHERE p.ID_VENDEDOR = ? AND p.ID_PROD != ? LIMIT 4',
+            [produto[0].ID_VENDEDOR, productId]
+        );
+        
+        res.render("pages/produto-dinamico", { 
+            produto: produto[0], 
+            outrosProdutos,
+            produtosDaLoja
         });
     } catch (error) {
-        console.error('Erro ao carregar produto:', error);
-        res.status(500).send('Erro interno do servidor');
+        console.error('Erro ao buscar produto:', error);
+        res.status(500).render('pages/erro');
+    } finally {
+        if (connection) connection.release();
     }
 });
-
-// Rota unificada de perfil
-router.get('/perfil', async (req, res) => {
-    try {
-        // Por enquanto renderizar sem dados, pois o usuário é carregado via JavaScript
-        res.render('pages/perfil', { user: null });
-    } catch (error) {
-        console.error('Erro ao renderizar perfil:', error);
-        res.render('pages/perfil', { user: null });
-    }
-});
-router.get('/cadastro', (req, res) => res.render('pages/cadcliente'));
-
-
-
-
 
 module.exports = router;

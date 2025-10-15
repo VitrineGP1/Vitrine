@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cartFeedbackMessage.textContent = message;
         cartFeedbackMessage.className = `message ${type}-message`;
         cartFeedbackMessage.style.display = 'block';
-        // Opcional: Ocultar a mensagem após alguns segundos
         setTimeout(() => {
             cartFeedbackMessage.style.display = 'none';
         }, 3000);
@@ -17,65 +16,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', () => {
+            // Verificar se usuário está logado
+            const loggedUser = localStorage.getItem('loggedUser');
+            
+            if (!loggedUser) {
+                alert('Você precisa fazer login para adicionar produtos ao carrinho!');
+                window.location.href = '/login';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(loggedUser);
+                if (!user || !user.id) {
+                    alert('Sessão inválida. Faça login novamente.');
+                    window.location.href = '/login';
+                    return;
+                }
+            } catch (e) {
+                alert('Erro na sessão. Faça login novamente.');
+                window.location.href = '/login';
+                return;
+            }
+
             // Extrai informações do produto do HTML
-            const currentPath = window.location.pathname;
-            const productId = currentPath.replace('/', '') || 'produto-home'; // Usa a URL como ID único
+            const productId = addToCartBtn.getAttribute('data-product-id') || 'produto-' + Date.now();
             const name = productTitle.textContent.trim();
             const priceText = productPrice.textContent.trim().replace('R$', '').replace(',', '.');
             const price = parseFloat(priceText);
             const image = productImage.src;
+            const quantityInput = document.getElementById('product-quantity');
+            const quantity = parseInt(quantityInput ? quantityInput.value : 1);
+            const sizeSelect = document.getElementById('product-size');
+            const size = sizeSelect ? sizeSelect.value : null;
 
             if (!name || isNaN(price) || !image) {
                 showCartFeedback('Erro: Não foi possível obter os detalhes do produto.', 'cart-error');
-                console.error('Dados do produto ausentes:', { name, price, image });
                 return;
             }
 
             const product = {
-                id: productId,
+                id: productId + (size ? '-' + size : ''),
                 name: name,
                 price: price,
                 image: image,
-                quantity: 1 // Inicia com 1 unidade no carrinho
+                quantity: quantity,
+                size: size
             };
 
-            // Gerenciar carrinho baseado no status de login
-            const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
-            const user = JSON.parse(storage.getItem('loggedUser')) || null;
-            let cart = [];
-            
-            if (user) {
-                // Usuário logado - usar carrinho associado ao usuário
-                cart = JSON.parse(storage.getItem(`cart_${user.ID_USUARIO}`)) || [];
-            } else {
-                // Usuário não logado - usar carrinho de sessão
-                cart = JSON.parse(storage.getItem('cart_session')) || [];
-            }
+            // Obtém o carrinho atual do localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             // Verifica se o produto já está no carrinho
             const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
             if (existingProductIndex > -1) {
                 // Se o produto já existe, aumenta a quantidade
-                cart[existingProductIndex].quantity += 1;
-                showCartFeedback(`${name} (x${cart[existingProductIndex].quantity}) adicionado ao carrinho!`, 'cart-success');
+                cart[existingProductIndex].quantity += quantity;
+                const displayName = product.name + (size ? ' - Tamanho ' + size : '');
+                showCartFeedback(`${displayName} (x${cart[existingProductIndex].quantity}) adicionado ao carrinho!`, 'cart-success');
             } else {
                 // Se o produto não existe, adiciona-o
                 cart.push(product);
-                showCartFeedback(`${name} adicionado ao carrinho!`, 'cart-success');
+                const displayName = product.name + (size ? ' - Tamanho ' + size : '');
+                showCartFeedback(`${displayName} ${quantity > 1 ? '(x' + quantity + ')' : ''} adicionado ao carrinho!`, 'cart-success');
             }
 
-            // Salvar carrinho baseado no status de login
-            if (user) {
-                storage.setItem(`cart_${user.ID_USUARIO}`, JSON.stringify(cart));
-            } else {
-                storage.setItem('cart_session', JSON.stringify(cart));
-            }
-            
-            // Manter compatibilidade com carrinho.js
-            storage.setItem('cart', JSON.stringify(cart));
-
-            console.log('Carrinho atual:', cart);
+            // Salva o carrinho atualizado no localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
         });
     }
 });

@@ -51,31 +51,10 @@ img {
             color: #E0FBFC;
         }
         
-        .profile-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4px !important;
-            border-radius: 50% !important;
-            transition: all 0.3s ease;
-        }
-        
-        .profile-icon:hover {
-            background: rgba(255,255,255,0.2) !important;
-            transform: scale(1.1);
-        }
-        
-        .profile-icon img {
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: border-color 0.3s ease;
-        }
-        
-        .profile-icon:hover img {
-            border-color: rgba(255,255,255,0.8);
-        }
+
         
         .header {
-            background: #3D5A80 !important;
+            background: #713112 !important;
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -183,7 +162,7 @@ img {
         }
         
         .level-badge {
-            background: #3483fa;
+            background: #FF8C00;
             color: white;
             padding: 2px 8px;
             border-radius: 12px;
@@ -219,7 +198,7 @@ img {
         .profile-menu a:hover,
         .profile-menu a.active {
             background: #f5f5f5;
-            color: #3483fa;
+            color: #FF8C00;
         }
         
         .profile-menu i {
@@ -297,8 +276,8 @@ img {
         .form-field input:focus,
         .form-field select:focus {
             outline: none;
-            border-color: #3483fa;
-            box-shadow: 0 0 0 2px rgba(52, 131, 250, 0.1);
+            border-color: #FF8C00;
+            box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.1);
         }
         
         .form-field input:read-only {
@@ -320,12 +299,12 @@ img {
         }
         
         .btn-primary {
-            background: #3483fa;
+            background: #FF8C00;
             color: white;
         }
         
         .btn-primary:hover {
-            background: #2968c8;
+            background: #FF7F00;
         }
         
         .btn-secondary {
@@ -369,7 +348,7 @@ img {
         .stat-number {
             font-size: 24px;
             font-weight: 600;
-            color: #3483fa;
+            color: #FF8C00;
             margin-bottom: 4px;
         }
         
@@ -401,7 +380,7 @@ img {
         .metric-number {
             font-size: 2rem;
             font-weight: bold;
-            color: #3483fa;
+            color: #FF8C00;
             margin-bottom: 8px;
         }
         
@@ -476,12 +455,12 @@ img {
         }
         
         .payment-option:hover {
-            border-color: #3483fa;
+            border-color: #FF8C00;
         }
         
         .payment-option.selected {
-            border-color: #3483fa;
-            background: #f8f9ff;
+            border-color: #FF8C00;
+            background: #fff8f0;
         }
         
         .payment-option input[type="radio"] {
@@ -523,8 +502,8 @@ img {
         
         .chart-btn {
             padding: 8px 16px;
-            border: 1px solid #ddd;
-            background: white;
+            border: 1px solid #505050;
+            background: #2a2a2a;
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s;
@@ -532,9 +511,9 @@ img {
         
         .chart-btn.active,
         .chart-btn:hover {
-            background: #3483fa;
+            background: #ff9900;
             color: white;
-            border-color: #3483fa;
+            border-color: #ffa200;
         }
         
         .chart-container {
@@ -619,37 +598,28 @@ img {
 </head>
 <body>
     <header class="header">
-        <a class="logo" href="/">
-            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
-        </a>
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
 
-        <nav>
-            <ul class="nav-list">
-                <li><a href="/">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li>
-                    <a href="/carrinho" class="carrinho" aria-label="Carrinho de compras">
-                        <i class="fa fa-shopping-cart"></i>
-                    </a>
-                </li>
-                <li><a href="/cadastro" id="become-seller-link">Seja um Vendedor</a></li>
-                <li>
-                    <a href="/perfil" class="profile-icon" title="Meu Perfil">
-                        <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Foto de perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                    </a>
-                </li>
-            </ul>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu de navegação">☰</button>
-        </nav>
-
-        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
-            <li><a href="/">Início</a></li>
-            <li><a href="/sobrenos">Sobre</a></li>
-            <li><a href="/carrinho">Carrinho</a></li>
-            <li><a href="/cadastro">Seja um Vendedor</a></li>
-            <li><a href="/perfil">Perfil</a></li>
-        </ul>
-    </header>
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="/">Início</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+                    <li><a href="/cadastro" id="become-seller-link">Seja um Vendedor</a></li>
+                    <li><a href="#" id="logout-btn" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </header>
 
 
     <div class="profile-container">
@@ -665,8 +635,7 @@ img {
                 </div>
                 <div class="profile-name" id="profile-display-name">Usuário</div>
                 <div class="profile-level">
-                    <span class="level-badge">Nível 1</span>
-                    <span>Mercado Pontos</span>
+                    <span id="user-type-display">Comprador</span>
                 </div>
             </div>
             
@@ -680,7 +649,6 @@ img {
                 <li><a href="#" data-section="communications"><i class="fas fa-bell"></i><span>Comunicações</span></a></li>
 
                 <li><a href="#" id="seller-menu-item" data-section="seller" style="display: none;"><i class="fas fa-store"></i><span>Área do Vendedor</span></a></li>
-                <li><a href="#" onclick="logout()" style="color: #dc3545; border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;"><i class="fas fa-sign-out-alt"></i><span>Sair da Conta</span></a></li>
             </ul>
         </aside>
         
@@ -826,13 +794,7 @@ img {
                                         <span class="principal-badge" style="background: #3483fa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Principal</span>
                                         <h4 style="margin: 0; color: #333;">Casa</h4>
                                     </div>
-                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">
-                                        <% if (typeof user !== 'undefined' && user && user.LOGRADOURO_USUARIO && user.LOGRADOURO_USUARIO !== 'N/A') { %>
-                                            <%= user.LOGRADOURO_USUARIO %>, <%= user.NUMERO_USUARIO || 'S/N' %> - <%= user.BAIRRO_USUARIO %><br><%= user.CIDADE_USUARIO %>, <%= user.UF_USUARIO %> - <%= user.CEP_USUARIO %>
-                                        <% } else { %>
-                                            
-                                        <% } %>
-                                    </p>
+                                    <p style="margin: 5px 0; color: #666;" id="main-address-display">Rua das Flores, 123 - Centro<br>São Paulo, SP - 01234-567</p>
                                 </div>
                                 <div class="address-actions">
                                     <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
@@ -907,7 +869,7 @@ img {
                         <div class="form-grid">
                             <div class="form-field">
                                 <label>Chave PIX cadastrada</label>
-                                <input type="text" id="cards-pix" value="" readonly>
+                                <input type="text" id="cards-pix" value="usuario@email.com" readonly>
                             </div>
                         </div>
                     </div>
@@ -924,10 +886,25 @@ img {
                         <button class="btn btn-primary" onclick="addCard()"><i class="fas fa-plus"></i> Adicionar cartão</button>
                     </div>
                     <div id="cards-list" style="padding: 20px; background: #f8f9fa; border-radius: 6px;">
-                        <div style="padding: 40px; text-align: center; color: #666;">
-                            <i class="fas fa-credit-card" style="font-size: 48px; margin-bottom: 16px; color: #ddd;"></i>
-                            <p>Nenhum cartão cadastrado</p>
-                            <p style="font-size: 14px;">Adicione cartões para facilitar suas compras</p>
+                        <div class="card-item" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 15px; background: white; border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fas fa-credit-card" style="font-size: 24px; color: #FF8C00;"></i>
+                                <div>
+                                    <p style="margin: 0; font-weight: 600;">**** **** **** 1234</p>
+                                    <p style="margin: 0; font-size: 14px; color: #666;">Visa - Válido até 12/28</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="removeCard(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="card-item" style="display: flex; align-items: center; justify-content: space-between; padding: 15px; background: white; border-radius: 6px;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <i class="fas fa-credit-card" style="font-size: 24px; color: #ff6b35;"></i>
+                                <div>
+                                    <p style="margin: 0; font-weight: 600;">**** **** **** 5678</p>
+                                    <p style="margin: 0; font-size: 14px; color: #666;">Mastercard - Válido até 08/27</p>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="removeCard(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
@@ -1189,13 +1166,15 @@ img {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
+    <script src="js/perfil.js"></script>
     <script>
         // Carregar dados do usuário
         document.addEventListener('DOMContentLoaded', function() {
-            loadProfileImageFromStorage();
+            loadProfileImageFromDatabase();
             loadUserData();
             setupEditControls();
             checkSellerStatus();
+            loadAddressesFromStorage();
             setupProfileImageUpload();
             
             // Garantir sincronização das imagens após carregamento
@@ -1207,18 +1186,31 @@ img {
             }, 200);
         });
         
-        function loadProfileImageFromStorage() {
+        async function loadProfileImageFromDatabase() {
             const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
             const userProfileImage = document.getElementById('user-profile-image');
             const headerProfileImage = document.getElementById('header-profile-image');
             
-            if (loggedUser) {
-                if (loggedUser.profileImage) {
-                    // Usar imagem salva
-                    if (userProfileImage) userProfileImage.src = loggedUser.profileImage;
-                    if (headerProfileImage) headerProfileImage.src = loggedUser.profileImage;
-                } else {
-                    // Usar placeholder com inicial do nome
+            if (loggedUser && loggedUser.id) {
+                try {
+                    const response = await fetch(`/api/user/${loggedUser.id}`);
+                    const result = await response.json();
+                    
+                    if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
+                        if (userProfileImage) userProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+                        if (headerProfileImage) headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+                    } else {
+                        // Usar placeholder com inicial do nome
+                        const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                        const placeholderUrl = `https://placehold.co/80x80/cccccc/333333?text=${firstName.charAt(0)}`;
+                        const headerPlaceholderUrl = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                        
+                        if (userProfileImage) userProfileImage.src = placeholderUrl;
+                        if (headerProfileImage) headerProfileImage.src = headerPlaceholderUrl;
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar imagem do banco:', error);
+                    // Fallback para placeholder
                     const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
                     const placeholderUrl = `https://placehold.co/80x80/cccccc/333333?text=${firstName.charAt(0)}`;
                     const headerPlaceholderUrl = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
@@ -1279,10 +1271,6 @@ img {
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Atualizar localStorage
-                    loggedUser.profileImage = base64Image;
-                    localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
-                    
                     // Sincronizar ambas as imagens
                     syncProfileImages(base64Image);
                     
@@ -1355,17 +1343,80 @@ img {
             localStorage.setItem(`addresses_${loggedUser.id}`, JSON.stringify(addresses));
         }
         
-
+        function loadAddressesFromStorage() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            if (!loggedUser) return;
+            
+            const savedAddresses = localStorage.getItem(`addresses_${loggedUser.id}`);
+            if (!savedAddresses) return;
+            
+            const addresses = JSON.parse(savedAddresses);
+            const addressesList = document.getElementById('addresses-list');
+            
+            // Limpar endereços existentes
+            const existingAddresses = addressesList.querySelectorAll('.address-item');
+            existingAddresses.forEach(item => {
+                if (item.getAttribute('data-main') !== 'true' || addresses.some(addr => addr.isMain)) {
+                    item.remove();
+                }
+            });
+            
+            // Separar endereços principais e secundários
+            const mainAddress = addresses.find(addr => addr.isMain);
+            const secondaryAddresses = addresses.filter(addr => !addr.isMain);
+            
+            // Adicionar endereço principal primeiro
+            if (mainAddress) {
+                const defaultMain = addressesList.querySelector('.address-item[data-main="true"]');
+                if (defaultMain) defaultMain.remove();
+                
+                const newAddress = document.createElement('div');
+                newAddress.className = 'address-item';
+                newAddress.setAttribute('data-main', 'true');
+                newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3483fa;';
+                newAddress.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span class="principal-badge" style="background: #3483fa; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600;">Principal</span>
+                                <h4 style="margin: 0; color: #333;">${mainAddress.name}</h4>
+                            </div>
+                            <p style="margin: 5px 0; color: #666;">${mainAddress.address}</p>
+                        </div>
+                        <div class="address-actions">
+                            <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-secondary" onclick="removeAddress(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                addressesList.prepend(newAddress);
+            }
+            
+            // Adicionar endereços secundários
+            secondaryAddresses.forEach(addr => {
+                const newAddress = document.createElement('div');
+                newAddress.className = 'address-item';
+                newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px;';
+                newAddress.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 10px 0; color: #333;">${addr.name}</h4>
+                            <p style="margin: 5px 0; color: #666;">${addr.address}</p>
+                        </div>
+                        <div class="address-actions">
+                            <button class="btn btn-secondary" onclick="editAddress(this)" style="background: #6c757d; color: white; margin-right: 10px;"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-secondary set-main-btn" onclick="setAsMainAddress(this)" style="background: #ffc107; color: #000; margin-right: 10px;"><i class="fas fa-star"></i></button>
+                            <button class="btn btn-secondary" onclick="removeAddress(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                addressesList.appendChild(newAddress);
+            });
+        }
         
         async function loadUserData() {
             // Buscar dados do usuário logado
-            let loggedUser = null;
-            try {
-                loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-            } catch (e) {
-                console.warn('Erro ao acessar localStorage:', e);
-                return;
-            }
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
             
             if (!loggedUser) {
                 console.log('PERFIL.EJS: loggedUser não encontrado, tentando redirecionar');
@@ -1395,23 +1446,13 @@ img {
                         profileImage: fullUserData.IMAGEM_PERFIL_BASE64
                     };
                     
-                    // Sincronizar imagens de perfil
-                    const currentUser = JSON.parse(localStorage.getItem('loggedUser'));
+                    // Sincronizar imagens de perfil sempre do banco de dados
                     const userProfileImage = document.getElementById('user-profile-image');
                     const headerProfileImage = document.getElementById('header-profile-image');
                     
-                    // Priorizar imagem do localStorage, depois da API
-                    let imageToUse = currentUser?.profileImage || userData.profileImage;
-                    
-                    if (imageToUse) {
-                        if (userProfileImage) userProfileImage.src = imageToUse;
-                        if (headerProfileImage) headerProfileImage.src = imageToUse;
-                        
-                        // Salvar no localStorage se veio da API
-                        if (!currentUser?.profileImage && userData.profileImage && currentUser) {
-                            currentUser.profileImage = userData.profileImage;
-                            localStorage.setItem('loggedUser', JSON.stringify(currentUser));
-                        }
+                    if (userData.profileImage) {
+                        if (userProfileImage) userProfileImage.src = userData.profileImage;
+                        if (headerProfileImage) headerProfileImage.src = userData.profileImage;
                     } else {
                         const firstName = userData.nome.split(' ')[0] || 'U';
                         if (userProfileImage) userProfileImage.src = `https://placehold.co/80x80/cccccc/333333?text=${firstName.charAt(0)}`;
@@ -1421,44 +1462,40 @@ img {
                     }
                     
                     populateUserFields(userData);
-                    updateMainAddress(userData);
                 } else {
-                    // Fallback para dados básicos do login
+                    // Fallback para dados básicos do login com dados de exemplo
                     const userData = {
-                        nome: loggedUser.name || 'Usuário',
-                        email: loggedUser.email || '',
-                        celular: '',
-                        dataNasc: '',
+                        nome: loggedUser.name || 'João Silva',
+                        email: loggedUser.email || 'joao@email.com',
+                        celular: '(11) 99999-9999',
+                        dataNasc: '1990-01-15',
+                        cep: '01234-567',
+                        logradouro: 'Rua das Flores, 123',
+                        bairro: 'Centro',
+                        cidade: 'São Paulo',
+                        uf: 'SP',
                         isVendedor: loggedUser.type === 'seller'
                     };
                     
                     populateUserFields(userData);
-                    updateMainAddress(userData);
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados do usuário:', error);
-                // Fallback para dados básicos do login
+                // Fallback para dados básicos do login com dados de exemplo
                 const userData = {
-                    nome: loggedUser.name || 'Usuário',
-                    email: loggedUser.email || '',
-                    celular: '',
-                    dataNasc: '',
+                    nome: loggedUser.name || 'João Silva',
+                    email: loggedUser.email || 'joao@email.com',
+                    celular: '(11) 99999-9999',
+                    dataNasc: '1990-01-15',
+                    cep: '01234-567',
+                    logradouro: 'Rua das Flores, 123',
+                    bairro: 'Centro',
+                    cidade: 'São Paulo',
+                    uf: 'SP',
                     isVendedor: loggedUser.type === 'seller'
                 };
                 
                 populateUserFields(userData);
-            }
-        }
-        
-        function updateMainAddress(userData) {
-            const mainAddressDisplay = document.getElementById('main-address-display');
-            if (mainAddressDisplay) {
-                if (userData.logradouro && userData.cidade && userData.logradouro !== 'N/A' && userData.cidade !== 'N/A') {
-                    const address = `${userData.logradouro} - ${userData.bairro}<br>${userData.cidade}, ${userData.uf} - ${userData.cep}`;
-                    mainAddressDisplay.innerHTML = address;
-                } else {
-                    mainAddressDisplay.innerHTML = 'Nenhum endereço cadastrado';
-                }
             }
         }
         
@@ -1470,97 +1507,59 @@ img {
             const emailInput = document.getElementById('profile-email-input');
             const celularInput = document.getElementById('profile-celular-input');
             const dataNascInput = document.getElementById('profile-dataNasc-input');
-            const typeDisplay = document.getElementById('profile-type-display');
+            const cepInput = document.getElementById('profile-cep-input');
+            const logradouroInput = document.getElementById('profile-logradouro-input');
+            const bairroInput = document.getElementById('profile-bairro-input');
+            const cidadeInput = document.getElementById('profile-cidade-input');
+            const ufInput = document.getElementById('profile-uf-input');
             
             if (nameInput) nameInput.value = userData.nome || '';
             if (emailInput) emailInput.value = userData.email || '';
             if (celularInput) celularInput.value = userData.celular || '';
             if (dataNascInput) dataNascInput.value = userData.dataNasc || '';
+            if (cepInput) cepInput.value = userData.cep || '';
+            if (logradouroInput) logradouroInput.value = userData.logradouro || '';
+            if (bairroInput) bairroInput.value = userData.bairro || '';
+            if (cidadeInput) cidadeInput.value = userData.cidade || '';
+            if (ufInput) ufInput.value = userData.uf || '';
             
-            // Detectar tipo de usuário e configurar interface
-            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-            let userType = 'Cliente';
-            let isAdmin = false;
-            let isSeller = false;
-            
-            if (loggedUser) {
-                if (loggedUser.type === 'admin' || loggedUser.role === 'admin') {
-                    userType = 'Administrador';
-                    isAdmin = true;
-                } else if (loggedUser.type === 'seller' || userData.isVendedor) {
-                    userType = 'Vendedor';
-                    isSeller = true;
-                }
+            // Atualizar exibição do endereço principal na aba endereços
+            const mainAddressDisplay = document.getElementById('main-address-display');
+            if (mainAddressDisplay && userData.logradouro) {
+                mainAddressDisplay.innerHTML = `${userData.logradouro}, 123 - ${userData.bairro}<br>${userData.cidade}, ${userData.uf} - ${userData.cep}`;
             }
-            
-            if (typeDisplay) typeDisplay.value = userType;
             
             // Atualizar sidebar
             const firstName = userData.nome ? userData.nome.split(' ')[0] : 'Usuário';
             document.getElementById('profile-display-name').textContent = firstName;
             
-            // Configurar interface baseada no tipo de usuário
-            setupUserInterface(isAdmin, isSeller);
-            
-            // Não sobrescrever imagens se já existem no localStorage
-            const currentUser = JSON.parse(localStorage.getItem('loggedUser'));
-            if (!currentUser?.profileImage) {
-                const userProfileImage = document.getElementById('user-profile-image');
-                const headerProfileImage = document.getElementById('header-profile-image');
-                
-                if (userData.profileImage) {
-                    if (userProfileImage) userProfileImage.src = userData.profileImage;
-                    if (headerProfileImage) headerProfileImage.src = userData.profileImage;
-                } else {
-                    if (userProfileImage) userProfileImage.src = `https://placehold.co/80x80/cccccc/333333?text=${firstName.charAt(0)}`;
-                    if (headerProfileImage) headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
-                }
-            }
-        }
-        
-        function setupUserInterface(isAdmin, isSeller) {
-            // Elementos do menu
-            const sellerMenuItem = document.getElementById('seller-menu-item');
-            const quickSellerBtn = document.getElementById('quick-seller-btn');
-            const dashboardChart = document.getElementById('dashboard-chart');
-            
-            // Seções de conteúdo
-            const adminSection = document.getElementById('admin-section');
-            const sellerSection = document.getElementById('seller-section');
-            
-            if (isAdmin) {
-                // Mostrar funcionalidades de admin
-                if (adminSection) adminSection.style.display = 'block';
-                
-                // Adicionar item de menu admin se não existir
-                const adminMenuItem = document.querySelector('[data-section="admin"]');
-                if (!adminMenuItem) {
-                    const profileMenu = document.querySelector('.profile-menu');
-                    const adminLi = document.createElement('li');
-                    adminLi.innerHTML = '<a href="#" data-section="admin"><i class="fas fa-users-cog"></i><span>Administração</span></a>';
-                    profileMenu.appendChild(adminLi);
-                    
-                    // Adicionar event listener
-                    adminLi.querySelector('a').addEventListener('click', function(e) {
-                        e.preventDefault();
-                        document.querySelectorAll('.profile-menu a').forEach(l => l.classList.remove('active'));
-                        this.classList.add('active');
-                        document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
-                        document.getElementById('admin-section').style.display = 'block';
-                        loadAdminData();
-                    });
-                }
+            // Atualizar tipo de usuário
+            const userTypeDisplay = document.getElementById('user-type-display');
+            if (userTypeDisplay) {
+                userTypeDisplay.textContent = userData.isVendedor ? 'Vendedor' : 'Comprador';
             }
             
-            if (isSeller) {
-                // Mostrar funcionalidades de vendedor
-                if (sellerMenuItem) sellerMenuItem.style.display = 'block';
-                if (quickSellerBtn) quickSellerBtn.style.display = 'inline-block';
-                if (dashboardChart) {
-                    dashboardChart.style.display = 'block';
-                    initDashboardChart();
-                }
+            // Sempre usar imagem do banco de dados
+            const userProfileImage = document.getElementById('user-profile-image');
+            const headerProfileImage = document.getElementById('header-profile-image');
+            
+            if (userData.profileImage) {
+                if (userProfileImage) userProfileImage.src = userData.profileImage;
+                if (headerProfileImage) headerProfileImage.src = userData.profileImage;
+            } else {
+                if (userProfileImage) userProfileImage.src = `https://placehold.co/80x80/cccccc/333333?text=${firstName.charAt(0)}`;
+                if (headerProfileImage) headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
             }
+            
+            // Controlar visibilidade do menu vendedor
+            if (userData.isVendedor) {
+                document.getElementById('seller-menu-item').style.display = 'block';
+                document.getElementById('quick-seller-btn').style.display = 'inline-block';
+                document.getElementById('dashboard-chart').style.display = 'block';
+                initDashboardChart();
+            }
+            
+
         }
         
         function setupEditControls() {
@@ -1596,54 +1595,24 @@ img {
                 cancelBtn.style.display = 'none';
             });
             
-            saveBtn.addEventListener('click', async function(e) {
+            saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                // Aqui você faria a chamada para salvar os dados
+                alert('Dados salvos com sucesso!');
                 
-                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-                if (!loggedUser) return;
+                // Tornar campos readonly novamente
+                inputs.forEach(input => {
+                    input.readOnly = true;
+                });
                 
-                const updateData = {
-                    id: loggedUser.id,
-                    nome: document.getElementById('profile-name-input').value,
-                    email: document.getElementById('profile-email-input').value,
-                    celular: document.getElementById('profile-celular-input').value,
-                    data_nascimento: document.getElementById('profile-dataNasc-input').value
-                };
+                // Trocar botões
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
                 
-                try {
-                    const response = await fetch('/api/admin/user-details', {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updateData)
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        showToast('Dados salvos com sucesso!', 'success');
-                        
-                        // Tornar campos readonly novamente
-                        inputs.forEach(input => {
-                            input.readOnly = true;
-                        });
-                        
-                        // Trocar botões
-                        editBtn.style.display = 'inline-block';
-                        saveBtn.style.display = 'none';
-                        cancelBtn.style.display = 'none';
-                        
-                        // Atualizar sidebar
-                        const firstName = document.getElementById('profile-name-input').value.split(' ')[0];
-                        document.getElementById('profile-display-name').textContent = firstName;
-                    } else {
-                        showToast('Erro ao salvar dados', 'error');
-                    }
-                } catch (error) {
-                    console.error('Erro ao salvar:', error);
-                    showToast('Erro ao salvar dados', 'error');
-                }
+                // Atualizar sidebar
+                const firstName = document.getElementById('profile-name-input').value.split(' ')[0];
+                document.getElementById('profile-display-name').textContent = firstName;
             });
         }
         
@@ -1912,7 +1881,7 @@ img {
             
             if (cardNumber && cardType && cardExpiry) {
                 const cardsList = document.getElementById('cards-list');
-                const color = cardType.toLowerCase() === 'visa' ? '#3483fa' : '#ff6b35';
+                const color = cardType.toLowerCase() === 'visa' ? '#FF8C00' : '#ff6b35';
                 
                 const newCard = document.createElement('div');
                 newCard.className = 'card-item';
@@ -2090,7 +2059,7 @@ img {
                 newAddress.className = 'address-item';
                 if (setAsMain) {
                     newAddress.setAttribute('data-main', 'true');
-                    newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3483fa;';
+                    newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #FF8C00;';
                 } else {
                     newAddress.style.cssText = 'padding: 20px; background: white; border-radius: 6px; margin-bottom: 15px;';
                 }
@@ -2276,7 +2245,7 @@ img {
                     
                     // Definir novo principal
                     newMainAddress.setAttribute('data-main', 'true');
-                    newMainAddress.style.borderLeft = '4px solid #3483fa';
+                    newMainAddress.style.borderLeft = '4px solid #FF8C00';
                     
                     // Adicionar badge principal
                     const titleDiv = newMainAddress.querySelector('h4').parentElement;
@@ -2316,8 +2285,8 @@ img {
                         datasets: [{
                             label: 'Vendas',
                             data: salesData[7].data,
-                            borderColor: '#3483fa',
-                            backgroundColor: 'rgba(52, 131, 250, 0.1)',
+                            borderColor: '#FF8C00',
+                            backgroundColor: 'rgba(255, 140, 0, 0.1)',
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4
@@ -2412,19 +2381,6 @@ img {
         
 
         
-        // Função de logout
-        function logout() {
-            if (confirm('Tem certeza que deseja sair da sua conta?')) {
-                try {
-                    localStorage.removeItem('loggedUser');
-                    localStorage.removeItem('cart');
-                } catch (e) {
-                    console.warn('Erro ao limpar localStorage:', e);
-                }
-                window.location.href = '/';
-            }
-        }
-        
         // Função para carregar dados da seção de gerenciar contas
         async function loadAccountsData() {
             try {
@@ -2476,6 +2432,13 @@ img {
                 console.error('Erro ao carregar dados das contas:', error);
                 document.getElementById('accounts-buyers-table').innerHTML = '<tr><td colspan="5" style="padding: 20px; text-align: center; color: #e74c3c;">Erro ao carregar compradores</td></tr>';
                 document.getElementById('accounts-sellers-table').innerHTML = '<tr><td colspan="6" style="padding: 20px; text-align: center; color: #e74c3c;">Erro ao carregar vendedores</td></tr>';
+            }
+        }
+        
+        function logout() {
+            if (confirm('Deseja realmente sair da sua conta?')) {
+                localStorage.removeItem('loggedUser');
+                window.location.href = '/';
             }
         }
     </script>

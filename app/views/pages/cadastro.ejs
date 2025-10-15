@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <title>Cadastro - Vitrine</title>
+    <style>
+
+        .error { color: red; font-size: 12px; display: block; margin-top: 5px; }
+        #feedback-message { margin-top: 15px; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
+        .success-message { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error-message { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+
+        .user-type-group {
+            text-align: center;
+        }
+        .user-type-group h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #3D5A80;
+        }
+        .user-type-group input[type="radio"] {
+            margin-right: 5px;
+        }
+        .user-type-group label {
+            margin-right: 20px;
+            font-weight: normal;
+        }
+        
+
+        .main-content-wrapper {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 20px; 
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-section-main, .form-section-seller {
+            background-color: #fdfdfd;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            flex: 1; 
+            min-width: 300px;
+        }
+
+        .form-section-seller {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .main-content-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .form-section-main, .form-section-seller {
+                width: 100%; 
+            }
+        }
+    </style>
+</head>
+<body>
+        <header class="header">
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/login">Entrar</a></li>
+            </ul>
+          </nav>
+        </header>
+
+<main class="formulario">
+    <main class="container">
+        <div class="form">
+            <form id="cadastro-form">
+
+
+
+                <div class="main-content-wrapper">
+                    <div class="form-section-main">
+                    <div class="form-header">
+                    <div class="title"><h1>Cadastre-se</h1></div>
+                     </div>  
+
+                <div class="user-type-group">
+                    <h2>Você é:</h2>
+                    <input type="radio" id="type-buyer" name="TIPO_USUARIO" value="buyer" checked>
+                    <label for="type-buyer">Comprador</label>
+                    <input type="radio" id="type-seller" name="TIPO_USUARIO" value="seller">
+                    <label for="type-seller">Vendedor</label>
+                </div>
+                        <h2>Dados Pessoais</h2>
+                        <div class="input-group">
+                            <div class="input-box">
+                                <label for="nome">Nome Completo</label>
+                                <input id="nome" type="text" name="NOME_USUARIO" placeholder="Digite seu nome completo" required>
+                                <span id="nome-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="email">E-mail</label>
+                                <input id="email" type="email" name="EMAIL_USUARIO" placeholder="Digite seu e-mail" required>
+                                <span id="email-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="password">Senha</label>
+                                <input id="password" type="password" name="SENHA_USUARIO" placeholder="Digite sua senha" required>
+                                <span id="password-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="confirmPassword">Confirme sua Senha</label>
+                                <input id="confirmPassword" type="password" name="CONFIRM_SENHA_USUARIO" placeholder="Confirme sua senha" required>
+                                <span id="confirm-password-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="celular">Celular</label>
+                                <input id="celular" type="tel" name="CELULAR_USUARIO" placeholder="(xx) xxxxx-xxxx" maxlength="15">
+                                <span id="celular-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="dataNasc">Data de Nascimento</label>
+                                <input id="dataNasc" type="date" name="DT_NASC_USUARIO">
+                                <span id="dataNasc-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="cep">CEP</label>
+                                <input id="cep" type="text" name="CEP_USUARIO" placeholder="xxxxx-xxx" maxlength="9">
+                                <span id="cep-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="logradouro">Logradouro</label>
+                                <input id="logradouro" type="text" name="LOGRADOURO_USUARIO" placeholder="Rua, Avenida, etc.">
+                            </div>
+                            <div class="input-box">
+                                <label for="bairro">Bairro</label>
+                                <input id="bairro" type="text" name="BAIRRO_USUARIO" placeholder="Seu bairro">
+                            </div>
+                            <div class="input-box">
+                                <label for="cidade">Cidade</label>
+                                <input id="cidade" type="text" name="CIDADE_USUARIO" placeholder="Sua cidade">
+                            </div>
+                            <div class="input-box">
+                                <label for="uf">UF</label>
+                                <input id="uf" type="text" name="UF_USUARIO" placeholder="Estado (Ex: SP)" maxlength="2">
+                            </div>
+                        </div>
+
+                    <button type="submit" class="continue-button">Cadastrar</button>
+                    <span id="feedback-message" class="message" role="status" aria-live="polite"></span>
+
+                    <div class="form-section-seller" id="seller-fields">
+                        <h2>Dados do Vendedor</h2>
+                        <div class="input-group">
+                            <div class="input-box">
+                                <label for="tipoPessoa">Tipo de Pessoa</label>
+                                <select id="tipoPessoa" name="TIPO_PESSOA" placeholder="Selecione o tipo de pessoa" required>
+                                    <option value="" disabled selected>Selecione o tipo de pessoa</option>
+                                    <option value="PF">Pessoa Física (CPF)</option>
+                                    <option value="PJ">Pessoa Jurídica (CNPJ)</option>
+                                </select>
+                                <span id="tipoPessoa-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="digitoPessoa">CPF/CNPJ</label>
+                                <input id="digitoPessoa" type="text" name="DIGITO_PESSOA" placeholder="Digite CPF ou CNPJ">
+                                <span id="digitoPessoa-error" class="error"></span>
+                            </div>
+                            <div class="input-box">
+                                <label for="nomeLoja">Nome da Loja</label>
+                                <input id="nomeLoja" type="text" name="NOME_LOJA" placeholder="Nome da sua loja">
+                                <span id="nomeLoja-error" class="error"></span>
+                            </div>
+                        
+                        </div>
+                        
+                    </div>
+
+                </div> 
+
+
+
+            </form>
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/cadastro.js"></script>
+</body>
+</html>

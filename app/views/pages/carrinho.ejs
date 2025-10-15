@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -5,58 +6,358 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/carrinho.css">
     <link rel="stylesheet" href="css/reset.css">
-    <script src="js/mercadopago-fix.js"></script>
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="js/storage-helper.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/carrinho.js"></script>
-    <script src="js/comprar-carrinho.js"></script>
     <title>Seu Carrinho - Vitrine</title>
     <style>
-        .empty-cart-message { text-align: center; margin-top: 50px; font-size: 1.2em; color: #555; }
-        .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
-        .qty button { background-color: #f0f0f0; border: 1px solid #ccc; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 1em; }
-        .qty button:hover { background-color: #e0e0e0; }
-        .qty span { margin: 0 10px; font-weight: bold; }
-        .remove { background-color: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 1em; }
-        .remove:hover { background-color: #cc0000; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        thead th { background-color: #f8f8f8; font-weight: bold; }
-        .product img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px; }
-        .product { display: flex; align-items: center; }
-        .product .info .name { font-weight: bold; }
-        .product .info .category { font-size: 0.9em; color: #666; }
-        .container_payment { display: none; margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
-        #button-checkout { margin-top: 20px; }
-        #go-back { margin-top: 10px; padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        /* Estilos para a mensagem de carrinho vazio */
+        .empty-cart-message {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.2em;
+            color: #555;
+        }
+        /* Estilos para ocultar elementos visualmente para acessibilidade */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+                .logo img {
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+.logo img {
+    display: block;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+        
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255,255,255,0.2);
+            color: #E0FBFC;
+        }
+        
+        .header {
+            background: #713112 !important;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .carrinho:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-radius: 20px;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+        
+
+        /* Estilos para os botões de quantidade e remover (se não estiverem no seu CSS) */
+        .qty button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .qty button:hover {
+            background-color: #e0e0e0;
+        }
+        .qty span {
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        .remove {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .remove:hover {
+            background-color: #cc0000;
+        }
+        /* Estilos para a tabela de carrinho */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        thead th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        .product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .product {
+            display: flex;
+            align-items: center;
+        }
+        .product .info .name {
+            font-weight: bold;
+        }
+        .product .info .category {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        /* Modal de Login para Checkout */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .login-modal h3 {
+            color: #3D5A80;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .login-modal p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .login-modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .login-btn {
+            background-color: #3D5A80;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .login-btn:hover {
+            background-color: #2c4a6b;
+        }
+        
+        .cancel-btn {
+            background-color: #ccc;
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #bbb;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            aside {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+            
+            .header {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .nav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-right: 0;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+                text-align: center;
+                margin: 20px 0;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 8px 6px;
+            }
+            
+            .product {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .product img {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 0.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 6px 4px;
+            }
+            
+            .product img {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .qty button {
+                padding: 3px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .remove {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .box {
+                padding: 15px;
+            }
+            
+            #checkout-btn {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            .login-modal-content {
+                padding: 20px;
+                max-width: 300px;
+            }
+            
+            .login-modal-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .login-btn, .cancel-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
-        <a class="logo" href="/">
-            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
+            <img src="imagens/logo(2).png" width="75" height="75" alt="Logo da Vitrine: Um desenho estilizado de um manequim.">
         </a>
-        <aside class="mobile-menu">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </aside>
-        <nav>
-            <ul class="nav-list">
+            
+        <button class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
+            <span class="line1"></span>
+            <span class="line2"></span>
+            <span class="line3"></span>
+        </button>
+        <nav id="main-navigation">
+            <ul class="nav-list" id="nav-list">
                 <li><a href="/">Início</a></li>
-                <li><a href="/sobrenos">Sobre</a></li>
-                <li><a href="/login" class="">Entrar</a></li>
-                <li><a href="/carrinho" class="carrinho"><img src="imagens/carrinho.png" width="75px" height="50px"></a></li>
+                <li><a href="/login">Entrar</a></li>
+                <li><a href="/cadastro">Seja um Vendedor</a></li>
+
             </ul>
         </nav>
     </header>
-    
+    <br>
     <main>
         <h1 class="page-title">Seu Carrinho</h1>
-        <div class="content">
-            <section aria-labelledby="cart-items-heading" class="shopping-cart">
+        <section class="content">
+            <article aria-labelledby="cart-items-heading">
                 <h2 id="cart-items-heading" class="visually-hidden">Itens no seu carrinho</h2>
                 <table>
                     <thead>
@@ -69,54 +370,72 @@
                         </tr>
                     </thead>
                     <tbody id="cart-items-container">
+                        <!-- Itens do carrinho serão inseridos aqui pelo JavaScript -->
                     </tbody>
                 </table>
                 <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Adicione produtos ao carrinho</p>
-            </section>
+            </article>
             <aside aria-labelledby="order-summary-heading">
                 <h2 id="order-summary-heading" class="visually-hidden">Resumo do Pedido</h2>
-                <div class="box">
-                    <div class="info">
-                        <div>
+                <section class="box">
+                    <section class="info">
+                        <section>
                             <span>Sub-total</span>
                             <span id="subtotal-price" class="price">R$ 0,00</span>
-                        </div>
-                        <div>
+                        </section>
+                        <section>
                             <span>Frete</span>
-                            <span class="shipping-cost">Grátis</span>
-                        </div>
-                        <div>
+                            <span class="shipping-cost">Grátis</span> <!-- Mantido estático por enquanto -->
+                        </section>
+                        <section>
                             <button type="button">
                                 Adicionar cupom de desconto
                                 <i class="bx bx-right-arrow-alt"></i>
                             </button>
-                        </div>
-                    </div>
+                        </section>
+                    </section>
                     <footer>
                         <span>Total</span>
                         <span id="total-price" class="total-price">R$ 0,00</span>
                     </footer>
-                </div>
-                <button type="button" id="checkout-btn">Finalizar Compra</button>
+                </section>
+                <button type="submit" id="checkout-btn">Finalizar Compra</button>
             </aside>
-        </div>
-
-        <section class="payment-form dark">
-            <div class="container_payment">
-                <div class="block-heading">
-                    <h2>Checkout</h2>
-                </div>
-                <div class="form-payment">
-                    <div class="products">
-                        <h3 class="title">Resumo do pedido</h3>
-                        <div id="payment-summary">
-                        </div>
-                    </div>
-                    <div id="button-checkout"></div>
-                    <button id="go-back">Voltar ao Carrinho</button>
-                </div>
-            </div>
         </section>
     </main>
+    
+    <!-- Modal de Login para Checkout -->
+    <dialog id="checkoutLoginModal" class="login-modal" style="display: none;">
+        <article class="login-modal-content">
+            <h3>Login Necessário</h3>
+            <p>Você precisa fazer login para finalizar sua compra. Faça login ou crie uma conta para continuar.</p>
+            <nav class="login-modal-buttons">
+                <a href="/login" class="login-btn">Fazer Login</a>
+                <button class="cancel-btn" onclick="closeCheckoutModal()">Continuar Comprando</button>
+            </nav>
+        </article>
+    </dialog>
+    
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/carrinho.js"></script>
+    
+    <script>
+        // Verificar login ao carregar a página do carrinho
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            const loginLink = document.querySelector('a[href="/login"]');
+            const cadastroLink = document.querySelector('a[href="/cadastro"]');
+            if (loggedUser && loggedUser.id) {
+                // Usuário logado - ocultar links de login
+                if (loginLink) loginLink.style.display = 'none';
+                if (cadastroLink) cadastroLink.style.display = 'none';
+            } else {
+                // Usuário não logado - mostrar links de login
+                if (loginLink) loginLink.style.display = 'block';
+                if (cadastroLink) cadastroLink.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
