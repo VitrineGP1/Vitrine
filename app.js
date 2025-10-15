@@ -314,6 +314,36 @@ app.post('/api/update-profile-image', async (req, res) => {
     }
 });
 
+// Mercado Pago - Criar preferência
+app.post('/create-preference', async (req, res) => {
+    try {
+        const { MercadoPagoConfig, Preference } = require('mercadopago');
+        
+        const client = new MercadoPagoConfig({
+            accessToken: 'APP_USR-1660916369766569-100617-c4941cf14cc985525d2f4f6c1d22552c-251623582'
+        });
+        
+        const preference = new Preference(client);
+        
+        const result = await preference.create({
+            body: {
+                items: req.body.items,
+                back_urls: {
+                    success: 'http://localhost:3001/success',
+                    failure: 'http://localhost:3001/failure',
+                    pending: 'http://localhost:3001/pending'
+                },
+                auto_return: 'approved'
+            }
+        });
+        
+        res.json({ id: result.id });
+    } catch (error) {
+        console.error('Erro ao criar preferência:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 
 // Start server
