@@ -35,11 +35,11 @@ class ProductController {
             
             console.log('SQL values:', values);
             
-            // Simplificar o INSERT para campos essenciais apenas
+            // O constraint fk_vendedor referencia USUARIOS.ID_USUARIO, então usar ID_VENDEDOR diretamente
             const [result] = await connection.execute(
                 `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_BASE64, ID_VENDEDOR, QUANTIDADE)
                  VALUES (?, ?, ?, ?, ?, ?)`,
-                [NOME_PROD, DESCRICAO_PROD.substring(0, 250), VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
+                [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250), VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
             );
             
             console.log('Product created successfully, ID:', result.insertId);
