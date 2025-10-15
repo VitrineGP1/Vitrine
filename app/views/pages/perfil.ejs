@@ -1359,7 +1359,13 @@ img {
         
         async function loadUserData() {
             // Buscar dados do usuário logado
-            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            let loggedUser = null;
+            try {
+                loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            } catch (e) {
+                console.warn('Erro ao acessar localStorage:', e);
+                return;
+            }
             
             if (!loggedUser) {
                 console.log('PERFIL.EJS: loggedUser não encontrado, tentando redirecionar');
@@ -2409,8 +2415,12 @@ img {
         // Função de logout
         function logout() {
             if (confirm('Tem certeza que deseja sair da sua conta?')) {
-                localStorage.removeItem('loggedUser');
-                localStorage.removeItem('cart');
+                try {
+                    localStorage.removeItem('loggedUser');
+                    localStorage.removeItem('cart');
+                } catch (e) {
+                    console.warn('Erro ao limpar localStorage:', e);
+                }
                 window.location.href = '/';
             }
         }

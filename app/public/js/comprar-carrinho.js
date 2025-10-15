@@ -9,15 +9,23 @@ document.addEventListener("DOMContentLoaded", function (e) {
     }
 
     document.getElementById("checkout-btn").addEventListener("click", function () {
-        const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
-        const cart = JSON.parse(storage.getItem('cart')) || [];
+        let cart = [];
+        let user = null;
+        
+        try {
+            const storage = window.storageHelper || { getItem: (k) => localStorage.getItem(k), setItem: (k,v) => localStorage.setItem(k,v) };
+            cart = JSON.parse(storage.getItem('cart')) || [];
+            user = JSON.parse(storage.getItem('loggedUser')) || null;
+        } catch (e) {
+            console.warn('Erro ao acessar localStorage:', e);
+            alert('Erro ao acessar dados do carrinho. Tente recarregar a página.');
+            return;
+        }
+        
         if (cart.length === 0) {
             alert("Seu carrinho está vazio!");
             return;
         }
-
-        // Verificar se o usuário está logado
-        const user = JSON.parse(storage.getItem('loggedUser')) || null;
         if (!user) {
             // Salvar carrinho antes de redirecionar
             storage.setItem('pendingCheckout', 'true');
