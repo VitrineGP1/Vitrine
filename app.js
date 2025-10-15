@@ -325,13 +325,15 @@ app.post('/create-preference', async (req, res) => {
         
         const preference = new Preference(client);
         
+        const baseUrl = process.env.URL_BASE || 'http://localhost:3001';
+        
         const result = await preference.create({
             body: {
                 items: req.body.items,
                 back_urls: {
-                    success: 'http://localhost:3001/success',
-                    failure: 'http://localhost:3001/failure',
-                    pending: 'http://localhost:3001/pending'
+                    success: `${baseUrl}/success`,
+                    failure: `${baseUrl}/failure`,
+                    pending: `${baseUrl}/pending`
                 },
                 auto_return: 'approved'
             }
@@ -342,6 +344,19 @@ app.post('/create-preference', async (req, res) => {
         console.error('Erro ao criar preferência:', error);
         res.status(500).json({ error: error.message });
     }
+});
+
+// Rotas de retorno do Mercado Pago
+app.get('/success', (req, res) => {
+    res.send('<h1>Pagamento aprovado!</h1><p>Obrigado pela sua compra.</p>');
+});
+
+app.get('/failure', (req, res) => {
+    res.send('<h1>Pagamento rejeitado</h1><p>Tente novamente ou use outro método de pagamento.</p>');
+});
+
+app.get('/pending', (req, res) => {
+    res.send('<h1>Pagamento pendente</h1><p>Aguarde a confirmação do pagamento.</p>');
 });
 
 
