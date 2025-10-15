@@ -210,7 +210,7 @@
         });
 
         function loadOrderSummary() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            const carrinho = JSON.parse(localStorage.getItem('cart') || '[]');
             const orderItems = document.getElementById('order-items');
             
             if (carrinho.length === 0) {
@@ -220,16 +220,16 @@
 
             orderItems.innerHTML = carrinho.map(item => `
                 <article class="order-item">
-                    <img src="${item.imagem || 'https://placehold.co/60x60/cccccc/333333?text=Produto'}" 
-                         alt="${item.nome}" class="item-image">
+                    <img src="${item.image || 'https://placehold.co/60x60/cccccc/333333?text=Produto'}" 
+                         alt="${item.name}" class="item-image">
                     <section class="item-info">
-                        <p class="item-name">${item.nome}</p>
-                        <p class="item-details">Qtd: ${item.quantidade} × R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                        <p class="item-name">${item.name}</p>
+                        <p class="item-details">Qtd: ${item.quantity} × R$ ${item.price.toFixed(2).replace('.', ',')}</p>
                     </section>
                 </article>
             `).join('');
 
-            const subtotal = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+            const subtotal = carrinho.reduce((total, item) => total + (item.price * item.quantity), 0);
             document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
             document.getElementById('total').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
         }
@@ -297,7 +297,7 @@
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 
                 // Limpar carrinho
-                localStorage.removeItem('carrinho');
+                localStorage.removeItem('cart');
                 
                 // Redirecionar para página de sucesso
                 window.location.href = '/pedido-confirmado';
