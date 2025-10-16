@@ -35,15 +35,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>R$ ${item.price.toFixed(2).replace('.', ',')}</td>
                     <td>
                         <div class="qty">
-                            <button class="qty-minus" aria-label="Diminuir quantidade de ${item.name}"><i class="bx bx-minus"></i>-</button>
+                            <button class="qty-minus" aria-label="Diminuir quantidade de ${item.name}"><i class="bx bx-minus"></i></button>
                             <span>${item.quantity}</span>
-                            <button class="qty-plus" aria-label="Aumentar quantidade de ${item.name}"><i class="bx bx-plus"></i>+</button>
+                            <button class="qty-plus" aria-label="Aumentar quantidade de ${item.name}"><i class="bx bx-plus"></i></button>
                         </div>
                     </td>
                     <td>R$ ${itemTotal.toFixed(2).replace('.', ',')}</td>
                     <td>
                         <button class="remove-item" aria-label="Remover ${item.name} do carrinho">
-                            <i class="bx bx-x"></i>X
+                            <i class="bx bx-x"></i>
                         </button>
                     </td>
                 `;
