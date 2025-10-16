@@ -10,8 +10,16 @@ router.get("/", async function (req, res) {
     let connection;
     try {
         connection = await pool.getConnection();
+        
+        // Verificar se a coluna IMAGEM_PERFIL_BASE64 existe na tabela USUARIOS
+        try {
+            await connection.execute('ALTER TABLE USUARIOS ADD COLUMN IMAGEM_PERFIL_BASE64 LONGTEXT');
+        } catch (alterError) {
+            // Coluna já existe ou outro erro - continuar
+        }
+        
         const [produtos] = await connection.execute(
-            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR'
+            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_VENDEDOR, u.IMAGEM_PERFIL_BASE64 as IMAGEM_PERFIL_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = p.ID_VENDEDOR LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR LEFT JOIN USUARIOS u ON u.ID_USUARIO = p.ID_VENDEDOR'
         );
         console.log('Produtos encontrados:', produtos.length);
         res.render("pages/home-dynamic", { produtos });
@@ -53,14 +61,9 @@ router.get("/login", function (req, res) {
     res.render("pages/login", )
 });
 
-router.get("/cadcliente", function (req, res) {
-    res.render("pages/cadcliente", )
+router.get("/cadastro", function (req, res) {
+    res.render("pages/cadastro", )
 });
-
-router.get("/cadvendedor", function (req, res) {
-    res.render("pages/cadvendedor", )
-});
-
 
 router.get("/perfil", function (req, res) {
     res.render("pages/perfil", )
@@ -94,8 +97,16 @@ router.get("/prod", async function (req, res) {
     let connection;
     try {
         connection = await pool.getConnection();
+        
+        // Verificar se a coluna IMAGEM_PERFIL_BASE64 existe na tabela USUARIOS
+        try {
+            await connection.execute('ALTER TABLE USUARIOS ADD COLUMN IMAGEM_PERFIL_BASE64 LONGTEXT');
+        } catch (alterError) {
+            // Coluna já existe ou outro erro - continuar
+        }
+        
         const [produtos] = await connection.execute(
-            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR'
+            'SELECT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR, COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_VENDEDOR, u.IMAGEM_PERFIL_BASE64 as IMAGEM_PERFIL_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = p.ID_VENDEDOR LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR LEFT JOIN USUARIOS u ON u.ID_USUARIO = p.ID_VENDEDOR'
         );
         res.render("pages/produtos", { produtos });
     } catch (error) {
@@ -136,9 +147,16 @@ router.get("/produto/:id", async function (req, res) {
     try {
         connection = await pool.getConnection();
         
-        // Buscar produto específico
+        // Primeiro, verificar se a coluna IMAGEM_PERFIL_BASE64 existe na tabela USUARIOS
+        try {
+            await connection.execute('ALTER TABLE USUARIOS ADD COLUMN IMAGEM_PERFIL_BASE64 LONGTEXT');
+        } catch (alterError) {
+            // Coluna já existe ou outro erro - continuar
+        }
+        
+        // Buscar produto específico com imagem de perfil do vendedor
         const [produto] = await connection.execute(
-            'SELECT p.*, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR WHERE p.ID_PROD = ?',
+            'SELECT p.*, COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_VENDEDOR, COALESCE(u1.IMAGEM_PERFIL_BASE64, u2.IMAGEM_PERFIL_BASE64) as IMAGEM_PERFIL_BASE64 FROM PRODUTOS p LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = p.ID_VENDEDOR LEFT JOIN USUARIOS u1 ON u1.ID_USUARIO = p.ID_VENDEDOR LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR LEFT JOIN USUARIOS u2 ON u2.ID_USUARIO = v2.ID_USUARIO WHERE p.ID_PROD = ?',
             [productId]
         );
         
@@ -148,7 +166,7 @@ router.get("/produto/:id", async function (req, res) {
         
         // Buscar outros produtos para "Você também pode gostar"
         const [outrosProdutos] = await connection.execute(
-            'SELECT p.*, v.NOME_LOJA as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v ON p.ID_VENDEDOR = v.ID_VENDEDOR WHERE p.ID_PROD != ? LIMIT 5',
+            'SELECT p.*, COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_VENDEDOR FROM PRODUTOS p LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = p.ID_VENDEDOR LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR WHERE p.ID_PROD != ? LIMIT 5',
             [productId]
         );
         

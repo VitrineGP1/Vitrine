@@ -16,17 +16,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (addToCartBtn) {
         addToCartBtn.addEventListener('click', () => {
-            // Adicionar estado de loading ao botão
-            addToCartBtn.disabled = true;
-            addToCartBtn.textContent = 'ADICIONANDO...';
-            addToCartBtn.style.backgroundColor = '#ccc';
+            // Verificar se usuário está logado
+            const loggedUser = localStorage.getItem('loggedUser');
+            
+            if (!loggedUser) {
+                alert('Você precisa fazer login para adicionar produtos ao carrinho!');
+                window.location.href = '/login';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(loggedUser);
+                if (!user || !user.id) {
+                    alert('Sessão inválida. Faça login novamente.');
+                    window.location.href = '/login';
+                    return;
+                }
+            } catch (e) {
+                alert('Erro na sessão. Faça login novamente.');
+                window.location.href = '/login';
+                return;
+            }
 
             // Extrai informações do produto do HTML
             const productId = addToCartBtn.getAttribute('data-product-id') || 'produto-' + Date.now();
-            const name = productTitle ? productTitle.textContent.trim() : '';
-            const priceText = productPrice ? productPrice.textContent.trim().replace('R$', '').replace(',', '.') : '';
+            const name = productTitle.textContent.trim();
+            const priceText = productPrice.textContent.trim().replace('R$', '').replace(',', '.');
             const price = parseFloat(priceText);
-            const image = productImage ? productImage.src : '';
+            const image = productImage.src;
             const quantityInput = document.getElementById('product-quantity');
             const quantity = parseInt(quantityInput ? quantityInput.value : 1);
             const sizeSelect = document.getElementById('product-size');
@@ -66,153 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Salva o carrinho atualizado no localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
-
-            // Tentar sincronizar com servidor se usuário estiver logado
-            syncCartWithServer(product);
-
-            // Atualizar contador do carrinho no header
-            updateCartCounter();
-
-            // Resetar botão após 2 segundos
-            setTimeout(() => {
-                addToCartBtn.disabled = false;
-                addToCartBtn.textContent = 'ADICIONAR AO CARRINHO';
-                addToCartBtn.style.backgroundColor = '#e47a1b';
-            }, 2000);
-
-            // Animação de produto voando para o carrinho
-            animateProductToCart();
         });
-    } else {
-        console.error('Botão adicionar ao carrinho não encontrado');
     }
-
-    // Função para atualizar contador do carrinho
-    function updateCartCounter() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-        // Atualizar badge no header
-        const cartLink = document.querySelector('a[href="/carrinho"]');
-        if (cartLink) {
-            let badge = cartLink.querySelector('.cart-badge');
-            if (!badge) {
-                badge = document.createElement('span');
-                badge.className = 'cart-badge';
-                badge.style.cssText = `
-                    position: absolute;
-                    top: -8px;
-                    right: -8px;
-                    background: #e74c3c;
-                    color: white;
-                    border-radius: 50%;
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 12px;
-                    font-weight: bold;
-                    z-index: 10;
-                `;
-                cartLink.style.position = 'relative';
-                cartLink.appendChild(badge);
-            }
-            badge.textContent = totalItems;
-            badge.style.display = totalItems > 0 ? 'flex' : 'none';
-        }
-    }
-
-    // Função para animação do produto voando para o carrinho
-    function animateProductToCart() {
-        const productImg = document.getElementById('product-image');
-        const cartIcon = document.querySelector('a[href="/carrinho"] i');
-
-        if (productImg && cartIcon) {
-            // Criar clone da imagem do produto
-            const flyingImg = productImg.cloneNode(true);
-            flyingImg.id = 'flying-product';
-            flyingImg.style.cssText = `
-                position: fixed;
-                width: 80px;
-                height: 80px;
-                object-fit: cover;
-                border-radius: 8px;
-                z-index: 9999;
-                pointer-events: none;
-                transition: all 1s ease-in-out;
-            `;
-
-            // Posicionar inicialmente sobre a imagem do produto
-            const productRect = productImg.getBoundingClientRect();
-            flyingImg.style.left = productRect.left + 'px';
-            flyingImg.style.top = productRect.top + 'px';
-
-            document.body.appendChild(flyingImg);
-
-            // Calcular posição final (ícone do carrinho)
-            const cartRect = cartIcon.getBoundingClientRect();
-            const finalLeft = cartRect.left + cartRect.width / 2 - 40;
-            const finalTop = cartRect.top + cartRect.height / 2 - 40;
-
-            // Animação
-            setTimeout(() => {
-                flyingImg.style.left = finalLeft + 'px';
-                flyingImg.style.top = finalTop + 'px';
-                flyingImg.style.transform = 'scale(0.3)';
-                flyingImg.style.opacity = '0.7';
-            }, 100);
-
-            // Remover elemento após animação
-            setTimeout(() => {
-                if (flyingImg.parentNode) {
-                    flyingImg.parentNode.removeChild(flyingImg);
-                }
-            }, 1100);
-        }
-    }
-
-    // Função para sincronizar carrinho com servidor
-    function syncCartWithServer(product) {
-        const loggedUser = localStorage.getItem('loggedUser');
-        if (!loggedUser) return; // Usuário não logado, não sincronizar
-
-        try {
-            const user = JSON.parse(loggedUser);
-            if (!user || !user.id) return;
-
-            // Enviar requisição para API
-            fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-logged-user': loggedUser
-                },
-                body: JSON.stringify({
-                    productId: product.id.split('-')[0], // Remover sufixo de tamanho se existir
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    quantity: product.quantity,
-                    size: product.size
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Carrinho sincronizado com servidor:', data.message);
-                } else {
-                    console.error('Erro ao sincronizar carrinho:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Erro na requisição de sincronização:', error);
-            });
-        } catch (e) {
-            console.error('Erro ao sincronizar carrinho:', e);
-        }
-    }
-
-    // Inicializar contador do carrinho
-    updateCartCounter();
 });

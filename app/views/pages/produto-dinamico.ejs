@@ -13,7 +13,8 @@
     background: #713112;
 }
 header.header {
-    display: flex;
+    display: flex
+;
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
@@ -235,8 +236,20 @@ body {
         
         .seller-main-info {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+        
+        .seller-text-info {
+            flex: 1;
         }
         .seller-name {
             font-size: 1.2rem;
@@ -693,6 +706,12 @@ body {
                 margin-top: 20px;
             }
             
+            .quantity-selection {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
             .seller-produtos-grid {
                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             }
@@ -723,6 +742,12 @@ body {
             
             .product-header img {
                 max-width: 250px;
+            }
+            
+            .quantity-selection {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             
             .quantity-controls {
@@ -1166,9 +1191,16 @@ body {
                 <h2 id="seller-heading">Informações do Vendedor</h2>
                 <section class="seller-details">
                     <header class="seller-main-info">
-                        <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
-                        <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
-                        <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
+                        <% if (produto.IMAGEM_PERFIL_BASE64) { %>
+                            <img src="<%= produto.IMAGEM_PERFIL_BASE64.startsWith('data:') ? produto.IMAGEM_PERFIL_BASE64 : 'data:image/jpeg;base64,' + produto.IMAGEM_PERFIL_BASE64 %>" alt="Foto da loja" class="user-profile-image">
+                        <% } else { %>
+                            <img src="https://placehold.co/60x60/cccccc/333333?text=<%= (produto.NOME_VENDEDOR || 'L').charAt(0) %>" alt="Foto da loja" class="user-profile-image">
+                        <% } %>
+                        <div class="seller-text-info">
+                            <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
+                            <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
+                            <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
+                        </div>
                     </header>
                     
                     <% if (produtosDaLoja && produtosDaLoja.length > 0) { %>
@@ -1361,12 +1393,9 @@ body {
                         if (loginLink) loginLink.style.display = 'none';
                         if (profileLink) profileLink.style.display = 'flex';
                         
-                        // Configurar imagem do perfil
-                        if (user.profileImage && headerProfileImage) {
-                            headerProfileImage.src = user.profileImage;
-                        } else if (headerProfileImage) {
-                            const firstName = user.name ? user.name.split(' ')[0] : 'U';
-                            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                        // Carregar imagem de perfil do banco de dados
+                        if (headerProfileImage) {
+                            loadUserProfileImage(user.id, headerProfileImage);
                         }
                         
                         // Ocultar "Seja um Vendedor" se já for vendedor ou admin
@@ -1384,6 +1413,27 @@ body {
             if (loginLink) loginLink.style.display = 'block';
             if (profileLink) profileLink.style.display = 'none';
         });
+        
+        // Função para carregar imagem de perfil do banco
+        async function loadUserProfileImage(userId, headerProfileImage) {
+            try {
+                const response = await fetch(`/api/user/${userId}`);
+                const result = await response.json();
+                
+                if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
+                    headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+                } else {
+                    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                    const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                    headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imagem de perfil:', error);
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+            }
+        }
         
         // Formulário de avaliação
         document.addEventListener('DOMContentLoaded', function() {
