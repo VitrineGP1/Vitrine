@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 
 module.exports = (pool) => {
     // Rota de CADASTRO de Usuário
@@ -256,7 +257,46 @@ module.exports = (pool) => {
 
             if (rows.length > 0) {
                 const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
-                console.log(`Código de reset para ${email}: ${resetCode}`);
+                const user = rows[0];
+                
+                // Enviar email se configurado
+                if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+                    try {
+                        const transporter = nodemailer.createTransporter({
+                            host: 'smtp.gmail.com',
+                            port: 587,
+                            secure: false,
+                            auth: {
+                                user: process.env.EMAIL_USER,
+                                pass: process.env.EMAIL_PASS
+                            }
+                        });
+
+                        await transporter.sendMail({
+                            from: `"Vitrine" <${process.env.EMAIL_USER}>`,
+                            to: email,
+                            subject: 'Código de Redefinição de Senha - Vitrine',
+                            html: `
+                                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                                    <h2 style="color: #713112;">Redefinição de Senha</h2>
+                                    <p>Olá ${user.NOME_USUARIO},</p>
+                                    <p>Seu código para redefinir a senha é:</p>
+                                    <div style="background: #f5f5f5; padding: 20px; text-align: center; margin: 20px 0;">
+                                        <h1 style="color: #713112; font-size: 32px; margin: 0;">${resetCode}</h1>
+                                    </div>
+                                    <p>Este código é válido por 10 minutos.</p>
+                                    <p>Se você não solicitou esta redefinição, ignore este email.</p>
+                                </div>
+                            `
+                        });
+                        console.log(`Email enviado para ${email} com código: ${resetCode}`);
+                    } catch (emailError) {
+                        console.error('Erro ao enviar email:', emailError.message);
+                        console.log(`Código de reset para ${email}: ${resetCode}`);
+                    }
+                } else {
+                    console.log(`Código de reset para ${email}: ${resetCode}`);
+                }
             }
 
             res.status(200).json({
