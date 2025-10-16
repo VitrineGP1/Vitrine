@@ -19,6 +19,13 @@ function checkLoginStatus() {
                     profileLink.style.display = 'flex';
                 });
                 
+                // Mostrar ícone de perfil
+                const profileIconLink = document.getElementById('profile-icon-link');
+                if (profileIconLink) {
+                    profileIconLink.style.display = 'block';
+                    loadUserProfileImage(user.id);
+                }
+                
                 // Encontra os links de login
                 const loginLinks = navList.querySelectorAll('a[href="/login"]');
                 
@@ -32,46 +39,41 @@ function checkLoginStatus() {
                             link.href = '/perfil';
                             link.innerHTML = `<i class="fa fa-user"></i> ${user.name.split(' ')[0]}`;
                         }
-                        
-                        // Carregar foto de perfil do banco de dados
-                        loadUserProfileImage(user.id);
                     }
                 });
+                
+                // Encontra e oculta o link "Seja um Vendedor" para vendedores e admins
+                const sellerLinks = navList.querySelectorAll('a');
+                sellerLinks.forEach(link => {
+                    if (link.textContent.trim() === 'Seja um Vendedor') {
+                        console.log('Found seller link, user type:', user.type, 'sellerId:', user.sellerId);
+                        if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                            console.log('Hiding seller link for seller/admin user');
+                            link.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Adiciona aba "Meus Pedidos" para compradores (exceto em páginas admin)
+                if (user.type === 'buyer' && !window.location.pathname.includes('admin')) {
+                    const ordersLi = document.createElement('li');
+                    ordersLi.innerHTML = '<a href="/meus-pedidos"><i class="fa fa-shopping-bag"></i> Meus Pedidos</a>';
+                    navList.appendChild(ordersLi);
+                }
+                
+                // Verifica se já existe botão de logout
+                const existingLogout = navList.querySelector('a[onclick="logout()"]');
+                if (!existingLogout) {
+                    // Adiciona botão de logout
+                    const logoutLi = document.createElement('li');
+                    logoutLi.innerHTML = '<a href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</a>';
+                    navList.appendChild(logoutLi);
+                }
             }
         } catch (e) {
             console.error('Erro ao processar dados do usuário logado:', e);
             // Se houver erro, limpar dados corrompidos
             localStorage.removeItem('loggedUser');
-        }
-        
-        // Encontra e oculta o link "Seja um Vendedor" para vendedores e admins
-        const sellerLinks = navList.querySelectorAll('a');
-        sellerLinks.forEach(link => {
-            if (link.textContent.trim() === 'Seja um Vendedor') {
-                console.log('Found seller link, user type:', user.type, 'sellerId:', user.sellerId);
-                if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
-                    console.log('Hiding seller link for seller/admin user');
-                    link.style.display = 'none';
-                }
-            }
-        });
-        
-
-        
-        // Adiciona aba "Meus Pedidos" para compradores (exceto em páginas admin)
-        if (user.type === 'buyer' && !window.location.pathname.includes('admin')) {
-            const ordersLi = document.createElement('li');
-            ordersLi.innerHTML = '<a href="/meus-pedidos"><i class="fa fa-shopping-bag"></i> Meus Pedidos</a>';
-            navList.appendChild(ordersLi);
-        }
-        
-        // Verifica se já existe botão de logout
-        const existingLogout = navList.querySelector('a[onclick="logout()"]');
-        if (!existingLogout) {
-            // Adiciona botão de logout
-            const logoutLi = document.createElement('li');
-            logoutLi.innerHTML = '<a href="#" onclick="logout()"><i class="fa fa-sign-out"></i> Sair</a>';
-            navList.appendChild(logoutLi);
         }
     } else if (!loggedUser && window.location.pathname === '/perfil') {
         // Se não está logado e está na página de perfil, redireciona para login
@@ -81,18 +83,27 @@ function checkLoginStatus() {
 }
 
 async function loadUserProfileImage(userId) {
+    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    const headerProfileImage = document.getElementById('header-profile-image');
+    
+    if (!headerProfileImage) return;
+    
     try {
         const response = await fetch(`/api/user/${userId}`);
         const result = await response.json();
         
         if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
-            const headerProfileImage = document.getElementById('header-profile-image');
-            if (headerProfileImage) {
-                headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
-            }
+            headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+        } else {
+            // Usar placeholder com inicial do nome
+            const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+            headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
         }
     } catch (error) {
         console.error('Erro ao carregar imagem de perfil:', error);
+        // Fallback para placeholder
+        const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+        headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
     }
 }
 

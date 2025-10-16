@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
         locale: 'pt-BR' 
     });
 
-    // Tentar solicitar acesso ao storage se disponívelAPP_USR-eafb8069-68db-4706-9017-c1f656344c93
     if (window.storageHelper) {
         window.storageHelper.requestStorageAccess();
     }

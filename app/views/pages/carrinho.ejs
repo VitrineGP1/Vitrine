@@ -6,6 +6,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/carrinho.css">
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <title>Seu Carrinho - Vitrine</title>
     <style>
         /* Estilos para a mensagem de carrinho vazio */
@@ -402,6 +403,14 @@ img {
                 <button type="submit" id="checkout-btn">Finalizar Compra</button>
             </aside>
         </section>
+        
+        <!-- Container para o Checkout do Mercado Pago -->
+        <section id="checkout-container" style="display: none; max-width: 600px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Finalizar Pagamento</h2>
+            <div id="payment-summary" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;"></div>
+            <div id="wallet_container"></div>
+            <button id="back-to-cart" style="margin-top: 20px; padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Voltar ao Carrinho</button>
+        </section>
     </main>
     
     <!-- Modal de Login para Checkout -->
@@ -416,11 +425,113 @@ img {
         </article>
     </dialog>
     
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
+    <script src="js/notify-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/carrinho.js"></script>
     
     <script>
+        // Mercado Pago integration
+        const mp = new MercadoPago('APP_USR-adf57951-d1a6-40b1-9808-d922808b443e', {
+            locale: 'pt-BR'
+        });
+        
+        // Checkout functionality
+        document.getElementById('checkout-btn').addEventListener('click', async function() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            if (!loggedUser) {
+                document.getElementById('checkoutLoginModal').style.display = 'flex';
+                return;
+            }
+            
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                showWarning('Seu carrinho está vazio!');
+                return;
+            }
+            
+            this.disabled = true;
+            this.textContent = 'Processando...';
+            
+            try {
+                const items = cart.map(item => ({
+                    title: item.name,
+                    unit_price: parseFloat(item.price),
+                    quantity: parseInt(item.quantity),
+                    currency_id: 'BRL'
+                }));
+                
+                const response = await fetch('/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items })
+                });
+                
+                const preference = await response.json();
+                
+                if (preference.id) {
+                    showCheckout(preference.id, cart);
+                } else {
+                    throw new Error('Erro ao criar preferência de pagamento');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro ao processar pagamento. Tente novamente.');
+            } finally {
+                this.disabled = false;
+                this.textContent = 'Finalizar Compra';
+            }
+        });
+        
+        function showCheckout(preferenceId, cart) {
+            // Hide cart and show checkout
+            document.querySelector('.content').style.display = 'none';
+            document.getElementById('checkout-container').style.display = 'block';
+            
+            // Update payment summary
+            updatePaymentSummary(cart);
+            
+            // Create Mercado Pago wallet
+            mp.bricks().create('wallet', 'wallet_container', {
+                initialization: {
+                    preferenceId: preferenceId
+                }
+            });
+        }
+        
+        function updatePaymentSummary(cart) {
+            const summary = document.getElementById('payment-summary');
+            let total = 0;
+            let html = '<h3>Resumo do Pedido</h3>';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                html += `<div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                    <span>${item.name} (${item.quantity}x)</span>
+                    <span>R$ ${itemTotal.toFixed(2).replace('.', ',')}</span>
+                </div>`;
+            });
+            
+            html += `<hr><div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2em;">
+                <span>Total:</span>
+                <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+            </div>`;
+            
+            summary.innerHTML = html;
+        }
+        
+        document.getElementById('back-to-cart').addEventListener('click', function() {
+            document.getElementById('checkout-container').style.display = 'none';
+            document.querySelector('.content').style.display = 'flex';
+        });
+        
+        function closeCheckoutModal() {
+            document.getElementById('checkoutLoginModal').style.display = 'none';
+        }
+        
         // Verificar login ao carregar a página do carrinho
         document.addEventListener('DOMContentLoaded', function() {
             const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));

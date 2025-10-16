@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <style>
         body {
             font-family: 'Proxima Nova', Arial, sans-serif;
@@ -616,6 +617,11 @@ img {
                 </a>
               </li>
                     <li><a href="/cadastro" id="become-seller-link">Seja um Vendedor</a></li>
+                    <li>
+                        <a href="/perfil" id="profile-icon-link" style="display: none;">
+                            <img id="header-profile-image" src="https://placehold.co/32x32/cccccc/333333?text=U" alt="Perfil" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                        </a>
+                    </li>
                     <li><a href="#" id="logout-btn" onclick="logout()">Sair</a></li>
                 </ul>
             </nav>
@@ -1164,6 +1170,8 @@ img {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
+    <script src="js/notify-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/navbar.js"></script>
     <script src="js/perfil.js"></script>
@@ -1231,7 +1239,7 @@ img {
                     const file = event.target.files[0];
                     if (file) {
                         if (file.size > 2 * 1024 * 1024) {
-                            alert('A imagem deve ter no máximo 2MB.');
+                            showError('A imagem deve ter no máximo 2MB.');
                             return;
                         }
                         
@@ -1275,13 +1283,13 @@ img {
                     syncProfileImages(base64Image);
                     
                     // Mostrar feedback
-                    showToast('Foto de perfil atualizada com sucesso!', 'success');
+                    showSuccess('Foto de perfil atualizada com sucesso!');
                 } else {
-                    showToast('Erro ao salvar foto de perfil', 'error');
+                    showError('Erro ao salvar foto de perfil');
                 }
             } catch (error) {
                 console.error('Erro ao salvar imagem:', error);
-                showToast('Erro ao salvar foto de perfil', 'error');
+                showError('Erro ao salvar foto de perfil');
             }
         }
         
@@ -1291,6 +1299,12 @@ img {
             
             if (userProfileImage && imageUrl) userProfileImage.src = imageUrl;
             if (headerProfileImage && imageUrl) headerProfileImage.src = imageUrl;
+            
+            // Atualizar todas as imagens de perfil na página
+            const allProfileImages = document.querySelectorAll('[id*="profile-image"], [class*="profile-image"]');
+            allProfileImages.forEach(img => {
+                if (imageUrl) img.src = imageUrl;
+            });
             
             // Atualizar ícone do header se a função existir
             if (typeof window.updateProfileIcon === 'function') {
@@ -1598,7 +1612,7 @@ img {
             saveBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Aqui você faria a chamada para salvar os dados
-                alert('Dados salvos com sucesso!');
+                showSuccess('Dados salvos com sucesso!');
                 
                 // Tornar campos readonly novamente
                 inputs.forEach(input => {
@@ -1819,14 +1833,21 @@ img {
         async function loadSellerProducts() {
             try {
                 const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                console.log('loadSellerProducts - loggedUser:', loggedUser);
+                
                 if (!loggedUser || (!loggedUser.sellerId && !loggedUser.id)) {
                     document.getElementById('seller-products-grid').innerHTML = '<p>Faça login como vendedor para ver seus produtos.</p>';
                     return;
                 }
                 
                 const sellerId = loggedUser.sellerId || loggedUser.id;
+                console.log('loadSellerProducts - sellerId:', sellerId);
+                
                 const response = await fetch(`/api/products?seller_id=${sellerId}`);
+                console.log('loadSellerProducts - response status:', response.status);
+                
                 const result = await response.json();
+                console.log('loadSellerProducts - result:', result);
                 
                 if (result.success && result.products.length > 0) {
                     const grid = document.getElementById('seller-products-grid');
@@ -1897,14 +1918,14 @@ img {
                     <button class="btn btn-secondary" onclick="removeCard(this)" style="background: #dc3545; color: white;"><i class="fas fa-trash"></i></button>
                 `;
                 cardsList.appendChild(newCard);
-                alert('Cartão adicionado com sucesso!');
+                showSuccess('Cartão adicionado com sucesso!');
             }
         }
         
         function removeCard(button) {
             if (confirm('Deseja remover este cartão?')) {
                 button.closest('.card-item').remove();
-                alert('Cartão removido com sucesso!');
+                showSuccess('Cartão removido com sucesso!');
             }
         }
         
@@ -1918,7 +1939,7 @@ img {
                 document.getElementById('add-pix-btn').style.display = 'none';
                 document.getElementById('edit-pix-btn').style.display = 'inline-block';
                 document.getElementById('remove-pix-btn').style.display = 'inline-block';
-                alert('Chave PIX adicionada com sucesso!');
+                showSuccess('Chave PIX adicionada com sucesso!');
             }
         }
         
@@ -1928,7 +1949,7 @@ img {
             
             if (newPix && newPix.trim() && newPix !== currentPix) {
                 document.getElementById('cards-pix').value = newPix.trim();
-                alert('Chave PIX atualizada com sucesso!');
+                showSuccess('Chave PIX atualizada com sucesso!');
             }
         }
         
@@ -1940,7 +1961,7 @@ img {
                 document.getElementById('add-pix-btn').style.display = 'inline-block';
                 document.getElementById('edit-pix-btn').style.display = 'none';
                 document.getElementById('remove-pix-btn').style.display = 'none';
-                alert('Chave PIX removida com sucesso!');
+                showSuccess('Chave PIX removida com sucesso!');
             }
         }
         
@@ -2266,11 +2287,11 @@ img {
         function confirmDeleteAccount() {
             if (confirm('Tem certeza que deseja excluir sua conta?\n\nEsta ação é irreversível e todos os seus dados serão perdidos.')) {
                 if (confirm('Digite "EXCLUIR" para confirmar:') === 'EXCLUIR') {
-                    alert('Conta excluída com sucesso!');
+                    showSuccess('Conta excluída com sucesso!');
                     localStorage.removeItem('loggedUser');
                     window.location.href = '/';
                 } else {
-                    alert('Exclusão cancelada.');
+                    showInfo('Exclusão cancelada.');
                 }
             }
         }

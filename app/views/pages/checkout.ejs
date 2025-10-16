@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <style>
         body { padding-top: 120px; background: #f5f5f5; }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
@@ -21,11 +22,7 @@
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .form-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; }
-        .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
-        .payment-method { border: 2px solid #ddd; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .payment-method:hover { border-color: #3D5A80; }
-        .payment-method.selected { border-color: #3D5A80; background: #f8f9fa; }
-        .payment-method i { font-size: 2rem; margin-bottom: 10px; color: #3D5A80; }
+
         .order-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
         .item-image { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
         .item-info { flex: 1; }
@@ -45,7 +42,7 @@
         @media (max-width: 768px) {
             .checkout-content { grid-template-columns: 1fr; }
             .form-row, .form-row-3 { grid-template-columns: 1fr; }
-            .payment-methods { grid-template-columns: 1fr; }
+
         }
     </style>
 </head>
@@ -74,16 +71,11 @@
                     <section class="form-section">
                         <h3><i class="fas fa-map-marker-alt"></i> Endereço de Entrega</h3>
                         
-                        <section class="address-options">
-                            <article class="address-option selected" data-address="saved">
-                                <h4>Endereço Principal</h4>
-                                <p>Rua das Flores, 123 - Jardim Primavera<br>
-                                São Paulo, SP - 01234-567</p>
-                            </article>
-                            
-                            <article class="address-option" data-address="new">
-                                <h4><i class="fas fa-plus"></i> Usar outro endereço</h4>
-                                <p>Cadastrar um novo endereço de entrega</p>
+                        <section class="address-options" id="address-options">
+                            <!-- Endereço será carregado aqui -->
+                            <article class="address-option" data-address="edit">
+                                <h4><i class="fas fa-edit"></i> Editar endereço</h4>
+                                <p>Atualizar seu endereço de entrega</p>
                             </article>
                         </section>
 
@@ -91,7 +83,7 @@
                             <section class="form-row">
                                 <section class="form-group">
                                     <label for="cep">CEP</label>
-                                    <input type="text" id="cep" name="cep" maxlength="10">
+                                    <input type="text" id="cep" name="cep" maxlength="9" placeholder="00000-000">
                                 </section>
                                 <section class="form-group">
                                     <label for="numero">Número</label>
@@ -100,65 +92,27 @@
                             </section>
                             <section class="form-group">
                                 <label for="logradouro">Logradouro</label>
-                                <input type="text" id="logradouro" name="logradouro">
+                                <input type="text" id="logradouro" name="logradouro" readonly>
                             </section>
                             <section class="form-row">
                                 <section class="form-group">
                                     <label for="bairro">Bairro</label>
-                                    <input type="text" id="bairro" name="bairro">
+                                    <input type="text" id="bairro" name="bairro" readonly>
                                 </section>
                                 <section class="form-group">
                                     <label for="cidade">Cidade</label>
-                                    <input type="text" id="cidade" name="cidade">
+                                    <input type="text" id="cidade" name="cidade" readonly>
                                 </section>
                             </section>
-                        </section>
-                    </section>
-
-                    <section class="form-section">
-                        <h3><i class="fas fa-credit-card"></i> Forma de Pagamento</h3>
-                        
-                        <section class="payment-methods">
-                            <article class="payment-method selected" data-method="pix">
-                                <i class="fas fa-qrcode"></i>
-                                <h4>PIX</h4>
-                                <p>Pagamento instantâneo</p>
-                            </article>
-                            
-                            <article class="payment-method" data-method="cartao">
-                                <i class="fas fa-credit-card"></i>
-                                <h4>Cartão</h4>
-                                <p>Crédito ou Débito</p>
-                            </article>
-                            
-                            <article class="payment-method" data-method="boleto">
-                                <i class="fas fa-barcode"></i>
-                                <h4>Boleto</h4>
-                                <p>Vencimento em 3 dias</p>
-                            </article>
-                        </section>
-
-                        <section id="card-details" style="display: none; margin-top: 20px;">
                             <section class="form-group">
-                                <label for="card-number">Número do Cartão</label>
-                                <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+                                <label for="uf">UF</label>
+                                <input type="text" id="uf" name="uf" readonly maxlength="2">
                             </section>
-                            <section class="form-row-3">
-                                <section class="form-group">
-                                    <label for="card-name">Nome no Cartão</label>
-                                    <input type="text" id="card-name" placeholder="Nome como no cartão">
-                                </section>
-                                <section class="form-group">
-                                    <label for="card-expiry">Validade</label>
-                                    <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5">
-                                </section>
-                                <section class="form-group">
-                                    <label for="card-cvv">CVV</label>
-                                    <input type="text" id="card-cvv" placeholder="123" maxlength="4">
-                                </section>
-                            </section>
+                            <button type="button" id="save-address-btn" class="btn" style="margin-top: 15px;">Atualizar Endereço</button>
                         </section>
                     </section>
+
+
 
                     <button type="submit" class="btn" id="place-order-btn">
                         <i class="fas fa-check"></i> Finalizar Pedido
@@ -202,14 +156,20 @@
         </section>
     </main>
 
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
+        const mp = new MercadoPago('APP_USR-adf57951-d1a6-40b1-9808-d922808b443e', {
+            locale: 'pt-BR'
+        });
+        
         document.addEventListener('DOMContentLoaded', function() {
             loadOrderSummary();
+            loadUserAddresses();
             setupEventListeners();
         });
 
         function loadOrderSummary() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinho') || '[]');
+            const carrinho = JSON.parse(localStorage.getItem('cart') || '[]');
             const orderItems = document.getElementById('order-items');
             
             if (carrinho.length === 0) {
@@ -219,71 +179,177 @@
 
             orderItems.innerHTML = carrinho.map(item => `
                 <article class="order-item">
-                    <img src="${item.imagem || 'https://placehold.co/60x60/cccccc/333333?text=Produto'}" 
-                         alt="${item.nome}" class="item-image">
+                    <img src="${item.image || 'https://placehold.co/60x60/cccccc/333333?text=Produto'}" 
+                         alt="${item.name}" class="item-image">
                     <section class="item-info">
-                        <p class="item-name">${item.nome}</p>
-                        <p class="item-details">Qtd: ${item.quantidade} × R$ ${item.preco.toFixed(2).replace('.', ',')}</p>
+                        <p class="item-name">${item.name}</p>
+                        <p class="item-details">Qtd: ${item.quantity} × R$ ${item.price.toFixed(2).replace('.', ',')}</p>
                     </section>
                 </article>
             `).join('');
 
-            const subtotal = carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+            const subtotal = carrinho.reduce((total, item) => total + (item.price * item.quantity), 0);
             document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
             document.getElementById('total').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
         }
 
+        async function loadUserAddresses() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            if (!loggedUser) return;
+            
+            try {
+                const response = await fetch(`/api/addresses/${loggedUser.id}`);
+                const addresses = await response.json();
+                
+                const addressOptions = document.getElementById('address-options');
+                const newAddressOption = addressOptions.querySelector('[data-address="edit"]').cloneNode(true);
+                
+                // Limpar endereços existentes
+                addressOptions.innerHTML = '';
+                
+                // Verificar se addresses é um array
+                if (Array.isArray(addresses) && addresses.length > 0) {
+                    const address = addresses[0];
+                    const addressDiv = document.createElement('article');
+                    addressDiv.className = 'address-option selected';
+                    addressDiv.dataset.addressId = address.ID_ENDERECO;
+                    addressDiv.innerHTML = `
+                        <h4>Endereço Principal</h4>
+                        <p>${address.LOGRADOURO}, ${address.NUMERO || 'S/N'} - ${address.BAIRRO}<br>
+                        ${address.CIDADE}, ${address.UF} - ${address.CEP}</p>
+                    `;
+                    addressOptions.appendChild(addressDiv);
+                }
+                
+                // Adicionar opção de editar endereço
+                addressOptions.appendChild(newAddressOption);
+                
+                setupAddressListeners();
+            } catch (error) {
+                console.error('Erro ao carregar endereços:', error);
+                // Manter apenas a opção de novo endereço
+                const addressOptions = document.getElementById('address-options');
+                const newAddressOption = addressOptions.querySelector('[data-address="new"]');
+                if (newAddressOption) {
+                    addressOptions.innerHTML = '';
+                    addressOptions.appendChild(newAddressOption);
+                    setupAddressListeners();
+                }
+            }
+        }
+        
         function setupEventListeners() {
-            // Seleção de endereço
-            document.querySelectorAll('.address-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.address-option').forEach(o => o.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    const newAddressForm = document.getElementById('new-address');
-                    if (this.dataset.address === 'new') {
-                        newAddressForm.classList.add('show');
-                    } else {
-                        newAddressForm.classList.remove('show');
+            // CEP lookup
+            document.getElementById('cep').addEventListener('blur', async function() {
+                const cep = this.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    try {
+                        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                        const data = await response.json();
+                        
+                        if (!data.erro) {
+                            document.getElementById('logradouro').value = data.logradouro;
+                            document.getElementById('bairro').value = data.bairro;
+                            document.getElementById('cidade').value = data.localidade;
+                            document.getElementById('uf').value = data.uf;
+                        } else {
+                            showError('CEP não encontrado');
+                        }
+                    } catch (error) {
+                        showError('Erro ao buscar CEP');
                     }
-                });
+                }
             });
-
-            // Seleção de método de pagamento
-            document.querySelectorAll('.payment-method').forEach(method => {
-                method.addEventListener('click', function() {
-                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                    this.classList.add('selected');
-                    
-                    const cardDetails = document.getElementById('card-details');
-                    if (this.dataset.method === 'cartao') {
-                        cardDetails.style.display = 'block';
-                    } else {
-                        cardDetails.style.display = 'none';
-                    }
-                });
-            });
-
-            // Formatação de campos
-            document.getElementById('card-number')?.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
-                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-                e.target.value = formattedValue;
-            });
-
-            document.getElementById('card-expiry')?.addEventListener('input', function(e) {
+            
+            // Formatar CEP
+            document.getElementById('cep').addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\D/g, '');
-                if (value.length >= 2) {
-                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5, 8);
                 }
                 e.target.value = value;
             });
+            
+            // Salvar endereço
+            document.getElementById('save-address-btn').addEventListener('click', saveAddress);
+            
+            setupAddressListeners();
+
+
 
             // Submit do formulário
             document.getElementById('checkout-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 processOrder();
             });
+        }
+        
+        function setupAddressListeners() {
+            document.querySelectorAll('.address-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.address-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const newAddressForm = document.getElementById('new-address');
+                    if (this.dataset.address === 'edit') {
+                        newAddressForm.classList.add('show');
+                    } else {
+                        newAddressForm.classList.remove('show');
+                    }
+                });
+            });
+        }
+        
+        async function saveAddress() {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+            if (!loggedUser) {
+                showError('Usuário não logado');
+                return;
+            }
+            
+            const addressData = {
+                userId: loggedUser.id,
+                cep: document.getElementById('cep').value.replace(/\D/g, ''),
+                logradouro: document.getElementById('logradouro').value,
+                numero: document.getElementById('numero').value,
+                bairro: document.getElementById('bairro').value,
+                cidade: document.getElementById('cidade').value,
+                uf: document.getElementById('uf').value
+            };
+            
+            if (!addressData.cep || !addressData.numero || !addressData.logradouro) {
+                showError('Preencha todos os campos obrigatórios');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/addresses', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(addressData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess('Endereço atualizado com sucesso!');
+                    document.getElementById('new-address').classList.remove('show');
+                    // Limpar formulário
+                    document.getElementById('cep').value = '';
+                    document.getElementById('numero').value = '';
+                    document.getElementById('logradouro').value = '';
+                    document.getElementById('bairro').value = '';
+                    document.getElementById('cidade').value = '';
+                    document.getElementById('uf').value = '';
+                    // Recarregar endereço
+                    loadUserAddresses();
+                } else {
+                    showError('Erro ao atualizar endereço');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro ao atualizar endereço');
+            }
         }
 
         async function processOrder() {
@@ -292,17 +358,34 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
 
             try {
-                // Simular processamento do pedido
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
                 
-                // Limpar carrinho
-                localStorage.removeItem('carrinho');
+                const items = cart.map(item => ({
+                    title: item.name,
+                    unit_price: parseFloat(item.price),
+                    quantity: parseInt(item.quantity),
+                    currency_id: 'BRL'
+                }));
                 
-                // Redirecionar para página de sucesso
-                window.location.href = '/pedido-confirmado';
+                const response = await fetch('/create-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items })
+                });
+                
+                const preference = await response.json();
+                
+                if (preference.id) {
+                    // Redirecionar para o Mercado Pago
+                    window.location.href = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preference.id}`;
+                } else {
+                    throw new Error('Erro ao criar preferência de pagamento');
+                }
                 
             } catch (error) {
-                alert('Erro ao processar pedido. Tente novamente.');
+                console.error('Erro:', error);
+                showError('Erro ao processar pedido. Tente novamente.');
+            } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-check"></i> Finalizar Pedido';
             }
@@ -313,5 +396,7 @@
             window.location.href = '/login';
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
+    <script src="js/notify-config.js"></script>
 </body>
 </html>

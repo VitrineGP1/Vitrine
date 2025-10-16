@@ -3,6 +3,7 @@ var router = express.Router();
 
 // Usar o pool centralizado
 const pool = require('../../config/pool-conexoes');
+const fetch = require('node-fetch');
 
 
 router.get("/", async function (req, res) {
@@ -39,6 +40,12 @@ router.get("/home-carrinho", function (req, res) {
 router.get("/carrinho", function (req, res) {
     res.render("pages/carrinho", )
 });
+
+router.get("/checkout", function (req, res) {
+    res.render("pages/checkout", )
+});
+
+
 
 router.get("/carrinho-vazio", function (req, res) {
     res.render("pages/carrinho-vazio", )

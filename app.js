@@ -4,15 +4,13 @@ const express = require("express");
 const app = express();
 const path = require('path');
 
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 3001;
 
 // Middlewares
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// CORS middleware
-const corsMiddleware = require('./app/middleware/cors');
-app.use(corsMiddleware);
+
 
 // Pool de conexões
 const pool = require('./config/pool-conexoes');
@@ -63,6 +61,25 @@ app.get('/api/buscar_usuario', (req, res) => userController.getUser(req, res));
 
 app.put('/api/atualizar_usuario', (req, res) => userController.updateUser(req, res));
 
+app.put('/api/update-profile-image', async (req, res) => {
+    const { userId, imageBase64 } = req.body;
+    if (!userId || !imageBase64) {
+        return res.status(400).json({ success: false, message: 'ID do usuário e imagem são obrigatórios' });
+    }
+    try {
+        const connection = await pool.getConnection();
+        await connection.execute(
+            'UPDATE USUARIOS SET IMAGEM_PERFIL_BASE64 = ? WHERE ID_USUARIO = ?',
+            [imageBase64, userId]
+        );
+        connection.release();
+        res.json({ success: true, message: 'Foto de perfil atualizada com sucesso' });
+    } catch (error) {
+        console.error('Erro ao atualizar foto de perfil:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 app.post('/api/products', (req, res) => productController.createProduct(req, res));
 
 app.get('/api/products', (req, res) => productController.getProducts(req, res));
@@ -100,8 +117,134 @@ app.get('/meus-pedidos', (req, res) => {
 app.get('/api/admin/product-details/:id', (req, res) => productController.getProductDetails(req, res));
 app.delete('/api/admin/products/:id', (req, res) => adminController.deleteProduct(req, res));
 
+// Rotas de endereços
+app.get('/api/addresses/:userId', async (req, res) => {
+    const { userId } = req.params;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const [user] = await connection.execute(
+            'SELECT LOGRADOURO_USUARIO, NUMERO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO, CEP_USUARIO FROM USUARIOS WHERE ID_USUARIO = ?',
+            [userId]
+        );
+        
+        if (user.length > 0) {
+            const address = {
+                ID_ENDERECO: 1,
+                LOGRADOURO: user[0].LOGRADOURO_USUARIO,
+                NUMERO: user[0].NUMERO_USUARIO || '',
+                BAIRRO: user[0].BAIRRO_USUARIO,
+                CIDADE: user[0].CIDADE_USUARIO,
+                UF: user[0].UF_USUARIO,
+                CEP: user[0].CEP_USUARIO
+            };
+            res.json([address]);
+        } else {
+            res.json([]);
+        }
+    } catch (error) {
+        console.error('Erro ao buscar endereço:', error);
+        res.json([]);
+    } finally {
+        if (connection) connection.release();
+    }
+});
 
+app.post('/api/addresses', async (req, res) => {
+    const { userId, cep, logradouro, numero, bairro, cidade, uf } = req.body;
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        await connection.execute(
+            'UPDATE USUARIOS SET CEP_USUARIO = ?, LOGRADOURO_USUARIO = ?, NUMERO_USUARIO = ?, BAIRRO_USUARIO = ?, CIDADE_USUARIO = ?, UF_USUARIO = ? WHERE ID_USUARIO = ?',
+            [cep, logradouro, numero, bairro, cidade, uf, userId]
+        );
+        res.json({ success: true, message: 'Endereço atualizado com sucesso' });
+    } catch (error) {
+        console.error('Erro ao atualizar endereço:', error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    } finally {
+        if (connection) connection.release();
+    }
+});
+
+// Mercado Pago Checkout Pro
+app.post('/create-preference', async (req, res) => {
+    const { MercadoPagoConfig, Preference } = require('mercadopago');
+
+    console.log('Creating Mercado Pago preference...');
+    console.log('Access Token exists:', !!process.env.MERCADO_PAGO_ACCESS_TOKEN);
+    console.log('Request body:', req.body);
+
+    // Check if access token is configured
+    if (!process.env.MERCADO_PAGO_ACCESS_TOKEN) {
+        console.error('MERCADO_PAGO_ACCESS_TOKEN not found in environment variables');
+        return res.status(500).json({ error: 'Configuração de pagamento não encontrada' });
+    }
+
+    try {
+        const client = new MercadoPagoConfig({
+            accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN
+        });
+        const preference = new Preference(client);
+
+        const { items } = req.body;
+
+        // Validate items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            console.error('Invalid items:', items);
+            return res.status(400).json({ error: 'Itens do carrinho inválidos' });
+        }
+
+        // Validate each item
+        for (const item of items) {
+            if (!item.title || typeof item.unit_price !== 'number' || item.unit_price <= 0 ||
+                typeof item.quantity !== 'number' || item.quantity <= 0 || !item.currency_id) {
+                console.error('Invalid item:', item);
+                return res.status(400).json({ error: 'Item inválido no carrinho' });
+            }
+        }
+
+        const preferenceData = {
+            items: items,
+            back_urls: {
+                success: `${req.protocol}://${req.get('host')}/payment/success`,
+                failure: `${req.protocol}://${req.get('host')}/payment/failure`,
+                pending: `${req.protocol}://${req.get('host')}/payment/pending`
+            }
+        };
+
+        console.log('Preference data:', preferenceData);
+
+        const result = await preference.create({ body: preferenceData });
+        console.log('Preference created:', result.id);
+        res.json({ id: result.id });
+    } catch (error) {
+        console.error('Erro ao criar preferência:', error.message);
+        console.error('Full error details:', error);
+        if (error.response) {
+            console.error('MercadoPago API response:', error.response.data);
+        }
+        res.status(500).json({ error: 'Erro ao processar pagamento' });
+    }
+});
+
+
+
+// Payment result pages
+app.get('/payment/success', (req, res) => {
+    res.render('pages/payment-success');
+});
+
+app.get('/payment/failure', (req, res) => {
+    res.render('pages/payment-failure');
+});
+
+app.get('/payment/pending', (req, res) => {
+    res.render('pages/payment-pending');
+});
 
 app.listen(port, () => {
     console.log(`Servidor Node.js ouvindo na porta ${port}\nhttp://localhost:${port}`);
+    console.log(`NODE_ENV: ${process.env.NODE_ENV || 'development'}`);
 });
