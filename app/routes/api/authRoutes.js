@@ -78,15 +78,6 @@ module.exports = (pool) => {
                         cleanCep || '00000000'
                     ]
                 );
-            } else if (TIPO_USUARIO === 'buyer') {
-                // Para compradores, CPF é opcional no cadastro inicial
-                if (CPF_CLIENTE) {
-                    await connection.execute(
-                        `INSERT INTO CLIENTES (ID_USUARIO, CPF_CLIENTE)
-                         VALUES (?, ?)`,
-                        [newUserId, CPF_CLIENTE.replace(/\D/g, '')]
-                    );
-                }
             }
 
             await connection.commit();

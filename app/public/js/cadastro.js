@@ -385,9 +385,11 @@ document.addEventListener('DOMContentLoaded', () => {
             UF_USUARIO: UF_USUARIO || null,
             CEP_USUARIO: CEP_USUARIO || null,
             DT_NASC_USUARIO: DT_NASC_USUARIO || null,
-            TIPO_USUARIO, // ✅ SEMPRE 'C' PARA CLIENTE
+            TIPO_USUARIO: 'buyer', // ✅ SEMPRE 'buyer' PARA CLIENTE
             CPF_CLIENTE   // ✅ CPF DO FORMULÁRIO
         };
+
+        console.log('Dados enviados:', userData);
 
         try {
             // ✅ USA A ROTA ÚNICA
