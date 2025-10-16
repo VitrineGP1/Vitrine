@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para mostrar erro com simply-notify
     function showFieldError(fieldName, message) {
-        showError(message);
+        simplyNotify.error(message, `Erro no campo ${fieldName}`);
     }
 
     // Função para limpar estilos de erro
@@ -309,10 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostrar também na notificação fixa
         if (type === 'success') {
             showFixedNotification('Sucesso!', message, 'success');
-            showSuccess(message);
+            simplyNotify.success(message);
         } else {
             showFixedNotification('Erro', message, 'error');
-            showError(message);
+            simplyNotify.error(message);
         }
         
         setTimeout(() => {
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!isValid) {
                 showFixedNotification('Erro no Formulário', 'Por favor, corrija os erros destacados nos campos', 'error');
-                showError('Por favor, corrija os erros destacados nos campos');
+                simplyNotify.error('Por favor, corrija os erros destacados nos campos', 'Erro no Formulário');
                 return;
             }
 
@@ -542,38 +542,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
-
-// Menu mobile (mantido do código original)
-document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        // Alternar menu mobile
-        mobileMenuBtn.addEventListener('click', function() {
-            if (mobileMenu.style.display === 'flex') {
-                mobileMenu.style.display = 'none';
-            } else {
-                mobileMenu.style.display = 'flex';
-            }
-        });
-        
-        // Fechar menu ao clicar em um link (em dispositivos móveis)
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenu.style.display = 'none';
-            });
-        });
-    }
-    
-    // Adicionar efeito de clique nos botões de login
-    const loginButtons = document.querySelectorAll('.login-btn');
-    loginButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            console.log('Redirecionando para login...');
-            // Aqui você adicionaria a lógica de redirecionamento
-        });
-    });
 });

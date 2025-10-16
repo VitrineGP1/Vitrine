@@ -28,7 +28,13 @@ class AdminController {
             connection = await this.pool.getConnection();
             await connection.beginTransaction();
             
+            // Deletar produtos usando múltiplas estratégias
             await connection.execute('DELETE FROM PRODUTOS WHERE ID_VENDEDOR = ?', [userId]);
+            await connection.execute(
+                'DELETE p FROM PRODUTOS p INNER JOIN VENDEDORES v ON v.ID_VENDEDOR = p.ID_VENDEDOR WHERE v.ID_USUARIO = ?', 
+                [userId]
+            );
+            
             await connection.execute('DELETE FROM VENDEDORES WHERE ID_USUARIO = ?', [userId]);
             await connection.execute('DELETE FROM CLIENTES WHERE ID_USUARIO = ?', [userId]);
             await connection.execute('DELETE FROM ADMINISTRADORES WHERE ID_USUARIO = ?', [userId]);
@@ -73,22 +79,16 @@ class AdminController {
             
             let products = [];
             if (user.TIPO_USUARIO === 'V') {
-                // Buscar o ID_VENDEDOR na tabela VENDEDORES usando o ID_USUARIO
-                const [vendedorRows] = await connection.execute(
-                    `SELECT ID_VENDEDOR FROM VENDEDORES WHERE ID_USUARIO = ?`,
-                    [userId]
+                // Buscar produtos usando múltiplas estratégias para garantir compatibilidade
+                const [productRows] = await connection.execute(
+                    `SELECT DISTINCT p.ID_PROD, p.NOME_PROD, p.VALOR_UNITARIO, p.IMAGEM_BASE64, p.DATA_CADASTRO 
+                     FROM PRODUTOS p 
+                     LEFT JOIN VENDEDORES v ON v.ID_VENDEDOR = p.ID_VENDEDOR
+                     WHERE p.ID_VENDEDOR = ? OR v.ID_USUARIO = ? 
+                     ORDER BY p.DATA_CADASTRO DESC`,
+                    [userId, userId]
                 );
-                
-                if (vendedorRows.length > 0) {
-                    const vendedorId = vendedorRows[0].ID_VENDEDOR;
-                    
-                    const [productRows] = await connection.execute(
-                        `SELECT ID_PROD, NOME_PROD, VALOR_UNITARIO, IMAGEM_BASE64, DATA_CADASTRO 
-                         FROM PRODUTOS WHERE ID_VENDEDOR = ? ORDER BY DATA_CADASTRO DESC`,
-                        [vendedorId]
-                    );
-                    products = productRows;
-                }
+                products = productRows;
             }
             
             const totalProducts = products.length;

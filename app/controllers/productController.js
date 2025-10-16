@@ -4,53 +4,32 @@ class ProductController {
     }
 
     async createProduct(req, res) {
-        console.log('=== CREATE PRODUCT ===');
-        console.log('Request body:', req.body);
-        
         const {
             NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64, ID_CATEGORIA, ID_VENDEDOR,
             SUBCATEGORIA, TAMANHO, QUANTIDADE, BUSTO_P, COMP_P, BUSTO_M, COMP_M, BUSTO_G, COMP_G
         } = req.body;
 
-        console.log('Extracted values:', {
-            NOME_PROD, VALOR_UNITARIO, ID_VENDEDOR, QUANTIDADE
-        });
-
-        if (!NOME_PROD || !DESCRICAO_PROD || !VALOR_UNITARIO || !ID_VENDEDOR || !QUANTIDADE) {
-            console.log('Validation failed: missing required fields');
-            return res.status(400).json({ success: false, message: "Nome, descrição, valor unitário, ID do vendedor e quantidade são obrigatórios." });
+        if (!NOME_PROD || !VALOR_UNITARIO || !ID_VENDEDOR || !QUANTIDADE) {
+            return res.status(400).json({ success: false, message: "Nome, valor unitário, ID do vendedor e quantidade são obrigatórios." });
         }
         if (isNaN(VALOR_UNITARIO) || parseFloat(VALOR_UNITARIO) <= 0) {
-            console.log('Validation failed: invalid price');
             return res.status(400).json({ success: false, message: "O valor do produto deve ser maior que zero." });
         }
 
         let connection;
         try {
             connection = await this.pool.getConnection();
-            console.log('Database connection obtained');
-            
-            const values = [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250) || null, VALOR_UNITARIO, IMAGEM_URL || null, IMAGEM_BASE64 || null, ID_CATEGORIA || null, ID_VENDEDOR,
-                 SUBCATEGORIA || null, TAMANHO || null, QUANTIDADE, BUSTO_P || null, COMP_P || null, BUSTO_M || null, COMP_M || null, BUSTO_G || null, COMP_G || null];
-            
-            console.log('SQL values:', values);
-            
-            // O constraint fk_vendedor referencia USUARIOS.ID_USUARIO, então usar ID_VENDEDOR diretamente
             const [result] = await connection.execute(
-                `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_BASE64, ID_VENDEDOR, QUANTIDADE)
-                 VALUES (?, ?, ?, ?, ?, ?)`,
-                [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250), VALOR_UNITARIO, IMAGEM_BASE64 || null, ID_VENDEDOR, QUANTIDADE]
+                `INSERT INTO PRODUTOS (NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64, ID_CATEGORIA, ID_VENDEDOR,
+                                       SUBCATEGORIA, TAMANHO, QUANTIDADE, BUSTO_P, COMP_P, BUSTO_M, COMP_M, BUSTO_G, COMP_G)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [NOME_PROD, (DESCRICAO_PROD || '').substring(0, 250) || null, VALOR_UNITARIO, IMAGEM_URL || null, IMAGEM_BASE64 || null, ID_CATEGORIA || null, ID_VENDEDOR,
+                 SUBCATEGORIA || null, TAMANHO || null, QUANTIDADE, BUSTO_P || null, COMP_P || null, BUSTO_M || null, COMP_M || null, BUSTO_G || null, COMP_G || null]
             );
-            
-            console.log('Product created successfully, ID:', result.insertId);
             res.status(201).json({ success: true, message: "Produto cadastrado com sucesso!", productId: result.insertId });
 
         } catch (error) {
-            console.error('=== DATABASE ERROR ===');
-            console.error('Error code:', error.code);
-            console.error('Error message:', error.message);
-            console.error('SQL State:', error.sqlState);
-            console.error('Full error:', error);
+            console.error('Erro ao cadastrar produto:', error);
             res.status(500).json({ success: false, message: "Erro interno do servidor: " + error.message });
         } finally {
             if (connection) connection.release();
@@ -60,12 +39,15 @@ class ProductController {
     async getProducts(req, res) {
         const { seller_id } = req.query;
 
-        let sql = `SELECT ID_PROD, NOME_PROD, DESCRICAO_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64, ID_CATEGORIA, ID_VENDEDOR FROM PRODUTOS`;
+        let sql = `SELECT DISTINCT p.ID_PROD, p.NOME_PROD, p.DESCRICAO_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_CATEGORIA, p.ID_VENDEDOR, COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_LOJA 
+                   FROM PRODUTOS p 
+                   LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = p.ID_VENDEDOR 
+                   LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR`;
         let params = [];
 
         if (seller_id) {
-            sql += ` WHERE ID_VENDEDOR = ?`;
-            params.push(seller_id);
+            sql += ` WHERE (p.ID_VENDEDOR = ? OR v2.ID_USUARIO = ?)`;
+            params.push(seller_id, seller_id);
         }
 
         let connection;
@@ -180,12 +162,20 @@ class ProductController {
             
             const product = productRows[0];
             
+            // Buscar dados do vendedor usando múltiplas estratégias
             const [sellerRows] = await connection.execute(
-                `SELECT v.NOME_LOJA, u.EMAIL_USUARIO, u.CIDADE_USUARIO
-                 FROM VENDEDORES v
-                 JOIN USUARIOS u ON v.ID_USUARIO = u.ID_USUARIO
-                 WHERE v.ID_VENDEDOR = ?`,
-                [product.ID_VENDEDOR]
+                `SELECT 
+                    COALESCE(u1.NOME_USUARIO, u2.NOME_USUARIO) as NOME_USUARIO,
+                    COALESCE(u1.EMAIL_USUARIO, u2.EMAIL_USUARIO) as EMAIL_USUARIO,
+                    COALESCE(u1.CIDADE_USUARIO, u2.CIDADE_USUARIO) as CIDADE_USUARIO,
+                    COALESCE(v1.NOME_LOJA, v2.NOME_LOJA) as NOME_LOJA
+                 FROM PRODUTOS p
+                 LEFT JOIN USUARIOS u1 ON u1.ID_USUARIO = p.ID_VENDEDOR
+                 LEFT JOIN VENDEDORES v1 ON v1.ID_USUARIO = u1.ID_USUARIO
+                 LEFT JOIN VENDEDORES v2 ON v2.ID_VENDEDOR = p.ID_VENDEDOR
+                 LEFT JOIN USUARIOS u2 ON u2.ID_USUARIO = v2.ID_USUARIO
+                 WHERE p.ID_PROD = ?`,
+                [productId]
             );
             
             const seller = sellerRows.length > 0 ? sellerRows[0] : null;
@@ -208,12 +198,7 @@ class ProductController {
         let connection;
         try {
             connection = await this.pool.getConnection();
-            const [produtos] = await connection.execute(`
-                SELECT p.ID_PROD, p.NOME_PROD, p.VALOR_UNITARIO, p.IMAGEM_URL, p.IMAGEM_BASE64, p.ID_VENDEDOR,
-                       u.NOME_USUARIO as NOME_VENDEDOR, u.IMAGEM_PERFIL_BASE64 as VENDEDOR_IMAGEM
-                FROM PRODUTOS p
-                LEFT JOIN USUARIOS u ON p.ID_VENDEDOR = u.ID_USUARIO
-            `);
+            const [produtos] = await connection.execute('SELECT ID_PROD, NOME_PROD, VALOR_UNITARIO, IMAGEM_URL, IMAGEM_BASE64 FROM PRODUTOS');
             res.render('produtos', { produtos: produtos });
         } catch (error) {
             console.error('Erro ao buscar produtos para EJS:', error);

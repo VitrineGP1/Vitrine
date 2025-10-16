@@ -45,8 +45,6 @@ router.get("/checkout", function (req, res) {
     res.render("pages/checkout", )
 });
 
-
-
 router.get("/carrinho-vazio", function (req, res) {
     res.render("pages/carrinho-vazio", )
 });
@@ -55,9 +53,14 @@ router.get("/login", function (req, res) {
     res.render("pages/login", )
 });
 
-router.get("/cadastro", function (req, res) {
-    res.render("pages/cadastro", )
+router.get("/cadcliente", function (req, res) {
+    res.render("pages/cadcliente", )
 });
+
+router.get("/cadvendedor", function (req, res) {
+    res.render("pages/cadvendedor", )
+});
+
 
 router.get("/perfil", function (req, res) {
     res.render("pages/perfil", )

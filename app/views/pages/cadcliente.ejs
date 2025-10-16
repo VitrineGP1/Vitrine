@@ -6,43 +6,46 @@
     <title>Vitrine - Cadastro de Usuário</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <link rel="stylesheet" href="css/cadcliente.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
-    <script src="js/notify-config.js"></script>
     <script src="js/cadastro.js"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <img src="imagens/logo(2).png" alt="Logo" class="logo" width="70" height="70" link="/">
-                
-            
-            <ul>
-                <li><a href="/" class="active">Home</a></li>
-                <li><a href="#">Produtos</a></li>
-                <li><a href="#">Sobre Nós</a></li>
-            </ul>
-            
-            <span class="auth-buttons">
-                <button class="login-btn">
-                    <span>Login</span>
-                </button>
-            </span>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        </nav>
+    <header class="header" style="background: #713112;">
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
+
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
         
-        <ul class="mobile-menu" id="mobileMenu" style="display: none;">
-            <li><a href="#" class="active">Home</a></li>
-            <li><a href="#">Produtos</a></li>
-            <li><a href="#">Sobre Nós</a></li>
-            <li class="mobile-auth">
-                <button class="login-btn" style="width: 100%; justify-content: center;">
-                    <span class="user-icon">👤</span>
-                    <span>Login</span>
-                </button>
-            </li>
-        </ul>
-    </header>
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/login" id="login-link">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                <img id="header-profile-image" src="" alt="Perfil">
+              </a></li>
+              <li><a href="/cadvendedor" id="seller-link">Seja um Vendedor</a></li>
+            </ul>
+          </nav>
+        </header>
     <section class="intro">
         <h1>Criar Nova Conta</h1>
         <p>Preencha os dados abaixo para criar sua conta</p>
@@ -155,26 +158,10 @@
             </button>
             <section id="feedback-message" class="message" role="alert" aria-live="polite"></section>
         </form>
-        
-        <section class="seller-section">
-            <h3>💼 Quer vender seus produtos?</h3>
-            <p>Crie uma conta de vendedor e tenha acesso a recursos exclusivos!</p>
-            
-            <section class="seller-features">
-                <span class="seller-feature">📦 Gerenciar produtos</span>
-                <span class="seller-feature">📊 Dashboard de vendas</span>
-                <span class="seller-feature">💰 Recebimentos</span>
-                <span class="seller-feature">👥 Gestão de clientes</span>
-            </section>
-            
-            <button type="button" id="sellerBtn" class="btn-secondary" onclick="window.location.href='/cadvendedor';">
-                Quero ser Vendedor
-            </button>
-        </section>
     </main>
     
     <footer>
-        <p>Já tem uma conta? <a href="#">Faça login</a></p>
+        <p>Já tem uma conta? <a href="/login">Faça login</a></p>
     </footer>
 </body>
 </html>

@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= produto.NOME_PROD %> - Especificações do Produto | Vitrine</title>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
 </head>
     <style>
         element.style {
@@ -235,14 +234,13 @@ body {
             gap: 15px;
         }
         
-        .seller-profile-section {
+        .seller-main-info {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 15px;
         }
         
-        .seller-profile-image {
+        .user-profile-image {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -250,10 +248,8 @@ body {
             border: 2px solid #ddd;
         }
         
-        .seller-main-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+        .seller-text-info {
+            flex: 1;
         }
         .seller-name {
             font-size: 1.2rem;
@@ -710,6 +706,12 @@ body {
                 margin-top: 20px;
             }
             
+            .quantity-selection {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
             .seller-produtos-grid {
                 grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             }
@@ -740,6 +742,12 @@ body {
             
             .product-header img {
                 max-width: 250px;
+            }
+            
+            .quantity-selection {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             
             .quantity-controls {
@@ -859,23 +867,6 @@ body {
             display: flex;
             align-items: center;
             gap: 10px;
-            justify-content: flex-start;
-        }
-        
-        @media (max-width: 768px) {
-            .quantity-controls {
-                justify-content: center;
-            }
-            
-            .seller-profile-section {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .seller-profile-image {
-                align-self: center;
-            }
         }
         
         .qty-btn {
@@ -1097,7 +1088,7 @@ body {
                     <% } else if (produto.IMAGEM_URL) { %>
                         <img id="product-image" src="<%= produto.IMAGEM_URL %>" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
                     <% } else { %>
-                        <img id="product-image" src="/imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
+                        <img id="product-image" src="imagens/produto-default.jpg" alt="<%= produto.NOME_PROD %>" width="500" height="500"/>
                     <% } %>
                 </figure>
                 
@@ -1199,14 +1190,18 @@ body {
             <aside class="seller-info" aria-labelledby="seller-heading">
                 <h2 id="seller-heading">Informações do Vendedor</h2>
                 <section class="seller-details">
-                    <div class="seller-profile-section">
-                        <img id="seller-profile-image" class="seller-profile-image" src="https://placehold.co/60x60/cccccc/333333?text=L" alt="Foto do vendedor">
-                        <header class="seller-main-info">
+                    <header class="seller-main-info">
+                        <% if (produto.IMAGEM_PERFIL_BASE64) { %>
+                            <img src="<%= produto.IMAGEM_PERFIL_BASE64.startsWith('data:') ? produto.IMAGEM_PERFIL_BASE64 : 'data:image/jpeg;base64,' + produto.IMAGEM_PERFIL_BASE64 %>" alt="Foto da loja" class="user-profile-image">
+                        <% } else { %>
+                            <img src="https://placehold.co/60x60/cccccc/333333?text=<%= (produto.NOME_VENDEDOR || 'L').charAt(0) %>" alt="Foto da loja" class="user-profile-image">
+                        <% } %>
+                        <div class="seller-text-info">
                             <p class="seller-name"><%= produto.NOME_VENDEDOR || 'Loja Artesã' %></p>
                             <p class="seller-rating" role="img" aria-label="Avaliação do vendedor: 4.5 de 5 estrelas">Avaliação: ★★★★☆ (4.5)</p>
                             <p class="seller-items">Produtos disponíveis: <%= produto.TOTAL_PRODUTOS || '15' %> itens</p>
-                        </header>
-                    </div>
+                        </div>
+                    </header>
                     
                     <% if (produtosDaLoja && produtosDaLoja.length > 0) { %>
                     <section class="seller-produtos">
@@ -1220,7 +1215,7 @@ body {
                                         <% } else if (produtoLoja.IMAGEM_URL) { %>
                                             <img src="<%= produtoLoja.IMAGEM_URL %>" alt="<%= produtoLoja.NOME_PROD %>">
                                         <% } else { %>
-                                            <img src="/imagens/produto-default.jpg" alt="<%= produtoLoja.NOME_PROD %>">
+                                            <img src="imagens/produto-default.jpg" alt="<%= produtoLoja.NOME_PROD %>">
                                         <% } %>
                                         <figcaption class="seller-produto-info">
                                             <p class="seller-produto-nome"><%= produtoLoja.NOME_PROD %></p>
@@ -1291,7 +1286,7 @@ body {
                             <% } else if (outroProduto.IMAGEM_URL) { %>
                                 <img src="<%= outroProduto.IMAGEM_URL %>" class="imagem" width="250px" height="250px">
                             <% } else { %>
-                                <img src="/imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
+                                <img src="imagens/produto-default.jpg" class="imagem" width="250px" height="250px">
                             <% } %>
                             <figcaption>
                                 <h3 class="h1"><%= outroProduto.NOME_PROD %></h3>
@@ -1355,11 +1350,9 @@ body {
         </article>
     </dialog>
     
-    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
-    <script src="/js/notify-config.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/navbar.js"></script>
-    <script src="/js/prod.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/prod.js"></script>
     
     <script>
         // Funções do modal
@@ -1392,9 +1385,6 @@ body {
             const sellerLink = document.getElementById('seller-link');
             const headerProfileImage = document.getElementById('header-profile-image');
             
-            // Carregar imagem do vendedor
-            loadSellerProfileImage();
-            
             if (loggedUser) {
                 try {
                     const user = JSON.parse(loggedUser);
@@ -1403,9 +1393,9 @@ body {
                         if (loginLink) loginLink.style.display = 'none';
                         if (profileLink) profileLink.style.display = 'flex';
                         
-                        // Carregar imagem do perfil do banco de dados
+                        // Carregar imagem de perfil do banco de dados
                         if (headerProfileImage) {
-                            loadUserProfileImageFromDB(user.id, headerProfileImage, user.name);
+                            loadUserProfileImage(user.id, headerProfileImage);
                         }
                         
                         // Ocultar "Seja um Vendedor" se já for vendedor ou admin
@@ -1424,51 +1414,24 @@ body {
             if (profileLink) profileLink.style.display = 'none';
         });
         
-        // Função para carregar imagem do vendedor
-        async function loadSellerProfileImage() {
-            const sellerId = '<%= produto.ID_VENDEDOR %>';
-            const sellerProfileImage = document.getElementById('seller-profile-image');
-            const sellerName = '<%= produto.NOME_VENDEDOR || "Loja" %>';
-            
-            if (!sellerProfileImage || !sellerId) return;
-            
-            try {
-                const response = await fetch(`/api/user/${sellerId}`);
-                const result = await response.json();
-                
-                if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
-                    sellerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
-                } else {
-                    // Usar placeholder com inicial do nome da loja
-                    const firstLetter = sellerName.charAt(0).toUpperCase();
-                    sellerProfileImage.src = `https://placehold.co/60x60/cccccc/333333?text=${firstLetter}`;
-                }
-            } catch (error) {
-                console.error('Erro ao carregar imagem do vendedor:', error);
-                // Fallback para placeholder
-                const firstLetter = sellerName.charAt(0).toUpperCase();
-                sellerProfileImage.src = `https://placehold.co/60x60/cccccc/333333?text=${firstLetter}`;
-            }
-        }
-        
-        // Função para carregar imagem de perfil do usuário do banco de dados
-        async function loadUserProfileImageFromDB(userId, imageElement, userName) {
-            if (!imageElement) return;
-            
+        // Função para carregar imagem de perfil do banco
+        async function loadUserProfileImage(userId, headerProfileImage) {
             try {
                 const response = await fetch(`/api/user/${userId}`);
                 const result = await response.json();
                 
                 if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
-                    imageElement.src = result.user.IMAGEM_PERFIL_BASE64;
+                    headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
                 } else {
-                    const firstName = userName ? userName.split(' ')[0] : 'U';
-                    imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                    const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                    const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                    headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
                 }
             } catch (error) {
                 console.error('Erro ao carregar imagem de perfil:', error);
-                const firstName = userName ? userName.split(' ')[0] : 'U';
-                imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                const firstName = loggedUser.name ? loggedUser.name.split(' ')[0] : 'U';
+                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
             }
         }
         
@@ -1482,7 +1445,7 @@ body {
                         showLoginModal();
                         return;
                     }
-                    showSuccess('Avaliação enviada com sucesso!');
+                    alert('Avaliação enviada com sucesso!');
                 });
             }
         });

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Produto | Vitrine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
@@ -291,7 +290,8 @@
                     { value: 'sutia', text: 'Sutiã' },
                     { value: 'calcinha', text: 'Calcinha' },
                     { value: 'blusa', text: 'Blusa' },
-                    { value: 'calca', text: 'Calça' }
+                    { value: 'calca', text: 'Calça' },
+                    { value: 'vestidos', text: 'Vestidos' }
                 ]
             };
             
@@ -362,7 +362,7 @@
                 for (let field of requiredFields) {
                     if (!field.value.trim()) {
                         field.focus();
-                        showError('Por favor, preencha todos os campos obrigatórios.');
+                        showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
                         return false;
                     }
                 }
@@ -551,59 +551,19 @@
                     console.log('Response data:', result);
                     
                     if (result.success) {
-                        showSuccess('Produto criado com sucesso!');
+                        showMessage('Produto criado com sucesso!', 'success');
                         form.reset();
                         imagePreview.style.display = 'none';
                         setTimeout(() => window.location.href = '/perfil', 2000);
                     } else {
-                        const friendlyMessage = getFriendlyErrorMessage(result.message);
-                        showError(friendlyMessage);
+                        showMessage(result.message || 'Erro ao criar produto', 'error');
                     }
                 } catch (error) {
                     console.error('Erro ao enviar produto:', error);
-                    showError('Erro de conexão');
+                    showMessage('Erro de conexão', 'error');
                 }
             }
 
-            function getFriendlyErrorMessage(technicalMessage) {
-                if (!technicalMessage) return 'Ops! Algo deu errado. Tente novamente.';
-                
-                const message = technicalMessage.toLowerCase();
-                
-                if (message.includes('nome') && message.includes('obrigatório')) {
-                    return 'Por favor, digite o nome do produto.';
-                }
-                if (message.includes('descrição') && message.includes('obrigatório')) {
-                    return 'Por favor, adicione uma descrição para o produto.';
-                }
-                if (message.includes('valor') && message.includes('obrigatório')) {
-                    return 'Por favor, informe o preço do produto.';
-                }
-                if (message.includes('quantidade') && message.includes('obrigatório')) {
-                    return 'Por favor, informe quantos produtos você tem em estoque.';
-                }
-                if (message.includes('vendedor') && message.includes('obrigatório')) {
-                    return 'Erro de identificação. Faça login novamente.';
-                }
-                if (message.includes('valor') && message.includes('maior que zero')) {
-                    return 'O preço deve ser maior que zero.';
-                }
-                if (message.includes('duplicate') || message.includes('duplicado')) {
-                    return 'Já existe um produto com essas informações.';
-                }
-                if (message.includes('connection') || message.includes('conexão')) {
-                    return 'Problema de conexão. Verifique sua internet e tente novamente.';
-                }
-                if (message.includes('timeout')) {
-                    return 'A operação demorou muito. Tente novamente.';
-                }
-                if (message.includes('server') || message.includes('servidor')) {
-                    return 'Nosso sistema está temporariamente indisponível. Tente novamente em alguns minutos.';
-                }
-                
-                return 'Ops! Algo deu errado. Verifique os dados e tente novamente.';
-            }
-            
             function showMessage(text, type) {
                 messageDiv.textContent = text;
                 messageDiv.className = `message ${type}`;
@@ -612,7 +572,5 @@
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
-    <script src="js/notify-config.js"></script>
 </body>
 </html>

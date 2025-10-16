@@ -1,74 +1,97 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Vitrine</title>
-  <link rel="stylesheet" href="css/login.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <style>
-    .error { color: red; font-size: 12px; display: block; margin-top: 5px; }
-    .message { margin-top: 15px; padding: 10px; border-radius: 5px; text-align: center; font-weight: bold; }
-    .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-  </style>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Login</title>
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-</head>
+        <style>
+            .error {
+                color: red;
+                font-size: 12px;
+                display: block;
+                margin-top: 5px;
+            }
+        </style>
+    </head>
 
-<body>
-        <div class="social-media"> 
-        <a class="link-social-media" href="https://accounts.google.com/" aria-label="Login com Google">
-        <i class='bx bxl-google'></i>
-        </a>
-        <a class="link-social-media" href="https://pt-br.facebook.com/" aria-label="Login com Facebook">
-        <i class='bx bxl-facebook'></i>
-</a>
-</div>
+    <body>
+        <header class="header" style="background: #713112;">
+            <a class="logo" href="/">
+                <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
+            </a>
 
-<main class="formulario">
-<form id="loginForm" class="loginForm">
-    <div class="login-alt">
-    <h1>Login</h1>
-    </div>
-    <br><br><br><br>
-    
-    <div class="inputBox"> 
-<label class="label-input">
-<input placeholder="Usuário" type="text" id="email" name="email_usuario" aria-label="Email">
-<i class="bx bxs-user"></i>
-<span id="emailError" class="error"></span>
-</label>
-    </div>
-    <br>
-        <div class="inputBox"> 
-        <label class="label-input"></label>
-        <input placeholder="Senha" type="password" id="password" name="senha_usuario" aria-label="Senha">
-        <i class="bx bxs-lock-alt"></i>
-        <span id="passwordError" class="error"></span>
-        </label>
-    </div>
+            <aside class="mobile-menu">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </aside>
+                    <!-- barra de busca -->
+        <form class="search" role="search" action="/buscar" method="get">
+            <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        
+          <!-- navegação -->
+          <nav>
+            <ul class="nav-list" id="nav-list">
+              <li><a href="/">Início</a></li>
+              <li><a href="/login" id="login-link">Entrar</a></li>
+              <li>
+                <a href="/carrinho" class="carrinho">
+                  <i class="fa fa-shopping-cart"></i>
+                </a>
+              </li>
+              <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+                <img id="header-profile-image" src="" alt="Perfil">
+              </a></li>
+              <li><a href="/cadvendedor" id="seller-link">Seja um Vendedor</a></li>
+            </ul>
+          </nav>
+        </header>
 
-<div class="checkbox-text">
-    <label>
-    <input type="checkbox" id="rememberMe">
-    Salvar meu Login
+        <main class="container">
+            <section class="content first-content">
+                <section class="first-column">
+                    <hgroup> <h2 class="title title-primary">Se cadastre na Vitrine!</h2>
+                        <p class="description description-primary">Pra quem está chegando agora</p>
+                        <p class="description description-primary"> e quer começar a comprar</p>
+                    </hgroup>
+                    <button name="cadastro" class="btn btn-primary" onclick="window.location.href='/cadcliente';">Cadastro</button>
+                </section>
 
-    <a href="/rdsenha">Esqueci a Senha</a>
-    </label>
-</div>
+                <section class="second-column">
+                    <h2 class="title title-second">Entrar</h2>
 
-<button class="btn" type="submit">Entrar</button>
+                    <p class="description description-second">ou use seus dados:</p>
+                    <div id="message" class="message"></div>
+                    <form id="loginForm" class="loginForm">
+                        <label class="label-input">
+                            <i class="far fa-envelope icon-modify"></i>
+                            <input type="text" id="email" name="email_usuario" placeholder="Email" aria-label="Email">
+                            <span id="emailError" class="error"></span>
+                        </label>
 
-<div id="message" class="message" style="display: none;"></div>
+                        <label class="label-input">
+                            <i class="fas fa-lock icon-modify"></i>
+                            <input type="password" id="password" name="senha_usuario" placeholder="Senha" aria-label="Senha">
+                            <span id="passwordError" class="error"></span>
+                        </label>
 
-<div class="checkbox-text-2">
-    Não tem uma Conta?
+                        <a class="password" href="/rdsenha">Esqueceu a senha?</a>
+                        <button class="btn btn-second">Continuar</button>
 
-    <a href="/cadastro">Cadastre-se!</a>
-</div>
-    
-</form>
-</main>
+                    </form>
+                </section>
+            </section>
+        </main>
         <script src="js/login.js"></script>
         <script src="js/navbar.js"></script>
     </body>

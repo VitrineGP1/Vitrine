@@ -111,14 +111,13 @@
         <script src="js/auth.js"></script>
         <script src="js/navbar.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', async function() {
                 const loggedUser = localStorage.getItem('loggedUser');
                 const loginLink = document.getElementById('login-link');
                 const profileLink = document.getElementById('profile-link');
                 const sellerLink = document.getElementById('seller-link');
                 const headerProfileImage = document.getElementById('header-profile-image');
                 
-                // Carregar imagem de perfil do usuário logado do banco de dados
                 if (loggedUser) {
                     try {
                         const user = JSON.parse(loggedUser);
@@ -126,10 +125,31 @@
                             loginLink.style.display = 'none';
                             profileLink.style.display = 'flex';
                             
-                            // Carregar imagem do banco de dados
-                            loadUserProfileImage(user.id, headerProfileImage, user.name);
+                            // Definir link do perfil baseado no tipo de usuário
+                            if (user.type === 'admin' || user.type === 'A') {
+                                profileLink.href = '/admin-dashboard';
+                            } else {
+                                profileLink.href = '/perfil';
+                            }
                             
-                            if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                            // Carregar imagem de perfil do banco de dados
+                            try {
+                                const response = await fetch(`/api/user/${user.id}`);
+                                const result = await response.json();
+                                
+                                if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
+                                    headerProfileImage.src = result.user.IMAGEM_PERFIL_BASE64;
+                                } else {
+                                    const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                                    headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                                }
+                            } catch (error) {
+                                console.error('Erro ao carregar imagem de perfil:', error);
+                                const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                            }
+                            
+                            if (user.type === 'seller' || user.sellerId || user.type === 'admin' || user.type === 'A') {
                                 sellerLink.style.display = 'none';
                             }
                         }
@@ -138,29 +158,6 @@
                     }
                 }
             });
-            
-            // Função para carregar imagem de perfil do banco de dados
-            async function loadUserProfileImage(userId, imageElement, userName) {
-                if (!imageElement) return;
-                
-                try {
-                    const response = await fetch(`/api/user/${userId}`);
-                    const result = await response.json();
-                    
-                    if (result.success && result.user.IMAGEM_PERFIL_BASE64) {
-                        imageElement.src = result.user.IMAGEM_PERFIL_BASE64;
-                    } else {
-                        // Usar placeholder com inicial do nome
-                        const firstName = userName ? userName.split(' ')[0] : 'U';
-                        imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
-                    }
-                } catch (error) {
-                    console.error('Erro ao carregar imagem de perfil:', error);
-                    // Fallback para placeholder
-                    const firstName = userName ? userName.split(' ')[0] : 'U';
-                    imageElement.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
-                }
-            }
         </script>
     </body>
 </html>

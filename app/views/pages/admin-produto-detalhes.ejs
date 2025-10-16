@@ -198,12 +198,15 @@
             }
             
             if (seller) {
-                document.getElementById('seller-name').textContent = seller.NOME_USUARIO;
-                document.getElementById('seller-email').textContent = seller.EMAIL_USUARIO;
+                document.getElementById('seller-name').textContent = seller.NOME_USUARIO || 'Não informado';
+                document.getElementById('seller-email').textContent = seller.EMAIL_USUARIO || 'Não informado';
                 document.getElementById('seller-city').textContent = seller.CIDADE_USUARIO || 'Não informado';
-                
-                // Carregar nome da loja
-                loadSellerStoreName(product.ID_VENDEDOR);
+                document.getElementById('seller-shop').textContent = seller.NOME_LOJA || 'Não informado';
+            } else {
+                document.getElementById('seller-name').textContent = 'Não informado';
+                document.getElementById('seller-email').textContent = 'Não informado';
+                document.getElementById('seller-city').textContent = 'Não informado';
+                document.getElementById('seller-shop').textContent = 'Não informado';
             }
         }
         
@@ -252,21 +255,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        async function loadSellerStoreName(sellerId) {
-            try {
-                const response = await fetch(`/api/seller_profile?id_vendedor=${sellerId}`);
-                const result = await response.json();
-                
-                if (result.success && result.seller.NOME_LOJA) {
-                    document.getElementById('seller-shop').textContent = result.seller.NOME_LOJA;
-                } else {
-                    document.getElementById('seller-shop').textContent = 'Não informado';
-                }
-            } catch (error) {
-                console.error('Erro ao carregar nome da loja:', error);
-                document.getElementById('seller-shop').textContent = 'Não informado';
-            }
-        }
+
         
         function showErrorMessage(message) {
             const toast = document.createElement('div');
