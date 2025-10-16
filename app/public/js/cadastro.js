@@ -413,23 +413,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = '/login';
                 }, 2000);
             } else {
-                // Tratamento específico para cada tipo de erro
-                let errorMessage = 'Erro ao cadastrar usuário.';
+                let errorMessage = result.message || 'Erro ao cadastrar usuário.';
                 
-                if (result.error) {
-                    if (result.error.includes('Email já cadastrado')) {
-                        errorMessage = 'Este e-mail já está cadastrado';
-                    } else if (result.error.includes('CELULAR_USUARIO')) {
-                        errorMessage = 'Número de celular já cadastrado';
-                    } else if (result.error.includes('CPF_CLIENTE')) {
-                        errorMessage = 'CPF já cadastrado';
-                    } else if (result.error.includes('NOME_USUARIO')) {
-                        errorMessage = 'Nome de usuário já existe';
-                    } else if (result.error.includes('Duplicate entry')) {
-                        errorMessage = 'Dados já cadastrados no sistema';
-                    } else {
-                        errorMessage = result.error;
-                    }
+                if (response.status === 409) {
+                    errorMessage = 'Este email ou CPF já está cadastrado no sistema.';
                 }
                 
                 showFeedback(errorMessage, 'error');
