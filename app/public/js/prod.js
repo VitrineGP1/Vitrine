@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
         addToCartBtn.addEventListener('click', () => {
             // Verificar se usuário está logado
             const loggedUser = localStorage.getItem('loggedUser');
-            
+
             if (!loggedUser) {
                 alert('Você precisa fazer login para adicionar produtos ao carrinho!');
                 window.location.href = '/login';
                 return;
             }
-            
+
             try {
                 const user = JSON.parse(loggedUser);
                 if (!user || !user.id) {
@@ -40,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Extrai informações do produto do HTML
             const productId = addToCartBtn.getAttribute('data-product-id') || 'produto-' + Date.now();
-            const name = productTitle.textContent.trim();
-            const priceText = productPrice.textContent.trim().replace('R$', '').replace(',', '.');
+            const name = productTitle ? productTitle.textContent.trim() : '';
+            const priceText = productPrice ? productPrice.textContent.trim().replace('R$', '').replace(',', '.') : '';
             const price = parseFloat(priceText);
-            const image = productImage.src;
+            const image = productImage ? productImage.src : '';
             const quantityInput = document.getElementById('product-quantity');
             const quantity = parseInt(quantityInput ? quantityInput.value : 1);
             const sizeSelect = document.getElementById('product-size');
@@ -84,5 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Salva o carrinho atualizado no localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
         });
+    } else {
+        console.error('Botão adicionar ao carrinho não encontrado');
     }
 });
