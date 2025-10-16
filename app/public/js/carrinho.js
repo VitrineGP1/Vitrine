@@ -151,6 +151,98 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Função para sincronizar carrinho local com servidor no login
+    function syncLocalCartWithServer() {
+        const loggedUser = localStorage.getItem('loggedUser');
+        if (!loggedUser) return;
+
+        try {
+            const user = JSON.parse(loggedUser);
+            if (!user || !user.id) return;
+
+            const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (localCart.length === 0) return;
+
+            // Sincronizar carrinho local com servidor
+            fetch('/api/cart/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-logged-user': loggedUser
+                },
+                body: JSON.stringify({ localCart })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Carrinho local sincronizado com servidor');
+                    // Após sincronização, recarregar carrinho do servidor
+                    loadServerCart();
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao sincronizar carrinho:', error);
+            });
+        } catch (e) {
+            console.error('Erro ao sincronizar carrinho:', e);
+        }
+    }
+
+    // Função para carregar carrinho do servidor
+    function loadServerCart() {
+        const loggedUser = localStorage.getItem('loggedUser');
+        if (!loggedUser) return;
+
+        try {
+            const user = JSON.parse(loggedUser);
+            if (!user || !user.id) return;
+
+            fetch('/api/cart/get', {
+                headers: {
+                    'x-logged-user': loggedUser
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.cart && data.cart.length > 0) {
+                    // Converter formato do servidor para formato local
+                    const serverCart = data.cart.map(item => ({
+                        id: item.ID_PRODUTO + (item.TAMANHO ? '-' + item.TAMANHO : ''),
+                        name: item.NOME_PRODUTO,
+                        price: parseFloat(item.PRECO),
+                        image: item.IMAGEM,
+                        quantity: parseInt(item.QUANTIDADE),
+                        size: item.TAMANHO
+                    }));
+
+                    // Salvar no localStorage para compatibilidade
+                    localStorage.setItem('cart', JSON.stringify(serverCart));
+                    loadCartItems();
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar carrinho do servidor:', error);
+            });
+        } catch (e) {
+            console.error('Erro ao carregar carrinho do servidor:', e);
+        }
+    }
+
+    // Verificar se deve sincronizar carrinho no carregamento da página
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromLogin = urlParams.get('fromLogin');
+
+    if (fromLogin === 'true') {
+        // Usuário acabou de fazer login, sincronizar carrinho
+        syncLocalCartWithServer();
+    } else {
+        // Verificar se usuário está logado e tentar carregar carrinho do servidor
+        const loggedUser = localStorage.getItem('loggedUser');
+        if (loggedUser) {
+            loadServerCart();
+        }
+    }
+
     // Carrega os itens do carrinho quando a página é carregada
     loadCartItems();
 });

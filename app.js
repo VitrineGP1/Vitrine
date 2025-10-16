@@ -66,6 +66,10 @@ app.use('/api', userRoutes);
 const salesRoutes = require('./app/routes/api/salesRoutes');
 app.use('/api', salesRoutes);
 
+// Usar as rotas do carrinho
+const cartRoutes = require('./app/routes/api/cartRoutes');
+app.use('/api/cart', cartRoutes);
+
 // APIs do Admin
 app.get('/api/admin/users', (req, res) => adminController.getUsers(req, res));
 
