@@ -6,6 +6,7 @@
     <title>Vitrine - Cadastro de Vendedor</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.css">
     <link rel="stylesheet" href="css/cadvendedor.css">
+    <link rel="stylesheet" href="css/header.css">
     <script src="https://cdn.jsdelivr.net/npm/simply-notify@1.0.4/dist/simply-notify.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="js/cadvendedor.js"></script>
@@ -24,11 +25,11 @@
                 <div class="line3"></div>
             </aside>
                     <!-- barra de busca -->
-        <form class="search" role="search" action="/buscar" method="get">
+        <form class="search" role="search" action="/" method="get">
             <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
-            <button type="submit" class="search-btn">
+            <section type="submit" class="search-btn">
               <i class="fa fa-search"></i>
-            </button>
+            </section>
           </form>
         
           <!-- navegação -->
@@ -65,7 +66,7 @@
         <span class="badge">💼 Conta Profissional</span>
     </section>
     
-    <main>
+    <main class="form">
         <form id="seller-form" novalidate>
             <section id="feedback-message" class="message" role="alert" aria-live="polite"></section>
             
