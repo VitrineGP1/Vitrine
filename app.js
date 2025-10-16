@@ -176,6 +176,12 @@ app.post('/create-preference', async (req, res) => {
     console.log('Access Token exists:', !!process.env.MERCADO_PAGO_ACCESS_TOKEN);
     console.log('Request body:', req.body);
 
+    // Check if access token is configured
+    if (!process.env.MERCADO_PAGO_ACCESS_TOKEN) {
+        console.error('MERCADO_PAGO_ACCESS_TOKEN not found in environment variables');
+        return res.status(500).json({ error: 'Configuração de pagamento não encontrada' });
+    }
+
     try {
         const client = new MercadoPagoConfig({
             accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN
@@ -183,6 +189,21 @@ app.post('/create-preference', async (req, res) => {
         const preference = new Preference(client);
 
         const { items } = req.body;
+
+        // Validate items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            console.error('Invalid items:', items);
+            return res.status(400).json({ error: 'Itens do carrinho inválidos' });
+        }
+
+        // Validate each item
+        for (const item of items) {
+            if (!item.title || typeof item.unit_price !== 'number' || item.unit_price <= 0 ||
+                typeof item.quantity !== 'number' || item.quantity <= 0 || !item.currency_id) {
+                console.error('Invalid item:', item);
+                return res.status(400).json({ error: 'Item inválido no carrinho' });
+            }
+        }
 
         const preferenceData = {
             items: items,
@@ -199,7 +220,11 @@ app.post('/create-preference', async (req, res) => {
         console.log('Preference created:', result.id);
         res.json({ id: result.id });
     } catch (error) {
-        console.error('Erro ao criar preferência:', error);
+        console.error('Erro ao criar preferência:', error.message);
+        console.error('Full error details:', error);
+        if (error.response) {
+            console.error('MercadoPago API response:', error.response.data);
+        }
         res.status(500).json({ error: 'Erro ao processar pagamento' });
     }
 });
