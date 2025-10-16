@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const CPF_CLIENTE = cpfInput ? cpfInput.value.replace(/\D/g, '') : '';
         
         // ✅ DEFINIR SEMPRE COMO CLIENTE
-        const TIPO_USUARIO = 'C';
+        const TIPO_USUARIO = 'buyer';
 
         // Validações
         if (!NOME_USUARIO) {
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // ✅ USA A ROTA ÚNICA
-            const response = await fetch('/api/cadastrar_usuario', {
+            const response = await fetch('/api/cadastro_usuario', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
