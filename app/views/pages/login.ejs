@@ -92,7 +92,44 @@
                 </section>
             </section>
         </main>
+        <script src="js/auth.js"></script>
         <script src="js/login.js"></script>
         <script src="js/navbar.js"></script>
+        <script>
+            // Gerenciar exibição do perfil no header
+            document.addEventListener('DOMContentLoaded', function() {
+                const loggedUser = localStorage.getItem('loggedUser');
+                const loginLink = document.getElementById('login-link');
+                const profileLink = document.getElementById('profile-link');
+                const sellerLink = document.getElementById('seller-link');
+                const headerProfileImage = document.getElementById('header-profile-image');
+
+                if (loggedUser) {
+                    try {
+                        const user = JSON.parse(loggedUser);
+                        if (user && user.id) {
+                            // Usuário logado
+                            loginLink.style.display = 'none';
+                            profileLink.style.display = 'flex';
+
+                            // Configurar imagem do perfil
+                            if (user.profileImage) {
+                                headerProfileImage.src = user.profileImage;
+                            } else {
+                                const firstName = user.name ? user.name.split(' ')[0] : 'U';
+                                headerProfileImage.src = `https://placehold.co/32x32/cccccc/333333?text=${firstName.charAt(0)}`;
+                            }
+
+                            // Ocultar "Seja um Vendedor" se já for vendedor ou admin
+                            if (user.type === 'seller' || user.sellerId || user.type === 'admin') {
+                                sellerLink.style.display = 'none';
+                            }
+                        }
+                    } catch (e) {
+                        console.error('Erro ao verificar usuário logado:', e);
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
