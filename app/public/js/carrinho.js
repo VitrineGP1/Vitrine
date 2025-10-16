@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="info">
                                 <div class="name">${item.name}</div>
                                 <div class="category">Artesanato${item.size ? ' - Tamanho: ' + item.size : ''}</div>
+                                ${item.size ? `<div class="size-info" style="font-weight: bold; color: #713112; margin-top: 5px;">Tamanho: ${item.size}</div>` : ''}
                             </div>
                         </div>
                     </td>

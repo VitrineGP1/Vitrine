@@ -184,6 +184,7 @@
                     <section class="item-info">
                         <p class="item-name">${item.name}</p>
                         <p class="item-details">Qtd: ${item.quantity} × R$ ${item.price.toFixed(2).replace('.', ',')}</p>
+                        ${item.size ? `<p class="item-size" style="color: #713112; font-weight: bold; margin-top: 5px;">Tamanho: ${item.size}</p>` : ''}
                     </section>
                 </article>
             `).join('');

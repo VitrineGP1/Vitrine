@@ -13,40 +13,48 @@ function calculateTax(value) {
 router.get('/seller-sales/:sellerId', async (req, res) => {
     const { sellerId } = req.params;
     let connection;
-    
+
     try {
         connection = await pool.getConnection();
-        
-        // Por enquanto, vamos simular vendas baseadas nos produtos do vendedor
-        // Em um sistema real, você teria uma tabela de PEDIDOS ou VENDAS
-        const [products] = await connection.execute(
-            'SELECT VALOR_UNITARIO FROM PRODUTOS WHERE ID_VENDEDOR = ?',
-            [sellerId]
-        );
-        
+
+        // Buscar vendas reais através das tabelas PEDIDOS e PEDIDOS_PRODUTOS
+        const [sales] = await connection.execute(`
+            SELECT
+                p.VALOR_UNITARIO,
+                pp.ID_PROD,
+                COUNT(pp.ID_PROD) as quantidade_vendida
+            FROM PEDIDOS ped
+            INNER JOIN PEDIDOS_PRODUTOS pp ON ped.ID_PEDIDO = pp.ID_PEDIDO
+            INNER JOIN PRODUTOS p ON pp.ID_PROD = p.ID_PROD
+            WHERE p.ID_VENDEDOR = ?
+            GROUP BY pp.ID_PROD, p.VALOR_UNITARIO
+        `, [sellerId]);
+
         let totalSold = 0;
         let availableForWithdrawal = 0;
-        
-        // Simular algumas vendas (em um sistema real, isso viria da tabela de pedidos)
-        products.forEach(product => {
-            const price = parseFloat(product.VALOR_UNITARIO);
-            // Simular que cada produto foi vendido 2 vezes (você pode ajustar isso)
-            const soldQuantity = 2;
-            const saleValue = price * soldQuantity;
-            
+        let totalProductsSold = 0;
+
+        // Calcular totais baseados em vendas reais
+        sales.forEach(sale => {
+            const price = parseFloat(sale.VALOR_UNITARIO);
+            const quantity = parseInt(sale.quantidade_vendida);
+            const saleValue = price * quantity;
+
             totalSold += saleValue;
-            
+            totalProductsSold += quantity;
+
             // Calcular valor após desconto das taxas
             const tax = calculateTax(price);
             const netValue = saleValue * (1 - tax);
             availableForWithdrawal += netValue;
         });
-        
+
         res.json({
             success: true,
             data: {
                 totalSold: totalSold.toFixed(2),
                 availableForWithdrawal: availableForWithdrawal.toFixed(2),
+                totalProductsSold: totalProductsSold,
                 taxInfo: {
                     upTo74_99: '25%',
                     from75To99_99: '15%',
@@ -54,7 +62,7 @@ router.get('/seller-sales/:sellerId', async (req, res) => {
                 }
             }
         });
-        
+
     } catch (error) {
         console.error('Erro ao buscar dados de vendas:', error);
         res.status(500).json({

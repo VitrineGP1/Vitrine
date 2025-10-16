@@ -55,7 +55,10 @@ app.get('/api/admin/user-details/:id', (req, res) => adminController.getUserDeta
 
 // Rota de cadastro removida daqui - agora está apenas em authRoutes.js
 
-
+// Rota de teste da API
+app.get('/api/teste', (req, res) => {
+    res.json({ success: true, message: 'API funcionando corretamente' });
+});
 
 app.get('/api/buscar_usuario', (req, res) => userController.getUser(req, res));
 
