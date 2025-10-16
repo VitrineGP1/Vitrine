@@ -61,6 +61,14 @@ router.get("/login", function (req, res) {
     res.render("pages/login", )
 });
 
+router.get("/cadcliente", function (req, res) {
+    res.render("pages/cadcliente", )
+});
+
+router.get("/cadvendedor", function (req, res) {
+    res.render("pages/cadvendedor", )
+});
+
 router.get("/cadastro", function (req, res) {
     res.render("pages/cadastro", )
 });
