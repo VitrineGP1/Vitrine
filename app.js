@@ -38,6 +38,26 @@ app.use("/", rotas);
 const authRoutes = require('./app/routes/api/authRoutes')(pool);
 app.use('/api', authRoutes);
 
+// Rota de cadastro de usuário (para compatibilidade com frontend)
+app.post('/api/cadastrar_usuario', async (req, res) => {
+    try {
+        // Importar o módulo de rotas de autenticação
+        const authRoutes = require('./app/routes/api/authRoutes')(pool);
+        // Chamar diretamente a função de cadastro
+        const cadastroHandler = authRoutes.stack.find(layer =>
+            layer.route && layer.route.path === '/cadastro_usuario' && layer.route.methods.post
+        );
+        if (cadastroHandler) {
+            cadastroHandler.handle(req, res);
+        } else {
+            res.status(404).json({ success: false, message: 'Rota não encontrada' });
+        }
+    } catch (error) {
+        console.error('Erro na rota de cadastro:', error);
+        res.status(500).json({ success: false, message: 'Erro interno do servidor' });
+    }
+});
+
 // Usar as rotas de usuário
 const userRoutes = require('./app/routes/api/userRoutes')(pool);
 app.use('/api', userRoutes);
