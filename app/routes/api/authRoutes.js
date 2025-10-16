@@ -1,20 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-
-// Função para gerar token de redefinição de senha
-function generateResetToken(userId) {
-    const crypto = require('crypto');
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hora
-
-    // Aqui você pode armazenar o token no banco de dados com expiração
-    // Por simplicidade, estamos retornando apenas o token
-    // Em produção, implemente armazenamento seguro do token
-
-    return token;
-}
 
 module.exports = (pool) => {
     // Rota de CADASTRO de Usuário
@@ -248,85 +234,48 @@ module.exports = (pool) => {
         }
     });
 
-    // Rota para redefinir senha
+    // Rota para redefinir senha (interno)
     router.post('/reset_password', async (req, res) => {
-        const { email } = req.body;
+        const { email, newPassword } = req.body;
 
-        if (!email) {
-            return res.status(400).json({ success: false, message: "Email é obrigatório." });
+        if (!email || !newPassword) {
+            return res.status(400).json({ success: false, message: "Email e nova senha são obrigatórios." });
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return res.status(400).json({ success: false, message: "Formato de email inválido." });
         }
 
+        if (newPassword.length < 6) {
+            return res.status(400).json({ success: false, message: "A senha deve ter no mínimo 6 caracteres." });
+        }
+
         try {
             const connection = await pool.getConnection();
             const [rows] = await connection.execute(
-                'SELECT ID_USUARIO, NOME_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
+                'SELECT ID_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
                 [email]
+            );
+
+            if (rows.length === 0) {
+                connection.release();
+                return res.status(404).json({ success: false, message: "Email não encontrado." });
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            await connection.execute(
+                'UPDATE USUARIOS SET SENHA_USUARIO = ? WHERE EMAIL_USUARIO = ?',
+                [hashedPassword, email]
             );
             connection.release();
 
-            // Se o usuário existe, enviar email de redefinição
-            if (rows.length > 0) {
-                const user = rows[0];
-                const resetToken = generateResetToken(user.ID_USUARIO);
-
-                // Configurar transporte de email
-                const transporter = nodemailer.createTransport({
-                    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-                    port: process.env.EMAIL_PORT || 587,
-                    secure: false, // true para 465, false para outras portas
-                    auth: {
-                        user: process.env.EMAIL_USER,
-                        pass: process.env.EMAIL_PASS
-                    }
-                });
-
-                // Verificar conexão com o servidor de email
-                await transporter.verify();
-
-                // Configurar email
-                const mailOptions = {
-                    from: `"Vitrine" <${process.env.EMAIL_USER}>`,
-                    to: email,
-                    subject: 'Redefinição de Senha - Vitrine',
-                    html: `
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2 style="color: #713112;">Redefinição de Senha</h2>
-                            <p>Olá ${user.NOME_USUARIO},</p>
-                            <p>Recebemos uma solicitação para redefinir sua senha na Vitrine.</p>
-                            <p>Clique no link abaixo para criar uma nova senha:</p>
-                            <p style="margin: 20px 0;">
-                                <a href="${process.env.FRONTEND_URL || 'http://localhost:3001'}/reset-password?token=${resetToken}"
-                                   style="background-color: #713112; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
-                                    Redefinir Senha
-                                </a>
-                            </p>
-                            <p>Este link é válido por 1 hora.</p>
-                            <p>Se você não solicitou esta redefinição, ignore este email.</p>
-                            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-                            <p style="color: #666; font-size: 12px;">
-                                Esta é uma mensagem automática, por favor não responda.
-                            </p>
-                        </div>
-                    `
-                };
-
-                // Enviar email
-                await transporter.sendMail(mailOptions);
-                console.log('Email de redefinição enviado para:', email);
-            }
-
-            // Por segurança, sempre retorna sucesso mesmo se o email não existir
             res.status(200).json({
                 success: true,
-                message: "Se este e-mail estiver cadastrado, você receberá instruções para redefinir sua senha."
+                message: "Senha redefinida com sucesso!"
             });
 
         } catch (error) {
-            console.error('Erro ao processar redefinição de senha:', error);
+            console.error('Erro ao redefinir senha:', error);
             res.status(500).json({ success: false, message: "Erro interno do servidor." });
         }
     });
@@ -440,5 +389,5 @@ module.exports = (pool) => {
         }
     });
 
-    return router; // Retorna o objeto router configurado
+    return router;
 };
