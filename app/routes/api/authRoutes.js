@@ -234,16 +234,48 @@ module.exports = (pool) => {
         }
     });
 
-    // Rota para redefinir senha (interno)
+    // Rota para solicitar reset de senha
     router.post('/reset_password', async (req, res) => {
-        const { email, newPassword } = req.body;
+        const { email } = req.body;
 
-        if (!email || !newPassword) {
-            return res.status(400).json({ success: false, message: "Email e nova senha são obrigatórios." });
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Email é obrigatório." });
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return res.status(400).json({ success: false, message: "Formato de email inválido." });
+        }
+
+        try {
+            const connection = await pool.getConnection();
+            const [rows] = await connection.execute(
+                'SELECT ID_USUARIO, NOME_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
+                [email]
+            );
+            connection.release();
+
+            if (rows.length > 0) {
+                const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+                console.log(`Código de reset para ${email}: ${resetCode}`);
+            }
+
+            res.status(200).json({
+                success: true,
+                message: "Se este e-mail estiver cadastrado, você receberá um código para redefinir sua senha."
+            });
+
+        } catch (error) {
+            console.error('Erro ao processar reset:', error);
+            res.status(500).json({ success: false, message: "Erro interno do servidor." });
+        }
+    });
+
+    // Rota para confirmar reset com código
+    router.post('/confirm_reset', async (req, res) => {
+        const { email, code, newPassword } = req.body;
+
+        if (!email || !code || !newPassword) {
+            return res.status(400).json({ success: false, message: "Email, código e nova senha são obrigatórios." });
         }
 
         if (newPassword.length < 6) {
@@ -262,6 +294,11 @@ module.exports = (pool) => {
                 return res.status(404).json({ success: false, message: "Email não encontrado." });
             }
 
+            if (!/^\d{6}$/.test(code)) {
+                connection.release();
+                return res.status(400).json({ success: false, message: "Código inválido." });
+            }
+
             const hashedPassword = await bcrypt.hash(newPassword, 10);
             await connection.execute(
                 'UPDATE USUARIOS SET SENHA_USUARIO = ? WHERE EMAIL_USUARIO = ?',
@@ -275,7 +312,7 @@ module.exports = (pool) => {
             });
 
         } catch (error) {
-            console.error('Erro ao redefinir senha:', error);
+            console.error('Erro ao confirmar reset:', error);
             res.status(500).json({ success: false, message: "Erro interno do servidor." });
         }
     });
