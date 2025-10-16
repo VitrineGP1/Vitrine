@@ -209,7 +209,7 @@ aside > button {
   border: 0;
   padding: 15px 0;
   color: white;
-  background: #3D5A80;
+  background: #713112;
   display: block;
   width: 100%;
   text-transform: uppercase;
@@ -218,7 +218,7 @@ aside > button {
 }
 
 aside > button:hover {
-  background: #3D5A80;
+  background: #713112;
 }
 
 main {
@@ -382,7 +382,7 @@ button {
     border: 0;
     padding: 15px 0;
     color: white;
-    background: #3D5A80;
+    background: #713112;
     display: block;
     width: 100%;
     text-transform: uppercase;
@@ -416,7 +416,7 @@ button {
   top: 60%;
   right: 0;
   height: 50vh;
-  background: #3D5A80;
+  background: #713112;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;

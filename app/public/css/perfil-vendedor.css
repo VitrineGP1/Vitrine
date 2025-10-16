@@ -13,7 +13,7 @@
 }
 
 .seller-info-section h2, .personal-data-section h2, .products-section h2, .sales-section h2 {
-    color: #3D5A80;
+    color: #713112;
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 2px solid #eee;
@@ -40,7 +40,7 @@
 }
 
 .btn-primary {
-    background: #3D5A80;
+    background: #713112;
     color: white;
     padding: 12px 24px;
     border: none;
@@ -139,7 +139,7 @@
 .metric-card span {
     font-size: 24px;
     font-weight: bold;
-    color: #3D5A80;
+    color: #713112;
 }
 
 /* Estilos do Sidebar */
@@ -154,7 +154,7 @@
 }
 
 .sidebar h2 {
-    background: #3D5A80;
+    background: #713112;
     color: white;
     margin: 0;
     padding: 20px;
@@ -180,8 +180,8 @@
 .menu-item:hover,
 .menu-item.active {
     background: #f8f9fa;
-    color: #3D5A80;
-    border-left: 4px solid #3D5A80;
+    color: #713112;
+    border-left: 4px solid #713112;
 }
 
 .menu-item i {

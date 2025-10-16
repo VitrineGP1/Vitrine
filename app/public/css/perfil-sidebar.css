@@ -21,7 +21,7 @@
 }
 
 .sidebar h2 {
-    color: #3D5A80;
+    color: #713112;
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 2px solid #eee;
@@ -53,12 +53,12 @@
 
 .menu-item:hover {
     background: #f8f9fa;
-    color: #3D5A80;
+    color: #713112;
     text-decoration: none;
 }
 
 .menu-item.active {
-    background: #3D5A80;
+    background: #713112;
     color: white;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .content-section h2 {
-    color: #3D5A80;
+    color: #713112;
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 2px solid #eee;

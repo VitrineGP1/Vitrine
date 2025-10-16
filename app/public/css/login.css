@@ -92,7 +92,7 @@ button {
 .content::before {
   content: "";
   position: absolute;
-  background-color: #3D5A80;
+  background-color: #713112;
   width: 40%;
   height: 100%;
   border-top-left-radius: 15px;
@@ -111,7 +111,7 @@ button {
 }
 
 .title-second{
-  color: #3D5A80;
+  color: #713112;
 }
 
 .description{
@@ -150,12 +150,12 @@ transition: background-color .10s;
 
 .btn-primary:hover {
   background-color: #fff;
-  color: #3D5A80;
+  color: #713112;
 }
 
 .btn-second {
-  background-color: #3D5A80;
-  border: 1px solid #3D5A80;
+  background-color: #713112;
+  border: 1px solid #713112;
   transition: background-color .10s;
 }
 .btn-second:hover {
@@ -363,7 +363,7 @@ transition: background-color .10s;
   top: 60%;
   right: 0;
   height: 50vh;
-  background: #3D5A80;
+  background: #713112;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
@@ -502,7 +502,7 @@ transition: background-color .10s;
   top: 60%;
   right: 0;
   height: 50vh;
-  background: #3D5A80;
+  background: #713112;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;

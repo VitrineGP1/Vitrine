@@ -50,7 +50,7 @@
         }
         
         .badge {
-            background: #3D5A80;
+            background: #713112;
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -82,7 +82,7 @@
         legend {
             font-weight: bold;
             margin-bottom: 15px;
-            color: #3D5A80;
+            color: #713112;
             font-size: 1.2em;
             display: flex;
             align-items: center;
@@ -147,13 +147,13 @@
         }
         
         .btn-primary {
-            background: #3D5A80;
+            background: #713112;
         }
 
         .btn-primary:hover {
             background: white;
-            color: #3D5A80;
-            border-color: #3D5A80;
+            color: #713112;
+            border-color: #713112;
         }
         
         .btn-secondary {
