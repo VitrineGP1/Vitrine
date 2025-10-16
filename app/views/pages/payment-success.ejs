@@ -24,8 +24,42 @@
         <a href="/meus-pedidos" class="btn">Ver Meus Pedidos</a>
     </div>
     <script>
-        // Clear cart after successful payment
-        localStorage.removeItem('cart');
+        // Clear cart and create order after successful payment
+        async function createOrderAfterPayment() {
+            try {
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                if (loggedUser && cart.length > 0) {
+                    const response = await fetch('/api/sales/create-order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: loggedUser.id,
+                            cartItems: cart,
+                            paymentId: 'mercado_pago_' + Date.now() // Placeholder para ID do pagamento
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        console.log('Pedido criado com sucesso:', result.orderId);
+                        // Clear cart only after successful order creation
+                        localStorage.removeItem('cart');
+                    } else {
+                        console.error('Erro ao criar pedido:', result.message);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao processar pedido após pagamento:', error);
+            }
+        }
+
+        // Execute order creation
+        createOrderAfterPayment();
     </script>
 </body>
 </html>

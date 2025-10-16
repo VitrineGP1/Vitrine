@@ -361,21 +361,144 @@
 
     <script src="js/auth.js"></script>
     <script>
+        let currentUser = null;
+
+        // Função para carregar pedidos do usuário
+        async function loadUserOrders() {
+            try {
+                const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+                if (!loggedUser) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                currentUser = loggedUser;
+
+                const response = await fetch(`/api/sales/user-orders/${loggedUser.id}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    displayOrders(result.orders);
+                } else {
+                    console.error('Erro ao carregar pedidos:', result.message);
+                    showEmptyState();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                showEmptyState();
+            }
+        }
+
+        // Função para exibir pedidos
+        function displayOrders(orders) {
+            const pendingContainer = document.getElementById('pending-orders');
+            const transitContainer = document.getElementById('transit-orders');
+            const deliveredContainer = document.getElementById('delivered-orders');
+
+            // Limpar containers
+            pendingContainer.innerHTML = '';
+            transitContainer.innerHTML = '';
+            deliveredContainer.innerHTML = '';
+
+            if (orders.length === 0) {
+                showEmptyState();
+                return;
+            }
+
+            // Organizar pedidos por status
+            const pendingOrders = orders.filter(order => order.status === 'pending');
+            const transitOrders = orders.filter(order => order.status === 'transit');
+            const deliveredOrders = orders.filter(order => order.status === 'delivered');
+
+            // Renderizar pedidos
+            renderOrders(pendingContainer, pendingOrders, 'pending');
+            renderOrders(transitContainer, transitOrders, 'transit');
+            renderOrders(deliveredContainer, deliveredOrders, 'delivered');
+
+            // Mostrar aba com pedidos (preferencialmente entregues)
+            if (deliveredOrders.length > 0) {
+                showTab('delivered');
+            } else if (transitOrders.length > 0) {
+                showTab('transit');
+            } else if (pendingOrders.length > 0) {
+                showTab('pending');
+            }
+        }
+
+        // Função para renderizar pedidos em um container
+        function renderOrders(container, orders, status) {
+            if (orders.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Nenhum pedido encontrado.</p>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderDate = new Date(order.date).toLocaleDateString('pt-BR');
+
+                order.products.forEach(product => {
+                    const orderCard = document.createElement('div');
+                    orderCard.className = 'order-card';
+
+                    orderCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="order-image" onerror="this.src='https://placehold.co/80x80/cccccc/333333?text=Produto'">
+                        <div class="order-info">
+                            <div class="order-title">${product.name}</div>
+                            <div class="order-details">Pedido #${order.id} • Vendedor: ${product.seller}</div>
+                            <div class="order-details">Pedido em: ${orderDate}</div>
+                            <div class="order-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
+                        </div>
+                        <div class="order-status status-${status}">${getStatusText(status)}</div>
+                    `;
+
+                    container.appendChild(orderCard);
+                });
+            });
+        }
+
+        // Função para obter texto do status
+        function getStatusText(status) {
+            switch(status) {
+                case 'pending': return 'Preparando';
+                case 'transit': return 'Em Trânsito';
+                case 'delivered': return 'Entregue';
+                default: return 'Desconhecido';
+            }
+        }
+
+        // Função para mostrar estado vazio
+        function showEmptyState() {
+            const containers = ['pending-orders', 'transit-orders', 'delivered-orders'];
+            containers.forEach(id => {
+                document.getElementById(id).innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-bag"></i>
+                        <p>Você ainda não fez nenhum pedido.</p>
+                        <a href="/" class="btn" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #713112; color: white; text-decoration: none; border-radius: 5px;">Começar a Comprar</a>
+                    </div>
+                `;
+            });
+        }
+
         function showTab(tabName) {
             // Ocultar todas as abas
             document.getElementById('pending-orders').style.display = 'none';
             document.getElementById('transit-orders').style.display = 'none';
             document.getElementById('delivered-orders').style.display = 'none';
-            
+
             // Remover classe active de todas as abas
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            
+
             // Mostrar aba selecionada
             document.getElementById(tabName + '-orders').style.display = 'block';
-            
+
             // Adicionar classe active na aba clicada
             event.target.classList.add('active');
         }
+
+        // Carregar pedidos quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserOrders();
+        });
     </script>
 </body>
 </html>

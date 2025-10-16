@@ -35,7 +35,7 @@
             text-align: center;
         }
         .reset-password-form-container h1 {
-            color: #e47a1b;
+            color: #713112;
             margin-bottom: 25px;
             font-size: 1.8em;
         }
@@ -56,7 +56,7 @@
             font-size: 1em;
         }
         .reset-btn {
-            background-color: #e47a1b;
+            background-color: #713112;
             color: white;
             padding: 12px 25px;
             border: none;
@@ -92,7 +92,7 @@
             font-size: 0.9em;
         }
         .back-to-login a {
-            color: #e47a1b;
+            color: #713112;
             text-decoration: none;
         }
         .back-to-login a:hover {
@@ -109,23 +109,39 @@
 </head>
 <body>
     <header class="header" style="background: #713112;">
-        <a class="logo" href="/" aria-label="Página inicial da Vitrine">
-            <img src="imagens/logo(2).png" width="75" height="75" alt="Logotipo da Vitrine">
+        <a class="logo" href="/">
+            <img src="imagens/logo(2).png" width="75px" height="75px" alt="Logo da Vitrine">
         </a>
-        <div class="mobile-menu" role="button" aria-expanded="false" aria-controls="main-navigation">
-            <span class="line1"></span>
-            <span class="line2"></span>
-            <span class="line3"></span>
-        </div>
-        <nav id="main-navigation" aria-label="Menu principal de navegação">
-            <ul class="nav-list">
-                <li><a href="/" aria-current="page">Início</a></li>
-                <li><a href="/login">Entrar</a></li>
-                <li><a href="/carrinho" class="carrinho" aria-label="Ver seu carrinho de compras">
-                    <img src="imagens/carrinho.png" width="75" height="50" alt="Ícone de carrinho de compras">
-                </a></li>
-            </ul>
-        </nav>
+
+        <aside class="mobile-menu">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </aside>
+                <!-- barra de busca -->
+    <form class="search" role="search" action="/buscar" method="get">
+        <input type="search" name="q" placeholder="Buscar produtos artesanais..." aria-label="Pesquisar" class="search-input">
+        <button type="submit" class="search-btn">
+          <i class="fa fa-search"></i>
+        </button>
+      </form>
+
+      <!-- navegação -->
+      <nav>
+        <ul class="nav-list" id="nav-list">
+          <li><a href="/">Início</a></li>
+          <li><a href="/login" id="login-link">Entrar</a></li>
+          <li>
+            <a href="/carrinho" class="carrinho">
+              <i class="fa fa-shopping-cart"></i>
+            </a>
+          </li>
+          <li><a href="/perfil" class="profile-icon" id="profile-link" style="display: none;">
+            <img id="header-profile-image" src="" alt="Perfil">
+          </a></li>
+          <li><a href="/cadvendedor" id="seller-link">Seja um Vendedor</a></li>
+        </ul>
+      </nav>
     </header>
 
     <main class="container">

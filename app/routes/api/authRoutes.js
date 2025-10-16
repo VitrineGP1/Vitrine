@@ -1,12 +1,24 @@
 const express = require('express');
-const router = express.Router(); // Cria um novo objeto router para gerenciar as rotas
-const bcrypt = require('bcryptjs'); // Para hash de senhas
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 
-// Esta função receberá o pool de conexões do banco de dados de app.js
+// Função para gerar token de redefinição de senha
+function generateResetToken(userId) {
+    const crypto = require('crypto');
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hora
+
+    // Aqui você pode armazenar o token no banco de dados com expiração
+    // Por simplicidade, estamos retornando apenas o token
+    // Em produção, implemente armazenamento seguro do token
+
+    return token;
+}
+
 module.exports = (pool) => {
-
     // Rota de CADASTRO de Usuário
-    router.post('/cadastrar_usuario', async (req, res) => {
+    router.post('/cadastro_usuario', async (req, res) => {
         const {
             NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
             LOGRADOURO_USUARIO, BAIRRO_USUARIO, CIDADE_USUARIO, UF_USUARIO,
@@ -40,7 +52,7 @@ module.exports = (pool) => {
 
             // Converter tipo de usuário para formato do banco (1 caractere)
             const tipoUsuarioDB = TIPO_USUARIO === 'seller' ? 'V' : TIPO_USUARIO === 'buyer' ? 'C' : 'A';
-            
+
             const [userResult] = await connection.execute(
                 `INSERT INTO USUARIOS (
                     NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, CELULAR_USUARIO,
@@ -61,17 +73,17 @@ module.exports = (pool) => {
                     await connection.rollback();
                     return res.status(400).json({ success: false, message: "Para vendedores, Tipo de Pessoa e Dígito de Pessoa são obrigatórios." });
                 }
-                
+
                 // Inserir dados do vendedor incluindo todos os campos obrigatórios
                 await connection.execute(
                     `INSERT INTO VENDEDORES (ID_USUARIO, TIPO_PESSOA, DIGITO_PESSOA, NOME_LOJA, DESCRICAO_NEGOCIO, LOGRADOURO_VENDEDOR, BAIRRO_VENDEDOR, CIDADE_VENDEDOR, UF_VENDEDOR, CEP_VENDEDOR)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                     [
-                        newUserId, 
-                        TIPO_PESSOA, 
-                        DIGITO_PESSOA, 
-                        NOME_LOJA || 'Loja Padrão', 
-                        'Descrição padrão do negócio', 
+                        newUserId,
+                        TIPO_PESSOA,
+                        DIGITO_PESSOA,
+                        NOME_LOJA || 'Loja Padrão',
+                        'Descrição padrão do negócio',
                         LOGRADOURO_USUARIO || 'Endereço não informado',
                         BAIRRO_USUARIO || 'Bairro não informado',
                         CIDADE_USUARIO || 'Cidade não informada',
@@ -116,7 +128,7 @@ module.exports = (pool) => {
 
         try {
             const connection = await pool.getConnection();
-            
+
             const [rows] = await connection.execute(
                 `SELECT ID_USUARIO, NOME_USUARIO, EMAIL_USUARIO, SENHA_USUARIO, TIPO_USUARIO
                  FROM USUARIOS WHERE EMAIL_USUARIO = ?`,
@@ -145,7 +157,7 @@ module.exports = (pool) => {
                     } catch (alterError) {
                         // Coluna já existe ou outro erro - continuar
                     }
-                    
+
                     const [sellerRows] = await connection.execute(
                         `SELECT ID_VENDEDOR, NOME_LOJA, IMAGEM_PERFIL_LOJA_BASE64 FROM VENDEDORES WHERE ID_USUARIO = ?`,
                         [user.ID_USUARIO]
@@ -179,7 +191,7 @@ module.exports = (pool) => {
 
             // Converter tipo do banco para formato do frontend
             const tipoUsuarioFrontend = user.TIPO_USUARIO === 'V' ? 'seller' : user.TIPO_USUARIO === 'C' ? 'buyer' : 'admin';
-            
+
             res.status(200).json({
                 success: true,
                 message: "Login bem-sucedido!",
@@ -201,11 +213,11 @@ module.exports = (pool) => {
     // Rota para buscar dados completos do usuário
     router.get('/user/:id', async (req, res) => {
         const userId = req.params.id;
-        
+
         if (!userId) {
             return res.status(400).json({ success: false, message: "ID do usuário é obrigatório." });
         }
-        
+
         try {
             const connection = await pool.getConnection();
             const [rows] = await connection.execute(
@@ -216,26 +228,26 @@ module.exports = (pool) => {
                 [userId]
             );
             connection.release();
-            
+
             if (rows.length === 0) {
                 return res.status(404).json({ success: false, message: "Usuário não encontrado." });
             }
-            
+
             const userData = rows[0];
             // Converter tipo do banco para formato do frontend
             userData.TIPO_USUARIO = userData.TIPO_USUARIO === 'V' ? 'seller' : userData.TIPO_USUARIO === 'C' ? 'buyer' : 'admin';
-            
+
             res.status(200).json({
                 success: true,
                 user: userData
             });
-            
+
         } catch (error) {
             console.error('Erro ao buscar dados do usuário:', error);
             res.status(500).json({ success: false, message: "Erro interno do servidor." });
         }
     });
-    
+
     // Rota para redefinir senha
     router.post('/reset_password', async (req, res) => {
         const { email } = req.body;
@@ -251,10 +263,61 @@ module.exports = (pool) => {
         try {
             const connection = await pool.getConnection();
             const [rows] = await connection.execute(
-                'SELECT ID_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
+                'SELECT ID_USUARIO, NOME_USUARIO FROM USUARIOS WHERE EMAIL_USUARIO = ?',
                 [email]
             );
             connection.release();
+
+            // Se o usuário existe, enviar email de redefinição
+            if (rows.length > 0) {
+                const user = rows[0];
+                const resetToken = generateResetToken(user.ID_USUARIO);
+
+                // Configurar transporte de email
+                const transporter = nodemailer.createTransport({
+                    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+                    port: process.env.EMAIL_PORT || 587,
+                    secure: false, // true para 465, false para outras portas
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS
+                    }
+                });
+
+                // Verificar conexão com o servidor de email
+                await transporter.verify();
+
+                // Configurar email
+                const mailOptions = {
+                    from: `"Vitrine" <${process.env.EMAIL_USER}>`,
+                    to: email,
+                    subject: 'Redefinição de Senha - Vitrine',
+                    html: `
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                            <h2 style="color: #713112;">Redefinição de Senha</h2>
+                            <p>Olá ${user.NOME_USUARIO},</p>
+                            <p>Recebemos uma solicitação para redefinir sua senha na Vitrine.</p>
+                            <p>Clique no link abaixo para criar uma nova senha:</p>
+                            <p style="margin: 20px 0;">
+                                <a href="${process.env.FRONTEND_URL || 'http://localhost:3001'}/reset-password?token=${resetToken}"
+                                   style="background-color: #713112; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                    Redefinir Senha
+                                </a>
+                            </p>
+                            <p>Este link é válido por 1 hora.</p>
+                            <p>Se você não solicitou esta redefinição, ignore este email.</p>
+                            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                            <p style="color: #666; font-size: 12px;">
+                                Esta é uma mensagem automática, por favor não responda.
+                            </p>
+                        </div>
+                    `
+                };
+
+                // Enviar email
+                await transporter.sendMail(mailOptions);
+                console.log('Email de redefinição enviado para:', email);
+            }
 
             // Por segurança, sempre retorna sucesso mesmo se o email não existir
             res.status(200).json({
@@ -283,7 +346,7 @@ module.exports = (pool) => {
 
         try {
             const connection = await pool.getConnection();
-            
+
             // Se está alterando senha, validar
             if (NOVA_SENHA_USUARIO) {
                 if (NOVA_SENHA_USUARIO !== CONFIRM_SENHA_USUARIO) {
@@ -358,7 +421,7 @@ module.exports = (pool) => {
 
             updateValues.push(id_usuario);
             const updateQuery = `UPDATE USUARIOS SET ${updateFields.join(', ')} WHERE ID_USUARIO = ?`;
-            
+
             const [result] = await connection.execute(updateQuery, updateValues);
             connection.release();
 
@@ -376,8 +439,6 @@ module.exports = (pool) => {
             res.status(500).json({ success: false, message: "Erro interno do servidor." });
         }
     });
-
-
 
     return router; // Retorna o objeto router configurado
 };
