@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordErrorSpan = document.getElementById('passwordError');
 
     // Carregar dados salvos se existirem
-    try{
-    const savedEmail = localStorage.getItem('savedEmail');
-    const savedPassword = localStorage.getItem('savedPassword');
-    if (savedEmail && savedPassword) {
-        emailInput.value = savedEmail;
-        passwordInput.value = savedPassword;
-        rememberMeCheckbox.checked = true;
-
+    try {
+        const savedEmail = localStorage.getItem('savedEmail');
+        const savedPassword = localStorage.getItem('savedPassword');
+        if (savedEmail && savedPassword) {
+            emailInput.value = savedEmail;
+            passwordInput.value = savedPassword;
+            rememberMeCheckbox.checked = true;
+        }
     } catch (error) {
         console.warn('localStorage access blocked:', error);
     }
